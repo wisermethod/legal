@@ -1,21 +1,27 @@
-Wiser Plugins License
-Version 1.1, 2026-08-26
+Wiser Domain Plugin License
+Version 1.0, 2026-08-26
 
 Copyright 2026 EffectiveSC (effectivesc.org)
 
-## You may
+## You need a license
 
-Use this, modify it, and build on it, for free, as an individual. That includes using it at work, and for work you are paid for.
+This plugin is licensed, not free. Downloading it, or having access to this repository, grants you no right to use, copy, modify, or distribute it.
 
-## You may not
+To use it, get a license from EffectiveSC at effectivesc.org.
 
-Redistribute it, sell it, or offer it as a service. An organization that wants to roll this out to its people needs a separate license; ask us at effectivesc.org.
+## What no license covers
+
+Redistribution, resale, and offering it to others as a service are not available at any tier.
 
 ## Your work is yours
 
-This license covers the software. Anything you make with it belongs to you.
+A license covers the software. Anything you make with it belongs to you.
 
-## This version is free
+## The base plugin is separate
+
+This plugin expects the Wiser plugin alongside it. Wiser ships under its own license, free for an individual, and nothing here changes that. Needing a license for this plugin does not mean you need one for Wiser.
+
+## Versions
 
 Each version keeps the license it shipped with. Later versions may ship under different terms.
 
