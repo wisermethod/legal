@@ -1,3 +1,39 @@
-Copyright 2026 Wiser Method. All rights reserved.
+Wiser Plugins License
+Version 1.0, 2026-08-26
 
-A public-use license for Pro Se Lawyer has not been chosen. Until one replaces this notice, no right to use, copy, modify, or distribute this repository is granted.
+Copyright 2026 EffectiveSC (effectivesc.org). All rights reserved except as granted below.
+
+## Grant
+
+EffectiveSC grants you, an individual person, permission to install this software, use it, and modify it for your own work, at no cost. Your own work includes work you are paid for.
+
+The grant is free, worldwide, and non-exclusive. It runs to a person, not to an organization.
+
+## What is not granted
+
+You may not:
+
+- Redistribute this software, modified or unmodified, in whole or in part, whether or not you charge for it
+- Sell it, sublicense it, rent it, or include it in anything you sell or license
+- Offer it to others as a hosted or managed service
+- Deploy it across an organization, or have an organization install it for the people in it
+
+Individual installations do not add up to an organizational license. Where an organization arranges, funds, mandates, or standardizes the installation, that is organizational use and needs a separate license, however many individuals perform the installs.
+
+Anything not granted above is reserved. For an organizational license, contact EffectiveSC at effectivesc.org.
+
+## Modifications
+
+Modify your copy freely, for yourself. Keep this file with it. Do not pass the modified copy on; the redistribution term above covers modified copies.
+
+## Your output
+
+What you produce using this software is yours. This license covers the software, not your work product, and claims no interest in it.
+
+## Versions
+
+Each released version carries the license it was released under, and that does not change retroactively. EffectiveSC may release later versions under different terms, and nothing here obliges EffectiveSC to keep releasing this software, to keep it available, or to keep it free.
+
+## No warranty
+
+This software is provided as is, without warranty of any kind, express or implied, including the warranties of merchantability, fitness for a particular purpose, and noninfringement. To the maximum extent permitted by law, EffectiveSC is not liable for any claim, damage, loss, or other liability arising from this software or its use, whether in contract, tort, or otherwise.
