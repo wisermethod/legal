@@ -1,39 +1,24 @@
 Wiser Plugins License
-Version 1.0, 2026-08-26
+Version 1.1, 2026-08-26
 
-Copyright 2026 EffectiveSC (effectivesc.org). All rights reserved except as granted below.
+Copyright 2026 EffectiveSC (effectivesc.org)
 
-## Grant
+## You may
 
-EffectiveSC grants you, an individual person, permission to install this software, use it, and modify it for your own work, at no cost. Your own work includes work you are paid for.
+Use this, modify it, and build on it, for free, as an individual. That includes using it at work, and for work you are paid for.
 
-The grant is free, worldwide, and non-exclusive. It runs to a person, not to an organization.
+## You may not
 
-## What is not granted
+Redistribute it, sell it, or offer it as a service. An organization that wants to roll this out to its people needs a separate license; ask us at effectivesc.org.
 
-You may not:
+## Your work is yours
 
-- Redistribute this software, modified or unmodified, in whole or in part, whether or not you charge for it
-- Sell it, sublicense it, rent it, or include it in anything you sell or license
-- Offer it to others as a hosted or managed service
-- Deploy it across an organization, or have an organization install it for the people in it
+This license covers the software. Anything you make with it belongs to you.
 
-Individual installations do not add up to an organizational license. Where an organization arranges, funds, mandates, or standardizes the installation, that is organizational use and needs a separate license, however many individuals perform the installs.
+## This version is free
 
-Anything not granted above is reserved. For an organizational license, contact EffectiveSC at effectivesc.org.
-
-## Modifications
-
-Modify your copy freely, for yourself. Keep this file with it. Do not pass the modified copy on; the redistribution term above covers modified copies.
-
-## Your output
-
-What you produce using this software is yours. This license covers the software, not your work product, and claims no interest in it.
-
-## Versions
-
-Each released version carries the license it was released under, and that does not change retroactively. EffectiveSC may release later versions under different terms, and nothing here obliges EffectiveSC to keep releasing this software, to keep it available, or to keep it free.
+Each version keeps the license it shipped with. Later versions may ship under different terms.
 
 ## No warranty
 
-This software is provided as is, without warranty of any kind, express or implied, including the warranties of merchantability, fitness for a particular purpose, and noninfringement. To the maximum extent permitted by law, EffectiveSC is not liable for any claim, damage, loss, or other liability arising from this software or its use, whether in contract, tort, or otherwise.
+Provided as is, with no warranty of any kind. To the maximum extent permitted by law, EffectiveSC is not liable for any claim, damage, or loss arising from this software or its use.
