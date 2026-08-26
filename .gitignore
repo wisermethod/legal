@@ -1,0 +1,8 @@
+.DS_Store
+.stfolder/
+node_modules/
+infrastructure/release/dist/
+._*
+.Spotlight-V100
+.Trashes
+.stversions/
