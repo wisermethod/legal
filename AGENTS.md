@@ -51,9 +51,3 @@ This plugin loads alongside `wiser` and may assume it is present. It references 
 ## Layout
 
 This root's layout is governed by `wiser/standards/plugin-root.md`. That standard's C1 owns the `layout:` stamp: the current tree version, a bare nonnegative integer. `wiser/skills/Onboard Plugin Root/` writes it last, only once every applicable obligation other than the stamp itself scores present or N/A. A stamp written before that would advertise a conformance nothing had earned, which is why an unstamped tree reads as not current rather than as clean.
-
-## Handover
-
-Stood up 2026-09-18 by `wiser/skills/Onboard Plugin Root/`. Each line is owed to a person and names what closes it. Strike a line when its boundary closes; when the last line goes, delete this section.
-
-- The first commit of this tree, and any push: owed (the operator; the tree is produced and uncommitted, and one earlier commit is already unpushed)
