@@ -1,5 +1,5 @@
 Wiser Domain Plugin License
-Version 1.0, 2026-08-26
+Version 1.1, 2026-09-02
 
 Copyright 2026 EffectiveSC (effectivesc.org)
 
@@ -12,6 +12,14 @@ To use it, get a license from EffectiveSC at effectivesc.org.
 ## What no license covers
 
 Redistribution, resale, and offering it to others as a service are not available at any tier.
+
+## Third-party material
+
+Two different things, kept apart on purpose.
+
+**Work this repository carries.** Some files here incorporate third-party work, adapted or in part. Where one does, a `NOTICE.md` sits beside that file naming the upstream, its author, and its license, and a copy of that license ships in `licenses/`. Those upstream terms govern their own portions; this license governs everything else, and governs the work as a whole to the extent the upstream terms allow. **Nothing in this license narrows a right an upstream license grants you in its own material.**
+
+**Packages a tool installs on your machine.** Those are yours under their own licenses. This repository redistributes none of them, and each tool names what it will install.
 
 ## Your work is yours
 
