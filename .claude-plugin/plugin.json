@@ -1,6 +1,5 @@
 {
   "name": "legal",
-  "version": "0.1.0",
   "displayName": "Legal",
   "description": "A WISER plugin for a person or a company handling its own legal matters: practice-area experts, litigation procedure, and document preparation. No skills or experts have been built yet; a Consumer Law expert, with skills under it, is the first planned."
 }

@@ -1,6 +1,6 @@
 ---
 root: legal
-layout: 2
+layout: 1
 ---
 
 # Legal
