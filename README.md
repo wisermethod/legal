@@ -7,3 +7,7 @@ A WISER plugin for a person or a company handling its own legal matters: practic
 Point your harness at this repository as a plugin root, or add the repository as a marketplace and install `legal@wiser-method-legal` from its catalog.
 
 Work lands in the working folder you attach, never in this repository.
+
+## Support
+
+Email support@wisermemory.com.
