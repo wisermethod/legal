@@ -1,6 +1,13 @@
 ---
 root: legal
-layout: 1
+layout: 2
+apps:
+  - claude-cowork steps
+  - claude-code steps
+  - codex steps
+  - chatgpt-desktop steps
+  - grok steps
+  - cursor steps
 ---
 
 # Legal
