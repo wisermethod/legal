@@ -3,7 +3,7 @@ name: Consumer Law
 type: expert
 category: practice-area
 description: Assess consumer-protection disputes for governing authority, conduct and loss, returning evidence gaps, holds, and the next skill
-version: 0.2.1
+version: 0.2.2
 gaps:
   - Consumer Law is a substantive stub for the Colorado Consumer Protection Act, including scope, deceptive practices, elements, damages, and limitations
   - Consumer Law is a substantive stub for federal FDCPA, TILA, FCRA, and TCPA provisions, elements, and damages
@@ -44,7 +44,7 @@ For `lens` mode, use the supplied matter and dates and return the substantive as
 
 - If a Colorado deceptive-practices question arises, treat the Colorado Consumer Protection Act, C.R.S. § 6-1-101 et seq. `[verify]`, as a research lead. Its reach, prohibited practices, claim elements, actual, statutory or treble damages, fees, and limitation or tolling rules are stub topics. Keep them open pending verified authority.
 - If the question concerns debt collection, lending disclosures, credit reporting, or telephone conduct, identify FDCPA, TILA, FCRA, or TCPA respectively as a research lead. The provisions, elements, and damages of each are stub topics. Keep the governing law open if several leads fit or none is established.
-- If the request turns on defendant tactics, strategic considerations, or a regulatory avenue through the Colorado Attorney General, CFPB, or FTC, name the source gap. If authority is supplied or obtained and verified, judge the documented facts against it. Otherwise state the question, the missing authority or evidence, and the research route. Withhold a substantive conclusion from the stub alone.
+- If the request turns on defendant tactics, strategic considerations, or a regulatory avenue through the Colorado Attorney General, CFPB, or FTC, name the missing authority. If authority is supplied or obtained and verified, judge the documented facts against it. Otherwise state the question, the missing authority or evidence, and the research route. Withhold a substantive conclusion from the stub alone.
 
 ### What happens after the substantive assessment?
 

@@ -81,37 +81,37 @@
         "unit": "pages",
         "maximum": 15,
         "citation": "C.R.C.P. 121 section 1-15(1)(a)",
-        "verification": "recorded-in-source"
+        "verification": "working-default"
       },
       "general-motion-words": {
         "unit": "words",
         "maximum": 4000,
         "citation": "C.R.C.P. 121 section 1-15(1)(a)",
-        "verification": "recorded-in-source"
+        "verification": "working-default"
       },
       "rule-12-or-56-motion-pages": {
         "unit": "pages",
         "maximum": 25,
         "citation": "C.R.C.P. 121 section 1-15(1)(a)",
-        "verification": "recorded-in-source"
+        "verification": "working-default"
       },
       "general-reply-pages": {
         "unit": "pages",
         "maximum": 10,
         "citation": "C.R.C.P. 121 section 1-15(1)(a)",
-        "verification": "recorded-in-source"
+        "verification": "working-default"
       },
       "general-reply-words": {
         "unit": "words",
         "maximum": 2500,
         "citation": "C.R.C.P. 121 section 1-15(1)(a)",
-        "verification": "recorded-in-source"
+        "verification": "working-default"
       },
       "rule-12-or-56-reply-pages": {
         "unit": "pages",
         "maximum": 15,
         "citation": "C.R.C.P. 121 section 1-15(1)(a)",
-        "verification": "recorded-in-source"
+        "verification": "working-default"
       }
     },
     "exclusions": [
@@ -121,41 +121,41 @@
       "attachments"
     ],
     "notes": [
-      "The source records page limits unless the court orders otherwise. General motions and responses use the general motion presets. The separate motion and reply presets cover C.R.C.P. 12(b)(1), 12(b)(2), and 56.",
+      "Use the applicable working page limit unless a verified court order controls. General motions and responses use the general motion presets. The separate motion and reply presets cover C.R.C.P. 12(b)(1), 12(b)(2), and 56.",
       "The general motion and reply word limits are alternatives to the corresponding page limits, with the same exclusions.",
-      "The source did not separately confirm word limits for C.R.C.P. 12(b)(1), 12(b)(2), or 56 motions. Verify before using a word figure for these filings."
+      "Separate word limits remain unconfirmed for C.R.C.P. 12(b)(1), 12(b)(2), and 56 motions. Verify before using a word figure for these filings."
     ]
   },
   "rules": [
     {
       "citation": "C.R.C.P. 10",
-      "verification": "recorded-in-source",
-      "notes": "The source uses a two-column boxed caption with court and parties on the left and COURT USE ONLY, case number, and division on the right. Supply the address of the court on the docket."
+      "verification": "working-default",
+      "notes": "Use a two-column boxed caption with court and parties on the left and COURT USE ONLY, case number, and division on the right. Supply the address of the court on the docket."
     },
     {
       "citation": "C.R.C.P. 10(d)",
-      "verification": "recorded-in-source",
-      "notes": "The source records at least 1-inch margins, 12-point type, and double spacing, with exceptions such as footnotes and block quotes. This profile sets Letter paper, one-inch margins, and Times New Roman 12-point double-spaced prose. The source does not settle spacing applicability to every table, list and heading. Inspect the reported density of those elements in preview."
+      "verification": "working-default",
+      "notes": "The working layout calls for at least 1-inch margins, 12-point type, and double spacing, with exceptions such as footnotes and block quotes. This profile sets Letter paper, one-inch margins, and Times New Roman 12-point double-spaced prose. Verify whether the spacing rule applies to tables, lists and headings. Inspect the reported density of those elements in preview."
     },
     {
       "citation": "C.R.C.P. 121 section 1-15(1)(a)",
-      "verification": "recorded-in-source",
-      "notes": "The source rule figures and exclusions are in validation. Verify the rule and any applicable court order before choosing a limit."
+      "verification": "working-default",
+      "notes": "Working limit figures and exclusions are in validation. Verify the rule and any applicable court order before choosing a limit."
     },
     {
       "citation": "C.R.C.P. 121 section 1-15(8)",
-      "verification": "recorded-in-source",
-      "notes": "The source calls for good-faith conferral with opposing counsel before filing most motions. State conferral in the body when required."
+      "verification": "working-default",
+      "notes": "Confirm the requirement for good-faith conferral with opposing counsel before filing most motions. State conferral in the body when required."
     },
     {
       "citation": null,
-      "verification": "recorded-in-source",
-      "notes": "The renderer leaves signature and service dates blank for manual completion immediately before filing via Colorado CCEF. The legacy certificate preprints only the year."
+      "verification": "working-default",
+      "notes": "The renderer leaves the signature date and the certificate day and month blank for manual completion immediately before filing via Colorado CCEF. The certificate preprints the caption year if supplied or the current calendar year."
     },
     {
       "citation": "C.R.C.P. 121 section 1-15(1)(a)",
       "verification": "verify",
-      "notes": "Word limits for the listed C.R.C.P. 12 and 56 motion classes were not separately confirmed in the source."
+      "notes": "Word limits for the listed C.R.C.P. 12 and 56 motion classes remain unconfirmed."
     }
   ],
   "filing_packets": {
@@ -167,21 +167,21 @@
           "method": "Court Filing",
           "notes": "Caption, numbered factual allegations, counts with elements, jury demand, prayer for relief; leave Case No blank for the court and include the certificate of service",
           "citation": "C.R.C.P. 8",
-          "verification": "recorded-in-source"
+          "verification": "working-default"
         },
         {
           "item": "JDF 601 District Court Civil Case Cover Sheet",
           "method": "Official fillable PDF (coloradojudicial.gov)",
           "notes": "Required with initial pleading per C.R.C.P. 16.1; do not recreate",
           "citation": "C.R.C.P. 16.1",
-          "verification": "recorded-in-source"
+          "verification": "working-default"
         },
         {
           "item": "JDF 600 District Court Civil Summons",
           "method": "Official fillable PDF (coloradojudicial.gov)",
           "notes": "Do not recreate",
           "citation": null,
-          "verification": "recorded-in-source"
+          "verification": "working-default"
         },
         {
           "item": "Filing fee or fee-waiver motion plus financial affidavit",
@@ -196,13 +196,13 @@
           "step": "Service of process",
           "notes": "Serve defendant using approved method; file return or proof of service; the working service interval is within 63 days after filing. Confirm against the current rule before filing.",
           "citation": "C.R.C.P. 4",
-          "verification": "recorded-in-source"
+          "verification": "working-default"
         },
         {
           "step": "Seed answer deadline in DEADLINES.md",
           "notes": "21 days after in-state service; 35 days after out-of-state service; confirm against the current rule before filing",
           "citation": "C.R.C.P. 12",
-          "verification": "recorded-in-source"
+          "verification": "working-default"
         }
       ],
       "notes": [
@@ -231,7 +231,7 @@
   },
   "document_types": {
     "motion": {
-      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?motion\\b.*",
+      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion\\b.*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -244,7 +244,7 @@
       ]
     },
     "rule-12-or-56-motion": {
-      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:cross[- ])?motion +(?:for +(?:partial +)?summary judgment\\b(?! +(?:hearing|conference)\\b)|to +dismiss +(?:under|pursuant +to) +(?:rule|c\\.r\\.c\\.p\\.) +12\\(b\\)\\([12]\\)(?![\\w(])).*",
+      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion +(?:for +(?:partial +)?summary judgment\\b(?! +(?:hearing|conference)\\b)|to +dismiss +(?:under|pursuant +to) +(?:rule|c\\.r\\.c\\.p\\.) +12\\(b\\)\\([12]\\)(?![\\w(])).*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -256,7 +256,7 @@
       ]
     },
     "response": {
-      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:response|opposition)(?: +brief)?\\b.*",
+      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:response|opposition)(?: +brief)?\\b.*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -269,7 +269,7 @@
       ]
     },
     "rule-12-or-56-response": {
-      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:response|opposition)(?: +brief)? +(?:to|in +opposition +to) +(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:cross[- ])?motion +(?:for +(?:partial +)?summary judgment\\b(?! +(?:hearing|conference)\\b)|to +dismiss +(?:under|pursuant +to) +(?:rule|c\\.r\\.c\\.p\\.) +12\\(b\\)\\([12]\\)(?![\\w(])).*",
+      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:response|opposition)(?: +brief)? +(?:to|in +opposition +to) +(?:the +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion +(?:for +(?:partial +)?summary judgment\\b(?! +(?:hearing|conference)\\b)|to +dismiss +(?:under|pursuant +to) +(?:rule|c\\.r\\.c\\.p\\.) +12\\(b\\)\\([12]\\)(?![\\w(])).*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -281,7 +281,7 @@
       ]
     },
     "reply": {
-      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?reply(?: +brief)?\\b.*",
+      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?reply(?: +brief)?\\b.*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -294,7 +294,7 @@
       ]
     },
     "rule-12-or-56-reply": {
-      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?reply(?: +brief)? +(?:in +support +of|to) +(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:cross[- ])?motion +(?:for +(?:partial +)?summary judgment\\b(?! +(?:hearing|conference)\\b)|to +dismiss +(?:under|pursuant +to) +(?:rule|c\\.r\\.c\\.p\\.) +12\\(b\\)\\([12]\\)(?![\\w(])).*",
+      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?reply(?: +brief)? +(?:in +support +of|to) +(?:the +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion +(?:for +(?:partial +)?summary judgment\\b(?! +(?:hearing|conference)\\b)|to +dismiss +(?:under|pursuant +to) +(?:rule|c\\.r\\.c\\.p\\.) +12\\(b\\)\\([12]\\)(?![\\w(])).*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -306,7 +306,7 @@
       ]
     },
     "brief": {
-      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:brief|memorandum) +in +support +of +(?:a +)?motion\\b.*",
+      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:brief|memorandum) +in +support +of +(?:a +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion\\b.*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -349,7 +349,27 @@
       "length_presets": null
     },
     "discovery-request": {
-      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:first|second|third|fourth) +)?(?:interrogatories|requests? +for +(?:production|admissions?))\\b(?!.*\\b(?:motion|response|reply|brief|notice)\\b).*",
+      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|(?:thir|four|fif|six|seven|eigh|nine)teenth|(?:twentieth|thirtieth)|(?:twenty|thirty)[- ](?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth)|\\d+(?:st|nd|rd|th)) +(?:set +of +)?)?(?:interrogatories|requests? +for +(?:production|admissions?))\\b(?!.*\\b(?:motion|responses?|reply|brief|notice)\\b).*",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": null
+    },
+    "discovery-response": {
+      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?responses?(?: +and +objections)? +to +(?:the +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|(?:thir|four|fif|six|seven|eigh|nine)teenth|(?:twentieth|thirtieth)|(?:twenty|thirty)[- ](?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth)|\\d+(?:st|nd|rd|th)) +(?:set +of +)?)?(?:interrogatories|requests? +for +(?:production|admissions?))\\b(?!.*\\b(?:motion|responses?|reply|brief|notice)\\b).*",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": null
+    },
+    "discovery-disclosure": {
+      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|(?:thir|four|fif|six|seven|eigh|nine)teenth|(?:twentieth|thirtieth)|(?:twenty|thirty)[- ](?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth)|\\d+(?:st|nd|rd|th)) +)?(?:(?:initial|supplemental) +)?disclosures?\\b(?!.*\\b(?:motion|responses?|reply|brief|notice)\\b).*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -359,7 +379,7 @@
       "length_presets": null
     },
     "case-management-submission": {
-      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:joint +)?proposed +case[- ]management +order",
+      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:proposed +)?case[- ]management +order\\b(?!.*\\b(?:motion|responses?|reply|brief|notice)\\b).*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,

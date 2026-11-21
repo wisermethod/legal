@@ -111,6 +111,17 @@ export function wordCount(text) {
   return normalize(text).match(/\S+/gu)?.length ?? 0;
 }
 
+// Keep the Markdown count as a floor alongside the count of printed words.
+export function markdownWordCount(markdown) {
+  return wordCount(markdown
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/`[^`]*`/g, ' ')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/[#>*_~|]/g, ' ')
+    .replace(/^\s*[-+]\s+/gm, ' '));
+}
+
 
 export function bodyMarks(html, ruledClosing) {
   const marks = [];

@@ -3,7 +3,7 @@ name: Produce Court Filing
 type: skill
 category: procedure
 description: Produce a filing or forum submission from sourced inputs, then check the exact artifact for human preview and approval
-version: 0.4.2
+version: 0.4.3
 gaps:
   - Mechanical jurisdiction-profile validation covers the shipped Colorado district layout and compatible custom profiles.
   - Prescribed forms outside the supported types need the forum’s own form and requirements gate. Court Filing cannot validate those artifacts.
@@ -39,6 +39,8 @@ Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Coun
 ### Which production path applies?
 
 1. **Stage the build and choose the output.** If preflight holds production, return the held draft and blocker. Otherwise run Maintain Matter File in preflight mode. Read the forum’s operative orders, notices, submission instructions and prescribed formats. Select a compatible profiled PDF, a prescribed official original, or a confirmed unprofiled format. A Word submission can use a compatible profile for its proof under step 4. If the requirements or format conflict or are missing, hold the affected work. Resolve tools through the composed family indexes and follow their install contracts. Run Court Filing `profiles` for a court artifact and read its `profiles` array. Use `colorado-district` only on the confirmed Colorado district court route. Select the `document_types` entry, packet and applicable length choice from that profile and the controlling record. Use the profile’s `validation.limits` for working preset figures. Record the authority for the chosen limit, an explicit override or a verified unlimited type.
+
+   Keep the paper's real title in `caption.json`. Select the type that matches that title and the controlling requirements. If no type matches, hold the profiled build and record the exact unmatched title. Never retitle a paper to satisfy a pattern.
 
    Use the declared visible filings directory and `YYYY-MM-DD - <Document Title>.<required extension>` with the planned filing or service date. Reserve `DRAFT - ` for editable working sources. Keep sources and evidence in a dedicated portable build directory under filings. Use one build record for every path. Record input digests and exact paths, each applicable requirement and its authority, commands or inspections and results, output digests, preview, the human decision and the release state. For a collision preserve the existing file and use the first unused permitted revision of the date/title stem, starting with ` - 2` before the extension. If the exact name is mandatory, keep the staged review artifact in the build and confirm a fresh authorized destination before publishing it.
 

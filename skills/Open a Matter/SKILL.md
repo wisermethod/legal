@@ -3,10 +3,10 @@ name: Open a Matter
 type: skill
 category: procedure
 description: Set up a matter's project record and prepare a new Colorado district civil case packet through filing, service and deadline seeding
-version: 0.4.3
+version: 0.4.4
 gaps:
   - The Colorado initiation procedure does not cover county court, small claims, federal court or other states.
-  - The source leaves the current filing fee and fee-waiver form number unverified. Confirm both against the court before relying on them.
+  - The current filing fee and fee-waiver form number are [verify]. Confirm both against the court before relying on them.
 ---
 
 # Open a Matter

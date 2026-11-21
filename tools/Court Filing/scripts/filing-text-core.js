@@ -1,5 +1,5 @@
 import { canonicalBody, judicialClosing, normalize } from './body-text-core.js';
-import { captionParties, formatPartyName } from './compose-core.js';
+import { captionParties, compositionTitle, formatPartyName } from './compose-core.js';
 import { counselLabel, documentType } from './schema-core.js';
 
 const certificateHeading = 'CERTIFICATE OF SERVICE';
@@ -140,22 +140,29 @@ const signatureLine = /^_{3,}$/u;
 const hasCertificateHeading = lines => /(?:^|\n)CERTIFICATE\s*OF\s*SERVICE(?:\n|$)/iu.test(lines.join('\n'));
 const mentionsCertificate = text => /\bCERTIFICATE\s*OF\s*SERVICE\b/iu.test(text);
 
-function certificateChecks(caption, profile, lines, check) {
+function certificateDateMatches(date, expectedYear) {
+  if (!date) return false;
+  const [, day, month, printedYear] = date;
+  if (blank.test(day) && blank.test(month)) {
+    return expectedYear === null ? blank.test(printedYear) : printedYear === String(expectedYear);
+  }
+  const year = Number(printedYear);
+  return (expectedYear === null || Math.abs(year - expectedYear) <= 1) &&
+    calendarDate(year, monthIndex(month), Number.parseInt(day, 10));
+}
+
+function certificateChecks(caption, expectedYear, lines, check) {
   const service = caption.service;
   const statementEnd = lines.findIndex((line, index) => index > 0 && /(?:^| )to:$/u.test(line));
   const statement = lines.slice(1, statementEnd + 1).join(' ');
   const statementTail = 'a true and correct copy of the foregoing ' + caption.title +
     ' was served by ' + (service.method ?? 'email') + ' to:';
   const dateMatch = /^I certify that on this (_{3,}|\d{1,2}(?:st|nd|rd|th)?) day of (_{3,}|[A-Za-z]+), (\d{4}|_{3,}), (.*)$/u.exec(statement);
-  const expectedYear = profile.layout.certificate_year;
-  const validDate = dateMatch && (expectedYear === null || dateMatch[3] === String(expectedYear)) &&
-    (blank.test(dateMatch[1]) && blank.test(dateMatch[2]) ?
-      expectedYear !== null || blank.test(dateMatch[3]) :
-      calendarDate(Number(dateMatch[3]), monthIndex(dateMatch[2]), Number.parseInt(dateMatch[1], 10)));
   const hasCertificate = lines[0] === certificateHeading && Boolean(dateMatch) &&
     compact(dateMatch[4]) === compact(statementTail);
   check('Certificate of service present', hasCertificate, 'Own heading and exact service statement after the signature block.');
-  check('Certificate date fields', Boolean(validDate), 'Required date fields and the profile year when preprinted.');
+  check('Certificate date fields', certificateDateMatches(dateMatch, expectedYear),
+    'Exact year on an untouched preprint or a complete calendar date within one year of the composed year.');
   let cursor = hasCertificate ? statementEnd + 1 : -1;
   for (const recipient of service.recipients) {
     const printed = recipient.name + ' (' + recipient.emails.join('; ') + ')';
@@ -174,7 +181,7 @@ function certificateChecks(caption, profile, lines, check) {
   check('Certificate signer and end of filing', signerEnd === lines.length, 'Expected service signer and signature line, with no trailing text.');
 }
 
-function filerAndCertificate(caption, profile, remainder, check, add, treatment, extracted) {
+function filerAndCertificate(caption, certificateYear, remainder, check, add, treatment, extracted) {
   const signer = caption.signer.name + ',' + (caption.signer.role ? ' ' + caption.signer.role : '');
   const closing = remainder.findLastIndex(line => line === submitted);
   const dateLine = remainder[closing + 1] ?? '';
@@ -185,7 +192,7 @@ function filerAndCertificate(caption, profile, remainder, check, add, treatment,
   for (const contact of caption.signer.lines ?? []) cursor = matchLines(remainder, cursor, contact);
   check('Signer in signature block', cursor > 0, 'Date, signature line, signer and supplied contact lines.');
   if (treatment.certificate) {
-    certificateChecks(caption, profile, cursor > 0 ? remainder.slice(cursor) : [], check);
+    certificateChecks(caption, certificateYear, cursor > 0 ? remainder.slice(cursor) : [], check);
   } else {
     check('Certificate of service absent', !mentionsCertificate(extracted),
       'The approved document type has no separate certificate anywhere in the extract.');
@@ -256,7 +263,7 @@ function positionedBoundaries(text, lines) {
   return boundaries;
 }
 
-export function bodyEvidence(pages, expected, positioned, wordCountWithoutMarkers) {
+export function bodyEvidence(pages, expected, positioned) {
   const sourceTokens = normalize(expected).split(' ').map(canonicalBody);
   const expectedRun = sourceTokens.join('');
   const expectedBreaks = new Set(tokenBoundaries(sourceTokens));
@@ -290,7 +297,7 @@ export function bodyEvidence(pages, expected, positioned, wordCountWithoutMarker
     [...expectedBreaks].every(boundary => rawBreaks.has(boundary));
   return {
     wordsMatch,
-    pdfBodyWords: wordsMatch ? wordCountWithoutMarkers ?? sourceTokens.length : rawBreaks.size || null,
+    pdfBodyWords: wordsMatch ? sourceTokens.length : rawBreaks.size || null,
   };
 }
 
@@ -304,6 +311,11 @@ export function filingTextChecks({ caption, profile, extracted, info, prepared, 
   const remainder = bodyPages.flat();
   let remaining = remainder.length;
   const treatment = documentType(profile, caption);
+  const legacyTitle = compositionTitle(prepared.bodySha256);
+  const metadataYear = /\| Certificate year ([1-9]\d{3})$/u.exec(info?.title ?? '')?.[1];
+  const certificateYear = caption.certificate_year ?? (metadataYear ? Number(metadataYear) : profile.layout.certificate_year);
+  const expectedTitle = treatment.certificate && (caption.certificate_year !== undefined || metadataYear) ?
+    compositionTitle(prepared.bodySha256, certificateYear) : legacyTitle;
   if (treatment.judicial_closing) {
     check('Judicial signature block in proposed order', judicialClosing(remainder.join(' '), prepared.ruledClosing),
       'The composed body ends with the unsigned court signature block.');
@@ -312,7 +324,7 @@ export function filingTextChecks({ caption, profile, extracted, info, prepared, 
       'The proposed order carries only the court signature block.');
     add('Certificate of service present', 'not_applicable', 'The profile omits a separate certificate for this judicial order.');
   } else {
-    remaining = filerAndCertificate(caption, profile, remainder, check, add, treatment, extracted);
+    remaining = filerAndCertificate(caption, certificateYear, remainder, check, add, treatment, extracted);
     if (treatment.certificate) {
       check('Only one certificate block', !hasCertificateHeading(remainder.slice(0, Math.max(0, remaining))),
         'The legal body has no additional certificate heading.');
@@ -326,9 +338,9 @@ export function filingTextChecks({ caption, profile, extracted, info, prepared, 
   const exactCharacters = canonicalBody(bodyLines.flat().join(' ')) === canonicalBody(prepared.bodyText);
   const continued = exactCharacters ? { pages: bodyLines, aligned: true, repeated: [] } : removeRepeatedHeaders(bodyLines, prepared.headers);
   check('Continued table header alignment', continued.aligned, 'A repeated header must occupy complete lines at the top of its continuation page.');
-  const evidence = bodyEvidence(continued.pages, prepared.bodyText, positioned, prepared.bodyWords);
-  check('Composed body SHA-256', info?.title === 'Court Filing ' + prepared.bodySha256,
-    'The PDF title independently carries the SHA-256 of the supplied Markdown.');
+  const evidence = bodyEvidence(continued.pages, prepared.bodyText, positioned);
+  check('Composed body SHA-256', info?.title === expectedTitle,
+    'The PDF title carries the supplied Markdown SHA-256 and any recorded composition certificate year.');
   check('Printed PDF body matches composition', evidence.wordsMatch,
     'Compare independently parsed Markdown with the PDF body after removing expected running headers.');
   return {

@@ -1,4 +1,4 @@
-import { blockBindings, bodyMarks, judicialClosing, printedBodyText, tableHeaderBindings, wordCount } from './body-text-core.js';
+import { blockBindings, bodyMarks, judicialClosing, markdownWordCount, printedBodyText, tableHeaderBindings, wordCount } from './body-text-core.js';
 import { counselLabel, documentType, SIDES, validateCaption, validateProfile } from './schema-core.js';
 
 function escapeHtml(s) {
@@ -35,7 +35,7 @@ export function captionParties(parties) {
 }
 
 /**
- * Colorado district court caption (C.R.C.P. 10 style), modeled on the source caption: two-column header, counsel block under parties on the left,
+ * Colorado district court caption (C.R.C.P. 10 style): two-column header, counsel block under parties on the left,
  * COURT USE ONLY in the upper right, case metadata below, document title in a
  * full-width row at the bottom of the caption box.
  */
@@ -97,7 +97,7 @@ function certificateOfService(svc, title, year, signer) {
   return `
   <div class="cert">
     <h2 class="cert-title">CERTIFICATE OF SERVICE</h2>
-    <p>I certify that on this ____ day of __________, ${year ?? "____"}, a true and correct copy of the foregoing
+    <p>I certify that on this ____ day of __________, ${year}, a true and correct copy of the foregoing
     ${escapeHtml(title)} was served by ${escapeHtml(svc.method || 'email')} to:</p>
     <div class="service-list">
       ${recips}
@@ -157,14 +157,18 @@ function courtCss(layout) {
 `;
 }
 
-function buildHtml(caption, layout, bodyHtml, binding) {
+export function compositionTitle(bodySha256, certificateYear = null) {
+  return 'Court Filing ' + bodySha256 + (certificateYear === null ? '' : ' | Certificate year ' + certificateYear);
+}
+
+function buildHtml(caption, layout, bodyHtml, bodySha256, certificateYear) {
   return `<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><title>${escapeHtml(binding)}</title><style>${courtCss(layout)}</style></head>
+<html lang="en"><head><meta charset="UTF-8"><title>${compositionTitle(bodySha256, certificateYear)}</title><style>${courtCss(layout)}</style></head>
 <body>
   ${captionTable(caption)}
   <div class="body">${bodyHtml}</div>
   ${signatureBlock(caption.signer)}
-  ${caption.service ? certificateOfService(caption.service, caption.title, layout.certificate_year, caption.signer) : ''}
+  ${caption.service ? certificateOfService(caption.service, caption.title, certificateYear, caption.signer) : ''}
 </body></html>`;
 }
 
@@ -190,8 +194,9 @@ export function prepareBody(body, treatment, parseMarkdown, digest) {
   if (treatment.judicial_closing && !judicialClosing(bodyText, ruledClosing)) {
     throw new Error('Proposed-order Markdown must end with BY THE COURT, a blank signature line and a judge designation.');
   }
-  const bodyWords = wordCount(printedBodyText(bodyHtml, false));
-  if (!bodyWords) throw new Error('Body Markdown must produce readable filing text. Add the filing text and compose again.');
+  const printedWords = wordCount(bodyText);
+  if (!printedWords) throw new Error('Body Markdown must produce readable filing text. Add the filing text and compose again.');
+  const bodyWords = Math.max(printedWords, markdownWordCount(body));
   return {
     bodyHtml, bodyText, bodyWords, bodySha256: digest(body),
     headers: tableHeaderBindings(bodyHtml),
@@ -204,11 +209,12 @@ export function compose({ caption, body, profile }, parseMarkdown, digest) {
   validateProfile(profile);
   validateCaption(caption, profile);
   const layout = profile.layout;
+  const certificateYear = caption.service ? caption.certificate_year ?? new Date().getFullYear() : null;
   const prepared = prepareBody(body, documentType(profile, caption), parseMarkdown, digest);
   return {
     bodySha256: prepared.bodySha256,
     bodyWords: prepared.bodyWords,
-    html: buildHtml(caption, layout, prepared.bodyHtml, 'Court Filing ' + prepared.bodySha256),
+    html: buildHtml(caption, layout, prepared.bodyHtml, prepared.bodySha256, certificateYear),
     pdf: {
       paperSize: layout.page_size,
       margin: SIDES.map(side => cssInches(layout.margins_inches[side])).join(' '),

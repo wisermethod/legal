@@ -56,7 +56,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 ### [Open a Matter](../skills/Open%20a%20Matter/SKILL.md)
 
 - The Colorado initiation procedure does not cover county court, small claims, federal court or other states.
-- The source leaves the current filing fee and fee-waiver form number unverified. Confirm both against the court before relying on them.
+- The current filing fee and fee-waiver form number are [verify]. Confirm both against the court before relying on them.
 
 ### [Pleadings](../skills/Pleadings/SKILL.md)
 

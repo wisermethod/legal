@@ -135,7 +135,9 @@ export function validate({ pdf, caption, profile, limits, prepared, parseUnavail
   if (limits.words !== null) {
     add('Within word limit (' + limits.words + ')', pdfBodyWords === null || bodyWords === null ? 'not_checked' : resultOf(Math.max(pdfBodyWords, bodyWords) <= limits.words),
       pdfBodyWords === null || bodyWords === null ? 'The PDF body or composition word count is unavailable.' :
-        pdfBodyWords + ' words in the rendered PDF body and ' + bodyWords + ' in the composed Markdown.');
+        pdfBodyWords + ' words in the rendered PDF body and ' + bodyWords + ' for the composed body. ' +
+        'Both counts include ordered-list markers and exclude caption, filer signature and certificate. ' +
+        'Composition uses the higher of the printed-text count and the Markdown token count.');
   }
   const spacingScope = documentType(profile, caption).double_spacing ?? [];
   const spacing = spacingBound && positioned && !info.active ?

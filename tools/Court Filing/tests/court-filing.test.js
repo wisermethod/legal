@@ -13,7 +13,7 @@ import { Marked } from 'marked';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { checkMarkdownToken, compose, prepareBody } from '../scripts/compose-core.js';
 import { resolveLimits, validateCaption, validateProfile } from '../scripts/schema-core.js';
-import { printedBodyText, wordCount } from '../scripts/body-text-core.js';
+import { markdownWordCount, printedBodyText, wordCount } from '../scripts/body-text-core.js';
 import { validate } from '../scripts/validate-core.js';
 import { bodyEvidence, removeRepeatedHeaders } from '../scripts/filing-text-core.js';
 
@@ -61,7 +61,7 @@ test('compose preserves the legacy caption, spacing and signature/service blocks
   assert.match(composed.html, /<div class="counsel-label">Pro Se Plaintiff:<\/div>/);
   assert.match(composed.html, /<h2>Statement of the request<\/h2>/);
   assert.match(composed.html, /Respectfully submitted,[\s\S]*Date: ____________________/);
-  assert.match(composed.html, /CERTIFICATE OF SERVICE[\s\S]*____ day of __________, 2026/);
+  assert.ok(composed.html.includes('____ day of __________, ' + new Date().getFullYear() + ','));
   assert.match(composed.html, /Morgan Sample \(morgan@example.invalid; service@example.invalid\)/);
   assert.match(composed.html, /<em>Counsel for Imaginary Workshop LLC<\/em>/);
   assert.deepEqual(composed.pdf, {
@@ -182,6 +182,18 @@ test('word counter counts visible body text and leaves out markup and destinatio
   assert.equal(wordCount(printedBodyText(parse(markdown), false)), 12);
 });
 
+test('composition counts ordered-list markers and retains additional Markdown tokens', () => {
+  const markdown = '3. First example.\n4. Second example.\n\n- Another example.\n+ One more example.';
+  assert.equal(markdownWordCount(markdown), 11);
+  assert.equal(compos({ caption: example(), body: markdown, profile: profile() }).bodyWords, 11);
+  const table = '| Item | Value |\n| --- | --- |\n| A | 3 |';
+  assert.equal(wordCount(printedBodyText(parse(table))), 4);
+  assert.equal(markdownWordCount(table), 6);
+  assert.equal(compos({ caption: example(), body: table, profile: profile() }).bodyWords, 6);
+  assert.equal(markdownWordCount('Text `hidden from this count` [link words](#target).\n\n' +
+    '```\ncode block\n```\n\n![ignored](#image)'), 3);
+});
+
 test('CLI lists the full profile and publishes to a new path only', t => {
   const scratch = temp(t);
   const output = join(scratch, 'new', 'out.html');
@@ -205,7 +217,7 @@ test('CLI lists the full profile and publishes to a new path only', t => {
     '--footer-position', 'center', '--footer-font-size', '10',
   ]);
   assert.match(readFileSync(output, 'utf8'), /@page \{ size: a4; margin: 0\.7in 0\.8in 0\.9in 1\.1in; \}/);
-  assert.match(readFileSync(output, 'utf8'), /____ day of __________, ____,/);
+  assert.ok(readFileSync(output, 'utf8').includes('____ day of __________, ' + new Date().getFullYear() + ','));
   assert.match(run(args).stderr, /already exists/);
   const listed = JSON.parse(run(['profiles']).stdout).profiles;
   assert.deepEqual(listed, [profile()]);
@@ -357,7 +369,8 @@ async function fixture(t, options = {}) {
       closing.forEach((line, index) => draw(line, 500 - 20 * index));
       if (!options.withoutCertificate) {
         centered(certificateHeading, 322);
-        draw('I certify that on this ____ day of __________, 2026, a true and correct copy of the foregoing', 297);
+        const date = options.certificateDate ?? '____ day of __________, ' + (caption.certificate_year ?? new Date().getFullYear());
+        draw('I certify that on this ' + date + ', a true and correct copy of the foregoing', 297);
         draw(caption.title + ' was served by email', 275);
         draw('to:', 261);
         draw(caption.service.recipients[0].name + ' (morgan@example.invalid; ' +
@@ -462,6 +475,41 @@ pdfTest('certificate words in the body do not replace a certificate block', asyn
   assert.equal(checksByName(result)['Service email present: service@example.invalid'], 'fail');
 });
 
+pdfTest('certificate date uses the composed year and accepts a complete date one year either way', async t => {
+  const caption = { ...example(), certificate_year: 2098 };
+  const captionPath = join(temp(t), 'caption.json');
+  writeFileSync(captionPath, JSON.stringify(caption));
+  const { html } = compos({ caption, body: fixtureBody, profile: profile() });
+  assert.match(html, /____ day of __________, 2098,/);
+  assert.throws(() => validateCaption({ ...caption, certificate_year: '2098' }, profile()), /four-digit year/);
+  for (const [certificateDate, status] of [
+    ['____ day of __________, 2098', 'pass'],
+    ['12th day of January, 2099', 'pass'],
+    ['31 day of December, 2097', 'pass'],
+    ['12 day of January, 2100', 'fail'],
+    ['12 day of January, 2096', 'fail'],
+    ['29 day of February, 2099', 'fail'],
+    ['12 day of January, ____', 'fail'],
+    ['12 day of __________, 2098', 'fail'],
+    ['____ day of January, 2098', 'fail'],
+    ['____ day of __________, 2099', 'fail'],
+  ]) {
+    const pdf = await fixture(t, { caption, certificateDate });
+    const checks = checksByName(validateFile(pdf, { caption: captionPath }).result);
+    assert.equal(checks['Certificate date fields'], status, certificateDate);
+    assert.equal(checks['Certificate of service present'], 'pass');
+    assert.equal(checks['Composed body SHA-256'], 'pass');
+  }
+  const withoutOverride = await fixture(t, { caption, certificateDate: '12 day of January, 2099' });
+  const recorded = checksByName(validateFile(withoutOverride).result);
+  assert.equal(recorded['Certificate date fields'], 'pass');
+  assert.equal(recorded['Composed body SHA-256'], 'pass');
+  const archived = await fixture(t, { metadata: 'Court Filing ' + fixtureDigest, certificateDate: '____ day of __________, 2026' });
+  const archivedChecks = checksByName(validateFile(archived).result);
+  assert.equal(archivedChecks['Certificate date fields'], 'pass');
+  assert.equal(archivedChecks['Composed body SHA-256'], 'pass');
+});
+
 pdfTest('a 16-page PDF fails the selected 15-page profile preset', async t => {
   const { result } = validateFile(await fixture(t, { pages: 16 }), { flags: ['--limit', 'general-motion-pages'] });
   assert.equal(result.pages, 16);
@@ -538,10 +586,55 @@ test('unlimited answers and discovery cannot include motions or other briefed pa
   for (const [document_type, simple, mixed] of [
     ['answer', "Defendant's Answer", "Defendant's Answer and Motion for Summary Judgment"],
     ['discovery-request', "Plaintiff's First Requests for Production", "Plaintiff's Requests for Production and Motion to Compel"],
+    ['discovery-response', 'Responses to Interrogatories', 'Responses to Interrogatories and Motion to Compel'],
+    ['discovery-disclosure', 'Supplemental Disclosures', 'Supplemental Disclosures and Notice of Hearing'],
+    ['case-management-submission', 'Proposed Case Management Order', 'Proposed Case Management Order and Motion for Extension'],
   ]) {
     const caption = { ...example(), document_type, title: simple };
     assert.equal(resolveLimits(profile(), caption, { noLimit: true }).pages, null);
     assert.throws(() => validateCaption({ ...caption, title: mixed }, profile()), /title does not match/);
+  }
+});
+
+const auditTitles = [
+  ['motion', "Plaintiff's Emergency Motion for a Protective Order"],
+  ['motion', "Plaintiff's Cross-Motion for Sanctions"],
+  ['discovery-request', "Plaintiff's First Set of Interrogatories"],
+  ['discovery-response', "Defendant's Responses to Plaintiff's First Set of Interrogatories"],
+  ['case-management-submission', "Plaintiff's Proposed Case Management Order Pursuant to C.R.C.P. 16"],
+];
+
+test('compose keeps ordinary Colorado titles across modifiers, discovery sets and case management', t => {
+  const cases = [
+    ...auditTitles,
+    ['motion', "Defendant's Unopposed Motion to Extend the Discovery Deadline"],
+    ['motion', 'Joint Motion to Vacate the Settlement Conference'],
+    ['motion', "Respondent's Amended Motion to Compel a Deposition"],
+    ['motion', "Plaintiff's Verified Motion for Temporary Relief"],
+    ['motion', "Defendants' Renewed Motion to Strike an Exhibit"],
+    ['motion', 'Stipulated Motion to Modify the Briefing Schedule'],
+    ['motion', 'Expedited Motion to Continue the Hearing'],
+    ['rule-12-or-56-motion', 'Renewed Cross-Motion for Partial Summary Judgment'],
+    ['response', 'Verified Response to the Motion to Amend'],
+    ['rule-12-or-56-response', "Defendant's Expedited Opposition to Plaintiff's Renewed Motion for Summary Judgment"],
+    ['rule-12-or-56-reply', "Plaintiff’s Amended Reply in Support of Defendant’s Motion to Dismiss Under Rule 12(b)(2)"],
+    ['brief', 'Amended Memorandum in Support of a Renewed Motion to Extend Time'],
+    ['discovery-request', 'Amended Second Set of Requests for Production of Records'],
+    ['discovery-request', "Defendants' Fifth Requests for Admission"],
+    ['discovery-request', '12th Set of Interrogatories to Defendant'],
+    ['discovery-response', 'Amended Responses and Objections to the First Set of Requests for Production'],
+    ['discovery-disclosure', 'Second Supplemental Disclosures Concerning Additional Witnesses'],
+    ['case-management-submission', 'Joint Proposed Case-Management Order Following the Status Conference'],
+  ];
+  const scratch = temp(t);
+  const captionPath = join(scratch, 'caption.json');
+  for (const [index, [document_type, title]] of cases.entries()) {
+    const output = join(scratch, 'filing-' + index + '.html');
+    writeFileSync(captionPath, JSON.stringify({ ...example(), title, document_type }));
+    const composed = run(['compose', '--caption', captionPath, '--body', asset('example-body.md'),
+      '--profile', 'colorado-district', '--out', output]);
+    assert.equal(composed.status, 0, title + ': ' + composed.stderr);
+    assert.ok(readFileSync(output, 'utf8').includes('class="doc-title">' + title + '</td>'), title);
   }
 });
 
@@ -550,7 +643,7 @@ test('the longer page presets require an actual Rule 12 or 56 motion phrase', ()
     ['motion', 'Motion for Partial Summary Judgment', 'Motion to Continue the Summary Judgment Hearing'],
     ['motion', 'Motion to Dismiss under C.R.C.P. 12(b)(1)', 'Motion to Exclude Testimony in a Rule 56 Proceeding'],
     ['motion', 'Motion to Dismiss Pursuant to Rule 12(b)(2)', 'Motion to Dismiss under Rule 12(b)(6)'],
-    ['response', "Plaintiff's Response to Defendant's Motion for Partial Summary Judgment", 'Response to Motion to Continue the Summary Judgment Hearing'],
+    ['response', "Plaintiffs' Response to Defendants' Motion for Partial Summary Judgment", 'Response to Motion to Continue the Summary Judgment Hearing'],
     ['reply', 'Reply in Support of Motion for Summary Judgment', 'Reply in Support of Motion to Exclude Evidence Under Rule 56'],
   ];
   for (const [kind, eligible, ineligible] of cases) {
@@ -653,6 +746,13 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
     ['ruled-order', proposed, 'The request is granted.\n\nBY THE COURT:\n\n____________\n\nDistrict Court Judge', noLimit],
     ['table', example(), table, motionLimit],
     ['list-spacing', example(), '## Schedule\n\n1. First entry.\n2. Second entry.\n\nThe conference is requested.', motionLimit],
+    ...auditTitles.map(([document_type, title], index) => [
+      'audit-title-' + index, { ...example(), document_type, title }, fixtureBody,
+      document_type === 'motion' ? motionLimit : noLimit,
+    ]),
+    ['disclosure', { ...example(), document_type: 'discovery-disclosure', title: 'Supplemental Disclosures Regarding Exhibits' },
+      fixtureBody, noLimit],
+    ['dated', { ...example(), certificate_year: 2098 }, fixtureBody, motionLimit],
   ];
   for (const [name, fields, markdown, flags, selected = 'colorado-district'] of cases) {
     const cap = join(scratch, name + '.json');
@@ -715,6 +815,12 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
       assert.equal(run([...cliArgs, '--max-words', String(exactLimit)]).status, 0);
     }
     if (name === 'list-spacing') {
+      assert.deepEqual([result.bodyWords, result.pdfBodyWords], [11, 11]);
+      assert.equal(run([...cliArgs, '--max-words', '11']).status, 0);
+      const overLimit = resultOf(run([...cliArgs, '--max-words', '10']));
+      const wordCheck = overLimit.checks.find(check => check.label === 'Within word limit (10)');
+      assert.equal(wordCheck.status, 'fail');
+      assert.match(wordCheck.detail, /include ordered-list markers/);
       const spacingLabel = 'Table, list and heading double spacing';
       const originalSpacing = result.checks.find(check => check.label === spacingLabel);
       assert.equal(originalSpacing.counts.heading, 1);
@@ -734,6 +840,17 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
       assert.equal(shortLists.counts.underDoubleLines, 3);
       assert.equal(shortLists.counts.share, 0.75);
     }
+    if (name === 'dated') {
+      const signedHtml = join(scratch, 'signed.html');
+      const signedPdf = join(scratch, 'signed.pdf');
+      writeFileSync(signedHtml, readFileSync(html, 'utf8').replace('____ day of __________, 2098', '5th day of January, 2099'));
+      const signedRender = spawnSync(process.execPath, [render, 'pdf', '--input', signedHtml, '--output', signedPdf, ...pdfArgs],
+        { encoding: 'utf8' });
+      assert.equal(signedRender.status, 0, signedRender.stderr);
+      const signed = run([...cliArgs.map(arg => arg === out ? signedPdf : arg), ...flags]);
+      assert.equal(signed.status, 0, signed.stderr);
+      assert.equal(checksByName(resultOf(signed))['Certificate date fields'], 'pass');
+    }
     if (name === 'exempt') {
       assert.equal(checksByName(result)['Certificate of service absent'], 'pass');
       const withCertificate = [...cliArgs];
@@ -743,12 +860,12 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
       assert.equal(checksByName(resultOf(refused))['Certificate of service absent'], 'fail');
     }
     if (name === 'motion') {
-      assert.deepEqual([result.bodyWords, result.pdfBodyWords], [73, 73]);
-      assert.equal(run([...cliArgs, '--max-words', '73']).status, 0);
-      const limited = run([...cliArgs, '--max-words', '72']);
+      assert.deepEqual([result.bodyWords, result.pdfBodyWords], [75, 75]);
+      assert.equal(run([...cliArgs, '--max-words', '75']).status, 0);
+      const limited = run([...cliArgs, '--max-words', '74']);
       assert.equal(limited.status, 1);
       assert.equal(limited.stdout, '');
-      assert.equal(checksByName(resultOf(limited))['Within word limit (72)'], 'fail');
+      assert.equal(checksByName(resultOf(limited))['Within word limit (74)'], 'fail');
       const missingChoice = run(cliArgs);
       assert.equal(missingChoice.status, 1);
       assert.equal(missingChoice.stdout, '');

@@ -3,7 +3,7 @@ name: Contract Disputes
 type: expert
 category: practice-area
 description: Assess contract formation, breach, defenses, and remedies against the writing and Colorado authority, returning supported issues, holds, and the next litigation skill
-version: 0.2.1
+version: 0.2.2
 gaps:
   - Verified accrual analysis for a particular contract claim
   - Verified Colorado authority for general reliance damages as an alternative contract measure

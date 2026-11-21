@@ -59,6 +59,7 @@ function list(item, minimum = 0) {
 }
 
 const email = (value, at) => required(value, at, x => typeof x === 'string' && /^[^\s@;()<>,]+@[^\s@;()<>,]+$/u.test(x), 'an email address');
+const isYear = value => Number.isInteger(value) && value >= 1000 && value <= 9999;
 const party = shape({ role: text, name: text });
 const signer = shape({ name: text }, { role: text, lines: list(text) });
 const recipient = shape({ name: text, emails: list(email) });
@@ -76,6 +77,7 @@ const captionShape = shape({
   court_address: text,
 }, {
   signer, caption_counsel: bool, counsel_label: text, service, filing_packet: text,
+  certificate_year: (value, at) => required(value, at, isYear, 'a four-digit year'),
 });
 
 export function counselLabel(caption) {
@@ -157,11 +159,11 @@ const layout = shape({
   footer,
   caption_style: text,
   certificate_year: (value, at) => required(value, at,
-    x => x === null || (Number.isInteger(x) && x >= 1000 && x <= 9999), 'a four-digit year or null'),
+    x => x === null || isYear(x), 'a four-digit year or null'),
   pdf_font_names: list(fontName, 1),
 });
 
-const evidence = choice('recorded-in-source', 'verify');
+const evidence = choice('working-default', 'recorded-in-source', 'verify');
 const spacingKinds = ['table', 'list', 'heading'];
 const limit = shape({ unit: choice('pages', 'words'), maximum: positive, citation, verification: evidence });
 const validation = shape({

@@ -3,7 +3,7 @@ name: Employment Law
 type: expert
 category: practice-area
 description: Assess a Colorado employment dispute against the agreement, wage record, and authority, returning supported claim distinctions, holds, and the next litigation skill
-version: 0.3.1
+version: 0.3.2
 gaps:
   - Employment coverage is working and lacks official confirmation of the 2025 wage amendments, the current CDLE cap, and a current filing forms and venue check
   - Employment briefing lacks complete opinion reads for the flagged cases and verified Colorado authority for notice and cure, prevention of a bonus condition, remote-worker jurisdiction, and unsigned arbitration

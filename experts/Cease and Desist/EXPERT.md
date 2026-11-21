@@ -3,7 +3,7 @@ name: Cease and Desist
 type: expert
 category: practice-area
 description: Assess a cease-and-desist demand or response for factual support, scope, and escalation risk, returning unresolved issues and the next supported skill
-version: 0.2.1
+version: 0.2.2
 gaps:
   - Cease and Desist is a substantive stub for whether to send or bypass a demand, required terms, deadlines, and response and escalation rules
   - Cease and Desist is a substantive stub for IP, defamation, harassment or stalking, contract, property and nuisance grounds and service requirements
@@ -41,7 +41,7 @@ For `lens` mode, use the supplied matter and dates and return the substantive as
 
 ### Is this a proposed notice, a received notice, or an escalation?
 
-- For a proposed notice, identify the conduct, factual basis, intended outcome, and proposed response date. Check that the request is specific and the tone firm and professional. If the user is weighing a letter against immediate filing, identify the effects on the user's objective and any verified deadlines. The source has no verified rule for whether to send, required elements, or a reasonable timeframe. Hold a legal conclusion on those issues pending authoritative research.
+- For a proposed notice, identify the conduct, factual basis, intended outcome, and proposed response date. Check that the request is specific and the tone firm and professional. If the user is weighing a letter against immediate filing, identify the effects on the user's objective and any verified deadlines. Whether to send, required elements and a reasonable timeframe each need verified authority. Hold a legal conclusion on those issues pending authoritative research.
 - For a received notice, preserve the original, delivery evidence, and statements the user can substantiate. Record the sender's proposed date separately from any verified legal deadline. Describe compliance, negotiation, no response, and a counterproposal as options for review. Flag unsupported allegations and potential admissions or rights implications. If legal effect or rights preservation turns on an unresolved issue, hold the affected response.
 - For a notice that has gone unanswered or a proposed escalation, check delivery evidence and the response record. If negotiations fit, name `skills/Settlement Negotiation/` as the next route. If a court route needs to be evaluated, name `skills/Venue Selection/` as the next route and then the applicable phase once forum and deadline are confirmed. If no procedural posture is established, ask before selecting a phase.
 - Identify the claimed context where known: trademark, copyright, trade secret, defamation including libel or slander, harassment or stalking, contract violation, property or nuisance. Treat these as topics to research. They supply no verified elements, remedies, service rules, or escalation authority. If a supported contract dispute is at issue, use the authority in `experts/Contract Disputes/authority.md` for that question only.
