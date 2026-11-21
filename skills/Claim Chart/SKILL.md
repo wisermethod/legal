@@ -3,7 +3,7 @@ name: Claim Chart
 type: skill
 category: procedure
 description: Map the verified elements of a claim or defense to sourced facts and evidence and show support gaps for the current litigation stage
-version: 0.3.0
+version: 0.3.1
 gaps:
   - An element list with missing or unverified governing authority is held until that authority can be checked.
 ---
@@ -22,6 +22,8 @@ Save `claim-chart-<claim-slug>.md` in the matter or its dedicated build director
 
 ## Inputs
 
+Resolve the owning root through `wiser` Workspace Model and read its instructions and the matter's `AGENTS.md` before using matter files. If the owning root or matter is missing or ambiguous, surface any known urgent date and ask for the missing choice before charting. Use the matter's declared build home when it has one and the matter directory otherwise. Confirm conflicting destination instructions before writing.
+
 - `<user_request>` names the claim or defense, or asks to chart a named matter's claim.
 - `<context>` names the matter `AGENTS.md`, destination, jurisdiction, forum and current procedural posture.
 - `<source_material>` contains the claims and history records, evidence, filings and correspondence, plus the applicable practice-area guidance and controlling text.
@@ -37,14 +39,15 @@ Before dependent work, request `preflight` from [Litigation Counsel](../../exper
 ### What supports this claim or defense?
 
 1. Run Maintain Matter File for matter preflight and drafting or research cross-references. Which claim or defense and posture apply? If the request or claims record yields one clear choice, use it. Otherwise ask before mapping. Load the applicable practice-area expert's guidance and read the authority behind the element list. For arbitration, use the governing substantive law and the operative forum materials for the procedural posture. Record a verified element separately from a missing procedural standard.
-2. Is the element list complete and supported by checked authority for this jurisdiction and posture? If yes, retain the authorities and pinpoints. If the expert's coverage is a stub, contains `[verify]`, or the authority is thin or disputed, run Verify Citations on the cited definitions. If the governing text still cannot support an element list, stop the affected chart and identify the missing law. If the text confirms only part of the list, mark any partial analysis as such and name the missing definitions.
+2. Is the element list complete and supported by checked authority for this jurisdiction and posture? If yes, retain the authorities and pinpoints. If the expert's coverage is a stub, contains `[verify]`, or the authority is thin or disputed, run Verify Citations as a scoped check with the exact cited definitions, their locators, the forum and date, and any supplied authority. Use the occurrence findings. If only some elements are confirmed, chart only those, label the result partial, and name the missing definitions and what would let work resume. If none is confirmed, stop the mapping and return a held record naming the missing law, affected claim and resumption condition. Save it at the chart destination when confirmed and writable. An empty element table cannot stand for that record.
 3. Gather record facts for each verified element. Cite the file and pinpoint, filing, exhibit or correspondence that makes each assertion checkable. Record material contrary evidence and distinguish allegations from evidence. Does an element have sourced support, conflicting or limited support, or no support identified? Show the precise gap for each row. Use this table structure.
 
    | Element | Supporting facts | Evidence/source | Gap? |
    |---|---|---|---|
    | Element and verified authority | Facts the record supplies | File and pinpoint | Yes or no, with basis |
 
-4. Summarize which elements are supported, which need pleading detail, discovery or further theory development, and what the current record can support at the stated posture. If a gap appears fatal, the theory appears unsupported, or the matter exceeds the litigant's depth, suggest licensed counsel and name the element or decision that warrants review. Save the Markdown chart. Is Word output requested? If yes, prepare UTF-8 JSON with `title` and `paragraphs`, one labeled paragraph per element retaining the facts, source and gap, followed by the assessment. From `wiser`'s `word-document` directory run `node scripts/word-document.js create --input <json> --output <fresh.docx>` with absolute paths. Require a successful result with the canonical `output` and reconcile the Word text to every chart row. If a native table is required, report that the create schema takes paragraphs and keep the Markdown chart available for import into Word. If creation fails or was not requested, preserve the Markdown chart and report any Word hold.
+4. Summarize which elements are supported, which need pleading detail, discovery or further theory development, and what the current record can support at the stated posture. If a gap appears fatal, the theory appears unsupported, or the matter exceeds the litigant's depth, suggest licensed counsel and name the element or decision that warrants review. Apply the Handoff label in the chart and any delivered Word copy. Use the claim name as a lowercase hyphenated slug. Save the Markdown chart to the confirmed destination. Reuse an identical Markdown chart. Preserve a different existing chart and use the first unused numbered suffix starting at `-2`.
+5. Is a Word copy of a chart requested? If no, deliver the Markdown. If a native table is required, report that the create schema takes paragraphs and keep the Markdown chart available for import into Word. Otherwise locate `word-document` through the composed `wiser` plugin's `tools/AGENTS.md`, load its tool contract, and prepare UTF-8 JSON with `title` and `paragraphs`. Use one labeled paragraph per element retaining the facts, source and gap, followed by the assessment. From that tool's directory run `node scripts/word-document.js create --input <json> --output <fresh.docx>` with absolute paths. Use the chart's stem, with the first unused numbered suffix starting at `-2` if the Word path already exists. Require success with the canonical `output`. Read the output in Word or inspect each main-document paragraph in `word/document.xml` from the DOCX package and reconcile the text to the chart and label. If creation or read-back fails, deliver the Markdown and report the specific Word hold.
 
 ## Pitfalls
 
@@ -53,4 +56,4 @@ Before dependent work, request `preflight` from [Litigation Counsel](../../exper
 
 ## Success
 
-Each charted element points to checked authority. Each supporting fact resolves to its source. The chart names every identified gap, states its posture and limits, and avoids predicting the result.
+Each charted element points to checked authority. Each supporting fact resolves to its source. The chart names every identified gap, states its posture and limits, and avoids predicting the result. A held record with no chart identifies the missing law and resumption condition. A delivered Word copy matches the chart and carries the Handoff label.

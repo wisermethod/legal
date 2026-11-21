@@ -3,7 +3,7 @@ name: Case Audit
 type: skill
 category: litigation-phase
 description: A full case audit with documented coverage of claims, facts, arguments, evidence, opposition, trajectory, and follow-up
-version: 0.4.0
+version: 0.4.1
 ---
 
 # Case Audit
@@ -34,7 +34,7 @@ A candid reviewer who looks for the strongest opposing case, checks the person's
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Apply the [Handoff label](../../AGENTS.md#handoff-label) in the saved audit and whenever this work returns an assessment, packet or draft to the person, including on an early return.
 
 ### What can proceed on this entry?
 
@@ -42,7 +42,7 @@ Before dependent work, request `preflight` from [Litigation Counsel](../../exper
 
 ### 1. What is the current status?
 
-Run Maintain Matter File for matter preflight at session entry or use its current preflight record. Use the matter declaration’s designated history, deadlines and handoff. Surface every deadline within 14 days before the phase analysis. Lead with missed or imminent fatal deadlines, consequences and the immediate question to resolve. If the deadlines file is missing or stale, say so and reconcile against available orders, docket entries and dated service or notice records. For each date learned in this phase, use Maintain Matter File to record the deadline or its triggering date, source, calculation or unresolved inputs, and verification status in the deadlines file as authorized. Where a write is unavailable or unauthorized, give the person the exact entry to make. Mark uncertain dates `[verify]`, escalate possible expiry immediately, and stop any readiness or timeliness conclusion that depends on unresolved timing. Re-alert immediately when new information reveals urgency.
+Run Maintain Matter File for matter preflight at session entry or use its current preflight record. Use the matter declaration’s designated history, deadlines and handoff. Surface every deadline within 14 days before the phase analysis. Lead with missed or imminent fatal deadlines, consequences and the immediate question to resolve. If the deadlines file is missing or stale, say so and reconcile against available orders, docket entries and dated service or notice records. For each date learned in this phase, record the deadline or its triggering date, source, calculation or unresolved inputs, and verification status. When a confirmed filing, order or communication establishes the date, use that operation in Maintain Matter File as authorized. For a standalone deadline, an unresolved record conflict, or a write that is unavailable or unauthorized, supply the exact proposed deadline entry in the audit. Mark uncertain dates `[verify]`, escalate possible expiry immediately, and stop any readiness or timeliness conclusion that depends on unresolved timing. Re-alert immediately when new information reveals urgency.
 
 Use the preflight forum finding and the declared parties record. Check the applicable rules and controlling orders before relying on a procedure. In arbitration or another non-court forum, use that forum’s governing materials from the matter record. Carry out independent work while any rule-dependent step is held. For a draft, strategic comparison or novel issue, apply `wiser` Behavioral Core by giving the approach, alternatives and confidence. Treat each rule lead and practice assumption marked `[verify]` as unchecked until the current governing text, applicable subsection, local rule, and case-specific orders are reconciled. Record the source and date checked. Apply `wiser/standards/conventions.md` Evidence Labels in the working record.
 
@@ -56,7 +56,7 @@ Create a verification entry for every factual assertion in the person's filings.
 
 ### 3. Does every position withstand the strongest counterargument?
 
-For each position in the arguments record, articulate the opposition's strongest plausible argument, identify the weakest link and test against earlier positions for contradictions. Use Verify Citations to check whether cited authority is current and supports the proposition, with authoritative sources and pinpoints. Mark a missing source, obsolete authority, adverse authority or overstated proposition in the findings. Keep unchecked authority `[verify]` and hold any assessment that requires it.
+For each position in the arguments record, articulate the opposition's strongest plausible argument, identify the weakest link and test against earlier positions for contradictions. Use Verify Citations for a scoped check of the exact cited passages and locators, giving it the relevant forum, date and supplied authoritative text. Use the scope of its occurrence findings for the audit. Filing clearance requires a separate whole-draft check. Mark a missing source, obsolete authority, adverse authority or overstated proposition in the findings. Keep unchecked authority `[verify]` and hold any assessment that requires it.
 
 ### 4. What does the evidence inventory show?
 
@@ -81,7 +81,7 @@ Check and record coverage for every stage before presenting results:
 - Every claim element checked against actual evidence.
 - Every factual assertion in the person's filings checked against source documents.
 - Strongest opposing arguments articulated and supported by the record or identified as plausible inference.
-- At least one supported weakness identified.
+- A supported weakness identified, or the negative recheck in stage 6 documented.
 - Candid, evidence-based trajectory assessed, including unfavorable findings.
 - Specific, prioritized, actionable options tied to findings.
 

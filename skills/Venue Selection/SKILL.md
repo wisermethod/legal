@@ -3,7 +3,7 @@ name: Venue Selection
 type: skill
 category: litigation-phase
 description: A sourced court and venue comparison with jurisdiction, threshold, timing, and procedural risk checks in the matter file
-version: 0.4.0
+version: 0.4.1
 gaps:
   - Local court variations and case-specific venue, fee, appeal, transfer and removal questions still need current sources.
 ---
@@ -18,7 +18,7 @@ Classifier seam: none.
 
 ## Objective
 
-Save `YYYY-MM-DD - Venue Comparison.md` in the matter project or the packet home its `AGENTS.md` declares. For each candidate, record subject matter jurisdiction, personal jurisdiction, venue, threshold calculation, procedure, practical trade-offs, and the dated authority or unresolved check. State which forum the person selected, where supplied, and any resulting deadline or next procedure.
+Save `YYYY-MM-DD - Venue Comparison.md` in the matter project or the packet home its `AGENTS.md` declares. For each court candidate, record subject matter jurisdiction, personal jurisdiction, geographic venue and the threshold calculation. For each non-court candidate, record the agreement or other forum grant, the governing materials and applicable eligibility checks. For each candidate, record procedure, practical trade-offs and the dated authority or unresolved check. State which forum the person selected, where supplied, and any resulting deadline or next procedure.
 
 ## Inputs
 
@@ -36,7 +36,7 @@ A forum researcher who establishes legal eligibility separately from cost, speed
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Apply the [Handoff label](../../AGENTS.md#handoff-label) in the saved comparison and whenever this work returns an assessment, packet or draft to the person, including on an early return.
 
 ### What can proceed on this entry?
 
@@ -44,17 +44,21 @@ Before dependent work, request `preflight` from [Litigation Counsel](../../exper
 
 ### What dates and facts control the inquiry?
 
-Run Maintain Matter File for matter preflight at session entry or use its current preflight record. Use the matter declaration’s designated history, deadlines and handoff. Surface every deadline within 14 days before the phase analysis. Lead with missed or imminent fatal deadlines, consequences and the immediate question to resolve. If the deadlines file is missing or stale, say so and reconcile against available orders, docket entries and dated service or notice records. For each date learned in this phase, use Maintain Matter File to record the deadline or its triggering date, source, calculation or unresolved inputs, and verification status in the deadlines file as authorized. Where a write is unavailable or unauthorized, give the person the exact entry to make. Mark uncertain dates `[verify]`, escalate possible expiry immediately, and stop any readiness or timeliness conclusion that depends on unresolved timing. Re-alert immediately when new information reveals urgency.
+Run Maintain Matter File for matter preflight at session entry or use its current preflight record. Use the matter declaration’s designated history, deadlines and handoff. Surface every deadline within 14 days before the phase analysis. Lead with missed or imminent fatal deadlines, consequences and the immediate question to resolve. If the deadlines file is missing or stale, say so and reconcile against available orders, docket entries and dated service or notice records. For each date learned in this phase, record the deadline or its triggering date, source, calculation or unresolved inputs, and verification status. When a confirmed filing, order or communication establishes the date, use that operation in Maintain Matter File as authorized. For a standalone deadline, an unresolved record conflict, or a write that is unavailable or unauthorized, supply the exact proposed deadline entry in the comparison. Mark uncertain dates `[verify]`, escalate possible expiry immediately, and stop any readiness or timeliness conclusion that depends on unresolved timing. Re-alert immediately when new information reveals urgency.
 
 Use the preflight forum finding and the declared parties record. Check the applicable rules and controlling orders before relying on a procedure. In arbitration or another non-court forum, use that forum’s governing materials from the matter record. Carry out independent work while any rule-dependent step is held. For a draft, strategic comparison or novel issue, apply `wiser` Behavioral Core by giving the approach, alternatives and confidence. Treat each rule lead and practice assumption marked `[verify]` as unchecked until the current governing text, applicable subsection, local rule, and case-specific orders are reconciled. Record the source and date checked. Apply `wiser/standards/conventions.md` Evidence Labels in the working record.
 
 For drafting or research, cross-check the designated claims, arguments, case-law, statutes and discovery records for existing elements, positions, sources and evidence needs. Check the glossary designated by the owning root when available for defined terms. Surface new reusable findings and proposed discovery items with a source, reason and target record. Add them and any newly researched guidance to the authorized record only after the person confirms. Carry the entry preflight disposition into the packet and recheck it for newly identified triggers. Apply each hold to the affected decision or handoff.
 
-For a non-court forum, identify any controlling agreement, operative notice, administering body, governing rules, open forum objection and procedural posture. Compare only supported options, fees, logistics and deadlines. Hold conclusions about arbitrability, jurisdiction and remedies until the governing material supports them. For an unfiled court matter, frame plausible courts from the claimed facts, location, relief and amount, and confirm the candidate before any drafting. For a filed matter, record the actual forum, procedural posture and notice dates. If the facts cannot identify the candidate court, county, contacts or forum dispute, ask for those facts and hold the dependent conclusion.
+For an unfiled court matter, frame plausible courts from the claimed facts, location, relief and amount, and confirm the candidate before any drafting. For a filed matter, record the actual forum, procedural posture and notice dates. If the facts cannot identify the candidate court, county, contacts or forum dispute, ask for those facts and hold the dependent conclusion. If authoritative material is unavailable, identify it in the comparison and leave the affected check `[verify]`.
+
+### Which non-court options can the record support?
+
+For each non-court candidate, identify the controlling agreement or other forum grant, operative notice, administering body, governing rules, procedural posture and any open objection. Apply any forum-specific eligibility, amount, timing and remedy requirements identified in those materials. For each check, record the source and whether it is supported, failed, inapplicable on a stated basis, or unresolved `[verify]`. A verified failed mandatory check rules the option out. An unresolved mandatory check holds any conclusion on that option, including arbitrability, jurisdiction or remedies, and names what would resolve it. Compare supported fees, logistics and deadlines. In a mixed comparison, also run the court checks for the court candidates.
 
 ### Which candidates pass the three jurisdiction and venue checks?
 
-For each candidate, record supported, ruled out, or `[verify]` with the underlying authority and facts. Rule out a candidate with a verified failed check. If no check fails but a required one is unresolved, keep the candidate open for research. Mark a candidate supported only when all three checks pass. Whether a profile exists is a separate production question.
+For each court candidate, record supported, ruled out, or `[verify]` with the underlying authority and facts. Rule out a candidate with a verified failed check. If no check fails but a required one is unresolved, keep the candidate open for research. Mark a candidate supported only when all three checks pass. Whether a profile exists is a separate production question. For another state's court, use its governing jurisdiction, venue and procedure materials and identify any unavailable rules as open checks.
 
 1. **Subject matter.** Check state general jurisdiction and exceptions. For federal court, verify federal question arising under the Constitution, a federal statute or a treaty under 28 U.S.C. § 1331, complete diversity and an amount exceeding $75,000 under 28 U.S.C. § 1332, any statute-specific grant, and supplemental jurisdiction for related state claims with a federal basis. Screen exclusive federal jurisdiction claim by claim. The source flags bankruptcy, federal criminal cases, and many patent, copyright, antitrust and securities matters. Verify exceptions and concurrent jurisdiction before using any category as an exclusion. For federal or state consumer claims, check the applicable FDCPA, FCRA or TILA grant where relevant.
 2. **Personal jurisdiction.** Verify general jurisdiction leads for an individual's domicile and an entity's incorporation or principal place of business. Verify specific jurisdiction leads for purposeful forum contacts, a claim arising from those activities, and reasonableness. Check preservation at the first response and possible waiver. Resolve each defendant's relationship to the proposed forum.
@@ -62,7 +66,7 @@ For each candidate, record supported, ruled out, or `[verify]` with the underlyi
 
 ### What do the verified court options offer?
 
-Apply the matrix’s working thresholds and timing or cost estimates when comparing candidates. Confirm against current rules and fee schedules before filing. Treat the intervals as planning estimates. Keep Pleadings’ current county and district fee checks open.
+Apply the matrix’s working thresholds and timing or cost estimates to the listed courts. Confirm against current rules and fee schedules before filing. Treat the intervals as planning estimates. Keep Pleadings’ current county and district fee checks open. If a court's verified rules impose no amount limit, state that with its source. If a threshold or component is unresolved, show the supported amount and the missing authority or inputs.
 
 | Court | Amount and scope to check | Procedure, remedy and practical factors to compare |
 |---|---|---|
@@ -85,7 +89,7 @@ For a requested remand or transfer motion with unresolved authority, timing or f
 
 ### Is the comparison ready for the person's decision?
 
-For a court comparison, check and record the amount calculation, all state and federal claims, each defendant's residence or principal place of business, exclusive federal jurisdiction, discovery need, jury preference, injunction need, convenience, fees, typical timelines, geographic venue and personal jurisdiction. For each unmet mandatory issue, name the missing authority or fact and hold any dependent forum conclusion. Present the supported options and trade-offs. Record a supported forum choice only when the person states it and its required checks pass. Record any stated choice with a failed or unresolved check as the person's preference and keep its dependent filing held.
+For a court comparison, check and record the amount calculation, all state and federal claims, each defendant's residence or principal place of business, exclusive federal jurisdiction, discovery need, jury preference, injunction need, convenience, fees, typical timelines, geographic venue and personal jurisdiction. For a non-court comparison, use the applicable agreement, notice, rule and eligibility checks above. For each unmet mandatory issue, name the missing authority or fact and hold any dependent forum conclusion. Present the supported options and trade-offs. Record a supported forum choice only when the person states it and its required checks pass. Record any stated choice with a failed or unresolved check as the person's preference and keep its dependent filing held. If the person states no choice, leave the decision open.
 
 ## Pitfalls
 
@@ -94,7 +98,7 @@ For a court comparison, check and record the amount calculation, all state and f
 
 ## Success
 
-- Each candidate has separate, sourced subject matter, personal jurisdiction and geographic venue checks, a supported threshold calculation, and the comparison checklist.
+- Each court candidate has separate subject matter, personal jurisdiction and geographic venue checks, a threshold calculation or named missing input, and the comparison checklist. Each non-court candidate has its agreement or other forum grant, administrator, notice, rules, objections and applicable eligibility checks. Each check has a source, a stated basis for inapplicability, or a specific verification gap.
 - Each practice lead used in a conclusion has a dated authority. Unresolved points are visible and hold dependent conclusions.
 - Removal, remand or transfer is assessed where relevant, with any missed or imminent fatal deadline first and new dates recorded or supplied for entry.
 - The saved comparison explains risks and trade-offs and shows the person's forum choice or leaves the choice open.
