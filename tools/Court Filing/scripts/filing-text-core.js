@@ -1,6 +1,6 @@
-import { canonicalBody, judicialClosing, normalize, wordCount } from './body-text-core.js';
+import { canonicalBody, judicialClosing, normalize } from './body-text-core.js';
 import { captionParties, formatPartyName } from './compose-core.js';
-import { counselLabel } from './schema-core.js';
+import { counselLabel, documentType } from './schema-core.js';
 
 const certificateHeading = 'CERTIFICATE OF SERVICE';
 const submitted = 'Respectfully submitted,';
@@ -51,7 +51,7 @@ function captionText(first, caption, profile, add, positioned) {
   const divisionAt = first.findIndex((line, index) => markerAt >= 0 && index > caseAt && /^Division:/u.test(line));
   const caseText = divisionAt > caseAt && /^Case No:/u.test(first[caseAt]) ?
     normalize(first.slice(caseAt, divisionAt).join(' ').slice('Case No:'.length)) : null;
-  const isNew = caption.filing_packet !== undefined && caption.filing_packet === profile.new_case_packet;
+  const isNew = documentType(profile, caption).blank_case_number;
   add(isNew ? 'Case number blank for new-case packet' : 'Case number in caption',
     caseText === caption.case_number && boxed?.caseNumber === caption.case_number, isNew ? caption.filing_packet + ': Case No. is left blank for the court.' : caption.case_number);
 
@@ -63,7 +63,7 @@ function captionText(first, caption, profile, add, positioned) {
   add('COURT USE ONLY caption marker', markerAt >= 0 && Boolean(boxed?.marker), 'Caption marker before Case No. and Division.');
   const title = caption.title.toUpperCase();
   const titleEnd = matchLines(first, divisionEnd, title, true);
-  add('Document title in caption', titleEnd > 0 && boxed?.title === title, caption.title);
+  add('Document title in caption', titleEnd > 0 && boxed?.title === normalize(title), caption.title);
   return titleEnd;
 }
 
@@ -113,81 +113,184 @@ function stripFooters(extracted, format, pages) {
   });
 }
 
-function filerAndCertificate(caption, profile, remainder, check, add) {
-  const signer = caption.signer.name + ',' + (caption.signer.role ? ' ' + caption.signer.role : '');
-  let signedAt = -1;
-  const closing = remainder.findLastIndex((line, index) => {
-    if (line !== submitted || !/^Date:/u.test(remainder[index + 1] ?? '')) return false;
-    // A PDF editor may replace the underline with a signature or add a line.
-    for (const offset of [3, 2, 4]) {
-      signedAt = matchLines(remainder, index + offset, signer, true);
-      if (signedAt > 0) return true;
-    }
-    return false;
-  });
-  check('Signer in signature block', closing >= 0, caption.signer.name);
-  let certAt = signedAt;
-  for (const line of caption.signer.lines ?? []) certAt = matchLines(remainder, certAt, line, true);
-  const afterSigner = certAt < 0 ? [] : remainder.slice(certAt);
+const blank = /^_{3,}$/u;
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+  'September', 'October', 'November', 'December'];
+
+function calendarDate(year, month, day) {
+  const date = new Date(Date.UTC(year, month, day));
+  return date.getUTCFullYear() === year && date.getUTCMonth() === month && date.getUTCDate() === day;
+}
+
+function monthIndex(name) {
+  const normalized = name.toLowerCase().replace(/\.$/u, '');
+  return months.findIndex(month => month.toLowerCase() === normalized || month.slice(0, 3).toLowerCase() === normalized);
+}
+
+function validFilerDate(date) {
+  if (blank.test(date)) return true;
+  const iso = /^(\d{4})-(\d{1,2})-(\d{1,2})$/u.exec(date);
+  if (iso) return calendarDate(Number(iso[1]), Number(iso[2]) - 1, Number(iso[3]));
+  const slash = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/u.exec(date);
+  if (slash) return calendarDate(Number(slash[3]), Number(slash[1]) - 1, Number(slash[2]));
+  const named = /^([A-Za-z]+\.?) (\d{1,2}),? (\d{4})$/u.exec(date);
+  return Boolean(named && calendarDate(Number(named[3]), monthIndex(named[1]), Number(named[2])));
+}
+const signatureLine = /^_{3,}$/u;
+const hasCertificateHeading = lines => /(?:^|\n)CERTIFICATE\s*OF\s*SERVICE(?:\n|$)/iu.test(lines.join('\n'));
+const mentionsCertificate = text => /\bCERTIFICATE\s*OF\s*SERVICE\b/iu.test(text);
+
+function certificateChecks(caption, profile, lines, check) {
   const service = caption.service;
-  if (service) {
-    const statementEnds = afterSigner.findIndex((line, index) => index > 0 && /(?:^| )to:$/u.test(line));
-    const certStatement = statementEnds < 0 ? '' : afterSigner.slice(1, statementEnds + 1).join(' ');
-    const expectedEnd = 'a true and correct copy of the foregoing ' + caption.title +
-      ' was served by ' + (service.method ?? 'email') + ' to:';
-    const hasCertificate = afterSigner[0] === certificateHeading && /^I certify that on this /u.test(certStatement) &&
-      compact(certStatement).endsWith(compact(expectedEnd));
-    check('Certificate of service present', hasCertificate, 'Own heading and service statement after the signature block.');
-    let recipientAt = statementEnds + 1;
-    for (const recipient of service.recipients) {
-      const printed = recipient.name + ' (' + recipient.emails.join('; ') + ')';
-      const recipientEnd = hasCertificate ? matchLines(afterSigner, recipientAt, printed, true) : -1;
-      check('Service recipient in certificate: ' + recipient.name, recipientEnd > 0, printed);
-      for (const email of recipient.emails) {
-        check('Service email present: ' + email, recipientEnd > 0, 'Listed under ' + recipient.name + ' in the certificate.');
-      }
-      recipientAt = recipientEnd;
+  const statementEnd = lines.findIndex((line, index) => index > 0 && /(?:^| )to:$/u.test(line));
+  const statement = lines.slice(1, statementEnd + 1).join(' ');
+  const statementTail = 'a true and correct copy of the foregoing ' + caption.title +
+    ' was served by ' + (service.method ?? 'email') + ' to:';
+  const dateMatch = /^I certify that on this (_{3,}|\d{1,2}(?:st|nd|rd|th)?) day of (_{3,}|[A-Za-z]+), (\d{4}|_{3,}), (.*)$/u.exec(statement);
+  const expectedYear = profile.layout.certificate_year;
+  const validDate = dateMatch && (expectedYear === null || dateMatch[3] === String(expectedYear)) &&
+    (blank.test(dateMatch[1]) && blank.test(dateMatch[2]) ?
+      expectedYear !== null || blank.test(dateMatch[3]) :
+      calendarDate(Number(dateMatch[3]), monthIndex(dateMatch[2]), Number.parseInt(dateMatch[1], 10)));
+  const hasCertificate = lines[0] === certificateHeading && Boolean(dateMatch) &&
+    compact(dateMatch[4]) === compact(statementTail);
+  check('Certificate of service present', hasCertificate, 'Own heading and exact service statement after the signature block.');
+  check('Certificate date fields', Boolean(validDate), 'Required date fields and the profile year when preprinted.');
+  let cursor = hasCertificate ? statementEnd + 1 : -1;
+  for (const recipient of service.recipients) {
+    const printed = recipient.name + ' (' + recipient.emails.join('; ') + ')';
+    cursor = matchLines(lines, cursor, printed, true);
+    check('Service recipient in certificate: ' + recipient.name, cursor > 0, printed);
+    for (const email of recipient.emails) {
+      check('Service email present: ' + email, cursor > 0, 'Listed under ' + recipient.name + ' in the certificate.');
     }
+  }
+  const firm = [service.firm, ...(service.firm_lines ?? []), service.firm_note].filter(Boolean);
+  for (const line of firm) cursor = matchLines(lines, cursor, line, true);
+  check('Certificate firm details', cursor > 0, 'All supplied firm lines in order.');
+  const server = service.served_by ?? caption.signer.name;
+  const hasLine = cursor > 0 && (signatureLine.test(lines[cursor] ?? '') || lines[cursor] === '/s/ ' + server);
+  const signerEnd = hasLine ? matchLines(lines, cursor + 1, server) : -1;
+  check('Certificate signer and end of filing', signerEnd === lines.length, 'Expected service signer and signature line, with no trailing text.');
+}
+
+function filerAndCertificate(caption, profile, remainder, check, add, treatment, extracted) {
+  const signer = caption.signer.name + ',' + (caption.signer.role ? ' ' + caption.signer.role : '');
+  const closing = remainder.findLastIndex(line => line === submitted);
+  const dateLine = remainder[closing + 1] ?? '';
+  const line = remainder[closing + 2] ?? '';
+  const hasLine = signatureLine.test(line) || line === '/s/ ' + caption.signer.name;
+  let cursor = closing >= 0 && dateLine.startsWith('Date:') && validFilerDate(dateLine.slice(5).trim()) && hasLine ?
+    matchLines(remainder, closing + 3, signer, true) : -1;
+  for (const contact of caption.signer.lines ?? []) cursor = matchLines(remainder, cursor, contact);
+  check('Signer in signature block', cursor > 0, 'Date, signature line, signer and supplied contact lines.');
+  if (treatment.certificate) {
+    certificateChecks(caption, profile, cursor > 0 ? remainder.slice(cursor) : [], check);
   } else {
-    const reason = caption.no_service_certificate;
-    check('Certificate of service absent', certAt >= 0 && !afterSigner.some(line => line.toUpperCase() === certificateHeading),
-      'This document has no separate certificate block.');
-    const detail = reason ? 'Not applicable by declaration (' + reason + '): ' +
-      profile.no_service_certificate_reasons[reason].description : 'The enclosing packet supplies the certificate.';
-    add('Certificate of service present', 'not_applicable', detail);
+    check('Certificate of service absent', !mentionsCertificate(extracted),
+      'The approved document type has no separate certificate anywhere in the extract.');
+    check('Filer closing ends the filing', cursor === remainder.length, 'No content follows the required filer closing.');
+    add('Certificate of service present', 'not_applicable', treatment.filing_packet ?
+      'The enclosing packet supplies the certificate.' : 'The profile omits the certificate for this exact title.');
   }
   return closing;
 }
 
-function removeRepeatedHeaders(pages, metadata, digest) {
-  const headers = metadata.trim().split(' ').filter(Boolean).map(entry => {
-    const [offset, length, hash] = entry.split(':');
-    return { offset: Number(offset), length: Number(length), hash };
-  });
+export function removeRepeatedHeaders(pages, headers) {
   let prior = '';
-  return pages.map((lines, index) => {
-    let skip = 0;
-    const text = canonicalBody(lines.join(' '));
+  let aligned = true;
+  const cleaned = pages.map((lines, index) => {
     if (index > 0) {
-      for (const { offset, length, hash } of headers) {
-        const prefix = text.slice(0, length);
-        const isNewHeader = headers.some(header => header.hash === hash && header.offset === prior.length);
-        if (isNewHeader || offset + length > prior.length || prior.slice(offset, offset + length) !== prefix ||
-            digest(prefix) !== hash) continue;
+      const pageText = canonicalBody(lines.join(' '));
+      const header = headers.find(({ offset, end, text }) => offset + text.length <= prior.length && prior.length < end &&
+        pageText.startsWith(text) && !headers.some(next => next.offset === prior.length && next.text === text));
+      if (header) {
         let consumed = 0;
-        const end = lines.findIndex(line => (consumed += canonicalBody(line).length) >= length);
-        if (consumed === length) {
-          skip = end + 1;
-          break;
-        }
+        const end = lines.findIndex(line => (consumed += canonicalBody(line).length) >= header.text.length);
+        if (consumed === header.text.length) lines = lines.slice(end + 1);
+        else aligned = false;
       }
     }
-    prior += text.slice(canonicalBody(lines.slice(0, skip).join(' ')).length);
-    return lines.slice(skip).join(' ');
-  }).join(' ');
+    prior += canonicalBody(lines.join(' '));
+    return lines;
+  });
+  return { pages: cleaned, aligned };
 }
 
-export function filingTextChecks({ caption, profile, extracted, info, bodySha256, digest, add, positioned }) {
+function tokenBoundaries(tokens) {
+  let offset = 0;
+  return tokens.map(token => offset += token.length);
+}
+
+function lineOverlap(text, run) {
+  const inside = text.indexOf(run);
+  if (inside >= 0 && text.indexOf(run, inside + 1) < 0) return inside;
+  const reverse = run.indexOf(text);
+  if (reverse >= 0 && run.indexOf(text, reverse + 1) < 0) return -reverse;
+  // Poppler's two modes can assign a table cell to different lines. An edge
+  // shared by both extracts can still substantiate a boundary in that overlap.
+  for (let length = Math.min(text.length, run.length) - 1; length >= 12; length--) {
+    if (run.endsWith(text.slice(0, length))) return length - run.length;
+    if (text.endsWith(run.slice(0, length))) return text.length - length;
+  }
+  return null;
+}
+
+function positionedBoundaries(text, lines) {
+  const boundaries = new Set();
+  for (const line of lines ?? []) {
+    const tokens = line.words.map(word => canonicalBody(word.text));
+    const run = tokens.join('');
+    if (!run) continue;
+    const start = lineOverlap(text, run);
+    if (start === null) continue;
+    for (const boundary of tokenBoundaries(tokens)) {
+      if (start + boundary > 0 && start + boundary < text.length) boundaries.add(start + boundary);
+    }
+    if (start > 0 && start < text.length) boundaries.add(start);
+  }
+  return boundaries;
+}
+
+export function bodyEvidence(pages, expected, positioned) {
+  const sourceTokens = normalize(expected).split(' ').map(canonicalBody);
+  const expectedRun = sourceTokens.join('');
+  const expectedBreaks = new Set(tokenBoundaries(sourceTokens));
+  const rawBreaks = new Set();
+  const extraBreaks = new Set();
+  let offset = 0;
+  let previous = '';
+  const actual = [];
+  for (const [page, lines] of pages.entries()) {
+    for (const line of lines) {
+      const tokens = line.split(' ').map(canonicalBody);
+      const text = tokens.join('');
+      if (previous.endsWith('-') && !expectedBreaks.has(offset)) rawBreaks.delete(offset);
+      const measured = positionedBoundaries(text, positioned?.[page]?.lines);
+      for (const boundary of tokenBoundaries(tokens)) {
+        rawBreaks.add(offset + boundary);
+        if (measured.has(boundary) && boundary < text.length) extraBreaks.add(offset + boundary);
+      }
+      for (const boundary of measured) {
+        if (expectedBreaks.has(offset + boundary)) rawBreaks.add(offset + boundary);
+      }
+      offset += text.length;
+      actual.push(text);
+      previous = text;
+    }
+  }
+  const charactersMatch = Boolean(actual.length) && actual.join('') === expectedRun;
+  const addedWordBoundary = [...extraBreaks].some(offset => !expectedBreaks.has(offset) &&
+    /[\p{L}\p{N}]{2}/u.test(expectedRun.slice(offset - 1, offset + 1)));
+  const wordsMatch = charactersMatch && !addedWordBoundary &&
+    [...expectedBreaks].every(boundary => rawBreaks.has(boundary));
+  return {
+    wordsMatch,
+    pdfBodyWords: wordsMatch ? sourceTokens.length : rawBreaks.size || null,
+  };
+}
+
+export function filingTextChecks({ caption, profile, extracted, info, prepared, add, positioned }) {
   const check = (label, passes, detail) => add(label, extracted ? (passes ? 'pass' : 'fail') : 'not_checked',
     extracted ? detail : 'Extractable PDF text is unavailable.');
   const pages = stripFooters(extracted, profile.layout.footer.format, info?.count ?? 1);
@@ -196,30 +299,33 @@ export function filingTextChecks({ caption, profile, extracted, info, bodySha256
   const bodyPages = [first.slice(Math.max(0, titleEnd)), ...pages.slice(1)];
   const remainder = bodyPages.flat();
   let remaining = remainder.length;
-  if (caption.document_type === 'proposed-order') {
-    check('Judicial signature block in proposed order', judicialClosing(remainder.join(' ')),
-      'The composed body ends with a court signature block.');
+  const treatment = documentType(profile, caption);
+  if (treatment.judicial_closing) {
+    check('Judicial signature block in proposed order', judicialClosing(remainder.join(' '), prepared.ruledClosing),
+      'The composed body ends with the unsigned court signature block.');
     check('Filer signature and certificate of service absent',
-      !remainder.some(line => line === submitted || line.toUpperCase() === certificateHeading),
+      !remainder.some(line => line === submitted) && !mentionsCertificate(extracted),
       'The proposed order carries only the court signature block.');
-    add('Certificate of service present', 'not_applicable', 'A proposed order carries no separate certificate.');
+    add('Certificate of service present', 'not_applicable', 'The profile omits a separate certificate for this judicial order.');
   } else {
-    remaining = filerAndCertificate(caption, profile, remainder, check, add);
+    remaining = filerAndCertificate(caption, profile, remainder, check, add, treatment, extracted);
+    if (treatment.certificate) {
+      check('Only one certificate block', !hasCertificateHeading(remainder.slice(0, Math.max(0, remaining))),
+        'The legal body has no additional certificate heading.');
+    }
   }
-
-  const bodyLines = bodyPages.map(lines => {
+  const bodyLines = titleEnd > 0 ? bodyPages.map(lines => {
     const part = lines.slice(0, Math.max(0, remaining));
     remaining -= part.length;
     return part;
-  });
-  const binding = /^Court Filing ([a-f0-9]{64}) ([a-f0-9]{64}) ([1-9]\d*)((?: \d+:[1-9]\d*:[a-f0-9]{64})*)$/u.exec(info?.title ?? '');
-  let pdfBody = titleEnd > 0 ? bodyLines.flat().join(' ') : '';
-  if (binding?.[4] && pdfBody && digest(canonicalBody(pdfBody)) !== binding[2]) {
-    pdfBody = removeRepeatedHeaders(bodyLines, binding[4], digest);
-  }
-  check('Composed body SHA-256', Boolean(binding && binding[1] === bodySha256),
-    'PDF metadata must carry the exact body SHA-256 from compose.');
-  check('Printed PDF body matches composition', Boolean(pdfBody && binding && digest(canonicalBody(pdfBody)) === binding[2]),
-    'Extracted body text must match compose, excluding running table headers already present in the body.');
-  return { pdfBodyWords: pdfBody ? wordCount(pdfBody) : null, bodyWords: binding ? Number(binding[3]) : null };
+  }) : [];
+  const exactCharacters = canonicalBody(bodyLines.flat().join(' ')) === canonicalBody(prepared.bodyText);
+  const continued = exactCharacters ? { pages: bodyLines, aligned: true } : removeRepeatedHeaders(bodyLines, prepared.headers);
+  check('Continued table header alignment', continued.aligned, 'A repeated header must occupy complete lines at the top of its continuation page.');
+  const evidence = bodyEvidence(continued.pages, prepared.bodyText, positioned);
+  check('Composed body SHA-256', info?.title === 'Court Filing ' + prepared.bodySha256,
+    'The PDF title independently carries the SHA-256 of the supplied Markdown.');
+  check('Printed PDF body matches composition', evidence.wordsMatch,
+    'Compare independently parsed Markdown with the PDF body after removing expected running headers.');
+  return { pdfBodyWords: evidence.pdfBodyWords, bodyLines: continued.pages };
 }

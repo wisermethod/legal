@@ -28,7 +28,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Employment Law](../experts/Employment%20Law/EXPERT.md)
 
-- Employment coverage is working and lacks official confirmation of the 2025 wage amendments, the current CDLE cap, and a current filing forms and venue check.
+- Employment coverage is working and lacks official confirmation of the 2025 wage amendments, the current CDLE cap, filing forms, and the flagged Rule 98 subsection text. Confirm the working venue check and thresholds before filing.
 - Employment briefing lacks complete opinion reads for the flagged cases and verified Colorado authority for notice and cure, prevention of a bonus condition, remote-worker jurisdiction, and unsigned arbitration.
 - Employment coverage lacks verified out-of-state Cause and severance analysis and CADA or POWER Act elements for protected-class claims.
 - Employment guidance for unemployment-insurance hearings, workers' compensation, union labor law, discrimination, FMLA, and disability is outside the verified coverage. See the [authority record](../experts/Employment%20Law/authority.md) for its pending checks.
@@ -66,8 +66,8 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 ### [Produce Court Filing](../skills/Produce%20Court%20Filing/SKILL.md)
 
 - Mechanical jurisdiction-profile validation covers the shipped Colorado district layout and compatible custom profiles.
-- Mechanical validation measures PDF font names and embedding and visible margin ink. Exact type sizing, spacing and court-specific requirements still need review.
-- The caption schema has no blank division. Prescribed structures outside the supported formats require the forum’s form or equivalent verification.
+- Mechanical validation compares the printed body and measures type, paragraph spacing, caption ruling, footer and ink. Exact appearance, actual signature and service, and current forum acceptance still need review.
+- The Colorado initial complaint supports a pending division when the court permits it. Prescribed structures outside a profile’s supported types, including a different judicial closing, require the forum’s form and its own requirements gate.
 
 ### [Settlement Negotiation](../skills/Settlement%20Negotiation/SKILL.md)
 

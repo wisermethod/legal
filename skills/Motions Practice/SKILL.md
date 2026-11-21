@@ -3,7 +3,7 @@ name: Motions Practice
 type: skill
 category: litigation-phase
 description: A motion or opposition preparation packet with conferral, briefing deadlines, local requirements, and a pre-filing verdict
-version: 0.3.0
+version: 0.4.0
 gaps:
   - Court-specific briefing deadlines, local variations, hearing rules, and motion standards still need governing sources.
 ---
@@ -69,7 +69,7 @@ Record one exact outcome with its authority, reasoning and evidence. For a proce
 
 ### Which briefing or ruling task is requested?
 
-- **Motion.** Build the requested relief, supporting motion and brief and exhibits. If the forum requires a proposed order, confirm its prescribed form and build it separately. When the boxed profile applies, hand a separate Markdown order and `proposed-order` caption to Produce Court Filing. The body includes the unsigned judicial closing. Check the final order against the specific requested relief, the forum’s required form and the primary packet before release. Run Draft Motion with the requested motion and relief, matter and build location, posture, verified rule checks, authority, evidence and conferral record. Supply this procedure assessment so the drafting request does not restart the phase. Keep the phase checklist with its returned draft.
+- **Motion.** Build the requested relief, supporting motion and brief and exhibits. If the forum requires a proposed order, confirm its prescribed form and build it separately. Use the boxed profile’s `proposed-order` type only when the prescribed form matches its unsigned judicial closing. Otherwise prepare the original form outside the tool and record that Court Filing cannot validate it. Hand either version to Produce Court Filing for the applicable production gate, citation clearance, preview and approval of the exact artifact. Check the final order against the specific requested relief, the forum’s required form and the primary packet before release. Run Draft Motion with the requested motion and relief, matter and build location, posture, verified rule checks, authority, evidence and conferral record. Supply this procedure assessment so the drafting request does not restart the phase. Keep the phase checklist with its returned draft.
 - **Response or reply.** Identify the permitted stage, deadline, page limit, issues and applicable standard. Build opposition against the requested relief and supporting record. For a reply, check the permitted rebuttal scope. Where the stage or order is unclear, hold the dependent brief.
 - **Sur-reply.** Treat motion, response and reply as the source’s complete ordinary briefing cycle. A sur-reply requires a verified procedural basis and does not follow automatically. Check leave requirements and whether the supported new matter identified in the screen exceeded permissible rebuttal. If procedure allows a request, obtain `complete` or `exception verified` on the motion conferral check, identify the precise new issue and prejudice, request leave, and attach a short proposed sur-reply limited to that issue. Hold the proposed paper unless leave or another controlling authorization is verified. If procedure does not allow the request, record the rule and stop. A desire for the last word and repetition of the response supply no basis.
 - **Oral argument or ruling.** Verify when and how to request argument, and build an outline of the relief, governing standard, record pinpoints and likely questions. After a ruling, record disposition, compliance terms and dates. Screen reconsideration and rare interlocutory appeal as questions for current authority and counsel where triggered. Do not assume that either changes compliance or appeal timing.
@@ -77,7 +77,7 @@ Record one exact outcome with its authority, reasoning and evidence. For a proce
 
 ### Is the pre-filing record complete?
 
-Record one result and reason for each item: documented conferral or verified exception, accurate conferral statement, certificate with verified counsel names and service addresses, proper format and page length, plain self-represented voice where permitted, standing-order and AI-disclosure or citation-certification check, and clearly stated relief. Mark any open required item as a hold.
+Record one result and reason for each item: documented conferral or verified exception, accurate conferral statement, the required filer or judicial closing for each artifact, certificate treatment with verified counsel names and service addresses where required, proper format and the applicable length limit, plain self-represented voice where permitted, standing-order and AI-disclosure or citation-certification check, and clearly stated relief. Mark any open required item as a hold.
 
 Draft original filing prose within this skill using the [Draft Motion filing prose checklist](../Draft%20Motion/SKILL.md#filing-prose-checklist). Apply its [Document registers](../Draft%20Motion/SKILL.md#document-registers) to each other item. Use its [Opposing-counsel correspondence checklist](../Draft%20Motion/SKILL.md#opposing-counsel-correspondence-checklist) for counsel messages. Follow verified forms and procedural requirements for structured documents.
 

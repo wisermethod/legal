@@ -11,10 +11,11 @@ import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
 import { Marked } from 'marked';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import { checkMarkdownToken, compose } from '../scripts/compose-core.js';
+import { checkMarkdownToken, compose, prepareBody } from '../scripts/compose-core.js';
 import { resolveLimits, validateCaption, validateProfile } from '../scripts/schema-core.js';
 import { printedBodyText, wordCount } from '../scripts/body-text-core.js';
 import { validate } from '../scripts/validate-core.js';
+import { bodyEvidence, removeRepeatedHeaders } from '../scripts/filing-text-core.js';
 
 const tool = fileURLToPath(new URL('..', import.meta.url));
 const cli = join(tool, 'scripts', 'court-filing.js');
@@ -27,7 +28,8 @@ const body = () => readFileSync(asset('example-body.md'), 'utf8');
 const parse = new Marked({ walkTokens: checkMarkdownToken }).parse;
 const digest = text => createHash('sha256').update(text).digest('hex');
 const compos = inputs => compose(inputs, parse, digest);
-const noLimit = ['--no-length-limit', 'Fictional order sets no length limit'];
+const noLimit = ['--no-length-limit'];
+const motionLimit = ['--limit', 'general-motion-pages'];
 const resultOf = response => JSON.parse(response.status === 0 ? response.stdout : response.stderr);
 const run = (args, options = {}) => spawnSync(process.execPath, [cli, ...args], { encoding: 'utf8', ...options });
 const checksByName = output => Object.fromEntries(output.checks.map(({ label, status }) => [label, status]));
@@ -41,21 +43,21 @@ function temp(t) {
 
 test('compose preserves the legacy caption, spacing and signature/service blocks', () => {
   const caption = example();
-  caption.parties.unshift({ role: 'Defendant', name: 'Second <Party>' });
+  caption.parties.splice(1, 0, { role: 'Defendant and Counterclaimant', name: 'Second <Party>' });
   caption.parties.push({ role: 'Plaintiff', name: 'Second Plaintiff' });
-  caption.title = 'An "Example" & Request';
+  caption.title = 'Motion for an "Example" & Request';
   const composed = compos({ caption, body: body(), profile: profile() });
   assert.match(composed.html, /@page \{ size: letter; margin: 1in 1in 1in 1in; \}/);
   assert.match(composed.html, /font-family: 'Times New Roman', Times, serif; font-size: 12pt/);
   assert.match(composed.html, /\.body p \{ line-height: 2;/);
   assert.match(composed.html, /table\.caption \{ break-inside: avoid; \}/);
   assert.match(composed.html, /\.closing \{[^}]+break-inside: avoid/);
-  assert.match(composed.html, /row[^>]*>\s*<td colspan="2" class="doc-title">An &quot;Example&quot; &amp; Request/);
+  assert.match(composed.html, /row[^>]*>\s*<td colspan="2" class="doc-title">Motion for an &quot;Example&quot; &amp; Request/);
   assert.match(composed.html, /&#9650; COURT USE ONLY &#9650;/);
   assert.match(composed.html, /Plaintiff:<\/span> ROWAN EXAMPLE;/);
-  assert.match(composed.html, /Defendant:<\/span> SECOND &lt;PARTY&gt;\./);
+  assert.match(composed.html, /Defendant and Counterclaimant:<\/span> SECOND &lt;PARTY&gt;\./);
   assert.equal((composed.html.match(/class="vs">v\./g) ?? []).length, 1);
-  assert.match(composed.html, /ROWAN EXAMPLE;[\s\S]*SECOND PLAINTIFF;[\s\S]*class="vs">v\.[\s\S]*SECOND &lt;PARTY&gt;\.[\s\S]*IMAGINARY WORKSHOP LLC/);
+  assert.match(composed.html, /ROWAN EXAMPLE;[\s\S]*class="vs">v\.[\s\S]*SECOND &lt;PARTY&gt;\.[\s\S]*IMAGINARY WORKSHOP LLC[\s\S]*SECOND PLAINTIFF;/);
   assert.match(composed.html, /<div class="counsel-label">Pro Se Plaintiff:<\/div>/);
   assert.match(composed.html, /<h2>Statement of the request<\/h2>/);
   assert.match(composed.html, /Respectfully submitted,[\s\S]*Date: ____________________/);
@@ -74,87 +76,87 @@ test('compose preserves the legacy caption, spacing and signature/service blocks
   assert.match(compos({ caption, body: body(), profile: profile() }).html, /class="counsel-label">Counsel for Applicant:/);
 });
 
-test('caption and profile refuse precise invalid field paths and keep supplied rule limits explicit', () => {
-  const badEmail = example();
-  badEmail.service.recipients[0].emails = ['not an email'];
-  assert.throws(() => validateCaption(badEmail), /caption\.service\.recipients\[0\]\.emails\[0\] must be an email address/);
-  assert.throws(() => validateCaption({ ...example(), division: '' }), /caption\.division must be non-blank/);
-  const noSigner = example();
-  delete noSigner.signer;
-  assert.throws(() => validateCaption(noSigner), /caption\.signer is required/);
-  assert.throws(() => validateCaption({ ...example(), parties: [] }), /caption\.parties must be a non-empty array/);
-  const broken = profile();
-  broken.layout.margins_inches.right = '1';
-  assert.throws(() => validateProfile(broken), /profile\.layout\.margins_inches\.right must be a number/);
-  broken.layout.margins_inches.right = 1;
-  broken.layout.footer.format = 'Just a label';
-  assert.throws(() => validateProfile(broken), /profile\.layout\.footer\.format/);
-  assert.throws(() => resolveLimits(profile()), /Choose --limit/);
-  assert.deepEqual(resolveLimits(profile(), 'rule-12-or-56-reply-pages'), {
-    choice: 'profile-preset', pages: 15, words: null, preset: 'rule-12-or-56-reply-pages',
+test('profile types own their title, blocks, packet and limit choices', () => {
+  const current = profile();
+  for (const [change, expected] of [
+    [{ division: '' }, /division must be populated/],
+    [{ signer: undefined }, /signer must be an object/],
+    [{ parties: [] }, /parties must be a non-empty array/],
+    [{ document_type: 'unknown' }, /document_type is not listed/],
+    [{ title: 'Stage Directions' }, /title does not match/],
+  ]) assert.throws(() => validateCaption({ ...example(), ...change }, current), expected);
+  const brokenEmail = example();
+  brokenEmail.service.recipients[0].emails = ['not an email'];
+  assert.throws(() => validateCaption(brokenEmail, current), /caption\.service\.recipients\[0\]\.emails\[0\] must be an email address/);
+  const limited = preset => resolveLimits(current, example(), preset);
+  assert.throws(() => limited(), /Choose --limit/);
+  assert.throws(() => limited({ noLimit: true }), /not allowed for this profile document type/);
+  assert.throws(() => limited({ preset: 'general-reply-pages' }), /not listed for this profile document type/);
+  assert.throws(() => validateCaption({ ...example(), document_type: 'rule-12-or-56-motion' }, current), /title does not match/);
+  assert.equal(validateCaption({ ...example(), document_type: 'rule-12-or-56-motion', title: 'Motion for Summary Judgment' }, current)
+    .document_type, 'rule-12-or-56-motion');
+  assert.deepEqual(limited({ preset: 'general-motion-pages' }), {
+    choice: 'profile-preset', pages: 15, words: null, preset: 'general-motion-pages',
   });
-  assert.throws(() => resolveLimits(profile(), 'general-motion-words', 10), /cannot be combined/);
-  assert.throws(() => resolveLimits(profile(), undefined, 1.5), /--max-pages must be a positive integer/);
+  assert.throws(() => limited({ preset: 'general-motion-words', pages: 10 }), /cannot be combined/);
+  assert.throws(() => limited({ pages: 1.5 }), /--max-pages must be a positive integer/);
+
+  for (const [mutate, expected] of [
+    [p => { p.document_types.motion.filing_packet = 'typo'; }, /must name a listed packet/],
+    [p => { p.document_types.motion.length_presets = ['made-up']; }, /unlisted length preset/],
+    [p => { p.document_types.motion.certificate = false; }, /omission needs/],
+    [p => { p.layout.footer.format = 'Just a label'; }, /profile\.layout\.footer\.format/],
+  ]) {
+    const broken = profile();
+    mutate(broken);
+    assert.throws(() => validateProfile(broken), expected);
+  }
 });
 
-test('the caption requires service or one exact, profile-listed no-certificate reason', () => {
+const orderCaption = () => {
+  const { signer, service, ...fields } = example();
+  return { ...fields, title: '[Proposed] Order Setting a Conference', document_type: 'proposed-order' };
+};
+
+const declarationCaption = () => {
+  const { service, ...fields } = example();
+  return { ...fields, title: 'Declaration of Rowan Example in Support of Response to Motion',
+    document_type: 'supporting-declaration', filing_packet: 'motion_response_with_declaration' };
+};
+
+const initialCaption = () => ({
+  ...example(), title: 'Initial Complaint and Jury Demand', document_type: 'new-case-complaint',
+  filing_packet: 'new_case_complaint', case_number: '', division: '',
+});
+
+test('one exact custom certificate omission is a listed document type', () => {
   const { service, ...initial } = example();
   const listed = profile();
-  const reason = 'fictional-test-exemption';
-  listed.no_service_certificate_reasons = { [reason]: { description: 'Test fixture only.', title: initial.title } };
-  const declared = { ...initial, no_service_certificate: reason };
-  assert.deepEqual(validateCaption(declared, listed), declared);
-  assert.throws(() => validateCaption({ ...declared, title: 'A different motion' }, listed), /not allowed for this title/);
-  assert.throws(() => validateCaption(initial, listed), /exactly one of service and no_service_certificate/);
-  assert.throws(() => validateCaption({ ...declared, service }, listed), /exactly one of service and no_service_certificate/);
-  for (const refused of ['not-listed', 'constructor', reason + ' ', 'before-' + reason]) {
-    assert.throws(() => validateCaption({ ...initial, no_service_certificate: refused }, listed), /no_service_certificate/);
-  }
-  assert.throws(() => validateCaption({ ...initial, no_service_certificate: true }, listed), /no_service_certificate/);
-  delete listed.no_service_certificate_reasons;
-  assert.throws(() => validateCaption(declared, listed), /no_service_certificate is not listed/);
-  assert.deepEqual(validateCaption({ ...initial, service }, listed), { ...initial, service });
-  listed.no_service_certificate_reasons = { [reason]: { description: '', title: initial.title } };
-  assert.throws(() => validateProfile(listed), /no_service_certificate_reasons.*must be non-blank/);
+  const { title_pattern, ...type } = listed.document_types.motion;
+  const caption = { ...initial, document_type: 'fictional-exemption' };
+  listed.document_types[caption.document_type] = { ...type, certificate: false, exact_title: caption.title };
+  assert.deepEqual(validateCaption(caption, listed), caption);
+  assert.throws(() => validateCaption({ ...caption, title: 'Motion for Something Else' }, listed), /title does not match/);
+  assert.throws(() => validateCaption({ ...caption, service }, listed), /service must be omitted/);
+  assert.throws(() => validateCaption({ ...initial, no_service_certificate: 'fictional-exemption' }, listed), /not a recognized field/);
 });
 
-test('the two separate packet artifacts retain their distinct signature and certificate requirements', () => {
-  const { signer, service, ...fields } = example();
-  const order = { ...fields, title: '[Proposed] Order Setting a Conference', document_type: 'proposed-order' };
-  const declaration = { ...fields, signer, title: 'Declaration Supporting a Conference', document_type: 'supporting-declaration' };
-  const proposedBody = 'The request for a conference is granted.\n\nDATED: __________\n\nBY THE COURT: __________\n\nDistrict Court Judge';
+test('packet modes cannot waive service on a motion or invent a judicial form', () => {
+  const order = orderCaption();
+  const declaration = declarationCaption();
+  const proposedBody = 'The request is granted.\n\nDATED: __________\n\nBY THE COURT: __________\n\nDistrict Court Judge';
   const { html: orderHtml } = compos({ caption: order, body: proposedBody, profile: profile() });
   assert.doesNotMatch(orderHtml, /class="(?:closing|cert|counsel-block)"/);
   assert.match(orderHtml, /BY THE COURT: __________/);
   const { html: declarationHtml } = compos({ caption: declaration, body: body(), profile: profile() });
   assert.match(declarationHtml, /class="closing"/);
   assert.doesNotMatch(declarationHtml, /class="cert"/);
-  assert.throws(() => validateCaption({ ...order, signer }, profile()), /proposed order must omit/);
-  assert.throws(() => validateCaption({ ...order, title: example().title }, profile()), /title must identify/);
+  assert.throws(() => validateCaption({ ...order, title: 'Order to Show Cause' }, profile()), /title does not match/);
+  assert.throws(() => validateCaption({ ...order, signer: example().signer }, profile()), /omit filer/);
   assert.throws(() => compos({ caption: order, body: 'The request is denied.', profile: profile() }), /blank signature line/);
-  assert.throws(() => validateCaption({ ...declaration, service }, profile()), /enclosing packet/);
-  assert.throws(() => validateCaption({ ...declaration, title: example().title }, profile()), /must identify a declaration/);
-});
-
-test('using a profile declaration never clears missing PDF evidence', () => {
-  const { service, ...initial } = example();
-  const caption = { ...initial, no_service_certificate: 'fictional-test-exemption' };
-  const currentProfile = profile();
-  currentProfile.no_service_certificate_reasons = { 'fictional-test-exemption': { description: 'Test fixture only.', title: caption.title } };
-  const result = validate({ pdf: new Uint8Array(), caption, profile: currentProfile, limits: resolveLimits(currentProfile, undefined, 1, 10) }, () => null);
-  assert.equal(result.ok, false);
-  assert.equal(result.result, 'VALIDATION FAILED');
-  assert.equal(checksByName(result)['Signer in signature block'], 'not_checked');
-  assert.equal(checksByName(result)['Within page limit (1)'], 'not_checked');
-  assert.equal(checksByName(result)['Within word limit (10)'], 'not_checked');
-  assert.equal(checksByName(result)['Page-number footer'], 'not_checked');
-  assert.deepEqual(result.checks.find(check => check.status === 'not_applicable'), {
-    label: 'Certificate of service present',
-    status: 'not_applicable',
-    detail: 'Not applicable by declaration (' + caption.no_service_certificate + '): ' +
-      currentProfile.no_service_certificate_reasons[caption.no_service_certificate].description,
-  });
-  assert.equal(result.checks.some(check => check.label.startsWith('Service email')), false);
+  assert.throws(() => validateCaption({ ...declaration, filing_packet: undefined }, profile()), /filing_packet/);
+  assert.throws(() => validateCaption({ ...declaration, service: example().service }, profile()), /service must be omitted/);
+  assert.throws(() => validateCaption({ ...declaration, title: 'Motion to Strike the Declaration' }, profile()), /title does not match/);
 });
 
 test('compose refuses raw HTML, image loads and non-document links', () => {
@@ -162,6 +164,11 @@ test('compose refuses raw HTML, image loads and non-document links', () => {
     ['<style>body{font-size:1px}</style>', /raw HTML/],
     ['![Exhibit](https://example.invalid/asset.png)', /contains an image/],
     ['[private file](file:///missing)', /link must use/],
+    ['[citation](https://example.invalid "Title")', /link titles are unsupported/],
+    ["[citation](https://example.invalid '\"><style>p{font-size:8pt}</style>')", /link titles are unsupported/],
+    ['[citation](<https://example.invalid/path with space>)', /link must use/],
+    ['- [ ] Fictional item', /task checkboxes are unsupported/],
+    ['Insert &#x202E;here.', /produce visible filing text/],
   ]) {
     assert.throws(() => compos({ caption: example(), body: markdown, profile: profile() }), expected);
   }
@@ -211,11 +218,11 @@ test('Colorado rejects the withdrawn certificate waiver and composes a blank-num
   const caption = join(scratch, 'caption.json');
   const output = join(scratch, 'initial.html');
   const { service, ...initial } = example();
-  initial.title = 'Fictional Initial Complaint';
+  Object.assign(initial, { ...initialCaption(), service: undefined });
   const composeArgs = ['compose', '--body', asset('example-body.md'), '--caption', caption,
     '--profile', 'colorado-district', '--out', output];
   const validateArgs = ['validate', '--pdf', join(scratch, 'unwritten.pdf'), '--caption', caption,
-    '--profile', 'colorado-district', '--body-sha256', digest(body()), ...noLimit];
+    '--profile', 'colorado-district', '--body', asset('example-body.md'), '--body-sha256', digest(body()), ...noLimit];
   for (const fields of [{}, { no_service_certificate: 'unsupported-reason' },
     { no_service_certificate: ['initial', 'complaint', 'before', 'service'].join('-') },
     { service, no_service_certificate: 'fictional-test-exemption' }]) {
@@ -224,7 +231,7 @@ test('Colorado rejects the withdrawn certificate waiver and composes a blank-num
       const refused = run(args);
       assert.equal(refused.status, 1);
       assert.equal(refused.stdout, '');
-      assert.match(refused.stderr, /no_service_certificate/);
+      assert.match(refused.stderr, /service must be supplied|no_service_certificate/);
     }
     assert.equal(existsSync(output), false);
   }
@@ -235,7 +242,7 @@ test('Colorado rejects the withdrawn certificate waiver and composes a blank-num
   assert.match(html, /CERTIFICATE OF SERVICE/);
   assert.match(html, /<strong>Case No:<\/strong> <\/div>/);
   assert.match(html, /Respectfully submitted/);
-  assert.match(html, /Fictional Initial Complaint/);
+  assert.match(html, /Initial Complaint and Jury Demand/);
 });
 
 test('CLI rejects unknown options, duplicate fields, and private or linked files', t => {
@@ -319,7 +326,7 @@ async function fixture(t, options = {}) {
   const caption = options.caption ?? example();
   const pdf = await PDFDocument.create();
   const composed = compos({ caption, body: fixtureBody, profile: profile() });
-  pdf.setTitle(composed.html.match(/<title>([^<]+)<\/title>/)[1]);
+  pdf.setTitle(options.metadata ?? composed.html.match(/<title>([^<]+)<\/title>/)[1]);
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
   const pages = options.pages ?? 2;
   for (let number = 1; number <= pages; number++) {
@@ -355,6 +362,9 @@ async function fixture(t, options = {}) {
         draw('to:', 261);
         draw(caption.service.recipients[0].name + ' (morgan@example.invalid; ' +
           (options.email ?? 'service@example.invalid') + ')', 237);
+        const svc = caption.service;
+        [svc.firm, ...svc.firm_lines, svc.firm_note, '_____________________________', svc.served_by]
+          .forEach((line, index) => draw(line, 220 - index * 20));
       }
     }
     const footer = 'Page ' + number + ' of ' + (options.wrongTotal ?? pages);
@@ -379,9 +389,12 @@ const certificateHeading = 'CERTIFICATE OF SERVICE';
 function validateFile(path, options = {}) {
   const {
     caption = asset('example-caption.json'), hash = fixtureDigest,
-    profileName = 'colorado-district', flags = noLimit,
+    profileName = 'colorado-district', flags = motionLimit,
   } = options;
-  const cliResult = run(['validate', '--pdf', path, '--caption', caption, '--profile', profileName, '--body-sha256', hash, ...flags]);
+  const bodyPath = join(path, '..', 'fixture.md');
+  writeFileSync(bodyPath, fixtureBody);
+  const cliResult = run(['validate', '--pdf', path, '--caption', caption, '--profile', profileName,
+    '--body-sha256', hash, '--body', bodyPath, ...flags]);
   assert.equal(cliResult.status === 0 ? cliResult.stderr : cliResult.stdout, '');
   return { status: cliResult.status, result: resultOf(cliResult) };
 }
@@ -394,7 +407,8 @@ pdfTest('browser-free PDF verifies both limits, caption, body, ink and footer an
   assert.equal(result.result, 'VALIDATION FAILED');
   assert.equal(result.bodyWords, 5);
   assert.equal(result.pdfBodyWords, 5);
-  assert.deepEqual(result.checks.filter(check => check.status !== 'pass').map(check => check.label), ['Embedded profile fonts']);
+  assert.deepEqual(result.checks.filter(check => check.status !== 'pass').map(check => check.label),
+    ['Embedded profile fonts', 'Profile type size', 'Boxed caption ruling']);
   assert.match(result.checks.find(check => check.label === 'Embedded profile fonts').detail, /Times-Roman \(not embedded\)/);
 });
 
@@ -410,10 +424,10 @@ pdfTest('PDF length and binding catch an expanded body that keeps the compositio
   assert.equal(checks['Printed PDF body matches composition'], 'fail');
   const substituted = checksByName(validateFile(await fixture(t, { bodyText: 'I oppose a fictional conference.' })).result);
   assert.equal(substituted['Printed PDF body matches composition'], 'fail');
-  const other = validateFile(path, { hash: digest('A different body.') });
+  const other = validateFile(await fixture(t, { metadata: 'Court Filing ' + digest('A different body.') }));
   assert.equal(checksByName(other.result)['Composed body SHA-256'], 'fail');
   const assertedBody = run(['validate', '--pdf', path, '--caption', asset('example-caption.json'),
-    '--profile', 'colorado-district', '--body-sha256', fixtureDigest, '--body', asset('example-body.md'), ...noLimit]);
+    '--profile', 'colorado-district', '--body-sha256', fixtureDigest, '--body', asset('example-body.md'), ...motionLimit]);
   assert.equal(assertedBody.status, 1);
   assert.equal(assertedBody.stdout, '');
   assert.match(assertedBody.stderr, /--body does not match --body-sha256/);
@@ -483,8 +497,10 @@ pdfTest('malformed PDF sends one failed validation result to stderr', t => {
 test('missing PDF system programs produce named unchecked results and presence commands on stderr', t => {
   const file = join(temp(t), 'fixture.pdf');
   writeFileSync(file, '%PDF-1.4');
+  const markdown = join(file, '..', 'fixture.md');
+  writeFileSync(markdown, fixtureBody);
   const response = run(['validate', '--pdf', file, '--caption', asset('example-caption.json'),
-    '--profile', 'colorado-district', '--body-sha256', fixtureDigest, ...noLimit], { env: { ...process.env, PATH: '' } });
+    '--profile', 'colorado-district', '--body', markdown, '--body-sha256', fixtureDigest, ...motionLimit], { env: { ...process.env, PATH: '' } });
   assert.equal(response.status, 1);
   assert.equal(response.stdout, '');
   const result = JSON.parse(response.stderr);
@@ -492,28 +508,46 @@ test('missing PDF system programs produce named unchecked results and presence c
   assert.equal(checksByName(result)['PDF parses'], 'not_checked');
   assert.equal(checksByName(result)['Page size'], 'not_checked');
   assert.deepEqual(result.unavailable.map(entry => entry.check),
-    ['pdfinfo -v', 'pdftotext -v', 'pdffonts -v', 'pdftoppm -v']);
+    ['pdfinfo -v', 'pdftotext -v', 'pdffonts -v', 'pdftohtml -v', 'pdfimages -v', 'pdftoppm -v']);
 });
 
 test('unavailable inspection evidence cannot produce a successful gate', () => {
   const result = validate({
-    pdf: new Uint8Array(), caption: example(), profile: profile(), limits: resolveLimits(profile(), 'general-motion-pages'),
-    bodySha256: fixtureDigest, digest,
+    pdf: new Uint8Array(), caption: example(), profile: profile(), limits: resolveLimits(profile(), example(), { preset: 'general-motion-pages' }),
+    prepared: prepareBody(fixtureBody, profile().document_types.motion, parse, digest),
   }, () => null);
   assert.equal(result.ok, false);
   assert.equal(result.result, 'VALIDATION FAILED');
   assert.equal(checksByName(result)['Page-number footer'], 'not_checked');
 });
 
-test('new-case packet alone accepts and requires an empty docket number', () => {
-  const caption = example();
+test('only the complaint type may use the new-case packet and blank docket', () => {
   const current = profile();
-  assert.throws(() => validateCaption({ ...caption, case_number: '' }, current), /case_number must be blank/);
-  const initial = { ...caption, title: 'Fictional Initial Complaint', filing_packet: 'new_case_complaint' };
-  assert.throws(() => validateCaption(initial, current), /case_number must be blank/);
-  assert.throws(() => validateCaption({ ...initial, title: caption.title, case_number: '' }, current), /must identify the complaint/);
-  assert.throws(() => validateCaption({ ...initial, filing_packet: 'unknown_packet', case_number: '' }, current), /not listed/);
-  assert.equal(validateCaption({ ...initial, case_number: '' }, current).case_number, '');
+  const initial = initialCaption();
+  assert.equal(validateCaption(initial, current).case_number, '');
+  assert.throws(() => validateCaption({ ...initial, case_number: '2099CV00000' }, current), /case_number must be blank/);
+  assert.throws(() => validateCaption({ ...initial, title: 'Motion to Amend the Complaint' }, current), /title does not match/);
+  assert.throws(() => validateCaption({ ...initial, title: 'Complaint and Notice of Hearing' }, current), /title does not match/);
+  assert.throws(() => validateCaption({ ...initial, filing_packet: 'unknown_packet' }, current), /filing_packet must match/);
+  assert.throws(() => validateCaption({ ...example(), case_number: '' }, current), /case_number must be populated/);
+  assert.throws(() => resolveLimits(current, initial, { preset: 'general-motion-pages' }), /requires --no-length-limit/);
+  assert.match(run(['validate', '--no-length-limit', 'n/a']).stderr, /Unknown option n\/a/);
+});
+
+test('word evidence reconciles a hyphenated line wrap without accepting different text', () => {
+  assert.deepEqual(bodyEvidence([['This is court-', 'approved.']], 'This is court-approved.'),
+    { wordsMatch: true, pdfBodyWords: 3 });
+  assert.equal(bodyEvidence([['This is courtapproved.']], 'This is court-approved.').wordsMatch, false);
+  assert.equal(bodyEvidence([['This is courtapproved.']], 'This is court approved.').wordsMatch, false);
+});
+
+test('headers are removed only when the bound repeated text ends on a line boundary', () => {
+  const headers = [{ offset: 0, end: 35, text: 'ItemDetail' }];
+  assert.deepEqual(removeRepeatedHeaders([['Item Detail', 'Old entry'], ['Item Detail', 'New entry']], headers),
+    { pages: [['Item Detail', 'Old entry'], ['New entry']], aligned: true });
+  assert.equal(removeRepeatedHeaders([['Item Detail', 'Old entry'], ['Item Detail New entry']], headers).aligned, false);
+  assert.deepEqual(removeRepeatedHeaders([['Item Detail', 'Old entry after the end of that table'], ['Item Detail']],
+    headers).pages[1], ['Item Detail']);
 });
 
 test('the counsel block identifies the role or requires an explicit label', () => {
@@ -533,7 +567,7 @@ test('the counsel block identifies the role or requires an explicit label', () =
     assert.throws(() => compos({ caption, body: body(), profile: profile() }), /counsel_label is required/);
   }
   caption.caption_counsel = false;
-  assert.throws(() => compos({ caption, body: body(), profile: profile() }), /counsel_label is required/);
+  assert.doesNotMatch(compos({ caption, body: body(), profile: profile() }).html, /class="counsel-block"/);
   caption.caption_counsel = true;
   caption.signer.role = 'Pro Se Defendant';
   caption.counsel_label = 'Pro Se Plaintiff:';
@@ -561,7 +595,7 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
   const render = process.env.COURT_FILING_RENDER;
   if (!render) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
   const scratch = temp(t);
-  const initial = { ...example(), title: 'Fictional Initial Complaint', filing_packet: 'new_case_complaint', case_number: '' };
+  const initial = initialCaption();
   const defendant = example();
   defendant.title = 'Defendant’s Motion for a Scheduling Conference, Additional Proposed Dates and Updates to the Fictional Calendar';
   defendant.parties.splice(1, 0, { role: 'Plaintiff', name: 'Grove Fictional' });
@@ -570,17 +604,14 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
   const richBody = '> A quoted sentence.\n\n| Day | Time |\n| --- | --- |\n| Monday | 3 p.m. |\n| Friday | 2 p.m. |\n\nI request a scheduling conference.';
   const exemptProfile = profile();
   const exemptFile = join(scratch, 'test-profile.json');
-  const reason = 'fixture-only-exemption';
   exemptProfile.jurisdiction_id = 'fixture-only';
-  exemptProfile.no_service_certificate_reasons[reason] = { description: 'Fixture only.', title: initial.title };
-  writeFileSync(exemptFile, JSON.stringify(exemptProfile));
   const { service, ...exempt } = initial;
-  exempt.no_service_certificate = reason;
-  const proposed = { ...example(), title: 'Order Setting a Conference', document_type: 'proposed-order' };
-  delete proposed.signer;
-  delete proposed.service;
-  const supporting = { ...example(), title: 'Supporting Declaration of Rowan Example', document_type: 'supporting-declaration' };
-  delete supporting.service;
+  const { title_pattern, ...type } = exemptProfile.document_types['new-case-complaint'];
+  exemptProfile.document_types['fixture-only-exemption'] = { ...type, certificate: false, exact_title: exempt.title };
+  exempt.document_type = 'fixture-only-exemption';
+  writeFileSync(exemptFile, JSON.stringify(exemptProfile));
+  const proposed = orderCaption();
+  const supporting = declarationCaption();
   const table = ['| Entry | Detail |', '| --- | --- |',
     ...Array.from({ length: 90 }, (_, index) => '| Sample ' + index + ' | A fictional table entry. |')]
     .join('\n');
@@ -592,7 +623,8 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
     ['proposed', proposed, 'The fictional conference will be scheduled.\n\nSO ORDERED on __________.\n\n' +
       'BY THE COURT:\n\n________________\n\nDistrict Court Judge', noLimit],
     ['supporting', supporting, fixtureBody, noLimit],
-    ['table', example(), table, noLimit],
+    ['ruled-order', proposed, 'The request is granted.\n\nBY THE COURT:\n\n____________\n\nDistrict Court Judge', noLimit],
+    ['table', example(), table, motionLimit],
   ];
   for (const [name, fields, markdown, flags, selected = 'colorado-district'] of cases) {
     const cap = join(scratch, name + '.json');
@@ -612,11 +644,15 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
     assert.equal(validated.status, 0, name + ': ' + validated.stderr);
     const result = resultOf(validated);
     assert.equal(result.result, 'ALL CHECKS PASSED');
+    assert.equal(result.pdfSha256, digest(readFileSync(out)));
     assert.equal(checksByName(result)['Certificate of service present'],
-      ['exempt', 'proposed', 'supporting'].includes(name) ? 'not_applicable' : 'pass');
+      ['exempt', 'proposed', 'supporting', 'ruled-order'].includes(name) ? 'not_applicable' : 'pass');
     if (name === 'proposed') {
       assert.equal(checksByName(result)['Judicial signature block in proposed order'], 'pass');
       assert.equal(checksByName(result)['Filer signature and certificate of service absent'], 'pass');
+    }
+    if (name === 'ruled-order') {
+      assert.equal(checksByName(result)['Visible judicial signature ruling'], 'pass');
     }
     if (name === 'supporting') {
       assert.equal(checksByName(result)['Signer in signature block'], 'pass');
@@ -652,8 +688,9 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
     }
     if (name === 'initial') {
       assert.equal(result.limits.choice, 'no-length-limit');
-      assert.equal(result.limits.reason, noLimit[1]);
-      assert.equal(checksByName(result)['No length limit declared'], 'pass');
+      assert.equal(result.documentType, 'new-case-complaint');
+      assert.equal(checksByName(result)['No length limit for profile document type'], 'pass');
+      assert.equal(checksByName(result)['Division in caption'], 'pass');
       assert.equal(checksByName(result)['Case number blank for new-case packet'], 'pass');
       const comparison = [...cliArgs];
       comparison[comparison.indexOf(out)] = join(scratch, 'motion.pdf');
@@ -662,4 +699,84 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
       assert.equal(checksByName(resultOf(populated))['Case number blank for new-case packet'], 'fail');
     }
   }
+});
+
+pdfTest('real PDF validation refuses substituted text, layout, extra ink and corrupted certificate fields', t => {
+  const render = process.env.COURT_FILING_RENDER;
+  if (!render) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
+  const scratch = temp(t);
+  const captionPath = join(scratch, 'caption.json');
+  const input = join(scratch, 'original.md');
+  const html = join(scratch, 'original.html');
+  const paragraph = 'The fictional record supports the request for a conference on the dates described below. '.repeat(5).trim();
+  const original = paragraph + '\n\nThe requested relief is available.';
+  writeFileSync(captionPath, JSON.stringify(example()));
+  writeFileSync(input, original);
+  const composed = run(['compose', '--body', input, '--caption', captionPath, '--profile', 'colorado-district', '--out', html]);
+  assert.equal(composed.status, 0, composed.stderr);
+  const { bodySha256, pdfArgs } = resultOf(composed);
+  const source = readFileSync(html, 'utf8');
+  const counterfeitBody = original.replace('available.', 'unavailable.');
+  const fakeTitle = 'Court Filing ' + bodySha256 + ' ' + digest(counterfeitBody.replace(/\s/g, '')) + ' ' + wordCount(counterfeitBody);
+  const variants = [
+    ['substituted', source.replace('relief is available.', 'relief is unavailable.'), 'Printed PDF body matches composition'],
+    ['forged-title', source.replace(/<title>[^<]+<\/title>/u, '<title>' + fakeTitle + '</title>')
+      .replace('relief is available.', 'relief is unavailable.'), 'Printed PDF body matches composition'],
+    ['type-size', source.replace('.body p {', '.body p { font-size: 8pt;'), 'Profile type size'],
+    ['line-spacing', source.replace('.body p { line-height: 2;', '.body p { line-height: 1;'), 'Body paragraph spacing'],
+    ['vector', source.replace('</body>', '<div style="position:fixed;left:20pt;bottom:10pt;width:70pt;height:15pt;background:black"></div></body>'),
+      'Visible filing ink'],
+    ['firm', source.replace('Example Counsel</div>', 'Other Counsel</div>'), 'Certificate firm details'],
+    ['server', source.replace('sig-name">Rowan Example</div>', 'sig-name">Different Person</div>'),
+      'Certificate signer and end of filing'],
+    ['year', source.replace('__________, 2026,', '__________, 2030,'), 'Certificate date fields'],
+  ];
+  const completed = source.replace('Date: ____________________', 'Date: November 20, 2026')
+    .replace('____ day of __________, 2026,', '20th day of November, 2026,')
+    .replaceAll('class="sig-line">_____________________________</div>', 'class="sig-line">/s/ Rowan Example</div>');
+  variants.push(['completed-signatures', completed, null]);
+  for (const [name, page, check] of variants) {
+    const edited = join(scratch, name + '.html');
+    const pdf = join(scratch, name + '.pdf');
+    assert.notEqual(page, source);
+    writeFileSync(edited, page);
+    const rendered = spawnSync(process.execPath, [render, 'pdf', '--input', edited, '--output', pdf, ...pdfArgs], { encoding: 'utf8' });
+    assert.equal(rendered.status, 0, name + ': ' + rendered.stderr);
+    const args = ['validate', '--pdf', pdf, '--caption', captionPath, '--profile', 'colorado-district',
+      '--body-sha256', bodySha256, ...motionLimit];
+    const emptyBody = run(args);
+    assert.equal(emptyBody.stdout, '');
+    assert.match(emptyBody.stderr, /--body is required/);
+    const checked = run([...args, '--body', input]);
+    if (check === null) {
+      assert.equal(checked.status, 0, checked.stderr);
+      assert.equal(resultOf(checked).pdfSha256, digest(readFileSync(pdf)));
+    } else {
+      assert.equal(checked.status, 1);
+      assert.equal(checked.stdout, '');
+      assert.equal(checksByName(resultOf(checked))[check], 'fail', name + ': ' + checked.stderr);
+    }
+  }
+});
+
+pdfTest('supporting declaration cannot carry a certificate heading anywhere in its body', t => {
+  const render = process.env.COURT_FILING_RENDER;
+  if (!render) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
+  const scratch = temp(t);
+  const caption = join(scratch, 'caption.json');
+  const input = join(scratch, 'body.md');
+  const html = join(scratch, 'input.html');
+  const pdf = join(scratch, 'output.pdf');
+  writeFileSync(caption, JSON.stringify(declarationCaption()));
+  writeFileSync(input, fixtureBody + '\n\n## CERTIFICATE OF SERVICE\n\nThis heading cannot replace the enclosing certificate.');
+  const made = run(['compose', '--caption', caption, '--body', input, '--profile', 'colorado-district', '--out', html]);
+  assert.equal(made.status, 0, made.stderr);
+  const { bodySha256, pdfArgs } = resultOf(made);
+  const rendered = spawnSync(process.execPath, [render, 'pdf', '--input', html, '--output', pdf, ...pdfArgs], { encoding: 'utf8' });
+  assert.equal(rendered.status, 0, rendered.stderr);
+  const refused = run(['validate', '--pdf', pdf, '--caption', caption, '--profile', 'colorado-district',
+    '--body', input, '--body-sha256', bodySha256, ...noLimit]);
+  assert.equal(refused.status, 1);
+  assert.equal(refused.stdout, '');
+  assert.equal(checksByName(resultOf(refused))['Certificate of service absent'], 'fail');
 });

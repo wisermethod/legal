@@ -7,9 +7,9 @@ import { createHash, randomUUID } from 'node:crypto';
 import { homedir } from 'node:os';
 import { dirname, extname, isAbsolute, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { checkMarkdownToken, compose } from './compose-core.js';
+import { checkMarkdownToken, compose, prepareBody } from './compose-core.js';
 import { RASTER_DPI } from './pdf-evidence-core.js';
-import { resolveLimits, validateCaption, validateProfile } from './schema-core.js';
+import { documentType, resolveLimits, validateCaption, validateProfile } from './schema-core.js';
 import { MAX_PDF_PAGES, validate } from './validate-core.js';
 
 const SCRIPT = fileURLToPath(import.meta.url);
@@ -115,7 +115,7 @@ function rememberConsent(root) {
 
 const COMMANDS = {
   compose: { required: ['--body', '--caption', '--profile', '--out'], optional: [], install: true },
-  validate: { required: ['--pdf', '--caption', '--profile', '--body-sha256'], optional: ['--body', '--limit', '--max-pages', '--max-words', '--no-length-limit'], install: false },
+  validate: { required: ['--pdf', '--caption', '--profile', '--body-sha256', '--body'], optional: ['--limit', '--max-pages', '--max-words'], switches: ['--no-length-limit'], install: true },
   profiles: { required: [], optional: [], install: false },
   check: { required: [], optional: [], install: true },
 };
@@ -125,6 +125,8 @@ const POPPLER = {
   text: 'pdftotext',
   'positioned-text': 'pdftotext',
   fonts: 'pdffonts',
+  typography: 'pdftohtml',
+  images: 'pdfimages',
   raster: 'pdftoppm',
 };
 const PROGRAMS = [...new Set(Object.values(POPPLER))];
@@ -133,13 +135,13 @@ function usage() {
   return [
     'Usage:',
     '  node scripts/court-filing.js compose --body <absolute Markdown path> --caption <absolute JSON path> --profile <id or absolute JSON path> --out <new absolute HTML path> [--install]',
-    '  node scripts/court-filing.js validate --pdf <absolute PDF path> --caption <absolute JSON path> --profile <id or absolute JSON path> --body-sha256 <compose digest> [--body <absolute Markdown path>] (--limit <id> | --max-pages <N> and/or --max-words <N> | --no-length-limit <reason>)',
+    '  node scripts/court-filing.js validate --pdf <absolute PDF path> --caption <absolute JSON path> --profile <id or absolute JSON path> --body-sha256 <compose digest> --body <absolute Markdown path> (--limit <id> | --max-pages <N> and/or --max-words <N> | --no-length-limit) [--install]',
     '  node scripts/court-filing.js profiles',
     '  node scripts/court-filing.js check [--install]',
     '  ' + HELP + ' (or --help, also after a command)',
     '',
-    '--body optionally checks the original Markdown against --body-sha256. Words are measured on the PDF.',
-    '--limit selects a profile preset. --max-pages and --max-words are independent explicit maxima.',
+    '--body is required. Validation parses the original Markdown independently and checks it against the PDF.',
+    '--limit selects a preset listed for the document type. --no-length-limit is only for a profile type without a limit.',
     '--install authorizes the package install and completes this command. ' + INSTALL_ONCE,
     '',
   ].join('\n');
@@ -152,7 +154,7 @@ function parseFlags(command, args) {
   for (let index = 0; index < args.length; index++) {
     const option = args[index];
     if (values.has(option)) throw new Error('Duplicate option ' + option + '. Run ' + HELP + '.');
-    if (option === '--install' && spec.install) {
+    if ((option === '--install' && spec.install) || spec.switches?.includes(option)) {
       values.set(option, true);
     } else if ([...spec.required, ...spec.optional].includes(option)) {
       const value = args[++index];
@@ -299,6 +301,8 @@ function inspect(kind, input, page) {
     'page-info': ['-box', '-f', '1', '-l', String(MAX_PDF_PAGES), '-'],
     text: ['-enc', 'UTF-8', '-raw', '-', '-'],
     'positioned-text': ['-enc', 'UTF-8', '-tsv', '-', '-'],
+    typography: ['-xml', '-stdout', '-zoom', '4', '-noroundcoord', '-fontfullname', '-i', '-hidden', '-', '-'],
+    images: ['-list', '-'],
     fonts: ['-'],
     raster: ['-r', String(RASTER_DPI), '-gray', '-singlefile', '-f', String(page), '-l', String(page), '-'],
   };
@@ -365,17 +369,22 @@ async function main(args) {
     const marked = markedState();
     result = {
       marked, markedVersion: MARKED_VERSION, poppler: programs,
-      ready: { compose: marked === 'complete', validate: Object.values(programs).every(Boolean) },
+      ready: { compose: marked === 'complete', validate: marked === 'complete' && Object.values(programs).every(Boolean) },
     };
   } else {
     const profile = loadProfile(flags.get('--profile'));
     const captionPath = screened('--caption', flags.get('--caption'), '.json');
-    const bodyPath = flags.has('--body') ? screened('--body', flags.get('--body'), '.md') : null;
+    const bodyPath = screened('--body', flags.get('--body'), '.md');
+    let body;
+    try {
+      body = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(readInput(bodyPath, '--body'));
+    } catch (error) {
+      if (error instanceof TypeError) throw new Error('--body must be valid UTF-8.');
+      throw error;
+    }
     const caption = validateCaption(json(captionPath, '--caption'), profile);
     if (command === 'compose') {
       const out = screened('--out', flags.get('--out'), '.html', true);
-      const body = readInput(bodyPath, '--body', 'utf8');
-      if (!body.trim()) throw new Error('--body must contain filing text.');
       const parse = await markdownParser(explicitInstall);
       const composed = compose({ caption, body, profile }, parse, digest);
       writeHtml(out, composed.html);
@@ -386,22 +395,26 @@ async function main(args) {
     } else {
       const pdfPath = screened('--pdf', flags.get('--pdf'), '.pdf');
       const numeric = key => flags.has(key) ? (/^\d+$/.test(flags.get(key)) ? Number(flags.get(key)) : NaN) : undefined;
-      const limits = resolveLimits(profile, flags.get('--limit'), numeric('--max-pages'), numeric('--max-words'), flags.get('--no-length-limit'));
+      const limits = resolveLimits(profile, caption, {
+        preset: flags.get('--limit'), pages: numeric('--max-pages'), words: numeric('--max-words'), noLimit: flags.has('--no-length-limit'),
+      });
       const bodySha256 = flags.get('--body-sha256');
       if (!/^[a-f0-9]{64}$/.test(bodySha256)) throw new Error('--body-sha256 must be the lowercase SHA-256 returned by compose.');
-      if (bodyPath && digest(readInput(bodyPath, '--body', 'utf8')) !== bodySha256) {
+      if (digest(body) !== bodySha256) {
         throw new Error('--body does not match --body-sha256. Pass the original Markdown or compose and render again.');
       }
+      const parse = await markdownParser(explicitInstall);
+      const prepared = prepareBody(body, documentType(profile, caption), parse, digest);
       const dependencies = popplerVersions();
       const missing = PROGRAMS.filter(program => !dependencies[program]);
       const pdf = readInput(pdfPath, '--pdf');
       if (pdf.byteLength > MAX_PDF_BYTES) throw new Error('--pdf exceeds the 16 MiB inspection ceiling.');
       const unavailable = missing.map(program => ({ program, check: program + ' -v' }));
       const resultOfValidation = validate({
-        pdf, caption, profile, limits, bodySha256, digest,
+        pdf, caption, profile, limits, prepared,
         parseUnavailable: !dependencies.pdfinfo || !dependencies.pdftotext,
       }, (kind, ...args) => dependencies[POPPLER[kind]] ? inspect(kind, ...args) : null);
-      result = { profile: profile.jurisdiction_id, ...resultOfValidation, unavailable };
+      result = { profile: profile.jurisdiction_id, ...resultOfValidation, pdfSha256: digest(pdf), unavailable };
       if (!result.ok) {
         result.remediation = 'Resolve the failed or unchecked evidence listed in checks, then compose and render again if an input or the filing body changed.';
       }

@@ -3,7 +3,7 @@ name: Venue Selection
 type: skill
 category: litigation-phase
 description: A sourced court and venue comparison with jurisdiction, threshold, timing, and procedural risk checks in the matter file
-version: 0.3.0
+version: 0.4.0
 gaps:
   - Local court variations and case-specific venue, fee, appeal, transfer and removal questions still need current sources.
 ---
@@ -90,7 +90,7 @@ For a court comparison, check and record the amount calculation, all state and f
 ## Pitfalls
 
 - Ambiguous matter, request, or conflicting objectives. Read the governing `AGENTS.md` and the confirmed matter's deadline record first where possible, then ask the smallest question that resolves the ambiguity.
-- A practice lead is mistaken for a jurisdictional fact, fixed formula, waived objection or current local fee. Identify the actual source needed and hold the dependent comparison or deadline. This phase supplies no verified defaults.
+- A practice lead is mistaken for a jurisdictional fact, fixed formula, waived objection or current local fee. Apply the working matrix for planning. Identify the governing source needed for confirmation and hold reliance on any unresolved requirement.
 
 ## Success
 

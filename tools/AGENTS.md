@@ -6,21 +6,21 @@ Deterministic operations that skills and experts call. `wiser/standards/primitiv
 
 | Tool | Description |
 |---|---|
-| `Court Filing/TOOL.md` | Compose and check profiled court filings from Markdown and caption data, including separate proposed orders and supporting declarations |
+| `Court Filing/TOOL.md` | Compose and check profiled court filings from Markdown and caption data, using profile-defined document types and filing blocks |
 
 ## Installing
 
 | Tool needing no install | Reason |
 |---|---|
-| `Court Filing` `help`, `profiles`, `check` without install, and `validate` | Node built-ins cover these commands. PDF validation requires `pdfinfo`, `pdftotext`, `pdffonts` and `pdftoppm` from Poppler on PATH; the tool surveys them and does not install them. |
+| `Court Filing` `help`, `profiles` and `check` without install | These commands use Node built-ins. |
 
-`compose` needs Marked 12.0.2. The first command needing it can install it with the plugin's install consent. `check --install` can prepare the same dependency. The download comes from `registry.npmjs.org`. Chromium for `render pdf` and packages for `word-document` are covered by `wiser/tools/AGENTS.md`.
+`compose` and `validate` share Marked 12.0.2. Validation also uses `pdfinfo`, `pdftotext`, `pdffonts`, `pdftohtml`, `pdfimages` and `pdftoppm` from Poppler on PATH. The tool surveys Poppler programs without installing them. The first command needing it can install it with the plugin's install consent. `check --install` can prepare the same dependency. The download comes from `registry.npmjs.org`. Chromium for `render pdf` and packages for `word-document` are covered by `wiser/tools/AGENTS.md`.
 
 ## Everything the tool writes, and where
 
 | What | Where | Which commands |
 |---|---|---|
-| Pinned Marked runtime package | `node_modules/` in the installed Court Filing directory | `compose`, `check --install` on a permitted install |
+| Pinned Marked runtime package | `node_modules/` in the installed Court Filing directory | `compose`, `validate`, `check --install` on a permitted install |
 | npm cache and logs | npm's configured cache, `~/.npm` by default | Package install |
 | Install consent markers | `.wiser-consent` in the platform user-config directory from `wiser/gateway/SETUP.md` and the matching Legal plugin copy | Package install with newly supplied consent |
 | Court filing HTML | The fresh caller-named absolute `--out` outside the tool. A temporary sibling is removed after ordinary success or failure. | `compose` |

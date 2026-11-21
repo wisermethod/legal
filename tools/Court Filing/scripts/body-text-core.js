@@ -6,7 +6,7 @@ const entities = {
 };
 
 function decodeEntities(text) {
-  return text.replace(/&(#(?:x[\da-f]+|\d+)|[a-z][a-z\d]*);/gi, (entity, key) => {
+  const decoded = text.replace(/&(#(?:x[\da-f]+|\d+)|[a-z][a-z\d]*);/gi, (entity, key) => {
     if (key[0] === '#') {
       const point = /^#x/i.test(key) ? Number.parseInt(key.slice(2), 16) : Number(key.slice(1));
       if (point > 0 && point <= 0x10ffff && !(point >= 0xd800 && point <= 0xdfff)) {
@@ -17,22 +17,37 @@ function decodeEntities(text) {
     }
     throw new Error('Use the literal Unicode character instead of unsupported HTML entity ' + entity + ' in the body.');
   });
+  if (/[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/u.test(decoded.replace(/[\t\r\n]/g, ''))) {
+    throw new Error('Markdown entities must produce visible filing text.');
+  }
+  return decoded;
 }
 
 export const normalize = text => text.replace(/\s+/gu, ' ').trim();
-export const canonicalBody = text => text.normalize('NFKC').replace(/[\s\u00ad\u200b\ufeff\u2022\u25e6\u25aa]+/gu, '');
+// Poppler expands these font ligatures. Keep every other printed character,
+// including superscripts and literal bullets, distinct.
+const ligatures = { ﬀ: 'ff', ﬁ: 'fi', ﬂ: 'fl', ﬃ: 'ffi', ﬄ: 'ffl' };
+export const canonicalBody = text => text.normalize('NFC').replace(/[ﬀﬁﬂﬃﬄ]/gu, glyph => ligatures[glyph]).replace(/\s/gu, '');
 
-export function judicialClosing(printed) {
-  return /BYTHECOURT:[^:]{0,100}JUDGE[.]?$/iu.test(canonicalBody(printed));
+export function judicialClosing(printed, ruled = false) {
+  const ending = /(?:^|\s)BY *THE *COURT *:\s*(_{3,})? *([\p{L} .,'’-]{0,100}JUDGE\.?)$/iu.exec(normalize(printed));
+  return Boolean(ending && (ruled ? ending[1] === undefined : ending[1]));
 }
 
-export function tableHeaderBindings(html, digest) {
-  return Array.from(html.matchAll(/<thead>([\s\S]*?)<\/thead>/g), match => {
-    const header = canonicalBody(printedBodyText(match[1]));
-    if (!header) return null;
-    const offset = canonicalBody(printedBodyText(html.slice(0, match.index))).length;
-    return [offset, header.length, digest(header)].join(':');
-  }).filter(Boolean);
+export function blockBindings(html, tag) {
+  const pattern = new RegExp('<' + tag + '>([\\s\\S]*?)</' + tag + '>', 'g');
+  return Array.from(html.matchAll(pattern), match => ({
+    offset: canonicalBody(printedBodyText(html.slice(0, match.index))).length,
+    length: canonicalBody(printedBodyText(match[1])).length,
+  }));
+}
+
+export function tableHeaderBindings(html) {
+  return Array.from(html.matchAll(/<table>\s*<thead>([\s\S]*?)<\/thead>[\s\S]*?<\/table>/g), match => ({
+    offset: canonicalBody(printedBodyText(html.slice(0, match.index))).length,
+    end: canonicalBody(printedBodyText(html.slice(0, match.index + match[0].length))).length,
+    text: canonicalBody(printedBodyText(match[1])),
+  })).filter(header => header.text);
 }
 
 export function printedBodyText(html, includeListNumbers = true) {
@@ -59,4 +74,22 @@ export function printedBodyText(html, includeListNumbers = true) {
 
 export function wordCount(text) {
   return normalize(text).match(/\S+/gu)?.length ?? 0;
+}
+
+
+export function bodyMarks(html, ruledClosing) {
+  const marks = [];
+  const lists = [];
+  for (const match of html.matchAll(/<(\/?)(ul|ol|li|hr)\b[^>]*>/gu)) {
+    const [, closing, tag] = match;
+    if (tag === 'ul' || tag === 'ol') {
+      if (closing) lists.pop();
+      else lists.push(tag);
+    } else if (!closing && (tag === 'hr' || lists.at(-1) === 'ul')) {
+      marks.push({ kind: tag === 'hr' ? 'rule' : 'bullet',
+        offset: canonicalBody(printedBodyText(html.slice(0, match.index))).length });
+    }
+  }
+  if (ruledClosing) marks.splice(marks.findLastIndex(mark => mark.kind === 'rule'), 1);
+  return marks;
 }

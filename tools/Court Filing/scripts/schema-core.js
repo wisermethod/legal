@@ -10,7 +10,7 @@ function required(value, at, predicate, expectation) {
   if (!predicate(value)) throw new Error(at + ' must be ' + expectation + '.');
 }
 
-const isText = value => typeof value === 'string' && value.trim() !== '' && !/[\u0000-\u001f\u007f]/u.test(value);
+const isText = value => typeof value === 'string' && value.trim() !== '' && !/[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/u.test(value);
 const text = (value, at) => required(value, at, isText, 'non-blank single-line text');
 const bool = (value, at) => required(value, at, x => typeof x === 'boolean', 'a boolean');
 const positive = (value, at) => required(value, at, x => Number.isSafeInteger(x) && x > 0, 'a positive integer');
@@ -65,15 +65,17 @@ const recipient = shape({ name: text, emails: list(email) });
 const service = shape({ recipients: list(recipient, 1) }, {
   method: text, served_by: text, firm: text, firm_lines: list(text), firm_note: text,
 });
+const blankable = (value, at) => { if (value !== '') text(value, at); };
 const captionShape = shape({
   court: text,
   parties: list(party, 1),
-  case_number: (value, at) => { if (value !== '') text(value, at); },
-  division: text,
+  case_number: blankable,
+  division: blankable,
   title: text,
+  document_type: id,
+  court_address: text,
 }, {
-  signer, court_address: text, caption_counsel: bool, counsel_label: text, service, no_service_certificate: id,
-  filing_packet: text, document_type: choice('proposed-order', 'supporting-declaration'),
+  signer, caption_counsel: bool, counsel_label: text, service, filing_packet: text,
 });
 
 export function counselLabel(caption) {
@@ -99,48 +101,34 @@ export function counselLabel(caption) {
   throw new Error('caption.counsel_label is required when the signer role does not identify one side or a named party.');
 }
 
+export function documentType(profile, caption) {
+  return Object.hasOwn(profile.document_types, caption.document_type) ? profile.document_types[caption.document_type] : null;
+}
+
 export function validateCaption(value, profile, at = 'caption') {
   captionShape(value, at);
-  if (value.filing_packet !== undefined && !Object.hasOwn(profile?.filing_packets ?? {}, value.filing_packet)) {
-    throw new Error(at + '.filing_packet is not listed for this profile. Run profiles.');
+  const treatment = documentType(profile, value);
+  if (!treatment) throw new Error(at + '.document_type is not listed for this profile. Run profiles.');
+  const titleMatches = treatment.exact_title !== undefined ? value.title === treatment.exact_title :
+    new RegExp('^(?:' + treatment.title_pattern + ')$', 'iu').test(value.title);
+  if (!titleMatches) throw new Error(at + '.title does not match the pattern for ' + value.document_type + '.');
+  if ((value.filing_packet ?? null) !== treatment.filing_packet) {
+    throw new Error(at + '.filing_packet must match the profile document type: ' + (treatment.filing_packet ?? 'omit it') + '.');
   }
-  const newCase = value.filing_packet !== undefined && value.filing_packet === profile?.new_case_packet;
-  if (newCase && !/\bcomplaint\b/i.test(value.title)) {
-    throw new Error(at + '.title must identify the complaint for the new-case packet.');
+  if ((value.case_number === '') !== treatment.blank_case_number) {
+    throw new Error(at + '.case_number must be ' + (treatment.blank_case_number ? 'blank' : 'populated') + ' for this document type.');
   }
-  if ((value.case_number === '') !== newCase) {
-    throw new Error(at + '.case_number must be blank for the new-case packet and populated for every other filing.');
+  if (value.division === '' && !treatment.allow_blank_division) throw new Error(at + '.division must be populated for this document type.');
+  if (treatment.filer_signature) {
+    if (!value.signer) throw new Error(at + '.signer is required.');
+    if (value.caption_counsel !== false) counselLabel(value);
+  } else if (value.signer || value.caption_counsel === true || value.counsel_label) {
+    throw new Error(at + ' must omit filer and counsel blocks for this document type.');
   }
-  if (value.document_type === 'proposed-order') {
-    if (!/^(?:\[proposed\]\s+|proposed\s+)?order\b/i.test(value.title.trim())) {
-      throw new Error(at + '.title must identify the proposed order.');
-    }
-    if (value.signer || value.service || value.no_service_certificate || value.filing_packet ||
-        value.caption_counsel === true || value.counsel_label) {
-      throw new Error(at + ' proposed order must omit filer, counsel and certificate blocks and use the judicial signature block in the body.');
-    }
-    return value;
+  if (Boolean(value.service) !== treatment.certificate) {
+    throw new Error(at + '.service must be ' + (treatment.certificate ? 'supplied' : 'omitted') + ' for this document type.');
   }
-  if (!value.signer) throw new Error(at + '.signer is required.');
-  if (at === 'caption') counselLabel(value);
-  if (value.document_type === 'supporting-declaration') {
-    if (!/\b(?:declaration|affidavit)\b/i.test(value.title) || value.service ||
-        value.no_service_certificate || value.filing_packet) {
-      throw new Error(at + ' supporting declaration must identify a declaration or affidavit and use the enclosing packet’s certificate.');
-    }
-    return value;
-  }
-  if (Object.hasOwn(value, 'service') === Object.hasOwn(value, 'no_service_certificate')) {
-    throw new Error(at + ' must supply exactly one of service and no_service_certificate.');
-  }
-  if (Object.hasOwn(value, 'no_service_certificate')) {
-    if (!Object.hasOwn(profile?.no_service_certificate_reasons ?? {}, value.no_service_certificate)) {
-      throw new Error(at + '.no_service_certificate is not listed for this profile. Run profiles.');
-    }
-    const allowed = profile.no_service_certificate_reasons[value.no_service_certificate];
-    if (value.title !== allowed.title) throw new Error(at + '.no_service_certificate is not allowed for this title.');
-    return value;
-  }
+  if (!treatment.certificate) return value;
   if (value.service.method === undefined || value.service.method.toLowerCase().trim() === 'email') {
     value.service.recipients.forEach((entry, index) =>
       list(email, 1)(entry.emails, at + '.service.recipients[' + index + '].emails'));
@@ -203,13 +191,31 @@ const packets = (value, at) => {
   }
 };
 
-function noServiceCertificateReasons(value, at) {
+const documentTypes = (value, at) => {
   object(value, at);
-  for (const [key, reason] of Object.entries(value)) {
-    id(key, at + ' reason identifier');
-    shape({ description: text, title: text })(reason, at + '.' + key);
+  const entry = shape({
+    filer_signature: bool, certificate: bool, judicial_closing: bool, blank_case_number: bool,
+    allow_blank_division: bool, filing_packet: (packet, field) => { if (packet !== null) text(packet, field); },
+    length_presets: (value, at) => { if (value !== null) list(id)(value, at); },
+  }, { exact_title: text, title_pattern: text });
+  for (const [key, treatment] of Object.entries(value)) {
+    id(key, at + ' document type identifier');
+    const path = at + '.' + key;
+    entry(treatment, path);
+    if (Boolean(treatment.exact_title) === Boolean(treatment.title_pattern)) {
+      throw new Error(path + ' requires one of exact_title and title_pattern.');
+    }
+    if (treatment.title_pattern) new RegExp('^(?:' + treatment.title_pattern + ')$', 'iu');
+    if (treatment.judicial_closing && (treatment.filer_signature || treatment.certificate) ||
+        !treatment.judicial_closing && !treatment.filer_signature ||
+        !treatment.certificate && !treatment.judicial_closing && !treatment.filing_packet && !treatment.exact_title) {
+      throw new Error(path + ' has inconsistent filing blocks. An omission needs a judicial closing, listed packet or exact title.');
+    }
+    if (treatment.blank_case_number && !treatment.filing_packet) {
+      throw new Error(path + ' needs a filing packet to leave the case number blank.');
+    }
   }
-}
+};
 
 const profileShape = shape({
   jurisdiction_id: id,
@@ -220,12 +226,20 @@ const profileShape = shape({
   validation,
   rules: list(shape({ citation, verification: evidence, notes: text })),
   filing_packets: packets,
-}, { no_service_certificate_reasons: noServiceCertificateReasons, new_case_packet: text });
+  document_types: documentTypes,
+});
 
 export function validateProfile(value) {
   profileShape(value, 'profile');
-  if (value.new_case_packet !== undefined && !Object.hasOwn(value.filing_packets, value.new_case_packet)) {
-    throw new Error('profile.new_case_packet must name a listed filing packet.');
+  for (const [key, treatment] of Object.entries(value.document_types)) {
+    if (treatment.filing_packet !== null && !Object.hasOwn(value.filing_packets, treatment.filing_packet)) {
+      throw new Error('profile.document_types.' + key + '.filing_packet must name a listed packet.');
+    }
+    for (const preset of treatment.length_presets ?? []) {
+      if (!Object.hasOwn(value.validation.limits, preset)) {
+        throw new Error('profile.document_types.' + key + ' refers to an unlisted length preset.');
+      }
+    }
   }
   validateCaption(value.caption_defaults, value, 'profile.caption_defaults');
   const { page_size, margins_inches: margins, footer } = value.layout;
@@ -239,22 +253,24 @@ export function validateProfile(value) {
   return value;
 }
 
-export function resolveLimits(profile, preset, pages, words, noLimit) {
-  if (noLimit !== undefined) {
+export function resolveLimits(profile, caption, { preset, pages, words, noLimit = false } = {}) {
+  const allowed = documentType(profile, caption).length_presets;
+  if (noLimit) {
     if ([preset, pages, words].some(value => value !== undefined)) {
       throw new Error('--no-length-limit cannot be combined with a preset or explicit maxima.');
     }
-    text(noLimit, '--no-length-limit reason');
-    return { choice: 'no-length-limit', pages: null, words: null, preset: null, reason: noLimit };
+    if (allowed !== null) throw new Error('--no-length-limit is not allowed for this profile document type.');
+    return { choice: 'no-length-limit', pages: null, words: null, preset: null };
   }
+  if (allowed === null) throw new Error('This profile document type requires --no-length-limit.');
   if (preset !== undefined) {
     if (pages !== undefined || words !== undefined) {
       throw new Error('--limit cannot be combined with --max-pages or --max-words.');
     }
-    const selected = Object.hasOwn(profile.validation.limits, preset) && profile.validation.limits[preset];
-    if (!selected) throw new Error('--limit ' + preset + ' is not listed for this profile. Run profiles.');
+    if (!allowed.includes(preset)) throw new Error('--limit is not listed for this profile document type. Run profiles.');
+    const selected = profile.validation.limits[preset];
     if (selected.verification === 'verify') {
-      throw new Error('--limit ' + preset + ' requires verification. Use an explicit maximum after checking the applicable rule or order.');
+      throw new Error('This --limit requires verification. Use an explicit maximum after checking the applicable rule or order.');
     }
     return {
       choice: 'profile-preset',
@@ -266,7 +282,7 @@ export function resolveLimits(profile, preset, pages, words, noLimit) {
   if (pages !== undefined) positive(pages, '--max-pages');
   if (words !== undefined) positive(words, '--max-words');
   if (pages === undefined && words === undefined) {
-    throw new Error('Choose --limit, --max-pages and/or --max-words, or --no-length-limit with the reason.');
+    throw new Error('Choose --limit or supply --max-pages and/or --max-words.');
   }
   return { choice: 'explicit-maxima', pages: pages ?? null, words: words ?? null, preset: null };
 }

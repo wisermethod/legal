@@ -7,7 +7,8 @@
   ],
   "case_number": "2099CV00000",
   "division": "X",
-  "title": "Plaintiff's Example Motion",
+  "title": "Plaintiff's Motion for a Conference",
+  "document_type": "motion",
   "signer": {
     "name": "Rowan Example",
     "role": "Pro Se Plaintiff",

@@ -43,7 +43,7 @@
     ],
     "case_number": "[Case Number]",
     "division": "[Division]",
-    "title": "[Document Title in Title Case]",
+    "title": "Plaintiff's Motion for [Relief]",
     "signer": {
       "name": "[Your Name]",
       "role": "Pro Se [Plaintiff/Defendant]",
@@ -71,7 +71,9 @@
         "[City, State ZIP]"
       ],
       "firm_note": "Attorneys for [Party Name]"
-    }
+    },
+    "document_type": "motion",
+    "counsel_label": "[Counsel Label]:"
   },
   "validation": {
     "limits": {
@@ -156,7 +158,6 @@
       "notes": "Word limits for the listed C.R.C.P. 12 and 56 motion classes were not separately confirmed in the source."
     }
   ],
-  "no_service_certificate_reasons": {},
   "filing_packets": {
     "new_case_complaint": {
       "description": "Colorado district court civil new case initiation (CV, claims over $25,000)",
@@ -210,7 +211,182 @@
         "Current filing fee amount [verify].",
         "Fee-waiver motion and financial affidavit form number [verify]."
       ]
+    },
+    "motion_response_with_declaration": {
+      "description": "Motion-response packet containing a separately captioned declaration.",
+      "required_at_filing": [
+        {
+          "item": "Response and packet certificate",
+          "method": "Court Filing",
+          "notes": "Verify in the governing materials that the response's certificate covers the declaration.",
+          "citation": null,
+          "verification": "verify"
+        }
+      ],
+      "post_filing_steps": [],
+      "notes": [
+        "Keep the declaration with the verified enclosing packet."
+      ]
     }
   },
-  "new_case_packet": "new_case_complaint"
+  "document_types": {
+    "motion": {
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?motion\\b.*",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": [
+        "general-motion-pages",
+        "general-motion-words"
+      ]
+    },
+    "rule-12-or-56-motion": {
+      "title_pattern": "(?=.*\\b(?:summary judgment|rule +(?:12\\(b\\)\\([12]\\)|56\\b)|c\\.r\\.c\\.p\\. +(?:12\\(b\\)\\([12]\\)|56\\b)))(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?motion\\b.*",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": [
+        "rule-12-or-56-motion-pages"
+      ]
+    },
+    "response": {
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:response|opposition)(?: +brief)?\\b.*",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": [
+        "general-motion-pages",
+        "general-motion-words"
+      ]
+    },
+    "rule-12-or-56-response": {
+      "title_pattern": "(?=.*\\b(?:summary judgment|rule +(?:12\\(b\\)\\([12]\\)|56\\b)|c\\.r\\.c\\.p\\. +(?:12\\(b\\)\\([12]\\)|56\\b)))(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:response|opposition)(?: +brief)?\\b.*",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": [
+        "rule-12-or-56-motion-pages"
+      ]
+    },
+    "reply": {
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?reply(?: +brief)?\\b.*",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": [
+        "general-reply-pages",
+        "general-reply-words"
+      ]
+    },
+    "rule-12-or-56-reply": {
+      "title_pattern": "(?=.*\\b(?:summary judgment|rule +(?:12\\(b\\)\\([12]\\)|56\\b)|c\\.r\\.c\\.p\\. +(?:12\\(b\\)\\([12]\\)|56\\b)))(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?reply(?: +brief)?\\b.*",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": [
+        "rule-12-or-56-reply-pages"
+      ]
+    },
+    "brief": {
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:brief|memorandum) +in +support +of +(?:a +)?motion\\b.*",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": [
+        "general-motion-pages",
+        "general-motion-words"
+      ]
+    },
+    "new-case-complaint": {
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:verified +)?(?:initial +)?complaint\\b(?!(?:.*\\b(?:motion|response|reply|brief|notice)\\b)).*",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": true,
+      "allow_blank_division": true,
+      "filing_packet": "new_case_complaint",
+      "length_presets": null
+    },
+    "amended-complaint": {
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:verified +)?(?:(?:first|second|third) +)?amended +complaint\\b(?!(?:.*\\b(?:motion|response|reply|brief|notice)\\b)).*",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": null
+    },
+    "answer": {
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?answer\\b.*",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": null
+    },
+    "discovery-request": {
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:first|second|third|fourth) +)?(?:interrogatories|requests? +for +(?:production|admissions?))\\b.*",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": null
+    },
+    "case-management-submission": {
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:joint +)?proposed +case[- ]management +order",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": null
+    },
+    "proposed-order": {
+      "title_pattern": "(?:(?:\\[proposed\\]|proposed) +)?order +(?:granting|denying|approving|resolving|setting|on)\\b.*",
+      "filer_signature": false,
+      "certificate": false,
+      "judicial_closing": true,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": null
+    },
+    "supporting-declaration": {
+      "title_pattern": "(?:supporting +)?(?:declaration|affidavit) +of +.+ +in +support +of +(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:response|opposition)\\b.*",
+      "filer_signature": true,
+      "certificate": false,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": "motion_response_with_declaration",
+      "length_presets": null
+    }
+  }
 }

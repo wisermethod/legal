@@ -3,7 +3,7 @@ name: Case Audit
 type: skill
 category: litigation-phase
 description: A full case audit with documented coverage of claims, facts, arguments, evidence, opposition, trajectory, and follow-up
-version: 0.3.0
+version: 0.4.0
 ---
 
 # Case Audit
@@ -68,7 +68,7 @@ Review both sides’ submissions, including material exchanged or served where i
 
 ### 6. What is the candid assessment?
 
-State strengths, weaknesses, likely trajectory, risk factors and matters outside the person's control. Cite underlying audit findings. At least one real weakness must be identified. If the first pass yields none, recheck missing proof, plausible counterarguments, conflicting authorities and procedural exposure. If no supported weakness is found after rechecking, state that this audit requirement remains unmet and keep the audit incomplete. Use the record for a weakness or coverage limitation without inventing an adverse fact.
+State strengths, weaknesses, likely trajectory, risk factors and matters outside the person's control. Cite underlying audit findings. If the first pass yields no supported weakness, recheck missing proof, plausible counterarguments, conflicting authorities and procedural exposure. Record the scope and results of that recheck. If it yields no supported weakness and all required coverage is complete, record that conclusion and complete the audit. Record a distinct coverage limitation wherever a required check remains open.
 
 ### 7. What actions follow from the findings?
 

@@ -1,5 +1,5 @@
-import { canonicalBody, judicialClosing, printedBodyText, tableHeaderBindings, wordCount } from './body-text-core.js';
-import { counselLabel, SIDES, validateCaption, validateProfile } from './schema-core.js';
+import { blockBindings, bodyMarks, judicialClosing, printedBodyText, tableHeaderBindings, wordCount } from './body-text-core.js';
+import { counselLabel, documentType, SIDES, validateCaption, validateProfile } from './schema-core.js';
 
 function escapeHtml(s) {
   return String(s)
@@ -30,13 +30,8 @@ function counselInCaption(c) {
 }
 
 export function captionParties(parties) {
-  const isDefendant = party => party.role.trim().toLowerCase() === 'defendant';
-  const isPlaintiff = party => party.role.trim().toLowerCase() === 'plaintiff';
-  if (parties.some(isPlaintiff) && parties.some(isDefendant)) {
-    const lead = parties.filter(party => !isDefendant(party));
-    return { ordered: [...lead, ...parties.filter(isDefendant)], separator: lead.length };
-  }
-  return { ordered: parties, separator: -1 };
+  const separator = parties.findIndex(party => /^defendants?\b/i.test(party.role.trim()));
+  return { ordered: parties, separator: separator > 0 ? separator : -1 };
 }
 
 /**
@@ -91,7 +86,7 @@ function signatureBlock(s) {
   </div>`;
 }
 
-function certificateOfService(svc, title, year) {
+function certificateOfService(svc, title, year, signer) {
   if (!svc) return '';
   const recips = (svc.recipients || []).map(r =>
     `<div class="recipient">${escapeHtml(r.name)} (${(r.emails || []).map(escapeHtml).join('; ')})</div>`
@@ -109,7 +104,7 @@ function certificateOfService(svc, title, year) {
       ${firm}${firmLines}${firmNote}
     </div>
     <div class="sig-line">_____________________________</div>
-    <div class="sig-name">${escapeHtml((svc.served_by) || '')}</div>
+    <div class="sig-name">${escapeHtml(svc.served_by ?? signer.name)}</div>
   </div>`;
 }
 
@@ -140,6 +135,8 @@ function courtCss(layout) {
   tr.caption-title-row td.doc-title { border-top: 1.5pt solid #000; text-align: center; font-weight: bold; text-transform: uppercase; line-height: 1.3; padding: 8pt 12pt; }
 
   .body p { line-height: ${layout.body_line_height}; margin: 0 0 6pt 0; text-align: left; }
+  .body h1, .body h4, .body h5, .body h6 { font-size: ${layout.body_font_size_pt}pt; }
+  .body code { font-family: inherit; }
   .body h2 { font-size: ${layout.body_font_size_pt}pt; font-weight: bold; line-height: 1.4; margin: 14pt 0 6pt 0; }
   .body h3 { font-size: ${layout.body_font_size_pt}pt; font-weight: bold; font-style: italic; margin: 10pt 0 4pt 0; }
   .body ol, .body ul { line-height: ${layout.body_line_height}; margin: 0 0 6pt 0; padding-left: 36pt; }
@@ -152,7 +149,7 @@ function courtCss(layout) {
   .sig-name { font-weight: bold; }
 
   .cert { margin-top: 24pt; line-height: 1.4; break-inside: avoid; }
-  .cert-title { text-align: center; font-weight: bold; font-size: 12pt; margin: 12pt 0; }
+  .cert-title { text-align: center; font-weight: bold; font-size: ${layout.body_font_size_pt}pt; margin: 12pt 0; }
   .cert p { line-height: 1.5; }
   .service-list { margin: 8pt 0 18pt 24pt; }
   .recipient { margin: 2pt 0; }
@@ -167,7 +164,7 @@ function buildHtml(caption, layout, bodyHtml, binding) {
   ${captionTable(caption)}
   <div class="body">${bodyHtml}</div>
   ${signatureBlock(caption.signer)}
-  ${caption.service ? certificateOfService(caption.service, caption.title, layout.certificate_year) : ''}
+  ${caption.service ? certificateOfService(caption.service, caption.title, layout.certificate_year, caption.signer) : ''}
 </body></html>`;
 }
 
@@ -175,31 +172,43 @@ function cssInches(value) {
   return value + 'in';
 }
 
-export function compose({ caption, body, profile }, parseMarkdown, digest) {
-  validateProfile(profile);
-  validateCaption(caption, profile);
+export function prepareBody(body, treatment, parseMarkdown, digest) {
   if (typeof body !== 'string' || body.trim() === '') {
     throw new Error('Body markdown must contain filing text.');
   }
-  const layout = profile.layout;
   if (/^ {0,3}\[\^[^\]\n]+\]:/m.test(body)) {
     throw new Error('Markdown footnotes are unsupported. Put each note in a numbered paragraph in the body.');
   }
+  if (/[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/u.test(body.replace(/[\t\r\n]/g, ''))) {
+    throw new Error('Body Markdown contains a hidden control character. Use visible filing text.');
+  }
   const bodyHtml = parseMarkdown(body);
   const bodyText = printedBodyText(bodyHtml);
-  if (caption.document_type === 'proposed-order' &&
-      (!judicialClosing(bodyText) || !/\bBY THE COURT\s*:[\s\S]*?(?:^|\s)_{3,}(?:\s|$)/im.test(body))) {
+  const ruledClosing = treatment.judicial_closing &&
+    /<p>BY THE COURT *:<\/p>\s*<hr>\s*(?:<p>[\p{L} .,'’-]{1,70}<\/p>\s*)?<p>[\p{L} .,'’-]{0,30}JUDGE\.?<\/p>\s*$/iu.test(bodyHtml) &&
+    /BY THE COURT *:\s*\n\s*_{3,} *\r?\n/iu.test(body);
+  if (treatment.judicial_closing && !judicialClosing(bodyText, ruledClosing)) {
     throw new Error('Proposed-order Markdown must end with BY THE COURT, a blank signature line and a judge designation.');
   }
   const bodyWords = wordCount(printedBodyText(bodyHtml, false));
   if (!bodyWords) throw new Error('Body Markdown must produce readable filing text. Add the filing text and compose again.');
-  const bodySha256 = digest(body);
-  const printedSha256 = digest(canonicalBody(bodyText));
-  const binding = ['Court Filing', bodySha256, printedSha256, bodyWords, ...tableHeaderBindings(bodyHtml, digest)].join(' ');
   return {
-    bodySha256,
-    bodyWords,
-    html: buildHtml(caption, layout, bodyHtml, binding),
+    bodyHtml, bodyText, bodyWords, bodySha256: digest(body),
+    headers: tableHeaderBindings(bodyHtml),
+    paragraphs: blockBindings(bodyHtml, 'p'),
+    ruledClosing, marks: bodyMarks(bodyHtml, ruledClosing),
+  };
+}
+
+export function compose({ caption, body, profile }, parseMarkdown, digest) {
+  validateProfile(profile);
+  validateCaption(caption, profile);
+  const layout = profile.layout;
+  const prepared = prepareBody(body, documentType(profile, caption), parseMarkdown, digest);
+  return {
+    bodySha256: prepared.bodySha256,
+    bodyWords: prepared.bodyWords,
+    html: buildHtml(caption, layout, prepared.bodyHtml, 'Court Filing ' + prepared.bodySha256),
     pdf: {
       paperSize: layout.page_size,
       margin: SIDES.map(side => cssInches(layout.margins_inches[side])).join(' '),
@@ -221,7 +230,14 @@ export function checkMarkdownToken(token) {
     throw new Error('Markdown footnotes are unsupported. Put each note in a numbered paragraph in the body.');
   }
   if (token.type === 'image') throw new Error('Body markdown contains an image. Supply exhibits separately from the filing body.');
-  if (token.type === 'link' && !/^(?:https?:\/\/|mailto:|#)/i.test(token.href)) {
-    throw new Error('Body markdown link must use http, https, mailto or an in-document anchor.');
+  if (token.type === 'list_item' && token.task) throw new Error('Markdown task checkboxes are unsupported. Write the status in words.');
+  if (token.type === 'link') {
+    if (token.title != null) throw new Error('Markdown link titles are unsupported. Put any necessary title in the visible link text.');
+    if (!/^(?:https?:\/\/|mailto:|#)[^\s<>"'\p{Cc}\p{Cf}]+$/iu.test(token.href)) {
+      throw new Error('Body Markdown link must use http, https, mailto or an in-document anchor and contain no spaces or attribute punctuation.');
+    }
+  }
+  if (token.type === 'list' && token.ordered && token.start > 2147483647) {
+    throw new Error('Markdown list numbering exceeds the supported range.');
   }
 }
