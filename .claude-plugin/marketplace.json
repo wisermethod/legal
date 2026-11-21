@@ -10,7 +10,6 @@
     {
       "name": "legal",
       "source": "./",
-      "version": "0.4.0",
       "description": "A WISER plugin for a person or a company handling its own legal matters: practice-area experts, litigation procedure, and document preparation."
     }
   ]

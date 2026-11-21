@@ -1,7 +1,6 @@
 {
   "name": "legal",
   "displayName": "Legal",
-  "version": "0.4.0",
   "description": "A WISER plugin for a person or a company handling its own legal matters: practice-area experts, litigation procedure, and document preparation.",
   "author": {
     "name": "Wiser Memory",
