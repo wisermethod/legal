@@ -135,7 +135,7 @@
     {
       "citation": "C.R.C.P. 10(d)",
       "verification": "recorded-in-source",
-      "notes": "The source records at least 1-inch margins, 12-point type, and double spacing, with exceptions such as footnotes and block quotes. This profile sets Letter paper, one-inch margins, and Times New Roman 12-point double-spaced body text."
+      "notes": "The source records at least 1-inch margins, 12-point type, and double spacing, with exceptions such as footnotes and block quotes. This profile sets Letter paper, one-inch margins, and Times New Roman 12-point double-spaced prose. The source does not settle spacing applicability to every table, list and heading. Inspect the reported density of those elements in preview."
     },
     {
       "citation": "C.R.C.P. 121 section 1-15(1)(a)",
@@ -244,7 +244,7 @@
       ]
     },
     "rule-12-or-56-motion": {
-      "title_pattern": "(?=.*\\b(?:summary judgment|rule +(?:12\\(b\\)\\([12]\\)|56\\b)|c\\.r\\.c\\.p\\. +(?:12\\(b\\)\\([12]\\)|56\\b)))(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?motion\\b.*",
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:cross[- ])?motion +(?:for +(?:partial +)?summary judgment\\b(?! +(?:hearing|conference)\\b)|to +dismiss +(?:under|pursuant +to) +(?:rule|c\\.r\\.c\\.p\\.) +12\\(b\\)\\([12]\\)(?![\\w(])).*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -269,7 +269,7 @@
       ]
     },
     "rule-12-or-56-response": {
-      "title_pattern": "(?=.*\\b(?:summary judgment|rule +(?:12\\(b\\)\\([12]\\)|56\\b)|c\\.r\\.c\\.p\\. +(?:12\\(b\\)\\([12]\\)|56\\b)))(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:response|opposition)(?: +brief)?\\b.*",
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:response|opposition)(?: +brief)? +(?:to|in +opposition +to) +(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:cross[- ])?motion +(?:for +(?:partial +)?summary judgment\\b(?! +(?:hearing|conference)\\b)|to +dismiss +(?:under|pursuant +to) +(?:rule|c\\.r\\.c\\.p\\.) +12\\(b\\)\\([12]\\)(?![\\w(])).*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -294,7 +294,7 @@
       ]
     },
     "rule-12-or-56-reply": {
-      "title_pattern": "(?=.*\\b(?:summary judgment|rule +(?:12\\(b\\)\\([12]\\)|56\\b)|c\\.r\\.c\\.p\\. +(?:12\\(b\\)\\([12]\\)|56\\b)))(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?reply(?: +brief)?\\b.*",
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?reply(?: +brief)? +(?:in +support +of|to) +(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:cross[- ])?motion +(?:for +(?:partial +)?summary judgment\\b(?! +(?:hearing|conference)\\b)|to +dismiss +(?:under|pursuant +to) +(?:rule|c\\.r\\.c\\.p\\.) +12\\(b\\)\\([12]\\)(?![\\w(])).*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -339,7 +339,7 @@
       "length_presets": null
     },
     "answer": {
-      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?answer\\b.*",
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?answer\\b(?!.*\\b(?:motion|response|reply|brief|notice)\\b).*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -349,7 +349,7 @@
       "length_presets": null
     },
     "discovery-request": {
-      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:first|second|third|fourth) +)?(?:interrogatories|requests? +for +(?:production|admissions?))\\b.*",
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:first|second|third|fourth) +)?(?:interrogatories|requests? +for +(?:production|admissions?))\\b(?!.*\\b(?:motion|response|reply|brief|notice)\\b).*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,

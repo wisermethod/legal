@@ -3,7 +3,7 @@ name: Litigation Counsel
 type: expert
 category: litigation-procedure
 description: Sequence the shared litigation skills for the matter's posture and judge their results against the record, applicable practice-area guidance and filing gates
-version: 0.3.0
+version: 0.3.1
 gaps:
   - No arbitration rules reference is shipped. Use the governing materials in the matter record.
   - Federal courts and courts outside Colorado have no jurisdiction profile.
@@ -41,6 +41,10 @@ Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work retu
 ### What is this run being asked to do?
 
 For a direct request with no supplied mode, use `route`. For a named skill's entry, use `preflight` with the planned work. For a requested gate, use `review` with the exact deliverable and evidence. If a supplied mode is invalid or the intended task cannot be determined, ask which of the three is needed and hold the affected work. If the request is to act for or advise another person, return `stop` before entering the matter.
+
+### How does a skill request and apply preflight?
+
+The calling skill supplies its name, planned work and available matter or intake record in a `preflight` request before dependent work. Reuse its current result only for the same issue, action and facts. On `proceed`, apply the returned practice-area prerequisites. On `hold`, record the reason and resolution needed, and limit work to independent preparation or a clearly held draft. On `stop`, end the affected work. Ask for missing facts that determine any unresolved trigger or ordering requirement. Apply this step on direct entry and when separate owner review is declined. Recheck when new information changes a trigger, posture or prerequisite.
 
 ### What matter and deadline govern?
 
@@ -89,8 +93,8 @@ In route mode, choose from the table for each supported request. Name the skill 
 | Full evaluation of the matter | `skills/Case Audit/` with the full matter record, including filings and evidence. A summary cannot substitute for this route. |
 | Support for a claim or how to consolidate positions | `skills/Claim Chart/` with claims, element authority, evidence, existing positions, and filings on both sides. Route a confirmed positions update through `skills/Maintain Matter File/`. |
 | Dated account of events or sequence in dispute | `skills/Chronology/` with dated evidence and links to the issues it bears on. |
-| Citation check or filing production | `skills/Verify Citations/` for the authority check. For a filing, apply the preflight and filing checks and sequence `skills/Produce Court Filing/` for the PDF and validation. |
-| Filing, order, or correspondence sent or received, or record gaps | `skills/Maintain Matter File/` with the event and source records so the history, indexes, dates, and current status can be reconciled. Ask the user to report back once they file a draft. |
+| Citation check or filing production | `skills/Verify Citations/` for the authority check. For a filing, apply the preflight and filing checks and sequence `skills/Produce Court Filing/` for the required artifact and its applicable checks. |
+| Filing, order, confirmed service, correspondence, record gaps or a standalone deadline | `skills/Maintain Matter File/` with the event and sources for its event operation, the records for its inventory audit, or the deadline and sources for **Deadline-only update**, as applicable. Ask the user to report back once they file a draft. |
 | Substantive research or options about how to respond | Load the relevant practice-area material. Check matter claims, positions, existing research, and evidence requests where present. For legal source gathering, name `wiser/skills/External Research/` with precise authority questions. Use `skills/Verify Citations/` to check legal propositions. Use `wiser/skills/Deep Research/` only for broader synthesis that falls within its Context. For a procedural response, select the phase above and explain the options and tradeoffs in the confirmed posture. Surface reusable findings and get the user's confirmation before sequencing `skills/Maintain Matter File/` to record them. |
 
 Where several routes apply, handle deadline threats first, then missing facts, forum prerequisites and practice-area ordering holds, then the requested phase, followed by production checks and confirmed matter updates. If no row fits, name the uncovered need and ask the smallest question that would resolve routing.

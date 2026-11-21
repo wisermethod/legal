@@ -7,48 +7,47 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 ### [Litigation Counsel](../experts/Litigation%20Counsel/EXPERT.md)
 
 - No arbitration rules reference is shipped. Use the governing materials in the matter record.
-- Federal courts and courts outside Colorado have no jurisdiction profile. The shipped profile covers Colorado district court.
+- Federal courts and courts outside Colorado have no jurisdiction profile.
 
 ### [Cease and Desist](../experts/Cease%20and%20Desist/EXPERT.md)
 
-- Cease and Desist is a substantive stub for whether to send or bypass a demand, required terms, deadlines, and response and escalation rules.
-- Cease and Desist is a substantive stub for IP, defamation, harassment or stalking, contract, property and nuisance grounds and service requirements.
+- Cease and Desist is a substantive stub for whether to send or bypass a demand, required terms, deadlines, and response and escalation rules
+- Cease and Desist is a substantive stub for IP, defamation, harassment or stalking, contract, property and nuisance grounds and service requirements
 
 ### [Consumer Law](../experts/Consumer%20Law/EXPERT.md)
 
-- Consumer Law is a substantive stub for the Colorado Consumer Protection Act, including scope, deceptive practices, elements, damages, and limitations.
-- Consumer Law is a substantive stub for federal FDCPA, TILA, FCRA, and TCPA provisions, elements, and damages.
-- Consumer Law has no verified reference on defense tactics, strategic considerations, or Colorado Attorney General, CFPB, and FTC resources.
+- Consumer Law is a substantive stub for the Colorado Consumer Protection Act, including scope, deceptive practices, elements, damages, and limitations
+- Consumer Law is a substantive stub for federal FDCPA, TILA, FCRA, and TCPA provisions, elements, and damages
+- Consumer Law has no verified reference on defense tactics, strategic considerations, or Colorado Attorney General, CFPB, and FTC resources
 
 ### [Contract Disputes](../experts/Contract%20Disputes/EXPERT.md)
 
-- Verified accrual analysis for a particular contract claim.
-- Verified Colorado authority for general reliance damages as an alternative contract measure.
-- Verified authority for Colorado adopting Hadley v. Baxendale by name. See the [authority record](../experts/Contract%20Disputes/authority.md) for the open verification flags.
+- Verified accrual analysis for a particular contract claim
+- Verified Colorado authority for general reliance damages as an alternative contract measure
+- Verified authority for Colorado adopting Hadley v. Baxendale by name
 
 ### [Employment Law](../experts/Employment%20Law/EXPERT.md)
 
-- Employment coverage is working and lacks official confirmation of the 2025 wage amendments, the current CDLE cap, filing forms, and the flagged Rule 98 subsection text. Confirm the working venue check and thresholds before filing.
-- Employment briefing lacks complete opinion reads for the flagged cases and verified Colorado authority for notice and cure, prevention of a bonus condition, remote-worker jurisdiction, and unsigned arbitration.
-- Employment coverage lacks verified out-of-state Cause and severance analysis and CADA or POWER Act elements for protected-class claims.
-- Employment guidance for unemployment-insurance hearings, workers' compensation, union labor law, discrimination, FMLA, and disability is outside the verified coverage. See the [authority record](../experts/Employment%20Law/authority.md) for its pending checks.
+- Employment coverage is working and lacks official confirmation of the 2025 wage amendments, the current CDLE cap, and a current filing forms and venue check
+- Employment briefing lacks complete opinion reads for the flagged cases and verified Colorado authority for notice and cure, prevention of a bonus condition, remote-worker jurisdiction, and unsigned arbitration
+- Employment coverage lacks verified out-of-state Cause and severance analysis and CADA or POWER Act elements for protected-class claims
+- Employment guidance for unemployment-insurance hearings, workers' compensation, union labor law, discrimination, FMLA, and disability
 
 ### [Personal Injury](../experts/Personal%20Injury/EXPERT.md)
 
-- Personal Injury is a substantive stub for Colorado negligence standards, comparative fault, and compensable damages and caps.
-- Personal Injury is a substantive stub for motor vehicle, premises, and product liability, insurance and UM/UIM, limitations, and defense tactics.
+- Personal Injury is a substantive stub for Colorado negligence standards, comparative fault, and compensable damages and caps
+- Personal Injury is a substantive stub for motor vehicle, premises, and product liability, insurance and UM/UIM, limitations, and defense tactics
 
 ## Skills
 
 ### [Claim Chart](../skills/Claim%20Chart/SKILL.md)
 
 - An element list with missing or unverified governing authority is held until that authority can be checked.
-- Word creation accepts paragraphs. A native table needs the Markdown chart imported into Word.
 
 ### [Discovery](../skills/Discovery/SKILL.md)
 
-- Owed are verified discovery limits, deadlines, objections, privilege rules, and supplementation requirements.
-- Owed is detailed discovery sequencing, dispute, production, and preservation guidance.
+- verified discovery limits, deadlines, objections, privilege rules, and supplementation requirements
+- detailed discovery sequencing, dispute, production, and preservation guidance
 
 ### [Motions Practice](../skills/Motions%20Practice/SKILL.md)
 
@@ -66,16 +65,16 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 ### [Produce Court Filing](../skills/Produce%20Court%20Filing/SKILL.md)
 
 - Mechanical jurisdiction-profile validation covers the shipped Colorado district layout and compatible custom profiles.
-- Mechanical validation compares the printed body and measures type, paragraph spacing, caption ruling, footer and ink. Exact appearance, actual signature and service, and current forum acceptance still need review.
-- The Colorado initial complaint supports a pending division when the court permits it. Prescribed structures outside a profile’s supported types, including a different judicial closing, require the forum’s form and its own requirements gate.
+- Prescribed forms outside the supported types need the forum’s own form and requirements gate. Court Filing cannot validate those artifacts.
+- Court Filing measures profile geometry and printed content. Current forum acceptance, signature and service still need verification.
 
 ### [Settlement Negotiation](../skills/Settlement%20Negotiation/SKILL.md)
 
-- Owed is verified settlement valuation, Rule 408, confidentiality, enforcement, dismissal, and tax guidance.
+- verified settlement valuation, Rule 408, confidentiality, enforcement, dismissal, and tax guidance
 
 ### [Trial Preparation](../skills/Trial%20Preparation/SKILL.md)
 
-- Owed are verified pretrial disclosure, trial procedure, evidence, post-trial motion, and appeal requirements.
+- verified pretrial disclosure, trial procedure, evidence, post-trial motion, and appeal requirements
 
 ### [Venue Selection](../skills/Venue%20Selection/SKILL.md)
 

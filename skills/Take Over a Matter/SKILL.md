@@ -30,7 +30,7 @@ Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work retu
 
 ### What can proceed on this entry?
 
-Read the owning root and any existing project declaration in their binding order. Use the supplied legacy instruction files as evidence about the old record. Before dependent work, request `preflight` from [Litigation Counsel](../../experts/Litigation%20Counsel/EXPERT.md) with this skill's name, the planned work, and the available matter or intake record. Reuse its current result only for the same issue, action and facts. On `proceed`, apply the returned practice-area prerequisites. On `hold`, record the reason and resolution needed, and limit work to independent preparation or a clearly held draft. On `stop`, end the affected work. Ask for missing facts that determine any unresolved trigger or ordering requirement. Apply this step on direct entry and when separate owner review is declined. Recheck when new information changes a trigger, posture or prerequisite.
+Read the owning root and any existing project declaration in their binding order. Use the supplied legacy instruction files as evidence about the old record. Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Counsel/EXPERT.md#how-does-a-skill-request-and-apply-preflight) before dependent work.
 
 ### What can be adopted while preserving originals?
 

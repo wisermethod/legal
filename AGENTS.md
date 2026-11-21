@@ -59,6 +59,10 @@ Put this label in each person-facing assessment, packet or draft, including a he
 
 > This is a working draft for your own review and decision. It is not legal advice, does not create an attorney-client relationship, and is not a substitute for a lawyer.
 
+## Outward draft handoff
+
+Save and show the exact draft, recipient or forum destination, and attachments. Hand it to the person for their action. Any later authorized transmission needs separate explicit approval of that version, destination and attachments. A signature or general prior approval does not cover an unseen draft. For a filing apply Produce Court Filing’s release checks and ask the person to report back after filing. Route confirmed filings, orders, service and correspondence to the applicable operation in Maintain Matter File, keeping drafted and completed events distinct.
+
 ## Layout
 
 This root's layout is governed by `wiser/standards/plugin-root.md`. That standard's C1 owns the `layout:` stamp: the current tree version, a bare nonnegative integer. `wiser/skills/Onboard Plugin Root/` writes it last, only once every applicable obligation other than the stamp itself scores present or N/A. A stamp written before that would advertise a conformance nothing had earned, which is why an unstamped tree reads as not current rather than as clean.

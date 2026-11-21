@@ -534,6 +534,32 @@ test('only the complaint type may use the new-case packet and blank docket', () 
   assert.match(run(['validate', '--no-length-limit', 'n/a']).stderr, /Unknown option n\/a/);
 });
 
+test('unlimited answers and discovery cannot include motions or other briefed papers', () => {
+  for (const [document_type, simple, mixed] of [
+    ['answer', "Defendant's Answer", "Defendant's Answer and Motion for Summary Judgment"],
+    ['discovery-request', "Plaintiff's First Requests for Production", "Plaintiff's Requests for Production and Motion to Compel"],
+  ]) {
+    const caption = { ...example(), document_type, title: simple };
+    assert.equal(resolveLimits(profile(), caption, { noLimit: true }).pages, null);
+    assert.throws(() => validateCaption({ ...caption, title: mixed }, profile()), /title does not match/);
+  }
+});
+
+test('the longer page presets require an actual Rule 12 or 56 motion phrase', () => {
+  const cases = [
+    ['motion', 'Motion for Partial Summary Judgment', 'Motion to Continue the Summary Judgment Hearing'],
+    ['motion', 'Motion to Dismiss under C.R.C.P. 12(b)(1)', 'Motion to Exclude Testimony in a Rule 56 Proceeding'],
+    ['motion', 'Motion to Dismiss Pursuant to Rule 12(b)(2)', 'Motion to Dismiss under Rule 12(b)(6)'],
+    ['response', "Plaintiff's Response to Defendant's Motion for Partial Summary Judgment", 'Response to Motion to Continue the Summary Judgment Hearing'],
+    ['reply', 'Reply in Support of Motion for Summary Judgment', 'Reply in Support of Motion to Exclude Evidence Under Rule 56'],
+  ];
+  for (const [kind, eligible, ineligible] of cases) {
+    const document_type = 'rule-12-or-56-' + kind;
+    assert.equal(validateCaption({ ...example(), document_type, title: eligible }, profile()).title, eligible);
+    assert.throws(() => validateCaption({ ...example(), document_type, title: ineligible }, profile()), /title does not match/);
+  }
+});
+
 test('word evidence reconciles a hyphenated line wrap without accepting different text', () => {
   assert.deepEqual(bodyEvidence([['This is court-', 'approved.']], 'This is court-approved.'),
     { wordsMatch: true, pdfBodyWords: 3 });
@@ -544,7 +570,8 @@ test('word evidence reconciles a hyphenated line wrap without accepting differen
 test('headers are removed only when the bound repeated text ends on a line boundary', () => {
   const headers = [{ offset: 0, end: 35, text: 'ItemDetail' }];
   assert.deepEqual(removeRepeatedHeaders([['Item Detail', 'Old entry'], ['Item Detail', 'New entry']], headers),
-    { pages: [['Item Detail', 'Old entry'], ['New entry']], aligned: true });
+    { pages: [['Item Detail', 'Old entry'], ['New entry']], aligned: true,
+      repeated: [{ page: 1, offset: 0, lines: ['Item Detail'] }] });
   assert.equal(removeRepeatedHeaders([['Item Detail', 'Old entry'], ['Item Detail New entry']], headers).aligned, false);
   assert.deepEqual(removeRepeatedHeaders([['Item Detail', 'Old entry after the end of that table'], ['Item Detail']],
     headers).pages[1], ['Item Detail']);
@@ -625,6 +652,7 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
     ['supporting', supporting, fixtureBody, noLimit],
     ['ruled-order', proposed, 'The request is granted.\n\nBY THE COURT:\n\n____________\n\nDistrict Court Judge', noLimit],
     ['table', example(), table, motionLimit],
+    ['list-spacing', example(), '## Schedule\n\n1. First entry.\n2. Second entry.\n\nThe conference is requested.', motionLimit],
   ];
   for (const [name, fields, markdown, flags, selected = 'colorado-district'] of cases) {
     const cap = join(scratch, name + '.json');
@@ -663,8 +691,48 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
       assert.equal(extracted.status, 0, extracted.stderr);
       assert.ok(extracted.stdout.split('\f').slice(1).some(page => page.trimStart().startsWith('Entry Detail')));
       assert.equal(checksByName(result)['Printed PDF body matches composition'], 'pass');
+      const spacingLabel = 'Table, list and heading double spacing';
+      const spacing = result.checks.find(check => check.label === spacingLabel);
+      assert.equal(spacing.status, 'advisory');
+      assert.equal(spacing.counts.share, 1);
+      assert.ok(spacing.counts.table > 91, 'a running header is counted on each continuation page');
+      assert.equal(result.limits.words, null);
+      const custom = profile();
+      custom.document_types.motion.double_spacing = ['table'];
+      assert.throws(() => validateProfile(custom), /needs a sourced validation.double_spacing rule/);
+      custom.validation.double_spacing = { citation: 'Fixture court order', verification: 'recorded-in-source' };
+      const strict = join(scratch, 'strict-table.json');
+      writeFileSync(strict, JSON.stringify(custom));
+      const required = run([...cliArgs.map(arg => arg === selected ? strict : arg), ...flags]);
+      assert.equal(required.status, 1);
+      assert.equal(checksByName(resultOf(required))[spacingLabel], 'fail');
+      custom.document_types.motion.double_spacing = ['list'];
+      writeFileSync(strict, JSON.stringify(custom));
+      const unrelated = run([...cliArgs.map(arg => arg === selected ? strict : arg), ...flags]);
+      assert.equal(unrelated.status, 0, unrelated.stderr);
+      assert.equal(checksByName(resultOf(unrelated))[spacingLabel], 'advisory');
       const exactLimit = Math.max(result.bodyWords, result.pdfBodyWords);
       assert.equal(run([...cliArgs, '--max-words', String(exactLimit)]).status, 0);
+    }
+    if (name === 'list-spacing') {
+      const spacingLabel = 'Table, list and heading double spacing';
+      const originalSpacing = result.checks.find(check => check.label === spacingLabel);
+      assert.equal(originalSpacing.counts.heading, 1);
+      assert.equal(originalSpacing.counts.list, 0);
+      const compactHtml = join(scratch, 'compact-list.html');
+      const compactPdf = join(scratch, 'compact-list.pdf');
+      writeFileSync(compactHtml, readFileSync(html, 'utf8').replace('.body ol, .body ul { line-height: 2;',
+        '.body ol, .body ul { line-height: 1;'));
+      const compactRender = spawnSync(process.execPath, [render, 'pdf', '--input', compactHtml, '--output', compactPdf, ...pdfArgs],
+        { encoding: 'utf8' });
+      assert.equal(compactRender.status, 0, compactRender.stderr);
+      const compact = run([...cliArgs.map(arg => arg === out ? compactPdf : arg), ...flags]);
+      assert.equal(compact.status, 0, compact.stderr);
+      const shortLists = resultOf(compact).checks.find(check => check.label === spacingLabel);
+      assert.equal(shortLists.status, 'advisory');
+      assert.equal(shortLists.counts.list, 2);
+      assert.equal(shortLists.counts.underDoubleLines, 3);
+      assert.equal(shortLists.counts.share, 0.75);
     }
     if (name === 'exempt') {
       assert.equal(checksByName(result)['Certificate of service absent'], 'pass');
@@ -675,11 +743,12 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
       assert.equal(checksByName(resultOf(refused))['Certificate of service absent'], 'fail');
     }
     if (name === 'motion') {
-      assert.deepEqual([result.bodyWords, result.pdfBodyWords], [73, 75]);
-      const limited = run([...cliArgs, '--max-words', '74']);
+      assert.deepEqual([result.bodyWords, result.pdfBodyWords], [73, 73]);
+      assert.equal(run([...cliArgs, '--max-words', '73']).status, 0);
+      const limited = run([...cliArgs, '--max-words', '72']);
       assert.equal(limited.status, 1);
       assert.equal(limited.stdout, '');
-      assert.equal(checksByName(resultOf(limited))['Within word limit (74)'], 'fail');
+      assert.equal(checksByName(resultOf(limited))['Within word limit (72)'], 'fail');
       const missingChoice = run(cliArgs);
       assert.equal(missingChoice.status, 1);
       assert.equal(missingChoice.stdout, '');

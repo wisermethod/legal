@@ -3,7 +3,7 @@ name: Chronology
 type: skill
 category: procedure
 description: Build a sourced litigation timeline that connects events to pleaded issues and reconciles filing dates with tracked deadlines
-version: 0.3.1
+version: 0.3.2
 ---
 
 # Chronology
@@ -32,7 +32,7 @@ Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work retu
 
 ### What can proceed on this entry?
 
-Before dependent work, request `preflight` from [Litigation Counsel](../../experts/Litigation%20Counsel/EXPERT.md) with this skill's name, the planned work, and the available matter or intake record. Reuse its current result only for the same issue, action and facts. On `proceed`, apply the returned practice-area prerequisites. On `hold`, record the reason and resolution needed, and limit work to independent preparation or a clearly held draft. On `stop`, end the affected work. Ask for missing facts that determine any unresolved trigger or ordering requirement. Apply this step on direct entry and when separate owner review is declined. Recheck when new information changes a trigger, posture or prerequisite.
+Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Counsel/EXPERT.md#how-does-a-skill-request-and-apply-preflight) before dependent work.
 
 ### Which events and sources belong in the chronology?
 
@@ -40,7 +40,7 @@ Before dependent work, request `preflight` from [Litigation Counsel](../../exper
 2. Do the sources record the same event with agreeing details, competing details, or separate events? Merge agreeing duplicates, citing the most authoritative source for the event and preserving useful corroboration. Keep conflicting versions visible with their respective sources and refer the conflict to the litigant. Keep separate events separate. Prefer the primary order, docket entry, notice or case-administration record that documents the event directly.
 3. Is a date explicit and undisputed, disputed, inferred, or absent? Sort confirmed dates oldest first. In a separate unresolved-dates section, retain each competing date and its source, the inferred date and its basis, or "date unknown," as applicable. Keep each row tied to a filename and location, filing date or exhibit reference. Leave an event without an identifiable source out of the chronology and report the evidence gap.
 4. Read the claims record and any verified Claim Chart. Does a source support a connection to a stated claim, defense, element or procedural trigger? Cite that claim or element reference in Notes. If the mapping is unclear or authority is missing, label it unresolved. If the event has no identified claim relationship, keep it when relevant to the procedural timeline. Do not turn temporal association into causation or infer new elements.
-5. Cross-check actual filing and service dates against the calculated dates in the deadline record. If they agree, record the check. If a trigger, calculation or source conflicts or is missing, report the competing dates or gap, source and verification status, and supply the exact proposed deadline entry or the evidence needed to complete it. Use the corresponding Maintain Matter File operation for a confirmed filing, order or communication when authorized. Leave a standalone or disputed correction pending and show the proposed entry for review. Flag a missed or imminent fatal deadline first and suggest licensed counsel.
+5. Cross-check actual filing and service dates against the calculated dates in the deadline record. Record agreements and discrepancies, including competing dates and missing triggers, with their sources. Use [Maintain Matter File's phase deadline handoff](../Maintain%20Matter%20File/SKILL.md#what-should-a-phase-do-with-a-deadline) for each correction and report the read-back or pending entry.
 6. Use `Date | Event | Source document | Notes` for a standalone chronology where the matter permits one and include the Handoff label. If the matter gives a designated record sole ownership of dated facts, use that file’s approved shape for an update and link to those entries from companion records. For read-only work, return the proposed rows without updating the matter.
 
 ## Pitfalls

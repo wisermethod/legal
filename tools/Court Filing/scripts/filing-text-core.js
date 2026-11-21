@@ -199,6 +199,7 @@ function filerAndCertificate(caption, profile, remainder, check, add, treatment,
 export function removeRepeatedHeaders(pages, headers) {
   let prior = '';
   let aligned = true;
+  const repeated = [];
   const cleaned = pages.map((lines, index) => {
     if (index > 0) {
       const pageText = canonicalBody(lines.join(' '));
@@ -207,14 +208,17 @@ export function removeRepeatedHeaders(pages, headers) {
       if (header) {
         let consumed = 0;
         const end = lines.findIndex(line => (consumed += canonicalBody(line).length) >= header.text.length);
-        if (consumed === header.text.length) lines = lines.slice(end + 1);
+        if (consumed === header.text.length) {
+          repeated.push({ page: index, offset: header.offset, lines: lines.slice(0, end + 1) });
+          lines = lines.slice(end + 1);
+        }
         else aligned = false;
       }
     }
     prior += canonicalBody(lines.join(' '));
     return lines;
   });
-  return { pages: cleaned, aligned };
+  return { pages: cleaned, aligned, repeated };
 }
 
 function tokenBoundaries(tokens) {
@@ -252,7 +256,7 @@ function positionedBoundaries(text, lines) {
   return boundaries;
 }
 
-export function bodyEvidence(pages, expected, positioned) {
+export function bodyEvidence(pages, expected, positioned, wordCountWithoutMarkers) {
   const sourceTokens = normalize(expected).split(' ').map(canonicalBody);
   const expectedRun = sourceTokens.join('');
   const expectedBreaks = new Set(tokenBoundaries(sourceTokens));
@@ -286,7 +290,7 @@ export function bodyEvidence(pages, expected, positioned) {
     [...expectedBreaks].every(boundary => rawBreaks.has(boundary));
   return {
     wordsMatch,
-    pdfBodyWords: wordsMatch ? sourceTokens.length : rawBreaks.size || null,
+    pdfBodyWords: wordsMatch ? wordCountWithoutMarkers ?? sourceTokens.length : rawBreaks.size || null,
   };
 }
 
@@ -320,12 +324,15 @@ export function filingTextChecks({ caption, profile, extracted, info, prepared, 
     return part;
   }) : [];
   const exactCharacters = canonicalBody(bodyLines.flat().join(' ')) === canonicalBody(prepared.bodyText);
-  const continued = exactCharacters ? { pages: bodyLines, aligned: true } : removeRepeatedHeaders(bodyLines, prepared.headers);
+  const continued = exactCharacters ? { pages: bodyLines, aligned: true, repeated: [] } : removeRepeatedHeaders(bodyLines, prepared.headers);
   check('Continued table header alignment', continued.aligned, 'A repeated header must occupy complete lines at the top of its continuation page.');
-  const evidence = bodyEvidence(continued.pages, prepared.bodyText, positioned);
+  const evidence = bodyEvidence(continued.pages, prepared.bodyText, positioned, prepared.bodyWords);
   check('Composed body SHA-256', info?.title === 'Court Filing ' + prepared.bodySha256,
     'The PDF title independently carries the SHA-256 of the supplied Markdown.');
   check('Printed PDF body matches composition', evidence.wordsMatch,
     'Compare independently parsed Markdown with the PDF body after removing expected running headers.');
-  return { pdfBodyWords: evidence.pdfBodyWords, bodyLines: continued.pages };
+  return {
+    pdfBodyWords: evidence.pdfBodyWords, bodyLines: continued.pages, repeated: continued.repeated,
+    spacingBound: continued.aligned && evidence.wordsMatch,
+  };
 }

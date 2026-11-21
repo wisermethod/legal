@@ -3,7 +3,7 @@ name: Case Audit
 type: skill
 category: litigation-phase
 description: A full case audit with documented coverage of claims, facts, arguments, evidence, opposition, trajectory, and follow-up
-version: 0.4.1
+version: 0.4.2
 ---
 
 # Case Audit
@@ -38,11 +38,11 @@ Apply the [Handoff label](../../AGENTS.md#handoff-label) in the saved audit and 
 
 ### What can proceed on this entry?
 
-Before dependent work, request `preflight` from [Litigation Counsel](../../experts/Litigation%20Counsel/EXPERT.md) with this skill's name, the planned work, and the available matter or intake record. Reuse its current result only for the same issue, action and facts. On `proceed`, apply the returned practice-area prerequisites. On `hold`, record the reason and resolution needed, and limit work to independent preparation or a clearly held draft. On `stop`, end the affected work. Ask for missing facts that determine any unresolved trigger or ordering requirement. Apply this step on direct entry and when separate owner review is declined. Recheck when new information changes a trigger, posture or prerequisite.
+Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Counsel/EXPERT.md#how-does-a-skill-request-and-apply-preflight) before dependent work.
 
 ### 1. What is the current status?
 
-Run Maintain Matter File for matter preflight at session entry or use its current preflight record. Use the matter declaration’s designated history, deadlines and handoff. Surface every deadline within 14 days before the phase analysis. Lead with missed or imminent fatal deadlines, consequences and the immediate question to resolve. If the deadlines file is missing or stale, say so and reconcile against available orders, docket entries and dated service or notice records. For each date learned in this phase, record the deadline or its triggering date, source, calculation or unresolved inputs, and verification status. When a confirmed filing, order or communication establishes the date, use that operation in Maintain Matter File as authorized. For a standalone deadline, an unresolved record conflict, or a write that is unavailable or unauthorized, supply the exact proposed deadline entry in the audit. Mark uncertain dates `[verify]`, escalate possible expiry immediately, and stop any readiness or timeliness conclusion that depends on unresolved timing. Re-alert immediately when new information reveals urgency.
+Follow [Maintain Matter File's phase deadline handoff](../Maintain%20Matter%20File/SKILL.md#what-should-a-phase-do-with-a-deadline) before analyzing the phase. Include the result in the packet.
 
 Use the preflight forum finding and the declared parties record. Check the applicable rules and controlling orders before relying on a procedure. In arbitration or another non-court forum, use that forum’s governing materials from the matter record. Carry out independent work while any rule-dependent step is held. For a draft, strategic comparison or novel issue, apply `wiser` Behavioral Core by giving the approach, alternatives and confidence. Treat each rule lead and practice assumption marked `[verify]` as unchecked until the current governing text, applicable subsection, local rule, and case-specific orders are reconciled. Record the source and date checked. Apply `wiser/standards/conventions.md` Evidence Labels in the working record.
 

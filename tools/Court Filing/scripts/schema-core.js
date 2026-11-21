@@ -162,6 +162,7 @@ const layout = shape({
 });
 
 const evidence = choice('recorded-in-source', 'verify');
+const spacingKinds = ['table', 'list', 'heading'];
 const limit = shape({ unit: choice('pages', 'words'), maximum: positive, citation, verification: evidence });
 const validation = shape({
   limits: (value, at) => {
@@ -173,7 +174,7 @@ const validation = shape({
   },
   exclusions: list(text),
   notes: list(text),
-});
+}, { double_spacing: shape({ citation: text, verification: evidence }) });
 
 const packets = (value, at) => {
   object(value, at);
@@ -197,7 +198,7 @@ const documentTypes = (value, at) => {
     filer_signature: bool, certificate: bool, judicial_closing: bool, blank_case_number: bool,
     allow_blank_division: bool, filing_packet: (packet, field) => { if (packet !== null) text(packet, field); },
     length_presets: (value, at) => { if (value !== null) list(id)(value, at); },
-  }, { exact_title: text, title_pattern: text });
+  }, { exact_title: text, title_pattern: text, double_spacing: list(choice(...spacingKinds), 1) });
   for (const [key, treatment] of Object.entries(value)) {
     id(key, at + ' document type identifier');
     const path = at + '.' + key;
@@ -232,6 +233,10 @@ const profileShape = shape({
 export function validateProfile(value) {
   profileShape(value, 'profile');
   for (const [key, treatment] of Object.entries(value.document_types)) {
+    if (treatment.double_spacing && (!value.validation.double_spacing ||
+        new Set(treatment.double_spacing).size !== treatment.double_spacing.length)) {
+      throw new Error('profile.document_types.' + key + '.double_spacing needs a sourced validation.double_spacing rule and distinct categories.');
+    }
     if (treatment.filing_packet !== null && !Object.hasOwn(value.filing_packets, treatment.filing_packet)) {
       throw new Error('profile.document_types.' + key + '.filing_packet must name a listed packet.');
     }

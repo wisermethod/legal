@@ -1,4 +1,4 @@
-import { canonicalBody } from './body-text-core.js';
+import { canonicalBody, spacingBindings } from './body-text-core.js';
 import { PAGE_SIZES } from './schema-core.js';
 
 const DECODER = new TextDecoder();
@@ -199,6 +199,84 @@ export function paragraphSpacing(positioned, pages, paragraphs, layout) {
     }
   }
   return true;
+}
+
+export function bodySpacing(positioned, pages, repeated, html, layout) {
+  const bindings = spacingBindings(html, layout.body_line_height);
+  const double = layout.body_font_size_pt * 2;
+  const counts = { totalLines: 0, underDoubleLines: 0, share: 0, estimatedLines: 0,
+    table: 0, list: 0, heading: 0 };
+  let offset = 0;
+  let bindingIndex = 0;
+  for (const [page, lines] of pages.entries()) {
+    const positions = positioned[page].lines.map(({ words, bounds }) => ({
+      text: canonicalBody(words.map(word => word.text).join(' ')), bounds, claimed: [],
+    }));
+    const rows = [];
+    const runsByBlock = new Map();
+    const record = (line, start, index) => {
+      const text = canonicalBody(line);
+      const end = start + text.length;
+      while (index < bindings.length && bindings[index].end <= start) index++;
+      const row = [];
+      if (text) rows.push(row);
+      for (let i = index; i < bindings.length && bindings[i].start < end; i++) {
+        const { start: from, end: to, block } = bindings[i];
+        const fragment = text.slice(Math.max(0, from - start), to - start);
+        const run = { block, bounds: claimPosition(positions, fragment), measured: false, short: false };
+        row.push(run);
+        if (!runsByBlock.has(block)) runsByBlock.set(block, []);
+        runsByBlock.get(block).push(run);
+      }
+      return { end, index };
+    };
+    const header = repeated.find(item => item.page === page);
+    if (header) {
+      let start = header.offset;
+      let index = 0;
+      for (const line of header.lines) ({ end: start, index } = record(line, start, index));
+    }
+    for (const line of lines) ({ end: offset, index: bindingIndex } = record(line, offset, bindingIndex));
+
+    for (const runs of runsByBlock.values()) {
+      let previous;
+      for (const run of runs) {
+        if (previous?.bounds && run.bounds) {
+          const distance = run.bounds.y - previous.bounds.y;
+          if (distance > 0.8 && (run.block.kind !== 'list' || near(previous.bounds.x, run.bounds.x, 1.5))) {
+            run.measured = previous.measured = true;
+            if (distance < double - 0.8) run.short = previous.short = true;
+          }
+        }
+        previous = run;
+      }
+    }
+    for (const row of rows) {
+      counts.totalLines++;
+      const under = new Set();
+      if (row.some(run => !run.measured)) counts.estimatedLines++;
+      for (const run of row) {
+        if (run.short || (!run.measured && run.block.lineHeight < 2)) under.add(run.block.kind);
+      }
+      if (under.size) counts.underDoubleLines++;
+      for (const kind of under) counts[kind]++;
+    }
+  }
+  if (!counts.totalLines) return null;
+  counts.share = counts.underDoubleLines / counts.totalLines;
+  return counts;
+}
+
+function claimPosition(positions, text) {
+  for (const position of positions) {
+    const start = position.text.indexOf(text);
+    if (start < 0) continue;
+    const end = start + text.length;
+    if (position.claimed.some(([from, to]) => start < to && end > from)) continue;
+    position.claimed.push([start, end]);
+    return position.bounds;
+  }
+  return null;
 }
 
 export function captionRuling(bytes, layout, page) {

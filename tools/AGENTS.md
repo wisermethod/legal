@@ -14,7 +14,7 @@ Deterministic operations that skills and experts call. `wiser/standards/primitiv
 |---|---|
 | `Court Filing` `help`, `profiles` and `check` without install | These commands use Node built-ins. |
 
-`compose` and `validate` share Marked 12.0.2. Validation also uses `pdfinfo`, `pdftotext`, `pdffonts`, `pdftohtml`, `pdfimages` and `pdftoppm` from Poppler on PATH. The tool surveys Poppler programs without installing them. The first command needing it can install it with the plugin's install consent. `check --install` can prepare the same dependency. The download comes from `registry.npmjs.org`. Chromium for `render pdf` and packages for `word-document` are covered by `wiser/tools/AGENTS.md`.
+`compose` and `validate` share Marked 12.0.2. Validation also uses `pdfinfo`, `pdftotext`, `pdffonts`, `pdftohtml`, `pdfimages` and `pdftoppm` from Poppler on PATH. The tool surveys Poppler programs without installing them. The first command needing Marked can install that package with the plugin's install consent. `check --install` can prepare Marked. The download comes from `registry.npmjs.org`. Chromium for `render pdf` and packages for `word-document` are covered by `wiser/tools/AGENTS.md`.
 
 ## Everything the tool writes, and where
 

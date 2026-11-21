@@ -1,6 +1,6 @@
 import { filingTextChecks } from './filing-text-core.js';
 import { documentType, resolveLimits, validateCaption, validateProfile } from './schema-core.js';
-import { footerCandidates, isExpectedPage, measureInk, readFonts, readPageInfo, readTextLines, readTypography, imagesAbsent, paragraphSpacing, captionRuling, judicialRuling, filingInk, markPositions } from './pdf-evidence-core.js';
+import { footerCandidates, isExpectedPage, measureInk, readFonts, readPageInfo, readTextLines, readTypography, imagesAbsent, paragraphSpacing, bodySpacing, captionRuling, judicialRuling, filingInk, markPositions } from './pdf-evidence-core.js';
 
 export const PASS = 'ALL CHECKS PASSED';
 export const FAIL = 'VALIDATION FAILED';
@@ -111,7 +111,7 @@ export function validate({ pdf, caption, profile, limits, prepared, parseUnavail
   limits = verifiedLimits;
   const { bodySha256, bodyWords } = prepared;
   const checks = [];
-  const add = (label, status, detail) => checks.push({ label, status, detail });
+  const add = (label, status, detail, counts) => checks.push(counts ? { label, status, detail, counts } : { label, status, detail });
   const pdfInfo = inspect('page-info', pdf);
   const info = pdfInfo && readPageInfo(pdfInfo);
   const textBytes = info && info.count <= MAX_PDF_PAGES ? inspect('text', pdf) : null;
@@ -131,13 +131,28 @@ export function validate({ pdf, caption, profile, limits, prepared, parseUnavail
     add('No length limit for profile document type', resultOf(documentType(profile, caption).length_presets === null),
       caption.document_type);
   }
-  const { pdfBodyWords, bodyLines } = filingTextChecks({ caption, profile, extracted, info, prepared, add, positioned });
+  const { pdfBodyWords, bodyLines, repeated, spacingBound } = filingTextChecks({ caption, profile, extracted, info, prepared, add, positioned });
   if (limits.words !== null) {
     add('Within word limit (' + limits.words + ')', pdfBodyWords === null || bodyWords === null ? 'not_checked' : resultOf(Math.max(pdfBodyWords, bodyWords) <= limits.words),
       pdfBodyWords === null || bodyWords === null ? 'The PDF body or composition word count is unavailable.' :
         pdfBodyWords + ' words in the rendered PDF body and ' + bodyWords + ' in the composed Markdown.');
   }
+  const spacingScope = documentType(profile, caption).double_spacing ?? [];
+  const spacing = spacingBound && positioned && !info.active ?
+    bodySpacing(positioned, bodyLines, repeated, prepared.bodyHtml, profile.layout) : null;
+  const failedSpacing = spacingScope.filter(kind => spacing?.[kind] > 0);
+  const spacingStatus = !spacing ? (spacingScope.length ? 'not_checked' : 'advisory') :
+    failedSpacing.length ? 'fail' : spacing.underDoubleLines ? 'advisory' : 'pass';
+  const spacingDetail = spacing ?
+    spacing.underDoubleLines + ' of ' + spacing.totalLines + ' printed body lines (' + (100 * spacing.share).toFixed(1) +
+      '%) below double spacing in tables, lists or headings (' + spacing.table + ' table, ' + spacing.list + ' list, ' +
+      spacing.heading + ' heading). ' + spacing.estimatedLines + ' line(s) use retained layout where the PDF has no matched successive baseline.' :
+    'A matching body and positioned PDF text are needed to count spacing.';
+  const spacingAction = failedSpacing.length ?
+    ' The document type requires double spacing for ' + failedSpacing.join(', ') + ' under ' + profile.validation.double_spacing.citation + '.' :
+    spacingStatus === 'advisory' ? ' Inspect these elements in the human preview.' : '';
+  add('Table, list and heading double spacing', spacingStatus, spacingDetail + spacingAction, spacing);
   pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines, prepared);
-  const ok = checks.every(check => check.status === 'pass' || check.status === 'not_applicable');
+  const ok = checks.every(check => ['pass', 'not_applicable', 'advisory'].includes(check.status));
   return { ok, result: ok ? PASS : FAIL, pages: info?.count ?? null, bodyWords, pdfBodyWords, bodySha256, documentType: caption.document_type, limits, checks };
 }

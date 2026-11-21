@@ -50,26 +50,61 @@ export function tableHeaderBindings(html) {
   })).filter(header => header.text);
 }
 
-export function printedBodyText(html, includeListNumbers = true) {
+function* printedParts(html, includeListNumbers = true) {
   const lists = [];
-  const parts = [];
   for (const token of html.match(/<[^>]*>|[^<]+/g) ?? []) {
+    let text = '';
     if (!token.startsWith('<')) {
-      parts.push(decodeEntities(token));
+      text = decodeEntities(token);
     } else if (/^<ol\b/.test(token)) {
       lists.push(Number(/\bstart="(\d+)"/.exec(token)?.[1] ?? 1));
     } else if (/^<ul\b/.test(token)) {
       lists.push(null);
     } else if (/^<\/(?:ol|ul)>/.test(token)) {
       lists.pop();
-      parts.push(' ');
+      text = ' ';
     } else if (token === '<li>' && includeListNumbers && lists.at(-1) != null) {
-      parts.push(' ' + lists[lists.length - 1]++ + '. ');
+      text = ' ' + lists[lists.length - 1]++ + '. ';
     } else if (/^<\/?(?:p|li|blockquote|h[1-6]|pre|br|hr|table|thead|tbody|tr|td|th)\b/i.test(token)) {
-      parts.push(' ');
+      text = ' ';
     }
+    yield { token, text };
   }
-  return parts.join('');
+}
+
+export function printedBodyText(html, includeListNumbers = true) {
+  return Array.from(printedParts(html, includeListNumbers), part => part.text).join('');
+}
+
+export function spacingBindings(html, lineHeight) {
+  const stack = [];
+  const bindings = [];
+  let offset = 0;
+  for (const { token, text } of printedParts(html)) {
+    const tag = /^<(\/?)(ol|ul|td|th|h[1-6]|p)\b/u.exec(token);
+    if (tag) {
+      const [, closing, name] = tag;
+      if (closing) {
+        stack.pop();
+      } else {
+        const list = name === 'ol' || name === 'ul';
+        const insideList = stack.some(block => block.kind === 'list');
+        const kind = list || (name === 'p' && insideList) ? 'list' :
+          name === 'p' ? null : name.startsWith('h') ? 'heading' : 'table';
+        const block = { kind, lineHeight: name === 'h2' ? 1.4 : kind === 'list' || insideList ? lineHeight : 1 };
+        stack.push(block);
+      }
+    }
+    const length = canonicalBody(text).length;
+    const block = stack.at(-1);
+    if (length && block?.kind) {
+      const previous = bindings.at(-1);
+      if (previous?.block === block && previous.end === offset) previous.end += length;
+      else bindings.push({ start: offset, end: offset + length, block });
+    }
+    offset += length;
+  }
+  return bindings;
 }
 
 export function wordCount(text) {
