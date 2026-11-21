@@ -1,4 +1,4 @@
-import { canonicalBody, printedBodyText, wordCount } from './body-text-core.js';
+import { canonicalBody, judicialClosing, printedBodyText, tableHeaderBindings, wordCount } from './body-text-core.js';
 import { counselLabel, SIDES, validateCaption, validateProfile } from './schema-core.js';
 
 function escapeHtml(s) {
@@ -186,11 +186,16 @@ export function compose({ caption, body, profile }, parseMarkdown, digest) {
     throw new Error('Markdown footnotes are unsupported. Put each note in a numbered paragraph in the body.');
   }
   const bodyHtml = parseMarkdown(body);
+  const bodyText = printedBodyText(bodyHtml);
+  if (caption.document_type === 'proposed-order' &&
+      (!judicialClosing(bodyText) || !/\bBY THE COURT\s*:[\s\S]*?(?:^|\s)_{3,}(?:\s|$)/im.test(body))) {
+    throw new Error('Proposed-order Markdown must end with BY THE COURT, a blank signature line and a judge designation.');
+  }
   const bodyWords = wordCount(printedBodyText(bodyHtml, false));
   if (!bodyWords) throw new Error('Body Markdown must produce readable filing text. Add the filing text and compose again.');
   const bodySha256 = digest(body);
-  const printedSha256 = digest(canonicalBody(printedBodyText(bodyHtml)));
-  const binding = 'Court Filing ' + bodySha256 + ' ' + printedSha256 + ' ' + bodyWords;
+  const printedSha256 = digest(canonicalBody(bodyText));
+  const binding = ['Court Filing', bodySha256, printedSha256, bodyWords, ...tableHeaderBindings(bodyHtml, digest)].join(' ');
   return {
     bodySha256,
     bodyWords,

@@ -6,7 +6,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Litigation Counsel](../experts/Litigation%20Counsel/EXPERT.md)
 
-- Arbitration procedure, including JAMS and AAA proceedings, has no skill.
+- No arbitration rules reference is shipped. Use the governing materials in the matter record.
 - Federal courts and courts outside Colorado have no jurisdiction profile. The shipped profile covers Colorado district court.
 
 ### [Cease and Desist](../experts/Cease%20and%20Desist/EXPERT.md)
@@ -53,7 +53,6 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 ### [Motions Practice](../skills/Motions%20Practice/SKILL.md)
 
 - Court-specific briefing deadlines, local variations, hearing rules, and motion standards still need governing sources.
-- The source has no procedure for preparing and validating a proposed-order artifact.
 
 ### [Open a Matter](../skills/Open%20a%20Matter/SKILL.md)
 
@@ -66,9 +65,9 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Produce Court Filing](../skills/Produce%20Court%20Filing/SKILL.md)
 
-- A court or document with no supported jurisdiction profile cannot clear PDF production until the applicable profile and rules are available.
+- Mechanical jurisdiction-profile validation covers the shipped Colorado district layout and compatible custom profiles.
 - Mechanical validation measures PDF font names and embedding and visible margin ink. Exact type sizing, spacing and court-specific requirements still need review.
-- The caption schema supports a blank case number for the declared new-case complaint packet. It has no blank division or validated proposed-order format. Prescribed Word structures beyond the paragraph schema require suitable Word artifacts and an equivalent validated proof.
+- The caption schema has no blank division. Prescribed structures outside the supported formats require the forum’s form or equivalent verification.
 
 ### [Settlement Negotiation](../skills/Settlement%20Negotiation/SKILL.md)
 
@@ -92,4 +91,3 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 ### [Court Filing](../tools/Court%20Filing/TOOL.md)
 
 - Current Colorado fees, fee-waiver form numbers and separate Rule 12 or 56 word ceilings need verification.
-- A proposed order needs its court-prescribed form and a separate review path. The tool has no validated judge-signature format.

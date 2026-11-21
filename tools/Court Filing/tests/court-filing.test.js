@@ -118,6 +118,24 @@ test('the caption requires service or one exact, profile-listed no-certificate r
   assert.throws(() => validateProfile(listed), /no_service_certificate_reasons.*must be non-blank/);
 });
 
+test('the two separate packet artifacts retain their distinct signature and certificate requirements', () => {
+  const { signer, service, ...fields } = example();
+  const order = { ...fields, title: '[Proposed] Order Setting a Conference', document_type: 'proposed-order' };
+  const declaration = { ...fields, signer, title: 'Declaration Supporting a Conference', document_type: 'supporting-declaration' };
+  const proposedBody = 'The request for a conference is granted.\n\nDATED: __________\n\nBY THE COURT: __________\n\nDistrict Court Judge';
+  const { html: orderHtml } = compos({ caption: order, body: proposedBody, profile: profile() });
+  assert.doesNotMatch(orderHtml, /class="(?:closing|cert|counsel-block)"/);
+  assert.match(orderHtml, /BY THE COURT: __________/);
+  const { html: declarationHtml } = compos({ caption: declaration, body: body(), profile: profile() });
+  assert.match(declarationHtml, /class="closing"/);
+  assert.doesNotMatch(declarationHtml, /class="cert"/);
+  assert.throws(() => validateCaption({ ...order, signer }, profile()), /proposed order must omit/);
+  assert.throws(() => validateCaption({ ...order, title: example().title }, profile()), /title must identify/);
+  assert.throws(() => compos({ caption: order, body: 'The request is denied.', profile: profile() }), /blank signature line/);
+  assert.throws(() => validateCaption({ ...declaration, service }, profile()), /enclosing packet/);
+  assert.throws(() => validateCaption({ ...declaration, title: example().title }, profile()), /must identify a declaration/);
+});
+
 test('using a profile declaration never clears missing PDF evidence', () => {
   const { service, ...initial } = example();
   const caption = { ...initial, no_service_certificate: 'fictional-test-exemption' };
@@ -539,7 +557,7 @@ test('blocks, tables, and footnotes have explicit Markdown treatment', () => {
   }
 });
 
-pdfTest('real render chain validates the example, a new complaint and a two-by-two defendant filing', t => {
+pdfTest('real render chain validates ordinary and separate packet artifacts, including a table continued across pages', t => {
   const render = process.env.COURT_FILING_RENDER;
   if (!render) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
   const scratch = temp(t);
@@ -558,11 +576,23 @@ pdfTest('real render chain validates the example, a new complaint and a two-by-t
   writeFileSync(exemptFile, JSON.stringify(exemptProfile));
   const { service, ...exempt } = initial;
   exempt.no_service_certificate = reason;
+  const proposed = { ...example(), title: 'Order Setting a Conference', document_type: 'proposed-order' };
+  delete proposed.signer;
+  delete proposed.service;
+  const supporting = { ...example(), title: 'Supporting Declaration of Rowan Example', document_type: 'supporting-declaration' };
+  delete supporting.service;
+  const table = ['| Entry | Detail |', '| --- | --- |',
+    ...Array.from({ length: 90 }, (_, index) => '| Sample ' + index + ' | A fictional table entry. |')]
+    .join('\n');
   const cases = [
     ['motion', example(), body(), ['--limit', 'general-motion-words']],
     ['initial', initial, fixtureBody, noLimit],
     ['defendant', defendant, richBody, ['--limit', 'general-motion-pages']],
     ['exempt', exempt, fixtureBody, noLimit, exemptFile],
+    ['proposed', proposed, 'The fictional conference will be scheduled.\n\nSO ORDERED on __________.\n\n' +
+      'BY THE COURT:\n\n________________\n\nDistrict Court Judge', noLimit],
+    ['supporting', supporting, fixtureBody, noLimit],
+    ['table', example(), table, noLimit],
   ];
   for (const [name, fields, markdown, flags, selected = 'colorado-district'] of cases) {
     const cap = join(scratch, name + '.json');
@@ -582,7 +612,24 @@ pdfTest('real render chain validates the example, a new complaint and a two-by-t
     assert.equal(validated.status, 0, name + ': ' + validated.stderr);
     const result = resultOf(validated);
     assert.equal(result.result, 'ALL CHECKS PASSED');
-    assert.equal(checksByName(result)['Certificate of service present'], name === 'exempt' ? 'not_applicable' : 'pass');
+    assert.equal(checksByName(result)['Certificate of service present'],
+      ['exempt', 'proposed', 'supporting'].includes(name) ? 'not_applicable' : 'pass');
+    if (name === 'proposed') {
+      assert.equal(checksByName(result)['Judicial signature block in proposed order'], 'pass');
+      assert.equal(checksByName(result)['Filer signature and certificate of service absent'], 'pass');
+    }
+    if (name === 'supporting') {
+      assert.equal(checksByName(result)['Signer in signature block'], 'pass');
+      assert.equal(checksByName(result)['Certificate of service absent'], 'pass');
+    }
+    if (name === 'table') {
+      const extracted = spawnSync('pdftotext', ['-raw', out, '-'], { encoding: 'utf8' });
+      assert.equal(extracted.status, 0, extracted.stderr);
+      assert.ok(extracted.stdout.split('\f').slice(1).some(page => page.trimStart().startsWith('Entry Detail')));
+      assert.equal(checksByName(result)['Printed PDF body matches composition'], 'pass');
+      const exactLimit = Math.max(result.bodyWords, result.pdfBodyWords);
+      assert.equal(run([...cliArgs, '--max-words', String(exactLimit)]).status, 0);
+    }
     if (name === 'exempt') {
       assert.equal(checksByName(result)['Certificate of service absent'], 'pass');
       const withCertificate = [...cliArgs];

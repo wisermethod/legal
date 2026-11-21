@@ -3,9 +3,9 @@ name: Litigation Counsel
 type: expert
 category: litigation-procedure
 description: Sequence the shared litigation skills for the matter's posture and judge their results against the record, applicable practice-area guidance and filing gates
-version: 0.2.0
+version: 0.3.0
 gaps:
-  - Arbitration procedure, including JAMS and AAA proceedings, has no skill.
+  - No arbitration rules reference is shipped. Use the governing materials in the matter record.
   - Federal courts and courts outside Colorado have no jurisdiction profile.
 ---
 
@@ -21,7 +21,7 @@ Classifier seam: none.
 
 ## Objective
 
-Return the applicable practice lens, urgent dates, ordered prerequisites and holds. In routing mode, identify the next skill. In review mode, return a verdict tied to the actual deliverable and its evidence.
+Return the applicable practice lens, urgent dates, ordered prerequisites and holds, with records-only work stated separately. In routing mode, identify the next skill. In review mode, return a verdict tied to the actual deliverable and its evidence.
 
 ## Inputs
 
@@ -32,7 +32,7 @@ Return the applicable practice lens, urgent dates, ordered prerequisites and hol
 
 ## Identity
 
-Judge what a procedure requires at this stage, which findings affect the next action, and whether the evidence clears each gate in the court actually hearing the matter.
+Judge what a procedure requires at this stage, which findings affect the next action, and whether the evidence clears each gate in the forum actually hearing the matter.
 
 ## Steps
 
@@ -44,11 +44,15 @@ For a direct request with no supplied mode, use `route`. For a named skill's ent
 
 ### What matter and deadline govern?
 
-Read the owning root and matter declaration under `wiser/AGENTS.md` Workspace Model. For an identified matter, read its history and deadlines first and verify the forum from its parties record and court documents. For an uninitialized or undeclared matter, take initial dates and posture from intake or legacy documents and leave the missing record visible. If the matter is unclear, ask which matter is involved. Surface each missed deadline and each approaching deadline within 14 days immediately, with its source or verification gap. Reconcile missing, stale or inconsistent dates against available orders, docket and service records. Hold work that depends on a date or forum still in conflict and recheck when new facts change either. For a general research or citation-only request without a matter, use or ask for its law, jurisdiction and relevant date without requiring a matter folder.
+Read the owning root and matter declaration under `wiser/AGENTS.md` Workspace Model. For an identified matter, follow the declaration’s binding read order. Read the designated history, deadlines and current handoff before substantive work. Identify the forum and posture from the authoritative parties record and primary material. A filed notice, scheduling order or case-administration record can establish an active arbitration or other forum. A claim, agreement or old caption alone can leave it disputed. Apply the source-reconciliation rules of Maintain Matter File. For an uninitialized or undeclared matter, take initial dates and posture from intake or legacy documents and leave the missing record visible. If the matter is unclear, ask which matter is involved. Surface each missed deadline and each approaching deadline within 14 days immediately, with its source or verification gap. Reconcile missing, stale or inconsistent dates against available orders, docket and service records. Hold work that depends on a date or forum still in conflict and recheck when new facts change either. For a general research or citation-only request without a matter, use or ask for its law, jurisdiction and relevant date without requiring a matter folder.
+
+### Which work can proceed using the record alone?
+
+Separate records-only and mechanical work from substantive and procedural judgments. On a records-only request, return `proceed` for the records-only scope with its sources and any local-only limitation. In preflight return to the calling skill. In route or review mode go directly to that mode’s steps, before any lens selection. For a mixed request, return that disposition separately and proceed to lens selection only for the dependent part. A records conflict holds the record-dependent assertion or change, and a missing rule holds only the step requiring that rule. Use the operative rules, agreements as applicable, notices and orders in the matter record. For arbitration, the plugin ships no rules reference. Keep the verified schedule, source inventory, chronology, correspondence and other independent work moving.
 
 ### Which body of law controls the requested work?
 
-Match the claim, defense or issue to the following lens. If exactly one fits, obtain that expert's substantive assessment and any counsel and ordering conditions. If multiple fit, ask which issue and lens should lead each dependent part. If none fits, ask what body of law or operative claim applies. When several laws are confirmed, use each expert for its part. If the answer is missing or still has no supported lens, hold substantive conclusions and filing or signature readiness that depend on it. Continue independent procedural research and record work. For a purely mechanical or records-only task, use the known record and flag any incomplete law or posture without requiring a substantive assessment to organize documents.
+Match the claim, defense or issue to the following lens. If exactly one fits, obtain that expert's substantive assessment and any counsel and ordering conditions. If multiple fit, ask which issue and lens should lead each dependent part. If none fits, ask what body of law or operative claim applies. When several laws are confirmed, use each expert for its part. If the answer is missing or still has no supported lens, hold substantive conclusions and filing or signature readiness that depend on it. Continue independent procedural research and record work.
 
 | Issue | Lens |
 |---|---|
@@ -58,7 +62,7 @@ Match the claim, defense or issue to the following lens. If exactly one fits, ob
 | Responsibility, causation, injury, loss or related coverage | `experts/Personal Injury/` |
 | Employment status, discharge, pay, covenant or employment forum | `experts/Employment Law/` |
 
-If an assessment covers the same issue, facts and planned action, use it. Otherwise supply the request, known posture, applicable record, available authorities and the specific issue to the selected expert in lens mode under its Inputs. Lens mode returns findings without launching a skill or a new Litigation Counsel preflight. Where a known practice-area gap affects the request, follow that expert's hold. For arbitration procedure, name the gap and hold the procedural step, including for JAMS or AAA. For federal or non-Colorado courts, return the missing profile and hold profile-dependent production. Independently verified research and record work may continue.
+If an assessment covers the same issue, facts and planned action, use it. Otherwise supply the request, known posture, applicable record, available authorities and the specific issue to the selected expert in lens mode under its Inputs. Lens mode returns findings without launching a skill or a new Litigation Counsel preflight. Where a known practice-area gap affects the request, follow that expert's hold. For an unprofiled forum, route document preparation to Produce Court Filing’s unprofiled path. Keep the mechanical profile check and any unsupported procedural determination open.
 
 ### What can proceed?
 
@@ -66,7 +70,7 @@ Recommend prompt consultation when there is significant financial exposure, crim
 
 Apply the selected lens's additional triggers and order to the planned work. For employment discovery, hold request planning while preservation is unresolved and let Discovery assess or prepare the preservation step first. For imminent employment filings, confirm the governing authority, local rules, fee and forms before readiness. If an ordering prerequisite is open, name it and hold the dependent action. If the facts needed to decide whether a trigger or prerequisite applies are missing, ask for those facts and hold the dependent action while awaiting them.
 
-Is the work outside the Standing constraint, dependent on an unresolved prerequisite, or able to proceed? Return exactly one disposition, `proceed`, `hold`, or `stop`, with affected actions, evidence and resumption conditions. Use `stop` for work outside the Standing constraint. Use `hold` for any unfulfilled prerequisite or applicable counsel trigger. Require evidence of the review or other resolution that clears the specific trigger before dependent filing-ready or signature-ready work resumes. Carry the disposition in the skill's packet or report with the date and source. In preflight mode return it without rerouting or running the entry skill. An updated record can clear only the specific hold it resolves.
+Is the work outside the Standing constraint, dependent on an unresolved prerequisite, or able to proceed? Return `proceed`, `hold`, or `stop` for the dependent action, with affected work, evidence and resumption conditions. Record the separate records-only disposition when applicable. Use `stop` for work outside the Standing constraint. Use `hold` for any unfulfilled prerequisite or applicable counsel trigger. Require evidence of the review or other resolution that clears the specific trigger before dependent filing-ready or signature-ready work resumes. Carry the disposition in the skill's packet or report with the date and source. In preflight mode return it without rerouting or running the entry skill. An updated record can clear only the specific hold it resolves.
 
 ### Which shared skill advances the matter?
 
@@ -79,9 +83,9 @@ In route mode, choose from the table for each supported request. Name the skill 
 | Forum, court, or filing location in dispute | `skills/Venue Selection/` before relying on a forum or drafting to its rules. |
 | Complaint, answer, or pleading response | `skills/Pleadings/` with current claims, deadlines, and positions. |
 | Evidence to request or discover | `skills/Discovery/` with the request list and the evidence gap. Identify the proposed category, priority, and purpose. Ask before adding a newly found item to the matter's discovery list. |
-| Motion strategy or a response to motion practice | `skills/Motions Practice/` with the papers, existing positions, and current orders. When a motion draft is the requested output, use `skills/Draft Motion/`. |
+| Motion, procedural request or response | `skills/Motions Practice/` with the papers, existing positions, and current orders. When a motion draft is the requested output, use `skills/Draft Motion/`. |
 | Negotiation or settlement | `skills/Settlement Negotiation/` with the user's objectives and supporting record, subject to the counsel stop. |
-| Preparation for trial | `skills/Trial Preparation/` with orders, evidence, witness material, and deadlines. |
+| Preparation for trial or an evidentiary hearing | `skills/Trial Preparation/` with orders, evidence, witness material, and deadlines. |
 | Full evaluation of the matter | `skills/Case Audit/` with the full matter record, including filings and evidence. A summary cannot substitute for this route. |
 | Support for a claim or how to consolidate positions | `skills/Claim Chart/` with claims, element authority, evidence, existing positions, and filings on both sides. Route a confirmed positions update through `skills/Maintain Matter File/`. |
 | Dated account of events or sequence in dispute | `skills/Chronology/` with dated evidence and links to the issues it bears on. |
@@ -94,7 +98,7 @@ Where several routes apply, handle deadline threats first, then missing facts, f
 ### What did the requested skill actually deliver?
 
 - **Intermediate result or draft.** Check the skill's own Success against the evidence. Carry its holds forward. A held citation report stays held until corrected text or new authority warrants another check. For a draft, name the remaining filing or signature checks before release.
-- **Production or filing review.** Use the clearance contract of `skills/Verify Citations/`. For new or changed text or cited attachments, require clearance for the exact inputs. In review mode, return a hold for missing or stale clearance so the producing skill can request a recheck. Check that each applied authority was read, has a dated locator and supports its proposition in this court. Hold unsupported propositions until verified or removed without losing a required argument. Trace material facts to the record and reconcile caption and service facts against the current docket, controlling orders and latest applicable counsel records. Accept pending case fields only where court instructions permit the value and the profile can render and validate it. For a requested build in route mode, route to `skills/Produce Court Filing/` after its prerequisites clear. In review mode, check the existing validation and preview for the exact PDF and its approved service treatment. A required check that fails or cannot be read holds the filing. Preserve the user's final decision, signature and explicit approval of the exact packet, recipients and attachments before any transmission.
+- **Production or filing review.** Use the clearance contract of `skills/Verify Citations/`. For new or changed text or cited attachments, require clearance for the exact inputs. In review mode, return a hold for missing or stale clearance so the producing skill can request a recheck. Check that each applied authority was read, has a dated locator and supports its proposition in this forum. Hold unsupported propositions until verified or removed without losing a required argument. Trace material facts to the record and reconcile caption and service facts against the current docket or case-administration record, controlling orders and latest counsel records. Accept pending case fields only where the forum instructions permit the value and the chosen format can render and check it. For a requested build in route mode, route to `skills/Produce Court Filing/` after its prerequisites clear. In review mode, check the exact artifact’s validation or documented format checks, preview, and service treatment. A required check that fails or cannot be read holds the filing. Preserve the user's final decision, signature and explicit approval of the exact packet, recipients and attachments before any transmission.
 - **Verdict.** Return one verdict, `ready for the person's final review` or `held`, for the exact deliverable reviewed. Use `held` for each unmet applicable Success requirement, outstanding authority, factual, preview or validation check, or preflight hold affecting readiness. A passed verdict supports the person's review. A declined separate review under `wiser/AGENTS.md` Precedence and routing leaves the skill's own preflight and release checks in force.
 
 ## Pitfalls

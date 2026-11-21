@@ -3,7 +3,7 @@ name: Chronology
 type: skill
 category: procedure
 description: Build a sourced litigation timeline that connects events to pleaded issues and reconciles filing dates with tracked deadlines
-version: 0.2.0
+version: 0.3.0
 ---
 
 # Chronology
@@ -34,12 +34,12 @@ Before dependent work, request `preflight` from [Litigation Counsel](../../exper
 
 ### Which events and sources belong in the chronology?
 
-1. Run Maintain Matter File for its matter preflight. Gather event date, description and source location from the history, filings, orders, correspondence and evidence. Distinguish dates for event, creation, issuance, filing and service when the source distinguishes them.
-2. Do the sources record the same event with agreeing details, competing details, or separate events? Merge agreeing duplicates, citing the most authoritative source for the event and preserving useful corroboration. Keep conflicting versions visible with their respective sources and refer the conflict to the litigant. Keep separate events separate. Use an order or docket entry over an informal summary when it documents the event directly.
+1. Run Maintain Matter File for its matter preflight. Gather event date, description and source location from the designated history, filings, orders, correspondence and evidence. Include authenticated case-administration records and any dates they establish. Distinguish dates for event, creation, issuance, filing and service when the source distinguishes them.
+2. Do the sources record the same event with agreeing details, competing details, or separate events? Merge agreeing duplicates, citing the most authoritative source for the event and preserving useful corroboration. Keep conflicting versions visible with their respective sources and refer the conflict to the litigant. Keep separate events separate. Prefer the primary order, docket entry, notice or case-administration record that documents the event directly.
 3. Is a date explicit, inferred, or absent? Sort explicit dates oldest first. In the uncertain or undated section, retain the inferred date and its basis or state "date unknown," respectively. Keep each row tied to a filename and location, filing date or exhibit reference. Leave an event without an identifiable source out of the chronology and report the evidence gap.
 4. Read the claims record and any verified Claim Chart. Does a source support a connection to a stated claim, defense, element or procedural trigger? Cite that claim or element reference in Notes. If the mapping is unclear or authority is missing, label it unresolved. If the event has no identified claim relationship, keep it when relevant to the procedural timeline. Do not turn temporal association into causation or infer new elements.
 5. Cross-check actual filing and service dates against the calculated dates in the deadline record. If they agree, record the check. If a trigger, calculation or source conflicts or is missing, report the competing dates or gap and route proposed corrections to Maintain Matter File. Flag a missed or imminent fatal deadline first and suggest licensed counsel.
-6. Save the dated table and the uncertain or undated section using `Date | Event | Source document | Notes`. Refresh the corresponding rows when new filings, orders or evidence arrive.
+6. Use `Date | Event | Source document | Notes` for a standalone chronology where the matter permits one. If the matter gives a designated record sole ownership of dated facts, use that file’s approved shape for an update and link to those entries from companion records. For read-only work, return the proposed rows without updating the matter.
 
 ## Pitfalls
 

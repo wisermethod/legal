@@ -71,8 +71,10 @@ const captionShape = shape({
   case_number: (value, at) => { if (value !== '') text(value, at); },
   division: text,
   title: text,
-  signer,
-}, { court_address: text, caption_counsel: bool, counsel_label: text, service, no_service_certificate: id, filing_packet: text });
+}, {
+  signer, court_address: text, caption_counsel: bool, counsel_label: text, service, no_service_certificate: id,
+  filing_packet: text, document_type: choice('proposed-order', 'supporting-declaration'),
+});
 
 export function counselLabel(caption) {
   const role = caption.signer.role?.trim() ?? '';
@@ -109,7 +111,25 @@ export function validateCaption(value, profile, at = 'caption') {
   if ((value.case_number === '') !== newCase) {
     throw new Error(at + '.case_number must be blank for the new-case packet and populated for every other filing.');
   }
+  if (value.document_type === 'proposed-order') {
+    if (!/^(?:\[proposed\]\s+|proposed\s+)?order\b/i.test(value.title.trim())) {
+      throw new Error(at + '.title must identify the proposed order.');
+    }
+    if (value.signer || value.service || value.no_service_certificate || value.filing_packet ||
+        value.caption_counsel === true || value.counsel_label) {
+      throw new Error(at + ' proposed order must omit filer, counsel and certificate blocks and use the judicial signature block in the body.');
+    }
+    return value;
+  }
+  if (!value.signer) throw new Error(at + '.signer is required.');
   if (at === 'caption') counselLabel(value);
+  if (value.document_type === 'supporting-declaration') {
+    if (!/\b(?:declaration|affidavit)\b/i.test(value.title) || value.service ||
+        value.no_service_certificate || value.filing_packet) {
+      throw new Error(at + ' supporting declaration must identify a declaration or affidavit and use the enclosing packet’s certificate.');
+    }
+    return value;
+  }
   if (Object.hasOwn(value, 'service') === Object.hasOwn(value, 'no_service_certificate')) {
     throw new Error(at + ' must supply exactly one of service and no_service_certificate.');
   }

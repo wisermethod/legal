@@ -22,6 +22,19 @@ function decodeEntities(text) {
 export const normalize = text => text.replace(/\s+/gu, ' ').trim();
 export const canonicalBody = text => text.normalize('NFKC').replace(/[\s\u00ad\u200b\ufeff\u2022\u25e6\u25aa]+/gu, '');
 
+export function judicialClosing(printed) {
+  return /BYTHECOURT:[^:]{0,100}JUDGE[.]?$/iu.test(canonicalBody(printed));
+}
+
+export function tableHeaderBindings(html, digest) {
+  return Array.from(html.matchAll(/<thead>([\s\S]*?)<\/thead>/g), match => {
+    const header = canonicalBody(printedBodyText(match[1]));
+    if (!header) return null;
+    const offset = canonicalBody(printedBodyText(html.slice(0, match.index))).length;
+    return [offset, header.length, digest(header)].join(':');
+  }).filter(Boolean);
+}
+
 export function printedBodyText(html, includeListNumbers = true) {
   const lists = [];
   const parts = [];

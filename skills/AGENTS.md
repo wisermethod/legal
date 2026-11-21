@@ -21,8 +21,8 @@ Capabilities a user invokes by name for their output. `wiser/standards/primitive
 | `Chronology/SKILL.md` | Build a sourced litigation timeline that connects events to pleaded issues and reconciles filing dates with tracked deadlines | Litigation Counsel |
 | `Claim Chart/SKILL.md` | Map the verified elements of a claim or defense to sourced facts and evidence and show support gaps for the current litigation stage | Litigation Counsel |
 | `Draft Motion/SKILL.md` | Draft a motion body and a sourced caption packet that clear citation and factual checks before court filing production | Litigation Counsel |
-| `Maintain Matter File/SKILL.md` | Check matter deadlines first and keep events, source references, arguments, discovery needs and indexes in sync with the record | Litigation Counsel |
+| `Maintain Matter File/SKILL.md` | Reconcile matter deadlines and posture, then keep events, source references, arguments, discovery needs and designated indexes in sync | Litigation Counsel |
 | `Open a Matter/SKILL.md` | Set up a matter's project record and prepare a new Colorado district civil case packet through filing, service and deadline seeding | Litigation Counsel |
-| `Produce Court Filing/SKILL.md` | Compose, render and validate a court filing from sourced inputs, then deliver the filing artifact for human preview and approval | Litigation Counsel |
-| `Take Over a Matter/SKILL.md` | Map an existing case folder into the matter contract and verify an approved copy-based adoption against the original inventory | Litigation Counsel |
+| `Produce Court Filing/SKILL.md` | Produce a filing or forum submission from sourced inputs, then check the exact artifact for human preview and approval | Litigation Counsel |
+| `Take Over a Matter/SKILL.md` | Map an existing case folder into the matter contract and verify an approved copy or staged-folder adoption against the original inventory | Litigation Counsel |
 | `Verify Citations/SKILL.md` | Check every legal citation and the proposition it supports, then return a citation report and an annotated draft with any filing holds | Litigation Counsel |

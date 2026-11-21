@@ -6,7 +6,7 @@ Personas that carry a perspective, judge work through it, and sequence the skill
 
 | Expert | Description | Owns |
 |---|---|---|
-| `Litigation Counsel/EXPERT.md` | Sequence the shared litigation skills for the matter's posture and judge their results against the record, applicable practice-area guidance and filing gates | `skills/Pleadings/`, `skills/Discovery/`, `skills/Motions Practice/`, `skills/Settlement Negotiation/`, `skills/Trial Preparation/`, `skills/Venue Selection/`, `skills/Case Audit/`, `skills/Draft Motion/`, `skills/Claim Chart/`, `skills/Chronology/`, `skills/Verify Citations/`, `skills/Open a Matter/`, `skills/Take Over a Matter/`, `skills/Maintain Matter File/`, `skills/Produce Court Filing/`. The owner review runs at the end. Each skill also uses the entry preflight for counsel and ordering holds. |
+| `Litigation Counsel/EXPERT.md` | Sequence the shared litigation skills for the matter's posture and judge their results against the record, applicable practice-area guidance and filing gates | `skills/Pleadings/`, `skills/Discovery/`, `skills/Motions Practice/`, `skills/Settlement Negotiation/`, `skills/Trial Preparation/`, `skills/Venue Selection/`, `skills/Case Audit/`, `skills/Draft Motion/`, `skills/Claim Chart/`, `skills/Chronology/`, `skills/Verify Citations/`, `skills/Open a Matter/`, `skills/Take Over a Matter/`, `skills/Maintain Matter File/`, `skills/Produce Court Filing/`. The owner review runs at the end. Each skill uses entry preflight to separate records-only work from substantive counsel and ordering holds. |
 
 ### Practice area
 

@@ -6,7 +6,7 @@ Deterministic operations that skills and experts call. `wiser/standards/primitiv
 
 | Tool | Description |
 |---|---|
-| `Court Filing/TOOL.md` | Compose court filing HTML from Markdown and a validated caption, list jurisdiction profiles, or check a rendered PDF against those inputs |
+| `Court Filing/TOOL.md` | Compose and check profiled court filings from Markdown and caption data, including separate proposed orders and supporting declarations |
 
 ## Installing
 

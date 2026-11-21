@@ -3,7 +3,7 @@ name: Claim Chart
 type: skill
 category: procedure
 description: Map the verified elements of a claim or defense to sourced facts and evidence and show support gaps for the current litigation stage
-version: 0.2.0
+version: 0.3.0
 gaps:
   - An element list with missing or unverified governing authority is held until that authority can be checked.
 ---
@@ -23,7 +23,7 @@ Save `claim-chart-<claim-slug>.md` in the matter or its dedicated build director
 ## Inputs
 
 - `<user_request>` names the claim or defense, or asks to chart a named matter's claim.
-- `<context>` names the matter `AGENTS.md`, destination, jurisdiction and pleading, summary judgment or trial posture.
+- `<context>` names the matter `AGENTS.md`, destination, jurisdiction, forum and current procedural posture.
 - `<source_material>` contains the claims and history records, evidence, filings and correspondence, plus the applicable practice-area guidance and controlling text.
 
 ## Steps
@@ -36,7 +36,7 @@ Before dependent work, request `preflight` from [Litigation Counsel](../../exper
 
 ### What supports this claim or defense?
 
-1. Run Maintain Matter File for matter preflight and drafting or research cross-references. Which claim or defense and posture apply? If the request or claims record yields one clear choice, use it. Otherwise ask before mapping. Load the applicable practice-area expert's guidance and read the authority behind the element list.
+1. Run Maintain Matter File for matter preflight and drafting or research cross-references. Which claim or defense and posture apply? If the request or claims record yields one clear choice, use it. Otherwise ask before mapping. Load the applicable practice-area expert's guidance and read the authority behind the element list. For arbitration, use the governing substantive law and the operative forum materials for the procedural posture. Record a verified element separately from a missing procedural standard.
 2. Is the element list complete and supported by checked authority for this jurisdiction and posture? If yes, retain the authorities and pinpoints. If the expert's coverage is a stub, contains `[verify]`, or the authority is thin or disputed, run Verify Citations on the cited definitions. If the governing text still cannot support an element list, stop the affected chart and identify the missing law. If the text confirms only part of the list, mark any partial analysis as such and name the missing definitions.
 3. Gather record facts for each verified element. Cite the file and pinpoint, filing, exhibit or correspondence that makes each assertion checkable. Record material contrary evidence and distinguish allegations from evidence. Does an element have sourced support, conflicting or limited support, or no support identified? Show the precise gap for each row. Use this table structure.
 

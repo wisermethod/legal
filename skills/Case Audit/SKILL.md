@@ -3,7 +3,7 @@ name: Case Audit
 type: skill
 category: litigation-phase
 description: A full case audit with documented coverage of claims, facts, arguments, evidence, opposition, trajectory, and follow-up
-version: 0.2.0
+version: 0.3.0
 ---
 
 # Case Audit
@@ -42,11 +42,11 @@ Before dependent work, request `preflight` from [Litigation Counsel](../../exper
 
 ### 1. What is the current status?
 
-Run Maintain Matter File for matter preflight at session entry or use its current preflight record. This reads the matter's history (`HISTORY.md`) for posture and deadlines (`DEADLINES.md`). Surface every deadline within 14 days before the phase analysis. Lead with missed or imminent fatal deadlines, consequences and the immediate question to resolve. If the deadlines file is missing or stale, say so and reconcile against available orders, docket entries and dated service or notice records. For each date learned in this phase, use Maintain Matter File to record the deadline or its triggering date, source, calculation or unresolved inputs, and verification status in the deadlines file as authorized. Where a write is unavailable or unauthorized, give the person the exact entry to make. Mark uncertain dates `[verify]`, escalate possible expiry immediately, and stop any readiness or timeliness conclusion that depends on unresolved timing. Re-alert immediately when new information reveals urgency.
+Run Maintain Matter File for matter preflight at session entry or use its current preflight record. Use the matter declaration’s designated history, deadlines and handoff. Surface every deadline within 14 days before the phase analysis. Lead with missed or imminent fatal deadlines, consequences and the immediate question to resolve. If the deadlines file is missing or stale, say so and reconcile against available orders, docket entries and dated service or notice records. For each date learned in this phase, use Maintain Matter File to record the deadline or its triggering date, source, calculation or unresolved inputs, and verification status in the deadlines file as authorized. Where a write is unavailable or unauthorized, give the person the exact entry to make. Mark uncertain dates `[verify]`, escalate possible expiry immediately, and stop any readiness or timeliness conclusion that depends on unresolved timing. Re-alert immediately when new information reveals urgency.
 
-Check the court and parties in the matter's parties record (`PARTIES.md`) and confirm the jurisdiction, court, division and any controlling orders before drafting a filing. Colorado state practice is the starting research frame when the forum is unspecified. For a draft, strategic comparison or novel issue, apply `wiser` Behavioral Core by giving the approach, alternatives and confidence. Treat each rule lead and practice assumption marked `[verify]` as unchecked until the current governing text, applicable subsection, local rule, and case-specific orders are reconciled. Record the source and date checked. Apply `wiser/standards/conventions.md` Evidence Labels in the working record.
+Use the preflight forum finding and the declared parties record. Check the applicable rules and controlling orders before relying on a procedure. In arbitration or another non-court forum, use that forum’s governing materials from the matter record. Carry out independent work while any rule-dependent step is held. For a draft, strategic comparison or novel issue, apply `wiser` Behavioral Core by giving the approach, alternatives and confidence. Treat each rule lead and practice assumption marked `[verify]` as unchecked until the current governing text, applicable subsection, local rule, and case-specific orders are reconciled. Record the source and date checked. Apply `wiser/standards/conventions.md` Evidence Labels in the working record.
 
-Name posture, next deadline, pending court matters and recent orders or rulings with source locations. Record any conflict among the docket, history and source documents and carry the missing reconciliation to the resumption list. Carry the entry preflight disposition into the packet and recheck it for newly identified triggers. Apply each hold to the affected decision or handoff.
+Name posture, next deadline, pending matters before the forum and recent orders or rulings with source locations. Record any conflict among the docket or case-administration record, history and source documents and carry the missing reconciliation to the resumption list. Carry the entry preflight disposition into the packet and recheck it for newly identified triggers. Apply each hold to the affected decision or handoff.
 
 ### 2. Is every claim element and factual assertion accounted for?
 
@@ -64,7 +64,7 @@ List what is held, absent, unused, weaker than previously assumed, and likely he
 
 ### 5. What does the opposition's actual record show?
 
-Review both sides' filed papers. Build the strongest opposing case from what the other side emphasizes, what it leaves unanswered, the discovery it may pursue and plausible surprises. Cite filings and mark inferences about silence or future conduct separately from what was observed. When the docket and posture show there are no opposing filings yet, record the verified empty set, mark paper-specific checks inapplicable and build the strongest plausible response from the available evidence. Where an expected filing is missing or unreadable, record the absent paper and how it limits opposition analysis.
+Review both sides’ submissions, including material exchanged or served where it is part of the matter record. Build the strongest opposing case from what the other side emphasizes, what it leaves unanswered, the discovery it may pursue and plausible surprises. Cite filings and mark inferences about silence or future conduct separately from what was observed. When the docket and posture show there are no opposing filings yet, record the verified empty set, mark paper-specific checks inapplicable and build the strongest plausible response from the available evidence. Where an expected filing is missing or unreadable, record the absent paper and how it limits opposition analysis.
 
 ### 6. What is the candid assessment?
 

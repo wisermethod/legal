@@ -1,4 +1,4 @@
-import { canonicalBody, normalize, wordCount } from './body-text-core.js';
+import { canonicalBody, judicialClosing, normalize, wordCount } from './body-text-core.js';
 import { captionParties, formatPartyName } from './compose-core.js';
 import { counselLabel } from './schema-core.js';
 
@@ -37,7 +37,7 @@ function captionText(first, caption, profile, add, positioned) {
     add('Party in caption: ' + role + ' ' + name, partyStart > 0, printed);
   });
 
-  const label = caption.caption_counsel === false ? null : counselLabel(caption);
+  const label = caption.signer && caption.caption_counsel !== false ? counselLabel(caption) : null;
   if (label) {
     const counselEnd = matchLines(left, partyStart, label);
     let end = matchLines(left, counselEnd, caption.signer.name);
@@ -113,13 +113,7 @@ function stripFooters(extracted, format, pages) {
   });
 }
 
-export function filingTextChecks({ caption, profile, extracted, info, bodySha256, digest, add, positioned }) {
-  const check = (label, passes, detail) => add(label, extracted ? (passes ? 'pass' : 'fail') : 'not_checked',
-    extracted ? detail : 'Extractable PDF text is unavailable.');
-  const pages = stripFooters(extracted, profile.layout.footer.format, info?.count ?? 1);
-  const first = pages[0] ?? [];
-  const titleEnd = captionText(first, caption, profile, check, positioned?.[0]);
-  const remainder = [first.slice(Math.max(0, titleEnd)), ...pages.slice(1)].flat();
+function filerAndCertificate(caption, profile, remainder, check, add) {
   const signer = caption.signer.name + ',' + (caption.signer.role ? ' ' + caption.signer.role : '');
   let signedAt = -1;
   const closing = remainder.findLastIndex((line, index) => {
@@ -157,16 +151,75 @@ export function filingTextChecks({ caption, profile, extracted, info, bodySha256
   } else {
     const reason = caption.no_service_certificate;
     check('Certificate of service absent', certAt >= 0 && !afterSigner.some(line => line.toUpperCase() === certificateHeading),
-      'No certificate block permitted by ' + reason + '.');
-    add('Certificate of service present', 'not_applicable',
-      'Not applicable by declaration (' + reason + '): ' + profile.no_service_certificate_reasons[reason].description);
+      'This document has no separate certificate block.');
+    const detail = reason ? 'Not applicable by declaration (' + reason + '): ' +
+      profile.no_service_certificate_reasons[reason].description : 'The enclosing packet supplies the certificate.';
+    add('Certificate of service present', 'not_applicable', detail);
+  }
+  return closing;
+}
+
+function removeRepeatedHeaders(pages, metadata, digest) {
+  const headers = metadata.trim().split(' ').filter(Boolean).map(entry => {
+    const [offset, length, hash] = entry.split(':');
+    return { offset: Number(offset), length: Number(length), hash };
+  });
+  let prior = '';
+  return pages.map((lines, index) => {
+    let skip = 0;
+    const text = canonicalBody(lines.join(' '));
+    if (index > 0) {
+      for (const { offset, length, hash } of headers) {
+        const prefix = text.slice(0, length);
+        const isNewHeader = headers.some(header => header.hash === hash && header.offset === prior.length);
+        if (isNewHeader || offset + length > prior.length || prior.slice(offset, offset + length) !== prefix ||
+            digest(prefix) !== hash) continue;
+        let consumed = 0;
+        const end = lines.findIndex(line => (consumed += canonicalBody(line).length) >= length);
+        if (consumed === length) {
+          skip = end + 1;
+          break;
+        }
+      }
+    }
+    prior += text.slice(canonicalBody(lines.slice(0, skip).join(' ')).length);
+    return lines.slice(skip).join(' ');
+  }).join(' ');
+}
+
+export function filingTextChecks({ caption, profile, extracted, info, bodySha256, digest, add, positioned }) {
+  const check = (label, passes, detail) => add(label, extracted ? (passes ? 'pass' : 'fail') : 'not_checked',
+    extracted ? detail : 'Extractable PDF text is unavailable.');
+  const pages = stripFooters(extracted, profile.layout.footer.format, info?.count ?? 1);
+  const first = pages[0] ?? [];
+  const titleEnd = captionText(first, caption, profile, check, positioned?.[0]);
+  const bodyPages = [first.slice(Math.max(0, titleEnd)), ...pages.slice(1)];
+  const remainder = bodyPages.flat();
+  let remaining = remainder.length;
+  if (caption.document_type === 'proposed-order') {
+    check('Judicial signature block in proposed order', judicialClosing(remainder.join(' ')),
+      'The composed body ends with a court signature block.');
+    check('Filer signature and certificate of service absent',
+      !remainder.some(line => line === submitted || line.toUpperCase() === certificateHeading),
+      'The proposed order carries only the court signature block.');
+    add('Certificate of service present', 'not_applicable', 'A proposed order carries no separate certificate.');
+  } else {
+    remaining = filerAndCertificate(caption, profile, remainder, check, add);
   }
 
-  const pdfBody = titleEnd > 0 && closing > 0 ? remainder.slice(0, closing).join(' ') : null;
-  const binding = /^Court Filing ([a-f0-9]{64}) ([a-f0-9]{64}) ([1-9]\d*)$/u.exec(info?.title ?? '');
+  const bodyLines = bodyPages.map(lines => {
+    const part = lines.slice(0, Math.max(0, remaining));
+    remaining -= part.length;
+    return part;
+  });
+  const binding = /^Court Filing ([a-f0-9]{64}) ([a-f0-9]{64}) ([1-9]\d*)((?: \d+:[1-9]\d*:[a-f0-9]{64})*)$/u.exec(info?.title ?? '');
+  let pdfBody = titleEnd > 0 ? bodyLines.flat().join(' ') : '';
+  if (binding?.[4] && pdfBody && digest(canonicalBody(pdfBody)) !== binding[2]) {
+    pdfBody = removeRepeatedHeaders(bodyLines, binding[4], digest);
+  }
   check('Composed body SHA-256', Boolean(binding && binding[1] === bodySha256),
     'PDF metadata must carry the exact body SHA-256 from compose.');
   check('Printed PDF body matches composition', Boolean(pdfBody && binding && digest(canonicalBody(pdfBody)) === binding[2]),
-    'Extracted body text from the caption title through the signature block must match compose.');
-  return { pdfBodyWords: pdfBody === null ? null : wordCount(pdfBody), bodyWords: binding ? Number(binding[3]) : null };
+    'Extracted body text must match compose, excluding running table headers already present in the body.');
+  return { pdfBodyWords: pdfBody ? wordCount(pdfBody) : null, bodyWords: binding ? Number(binding[3]) : null };
 }
