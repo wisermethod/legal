@@ -1178,6 +1178,90 @@ pdfTest('explicit maxima preserve motion alternatives and page-only caps', async
   assert.equal(checksByName(overPages.result)['Within word limit (100)'], 'pass');
 });
 
+test('order limits retain an omitted profile ceiling only when the profile requires both', () => {
+  const current = profile();
+  const source = 'Fictional Order, 2099-04-05, docket entry 7 at page 2';
+  const limit = (type, flags) => resolveLimits(current, { ...example(), document_type: type }, { orderSource: source, ...flags });
+  assert.equal(limit('motion', { orderPages: 10 }).words, null);
+  assert.equal(limit('rule-12-or-56-motion', { orderWords: 100 }).pages, null);
+  assert.equal(limit('proposed-order', { orderPages: 10 }).choice, 'order-maxima');
+  current.document_types.motion.length_mode = 'all';
+  const resolved = limit('motion', { orderPages: 10 });
+  assert.equal(resolved.words, 4000);
+  assert.equal(resolved.order.words, null);
+  assert.equal(limit('motion', { orderWords: 100 }).pages, 15);
+  current.validation.limits['general-motion-words'].verification = 'verify';
+  assert.throws(() => limit('motion', { orderPages: 10 }), /requires both ceilings/);
+  assert.equal(limit('motion', { orderPages: 10, orderWords: 100 }).words, 100);
+});
+
+pdfTest('case-specific order ceilings are mandatory and preserve their source', t => {
+  if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
+  const scratch = temp(t);
+  const build = (name, paragraphs) => renderFiling(scratch, name, example(),
+    Array.from({ length: paragraphs }, () => 'The fictional record states this fact.').join('\n\n'));
+  const over = build('fourteen-pages', 265);
+  const exact = build('ten-pages', 175);
+  const raised = build('twenty-eight-pages', 555);
+  const source = 'Fictional Order, 2099-04-05, docket entry 7 at page 2';
+  const orderSource = ['--order-source', source];
+  const check = (filing, flags, status) => {
+    const response = run([...filing.validateArgs, ...flags]);
+    assert.equal(response.status, status, response.stdout || response.stderr);
+    return resultOf(response);
+  };
+  const personal = check(over, ['--max-pages', '10'], 0);
+  assert.deepEqual(personal.limits.satisfiedBy, ['words']);
+  const lower = check(over, ['--order-max-pages', '10', ...orderSource], 1);
+  assert.equal(lower.pages, 14);
+  assert.ok(lower.bodyWords < 4000);
+  assert.equal(lower.ok, false);
+  assert.equal(lower.result, 'VALIDATION FAILED');
+  assert.deepEqual(lower.limits, { choice: 'order-maxima', pages: 10, words: null, preset: null,
+    order: { source, pages: 10, words: null, aboveProfile: {} } });
+  assert.equal(checksByName(lower)['Within page limit (10, set by order)'], 'fail');
+  assert.equal(checksByName(lower)['Within a profile length alternative'], undefined);
+
+  const atCeiling = check(exact, ['--order-max-pages', '10', ...orderSource], 0);
+  assert.equal(atCeiling.pages, 10);
+  assert.equal(atCeiling.result, 'ALL CHECKS PASSED');
+  assert.equal(checksByName(atCeiling)['Within page limit (10, set by order)'], 'pass');
+  const above = check(raised, ['--order-max-pages', '30', ...orderSource], 0);
+  assert.equal(above.pages, 28);
+  assert.equal(above.result, 'ALL CHECKS PASSED');
+  const advisory = above.advisories.find(entry => entry.label === 'Order ceiling above profile (pages)');
+  assert.ok(advisory?.detail.includes(source));
+  assert.match(advisory.detail, /30.*15.*preview/);
+
+  for (const [pages, words, pageResult, wordResult] of [
+    ['10', '4000', 'fail', 'pass'],
+    ['14', '100', 'pass', 'fail'],
+    ['14', '4000', 'pass', 'pass'],
+  ]) {
+    const expectedStatus = pageResult === 'pass' && wordResult === 'pass' ? 0 : 1;
+    const result = check(over, ['--order-max-pages', pages, '--order-max-words', words, ...orderSource], expectedStatus);
+    assert.equal(checksByName(result)['Within page limit (' + pages + ', set by order)'], pageResult);
+    assert.equal(checksByName(result)['Within word limit (' + words + ', set by order)'], wordResult);
+  }
+  const wordOnly = check(exact, ['--order-max-words', '100', ...orderSource], 1);
+  assert.equal(wordOnly.limits.pages, null);
+  assert.equal(checksByName(wordOnly)['Within word limit (100, set by order)'], 'fail');
+
+  for (const [flags, error] of [
+    [['--order-max-pages', '10'], /--order-source must be non-blank single-line text/],
+    [['--order-max-words', '100'], /--order-source must be non-blank single-line text/],
+    [['--order-max-pages', '10', '--order-source', ' '], /--order-source must be non-blank single-line text/],
+    [['--order-max-words', '0', ...orderSource], /--order-max-words must be a positive integer/],
+    [orderSource, /--order-source requires --order-max-pages or --order-max-words/],
+    [['--order-max-pages', '10', ...orderSource, '--max-words', '100'], /Order flags cannot be combined/],
+  ]) {
+    const rejected = run([...over.validateArgs, ...flags]);
+    assert.equal(rejected.status, 1, rejected.stdout);
+    assert.equal(rejected.stdout, '');
+    assert.match(rejected.stderr, error);
+  }
+});
+
 pdfTest('an oversized general reply fails both alternatives and cannot use the longer Rule 12 or 56 type', t => {
   if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
   const caption = { ...example(), title: 'Reply in Support of the Motion to Compel', document_type: 'reply' };
@@ -1336,12 +1420,17 @@ pdfTest('named limits are alternatives unless the profile requires both', t => {
       const evidence = parsed.checks.find(check => check.label === 'Within a profile length alternative');
       assert.deepEqual(evidence.counts, { pageCount: parsed.pages, bodyWords: 5, pdfBodyWords: 5 });
     }
+    return parsed;
   };
   check('page-only', 15, 4, 'alternatives', [], true, ['pages']);
   check('word-only', 1, 4000, 'alternatives', [], true, ['words']);
   check('neither', 1, 4, 'alternatives', [], false, []);
   check('pinned-words', 15, 4, 'alternatives', ['--limit', 'general-motion-words'], false);
   check('both-required', 15, 4, 'all', [], false);
+  const retained = check('order-and-required-profile-words', 15, 4, 'all',
+    ['--order-max-pages', '5', '--order-source', 'Fictional Order, 2099-04-05, docket entry 7 at page 2'], false);
+  assert.equal(checksByName(retained)['Within page limit (5, set by order)'], 'pass');
+  assert.equal(checksByName(retained)['Within word limit (4)'], 'fail');
 });
 
 pdfTest('an ambiguous reply keeps the reply cap and confirmation persists in validation', async t => {

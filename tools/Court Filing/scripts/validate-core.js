@@ -109,12 +109,23 @@ export function validate({ pdf, caption, profile, limits, prepared, replay = fal
     pages: limits.choice === 'explicit-maxima' ? limits.pages ?? undefined : undefined,
     words: limits.choice === 'explicit-maxima' ? limits.words ?? undefined : undefined,
     noLimit: limits.choice === 'no-length-limit',
+    orderPages: limits.order?.pages ?? undefined,
+    orderWords: limits.order?.words ?? undefined,
+    orderSource: limits.order?.source,
   });
   limits = verifiedLimits;
   const { bodySha256, bodyWords } = prepared;
   const title = titleChecks(profile, caption);
   const checks = [...title];
   const add = (label, status, detail, counts) => checks.push(counts ? { label, status, detail, counts } : { label, status, detail });
+  const order = limits.order;
+  if (order) {
+    for (const [unit, ceiling] of Object.entries(order.aboveProfile)) {
+      add('Order ceiling above profile (' + unit + ')', 'advisory',
+        'The ceiling of ' + order[unit] + ' ' + unit + ' set by order exceeds the profile figure of ' + ceiling +
+        '. Confirm its applicability at preview against ' + order.source + '.');
+    }
+  }
   const pdfInfo = inspect('page-info', pdf);
   const info = pdfInfo && readPageInfo(pdfInfo);
   const textBytes = info && info.count <= MAX_PDF_PAGES ? inspect('text', pdf) : null;
@@ -130,7 +141,8 @@ export function validate({ pdf, caption, profile, limits, prepared, replay = fal
     limits.choice === 'explicit-maxima' && documentType(profile, caption).length_mode === 'alternatives' &&
     limits.pages !== null && limits.words !== null;
   if (!alternatives && limits.pages !== null) {
-    add('Within page limit (' + limits.pages + ')', info ? resultOf(info.count <= limits.pages) : 'not_checked',
+    add('Within page limit (' + limits.pages + (order?.pages ? ', set by order)' : ')'),
+      info ? resultOf(info.count <= limits.pages) : 'not_checked',
       info ? info.count + ' total PDF page(s), including any parts the rule exempts.' : 'PDF page count is unavailable.');
   }
   if (limits.choice === 'no-length-limit') {
@@ -156,7 +168,8 @@ export function validate({ pdf, caption, profile, limits, prepared, replay = fal
       pageCount === null || wordCount === null ? 'not_checked' : 'fail', detail,
     { pageCount, bodyWords, pdfBodyWords });
   } else if (limits.words !== null) {
-    add('Within word limit (' + limits.words + ')', pdfBodyWords === null || bodyWords === null ? 'not_checked' : resultOf(Math.max(pdfBodyWords, bodyWords) <= limits.words),
+    add('Within word limit (' + limits.words + (order?.words ? ', set by order)' : ')'),
+      pdfBodyWords === null || bodyWords === null ? 'not_checked' : resultOf(Math.max(pdfBodyWords, bodyWords) <= limits.words),
       pdfBodyWords === null || bodyWords === null ? 'The PDF body or composition word count is unavailable.' :
         pdfBodyWords + ' words in the rendered PDF body and ' + bodyWords + ' for the composed body. ' +
         'Both counts include ordered-list markers and exclude caption, filer signature and certificate. ' +

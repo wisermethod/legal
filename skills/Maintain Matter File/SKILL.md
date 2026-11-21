@@ -3,7 +3,7 @@ name: Maintain Matter File
 type: skill
 category: procedure
 description: Answer read-only deadline questions, reconcile posture and keep events, deadlines, source references and designated matter records in sync
-version: 0.3.5
+version: 0.3.6
 ---
 
 # Maintain Matter File
@@ -38,12 +38,12 @@ Use for “what is due,” “what is overdue” and the first alert on every ma
 
 When a status summary and an applicable dated primary record disagree, use the dated record and identify the stale file, line or entry in the answer. If two rows concern the same clock, link the readings in the answer and give each its own date or trigger and source. When operative evidence settles which reading governs, identify it and show the displaced reading as `superseded` in the answer only. Otherwise show both as `verify`, name the authority or trigger evidence needed and hold the dependent timeliness conclusion. Check rule version, applicability and computation before confirming a calculated date. Read earlier deadline records as they stand. Recover missing fields from their evidence where possible and identify the fields that still require verification.
 
-Give the first two groups as the startup alert before the requested work, or state what the available evidence permits you to say about their absence. For a standalone deadline question, give all six groups in the same turn. Put each row in exactly one group. Assign group 4 first by date type, then group 5 by resolved state. For remaining rows, use the first applicable group in the answer order below.
+Give the first two groups as the startup alert before the requested work, or state what the available evidence permits you to say about their absence. For a standalone deadline question, give all six groups in the same turn. Put each row in exactly one group. First decide the date type from the evidence, not from the row's label: a conditional date whose trigger has occurred is a fixed or calculated obligation from that trigger, and is grouped as one. Group 4 takes an unapproved requested date, a personal reminder, and a conditional date whose trigger is still unmet. Group 5 takes resolved rows. Every other row is a fixed or calculated obligation and goes in the first of groups 1, 2, 3 or 6 that fits. A fixed or calculated date that may be overdue or falls inside the next 14 days goes in group 1 or 2 even when its reading is still `verify`: show it there with the `verify` state and what would confirm it, and never leave it out of the startup alert.
 
 1. Overdue fixed or calculated obligations, and those the available evidence indicates may have been missed. Flag uncertainty and name the risk and prompt licensed-counsel trigger for any urgent potential or verified fatal deadline.
-2. Open fixed or calculated obligations with an operative date from today through 14 days ahead.
+2. Open fixed or calculated obligations with an operative or `verify` date from today through 14 days ahead.
 3. Open fixed or calculated obligations with a later operative date.
-4. Requested dates, conditional dates and personal reminders, including near or past dates. Identify the pending approval, unmet trigger or reminder purpose. Keep any documented completion or expiry visible in the row’s outcome.
+4. Unapproved requested dates, conditional dates whose trigger is still unmet, and personal reminders, including near or past dates. Identify the pending approval, unmet trigger or reminder purpose. Keep any documented completion or expiry visible in the row’s outcome.
 5. Other completed, expired or superseded rows. Distinguish fulfilled obligations, documented expirations and displaced readings, with dates and evidence for each.
 6. Other rows that could not be verified locally and any limits on the review. Name unchecked sources, the latest records checked and what could change the answer. Say `local-only` when the live docket or forum record is unconfirmed.
 

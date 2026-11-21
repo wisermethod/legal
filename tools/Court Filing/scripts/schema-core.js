@@ -398,13 +398,43 @@ export function validateProfile(value) {
   return value;
 }
 
-export function resolveLimits(profile, caption, { preset, pages, words, noLimit = false } = {}) {
+function resolveOrderLimits(profile, treatment, { orderPages, orderWords, orderSource, all }) {
+  text(orderSource, '--order-source');
+  if (orderPages !== undefined) positive(orderPages, '--order-max-pages');
+  if (orderWords !== undefined) positive(orderWords, '--order-max-words');
+  const entries = lengthEntries(profile, treatment);
+  const profileCaps = ceilings(entries);
+  const retained = all ? ceilings(entries.filter(limit => limit.verification !== 'verify')) : {};
+  const pages = orderPages ?? retained.pages ?? null;
+  const words = orderWords ?? retained.words ?? null;
+  if (all && (pages === null || words === null)) {
+    throw new Error('This profile requires both ceilings. Verify any remaining unverified ceiling in the profile or supply it with the applicable order flags.');
+  }
+  const aboveProfile = {};
+  if (orderPages > profileCaps.pages) aboveProfile.pages = profileCaps.pages;
+  if (orderWords > profileCaps.words) aboveProfile.words = profileCaps.words;
+  return {
+    choice: 'order-maxima', pages, words, preset: null,
+    order: { source: orderSource, pages: orderPages ?? null, words: orderWords ?? null, aboveProfile },
+  };
+}
+
+export function resolveLimits(profile, caption, {
+  preset, pages, words, noLimit = false, orderPages, orderWords, orderSource,
+} = {}) {
   const treatment = documentType(profile, caption);
   const allowed = treatment.length_presets;
   const general = caption.document_type === profile.fallback_document_type;
   const alternatives = treatment.length_mode === 'alternatives';
   const all = treatment.length_mode === 'all' || general && !alternatives;
   const explicit = pages !== undefined || words !== undefined;
+  if (orderPages !== undefined || orderWords !== undefined) {
+    if (preset !== undefined || explicit || noLimit) {
+      throw new Error('Order flags cannot be combined with --limit, --max-pages, --max-words or --no-length-limit.');
+    }
+    return resolveOrderLimits(profile, treatment, { orderPages, orderWords, orderSource, all });
+  }
+  if (orderSource !== undefined) throw new Error('--order-source requires --order-max-pages or --order-max-words.');
   if (noLimit) {
     if (preset !== undefined || explicit) {
       throw new Error('--no-length-limit cannot be combined with a preset or explicit maxima.');
@@ -419,7 +449,7 @@ export function resolveLimits(profile, caption, { preset, pages, words, noLimit 
     if (!allowed?.includes(preset)) throw new Error('--limit is not listed for this profile document type. Run profiles.');
     const selected = profile.validation.limits[preset];
     if (selected.verification === 'verify') {
-      throw new Error('This --limit requires verification. Use an explicit maximum after checking the applicable rule or order.');
+      throw new Error('This --limit requires verification. Verify the profile ceiling or use order flags for a governing case-specific maximum.');
     }
     if (!all) {
       return {
@@ -441,7 +471,7 @@ export function resolveLimits(profile, caption, { preset, pages, words, noLimit 
   const caps = ceilings(usable);
   if (all) {
     if (!(pages ?? caps.pages) || !(words ?? caps.words)) {
-      throw new Error('This profile requires both ceilings. Supply explicit maxima for any unverified ceiling.');
+      throw new Error('This profile requires both ceilings. Verify any missing profile ceilings or supply an applicable order ceiling.');
     }
     return { choice: explicit ? 'explicit-maxima' : preset ? 'profile-preset' : 'profile-all',
       pages: pages ?? caps.pages, words: words ?? caps.words, preset: preset ?? null };
@@ -449,7 +479,7 @@ export function resolveLimits(profile, caption, { preset, pages, words, noLimit 
   if (explicit) {
     const maxima = { pages: pages ?? caps.pages ?? null, words: words ?? caps.words ?? null };
     if (Object.keys(profileCaps).some(unit => maxima[unit] === null)) {
-      throw new Error('Supply an explicit maximum based on the applicable rule or order for each unverified profile ceiling.');
+      throw new Error('Verify each remaining profile ceiling or use order flags for a governing case-specific ceiling.');
     }
     return { choice: 'explicit-maxima', ...maxima, preset: null };
   }
@@ -459,5 +489,5 @@ export function resolveLimits(profile, caption, { preset, pages, words, noLimit 
   if (usable.length === 1 && (alternatives || entries.length === 1)) {
     return resolveLimits(profile, caption, { preset: usable[0].id });
   }
-  throw new Error('Choose --limit or supply --max-pages and/or --max-words.');
+  throw new Error('Choose --limit, supply --max-pages and/or --max-words for tighter targets, or use the applicable order flags.');
 }
