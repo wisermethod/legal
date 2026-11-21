@@ -242,6 +242,7 @@
       ]
     },
     "motion": {
+      "length_mode": "alternatives",
       "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion\\b.*",
       "filer_signature": true,
       "certificate": true,
@@ -255,7 +256,7 @@
       ]
     },
     "discovery-response": {
-      "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:(?:answers?|responses?)(?: +and +objections)?|objections +and +(?:answers?|responses?)) +to +(?:the +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|(?:thir|four|fif|six|seven|eigh|nine)teenth|(?:twentieth|thirtieth)|(?:twenty|thirty)[- ](?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth)|\\d+(?:st|nd|rd|th)) +(?:set +of +)?)?(?:interrogatories|requests? +for +(?:production|admissions?))\\b.*",
+      "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:answers?(?: +and +(?:objections|responses?))?|responses?(?: +and +(?:objections|answers?))?|objections(?: +and +(?:answers?|responses?))?) +to +(?:the +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|(?:thir|four|fif|six|seven|eigh|nine)teenth|(?:twentieth|thirtieth)|(?:twenty|thirty)[- ](?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth)|\\d+(?:st|nd|rd|th)) +(?:set +of +)?)?(?:interrogatories|requests? +for +(?:production|admissions?))\\b.*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -277,6 +278,7 @@
       ]
     },
     "response": {
+      "length_mode": "alternatives",
       "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:response|opposition)(?: +brief)?\\b.*",
       "filer_signature": true,
       "certificate": true,
@@ -302,6 +304,7 @@
       ]
     },
     "reply": {
+      "length_mode": "alternatives",
       "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?reply(?: +brief)?\\b.*",
       "filer_signature": true,
       "certificate": true,
@@ -315,6 +318,7 @@
       ]
     },
     "brief": {
+      "length_mode": "alternatives",
       "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:brief|memorandum) +in +support +of +(?:(?:a|the|its|his|her|their) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion\\b.*",
       "filer_signature": true,
       "certificate": true,
@@ -338,7 +342,7 @@
       "length_presets": null
     },
     "amended-complaint": {
-      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:verified +)?(?:(?:first|second|third) +)?amended +complaint\\b.*",
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:verified +)?(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|(?:thir|four|fif|six|seven|eigh|nine)teenth|(?:twentieth|thirtieth)|(?:twenty|thirty)[- ](?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth)|\\d+(?:st|nd|rd|th)) +)?amended +(?:and +(?:supplemental|restated) +)?complaint\\b.*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -388,7 +392,7 @@
       "length_presets": null
     },
     "proposed-order": {
-      "title_pattern": "(?:(?:\\[proposed\\]|proposed) +)?order +(?:granting|denying|approving|resolving|setting|on)\\b.*",
+      "title_pattern": "(?:(?:\\[proposed\\]|proposed) +order|(?:(?:\\[proposed\\]|proposed) +)?order +(?:(?:granting|denying|approving|resolving|setting|on)\\b|re:).*)",
       "filer_signature": false,
       "certificate": false,
       "judicial_closing": true,
@@ -408,6 +412,7 @@
       "length_presets": null
     },
     "other-paper": {
+      "length_mode": "alternatives",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,

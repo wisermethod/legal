@@ -69,6 +69,33 @@ const service = shape({ recipients: list(recipient, 1) }, {
   method: text, served_by: text, firm: text, firm_lines: list(text), firm_note: text,
 });
 const blankable = (value, at) => { if (value !== '') text(value, at); };
+const alignment = choice('left', 'center', 'right');
+const padding = (value, at) => {
+  if (!Array.isArray(value)) return number(0, 12)(value, at);
+  required(value, at, x => x.length === 4, 'four numbers for top, right, bottom and left');
+  list(number(0, 12))(value, at);
+};
+const nullable = check => (value, at) => { if (value !== null) check(value, at); };
+const tableStyle = shape({}, {
+  column_widths_percent: list(nullable(number(1, 100)), 1),
+  column_alignment: list(nullable(alignment), 1),
+  header_alignment: (value, at) => Array.isArray(value) ? list(nullable(alignment), 1)(value, at) : alignment(value, at),
+  nowrap_columns: list(positive),
+  cell_padding_pt: padding,
+  body_cell_padding_pt: padding,
+  font_size_pt: number(8, 16),
+  vertical_alignment: choice('top', 'middle', 'bottom', 'baseline'),
+});
+const tablePresentation = shape({}, {
+  default: tableStyle,
+  tables: (value, at) => {
+    object(value, at);
+    for (const [key, style] of Object.entries(value)) {
+      required(key, at + ' index', x => /^[1-9]\d*$/.test(x) && Number.isSafeInteger(Number(x)), 'a one-based table number');
+      tableStyle(style, at + '.' + key);
+    }
+  },
+});
 const captionShape = shape({
   court: text,
   parties: list(party, 1),
@@ -79,6 +106,7 @@ const captionShape = shape({
   court_address: text,
 }, {
   signer, caption_counsel: bool, counsel_label: text, service, filing_packet: text,
+  type_confirmed: bool, table_presentation: tablePresentation,
   certificate_year: (value, at) => required(value, at, isYear, 'a four-digit year'),
 });
 
@@ -109,34 +137,65 @@ export function documentType(profile, caption) {
   return Object.hasOwn(profile.document_types, caption.document_type) ? profile.document_types[caption.document_type] : null;
 }
 
-function matchingTitleTypes(profile, title, at) {
-  const fallback = profile.fallback_document_type;
-  const scope = titleScope(title);
-  if (scope === 'combined') throw new Error(at + ' does not match a single paper. Compose each paper separately.');
-  if (scope === 'ambiguous' && fallback) return [fallback];
-  const matches = Object.entries(profile.document_types)
-    .filter(([key, treatment]) => key !== fallback && (treatment.exact_title !== undefined ?
-      title === treatment.exact_title : new RegExp('^(?:' + treatment.title_pattern + ')$', 'iu').test(title)))
-    .map(([key]) => key);
-  return matches.length || !fallback ? matches : [fallback];
+function matchesTitle(treatment, title) {
+  if (treatment.exact_title !== undefined) return title === treatment.exact_title;
+  return Boolean(treatment.title_pattern && new RegExp('^(?:' + treatment.title_pattern + ')$', 'iu').test(title.trim()));
 }
 
-export function classifyTitle(profile, title) {
+export function suggestTypes(profile, title) {
   text(title, 'title');
-  return matchingTitleTypes(profile, title, 'title')[0] ?? null;
+  const matches = Object.entries(profile.document_types).filter(([, treatment]) => matchesTitle(treatment, title));
+  matches.sort(([, a], [, b]) => Number(Boolean(b.exact_title)) - Number(Boolean(a.exact_title)));
+  const suggestions = matches.map(([key]) => key);
+  if (profile.fallback_document_type) suggestions.push(profile.fallback_document_type);
+  return suggestions;
+}
+
+function morePermissive(profile, treatment) {
+  if (!treatment.filer_signature || !treatment.certificate || !treatment.length_presets?.length) return true;
+  const general = profile.document_types[profile.fallback_document_type];
+  return treatment.length_presets.some(id => {
+    const { unit, maximum } = profile.validation.limits[id];
+    const baseline = general?.length_presets?.map(id => profile.validation.limits[id]).find(limit => limit.unit === unit);
+    return baseline && maximum > baseline.maximum;
+  });
+}
+
+export function titleChecks(profile, caption) {
+  const { title, document_type: type } = caption;
+  const treatment = documentType(profile, caption);
+  const checks = [];
+  const advisory = (label, detail) => checks.push({ label, status: 'advisory', detail });
+  const scope = titleScope(title);
+  if (scope !== 'single') {
+    advisory('Possible second paper in title', scope === 'combined' ?
+      'A joined phrase reads like a second paper. Check the intended paper or papers at preview.' :
+      'A joined phrase starts with a paper name whose role is unclear. Check the intended paper or papers at preview.');
+  }
+  if (type === profile.fallback_document_type) {
+    const specific = suggestTypes(profile, title).filter(id => id !== type);
+    if (specific.length) advisory('General document type declared', 'The declared general type applies. The title also matches ' + specific.join(', ') + '.');
+  } else if (!matchesTitle(treatment, title)) {
+    const guarded = morePermissive(profile, treatment);
+    if (guarded && !caption.type_confirmed) {
+      checks.push({
+        label: 'Document type confirmation', status: 'fail',
+        detail: 'caption.title does not match the usual wording for ' + type +
+          '. Choose the type the paper is, or set caption.type_confirmed: true after the person confirms this type for this exact title.',
+      });
+    } else {
+      advisory('Declared type and title', caption.type_confirmed ?
+        "type confirmed by the person; title does not match the type's usual wording" :
+        'The title does not match the usual wording for the declared type ' + type + '.');
+    }
+  }
+  return checks;
 }
 
 export function validateCaption(value, profile, at = 'caption') {
   captionShape(value, at);
   const treatment = documentType(profile, value);
   if (!treatment) throw new Error(at + '.document_type is not listed for this profile. Run profiles.');
-  const matches = matchingTitleTypes(profile, value.title, at + '.title');
-  if (!matches.includes(value.document_type)) {
-    const fallback = profile.fallback_document_type;
-    const guidance = !fallback ? '' : matches[0] === fallback ? ' Use ' + fallback + ' with the real title.' :
-      ' Use ' + matches[0] + ' for this title. Use ' + fallback + ' when no specific type fits.';
-    throw new Error(at + '.title does not match the pattern for ' + value.document_type + '.' + guidance);
-  }
   if ((value.filing_packet ?? null) !== treatment.filing_packet) {
     throw new Error(at + '.filing_packet must match the profile document type: ' + (treatment.filing_packet ?? 'omit it') + '.');
   }
@@ -224,7 +283,8 @@ const documentTypes = (value, at) => {
     filer_signature: bool, certificate: bool, judicial_closing: bool, blank_case_number: bool,
     allow_blank_division: bool, filing_packet: (packet, field) => { if (packet !== null) text(packet, field); },
     length_presets: (value, at) => { if (value !== null) list(id)(value, at); },
-  }, { exact_title: text, title_pattern: text, double_spacing: list(choice(...spacingKinds), 1) });
+  }, { exact_title: text, title_pattern: text, double_spacing: list(choice(...spacingKinds), 1),
+    length_mode: choice('alternatives', 'all') });
   for (const [key, treatment] of Object.entries(value)) {
     id(key, at + ' document type identifier');
     const path = at + '.' + key;
@@ -260,7 +320,7 @@ export function validateProfile(value) {
   for (const [key, treatment] of Object.entries(value.document_types)) {
     if (key === value.fallback_document_type) {
       if (treatment.exact_title || treatment.title_pattern) {
-        throw new Error('profile.fallback_document_type takes every eligible title without a specific match.');
+        throw new Error('profile.fallback_document_type must have no title matcher.');
       }
     } else if (Boolean(treatment.exact_title) === Boolean(treatment.title_pattern)) {
       throw new Error('profile.document_types.' + key + ' requires one of exact_title and title_pattern.');
@@ -276,6 +336,10 @@ export function validateProfile(value) {
       if (!Object.hasOwn(value.validation.limits, preset)) {
         throw new Error('profile.document_types.' + key + ' refers to an unlisted length preset.');
       }
+    }
+    if (treatment.length_mode && (treatment.length_presets?.length !== 2 ||
+        new Set(treatment.length_presets.map(id => value.validation.limits[id].unit)).size !== 2)) {
+      throw new Error('profile.document_types.' + key + '.length_mode requires one page and one word preset.');
     }
   }
   if (value.fallback_document_type) {
@@ -299,26 +363,29 @@ export function validateProfile(value) {
 }
 
 export function resolveLimits(profile, caption, { preset, pages, words, noLimit = false } = {}) {
-  const allowed = documentType(profile, caption).length_presets;
-  const fallback = caption.document_type === profile.fallback_document_type;
+  const treatment = documentType(profile, caption);
+  const allowed = treatment.length_presets;
+  const general = caption.document_type === profile.fallback_document_type;
+  const alternatives = treatment.length_mode === 'alternatives';
+  const all = treatment.length_mode === 'all' || general && !alternatives;
+  const explicit = pages !== undefined || words !== undefined;
   if (noLimit) {
-    if ([preset, pages, words].some(value => value !== undefined)) {
+    if (preset !== undefined || explicit) {
       throw new Error('--no-length-limit cannot be combined with a preset or explicit maxima.');
     }
     if (allowed !== null) throw new Error('--no-length-limit is not allowed for this profile document type.');
+  }
+  if (allowed === null && !explicit && preset === undefined) {
     return { choice: 'no-length-limit', pages: null, words: null, preset: null };
   }
-  if (allowed === null) throw new Error('This profile document type requires --no-length-limit.');
   if (preset !== undefined) {
-    if (pages !== undefined || words !== undefined) {
-      throw new Error('--limit cannot be combined with --max-pages or --max-words.');
-    }
-    if (!allowed.includes(preset)) throw new Error('--limit is not listed for this profile document type. Run profiles.');
+    if (explicit) throw new Error('--limit cannot be combined with --max-pages or --max-words.');
+    if (!allowed?.includes(preset)) throw new Error('--limit is not listed for this profile document type. Run profiles.');
     const selected = profile.validation.limits[preset];
     if (selected.verification === 'verify') {
       throw new Error('This --limit requires verification. Use an explicit maximum after checking the applicable rule or order.');
     }
-    if (!fallback) {
+    if (!all) {
       return {
         choice: 'profile-preset',
         pages: selected.unit === 'pages' ? selected.maximum : null,
@@ -329,19 +396,25 @@ export function resolveLimits(profile, caption, { preset, pages, words, noLimit 
   }
   if (pages !== undefined) positive(pages, '--max-pages');
   if (words !== undefined) positive(words, '--max-words');
-  if (fallback) {
-    const caps = Object.fromEntries(allowed.map(id => {
-      const limit = profile.validation.limits[id];
-      return [limit.unit, limit.maximum];
-    }));
-    if (pages > caps.pages || words > caps.words) {
-      throw new Error('A fallback paper cannot exceed its profile page or word ceiling.');
+  const entries = (allowed ?? []).map(id => ({ id, ...profile.validation.limits[id] }));
+  const caps = Object.fromEntries(entries.filter(limit => limit.verification !== 'verify').map(limit => [limit.unit, limit.maximum]));
+  if (general && (pages > caps.pages || words > caps.words)) {
+    throw new Error('A general paper cannot exceed its profile page or word ceiling.');
+  }
+  if (all) {
+    if (!(pages ?? caps.pages) || !(words ?? caps.words)) {
+      throw new Error('This profile requires both ceilings. Supply explicit maxima for any unverified ceiling.');
     }
-    const choice = preset ? 'profile-preset' : pages !== undefined || words !== undefined ? 'explicit-maxima' : 'profile-fallback';
-    return { choice, pages: pages ?? caps.pages, words: words ?? caps.words, preset: preset ?? null };
+    return { choice: explicit ? 'explicit-maxima' : preset ? 'profile-preset' : 'profile-all',
+      pages: pages ?? caps.pages, words: words ?? caps.words, preset: preset ?? null };
   }
-  if (pages === undefined && words === undefined) {
-    throw new Error('Choose --limit or supply --max-pages and/or --max-words.');
+  if (explicit) return { choice: 'explicit-maxima', pages: pages ?? null, words: words ?? null, preset: null };
+  if (alternatives && caps.pages && caps.words) {
+    return { choice: 'profile-alternatives', pages: caps.pages, words: caps.words, preset: null };
   }
-  return { choice: 'explicit-maxima', pages: pages ?? null, words: words ?? null, preset: null };
+  const usable = entries.filter(limit => limit.verification !== 'verify');
+  if (usable.length === 1 && (alternatives || entries.length === 1)) {
+    return resolveLimits(profile, caption, { preset: usable[0].id });
+  }
+  throw new Error('Choose --limit or supply --max-pages and/or --max-words.');
 }

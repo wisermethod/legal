@@ -3,7 +3,7 @@ name: Settlement Negotiation
 type: skill
 category: litigation-phase
 description: A settlement preparation packet with sourced scenario assumptions, negotiation options, and a terms and dismissal review
-version: 0.3.4
+version: 0.3.5
 gaps:
   - verified settlement valuation, Rule 408, confidentiality, enforcement, dismissal, and tax guidance
 ---
@@ -46,7 +46,7 @@ Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Coun
 
 Follow [Maintain Matter File's phase deadline handoff](../Maintain%20Matter%20File/SKILL.md#what-should-a-phase-do-with-a-deadline) before analyzing the phase. Include the result in the packet.
 
-Use the preflight forum finding and the declared parties record. Check the applicable rules and controlling orders before relying on a procedure. When a required source is unavailable, name the specific source and affected decision. Ask for the missing source or take the research route named for that check. Hold the decision while independent work continues. In arbitration or another non-court forum, use that forum’s governing materials from the matter record. Carry out independent work while any rule-dependent step is held. For a draft, strategic comparison or novel issue, apply `wiser` Behavioral Core by giving the approach, alternatives and confidence. Treat each rule lead and practice assumption marked `[verify]` as unchecked until the current governing text, applicable subsection, local rule, and case-specific orders are reconciled. Record the source and date checked. Apply `wiser/standards/conventions.md` Evidence Labels in the working record.
+Use the preflight forum finding and the declared parties record. Check the applicable rules and controlling orders before relying on a procedure. When a required source is unavailable, name the specific source and affected decision. Ask for the missing source. Hold the decision while independent work continues. In arbitration or another non-court forum, use that forum’s governing materials from the matter record. Carry out independent work while any rule-dependent step is held. For a draft, strategic comparison or novel issue, apply `wiser` Behavioral Core by giving the approach, alternatives and confidence. Apply the skills index’s [Evidence labels](../AGENTS.md#evidence-labels) to each working rule or figure marked `[verify]`. Confirm the current governing text, applicable subsection, local rule and case-specific orders before relying on it. Record the source and date checked. Apply `wiser/standards/conventions.md` Evidence Labels in the working record.
 
 For drafting or research, cross-check the designated claims, arguments, case-law, statutes and discovery records for existing elements, positions, sources and evidence needs. Check the glossary designated by the owning root when available for defined terms. Surface new reusable findings and proposed discovery items with a source, reason and target record. Add them and any newly researched guidance to the authorized record only after the person confirms. Carry the entry preflight disposition into the packet and recheck it for newly identified triggers. Apply each hold to the affected decision or handoff.
 

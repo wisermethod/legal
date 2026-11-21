@@ -1,4 +1,4 @@
-import { canonicalBody, spacingBindings } from './body-text-core.js';
+import { canonicalBody, printedBodyText, spacingBindings } from './body-text-core.js';
 import { PAGE_SIZES } from './schema-core.js';
 
 const DECODER = new TextDecoder();
@@ -13,9 +13,9 @@ export function readPageInfo(bytes) {
   const count = Number(/^Pages:\s+(\d+)$/m.exec(text)?.[1]);
   if (!Number.isSafeInteger(count) || count < 1) return null;
   const pages = Array.from({ length: Math.min(count, 200) }, () => ({}));
-  for (const match of text.matchAll(/^Page\s+(\d+)\s+(size|rot|MediaBox|CropBox):\s+([-\d. ]+).*$/gm)) {
+  for (const match of text.matchAll(/^Page\s+(\d+)\s+(size|rot|MediaBox|CropBox):\s+([-\d. x]+).*$/gm)) {
     const [, page, field, values] = match;
-    if (pages[Number(page) - 1]) pages[Number(page) - 1][field] = values.trim().split(/\s+/).map(Number);
+    if (pages[Number(page) - 1]) pages[Number(page) - 1][field] = values.trim().split(/\s+x\s+|\s+/).map(Number);
   }
   return { count, pages, title: /^Title:[ \t]+([^\r\n]+)$/m.exec(text)?.[1], active: /^JavaScript:\s+yes$|^Form:\s+(?!none$)\S+/im.test(text) };
 }
@@ -139,26 +139,66 @@ export function imagesAbsent(bytes) {
   return rows.length === 0;
 }
 
-export function readTypography(bytes, count, layout) {
+export function tableTypography(prepared, pages, repeated, layout) {
+  const bodySize = Math.round(layout.body_font_size_pt * 3);
+  const ranges = prepared.headers.flatMap(({ offset, end }, index) => {
+    const size = prepared.tableStyles[index]?.font_size_pt;
+    const units = Math.round(size * 3);
+    return size !== undefined && units !== bodySize ? [{ offset, end, units }] : [];
+  });
+  if (!ranges.length) return undefined;
+  let start = 0;
+  return pages.map((lines, page) => {
+    const expected = new Map();
+    const collect = (text, at) => {
+      for (const { offset, end, units } of ranges) {
+        const from = Math.max(0, offset - at);
+        const to = Math.min(text.length, end - at);
+        if (from < to) expected.set(units, (expected.get(units) ?? '') + text.slice(from, to));
+      }
+    };
+    const header = repeated.find(item => item.page === page);
+    if (header) collect(canonicalBody(header.lines.join(' ')), header.offset);
+    const body = canonicalBody(lines.join(' '));
+    collect(body, start);
+    start += body.length;
+    return expected;
+  });
+}
+
+export function readTypography(bytes, count, layout, expectedTableText) {
   if (!bytes) return null;
   const xml = DECODER.decode(bytes);
   if (!/<\/pdf2xml>\s*$/u.test(xml)) return null;
   const pages = [...xml.matchAll(/<page\b[^>]*>([\s\S]*?)<\/page>/gu)];
   if (pages.length !== count) return null;
   const fonts = new Map();
-  for (const [, content] of pages) {
+  for (const [index, [, content]] of pages.entries()) {
+    const styled = expectedTableText?.[index] ?? new Map();
+    const printed = new Map();
     for (const [, id, size, family, color] of content.matchAll(/<fontspec id="(\d+)" size="(\d+)" family="([^"]+)" color="(#[0-9a-f]+)"\s*\/>/gu)) {
       fonts.set(id, { size: Number(size) / 3, family: family.replace(/^[A-Z]{6}\+/, ''), color });
     }
     const runs = [...content.matchAll(/<text top="([\d.]+)"[^>]* font="(\d+)"[^>]*>(.*?)<\/text>/gu)];
     if (!runs.length || runs.length !== (content.match(/<text\b/gu)?.length ?? 0)) return null;
     const footerStart = PAGE_SIZES[layout.page_size][1] - layout.margins_inches.bottom * POINTS_PER_INCH;
-    for (const [, top, id] of runs) {
+    for (const [, top, id, text] of runs) {
       const font = fonts.get(id);
       if (!font) return null;
       const isFooter = Number(top) / 3 >= footerStart;
-      if (!near(font.size, isFooter ? layout.footer.size_pt : layout.body_font_size_pt, 0.35) ||
-          !layout.pdf_font_names.includes(font.family) || !['#000000', '#0000ed', '#0000ee'].includes(font.color)) return false;
+      if (!layout.pdf_font_names.includes(font.family) || !['#000000', '#0000ed', '#0000ee'].includes(font.color)) return false;
+      const units = Math.round(font.size * 3);
+      if (!isFooter && styled.has(units)) {
+        printed.set(units, (printed.get(units) ?? '') + canonicalBody(printedBodyText(text)));
+      } else if (!near(font.size, isFooter ? layout.footer.size_pt : layout.body_font_size_pt, 0.35)) {
+        return false;
+      }
+    }
+    // Body binding verifies textual sequence independently. Poppler XML can
+    // visit wrapped cells in a different order, so compare glyphs by size here.
+    const glyphs = value => [...value].sort().join('');
+    for (const [size, text] of styled) {
+      if (glyphs(printed.get(size) ?? '') !== glyphs(text)) return false;
     }
   }
   return true;

@@ -47,7 +47,8 @@ export function tableHeaderBindings(html) {
     offset: canonicalBody(printedBodyText(html.slice(0, match.index))).length,
     end: canonicalBody(printedBodyText(html.slice(0, match.index + match[0].length))).length,
     text: canonicalBody(printedBodyText(match[1])),
-  })).filter(header => header.text);
+    columns: [...match[1].matchAll(/<th\b/g)].length,
+  }));
 }
 
 function* printedParts(html, includeListNumbers = true) {

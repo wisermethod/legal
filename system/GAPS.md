@@ -57,6 +57,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 - The Colorado initiation procedure does not cover county court, small claims, federal court or other states.
 - The current filing fee and fee-waiver form number are [verify]. Confirm both against the court before relying on them.
+- The initial complaint certificate needs operative court instructions for service treatment before Rule 4 process is complete.
 
 ### [Pleadings](../skills/Pleadings/SKILL.md)
 

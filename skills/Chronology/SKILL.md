@@ -3,7 +3,7 @@ name: Chronology
 type: skill
 category: procedure
 description: Build a sourced litigation timeline that connects events to pleaded issues and reconciles filing dates with tracked deadlines
-version: 0.3.3
+version: 0.3.4
 ---
 
 # Chronology
@@ -16,11 +16,11 @@ Classifier seam: none.
 
 ## Objective
 
-Save `chronology.md` in the matter. Give each event a source, show claim and element links where the record supports them, and identify date conflicts, uncertainty and deadline discrepancies.
+Save one chronology in the designated dated-facts record when that record owns the chronology. Otherwise use the matter’s declared chronology destination, or `chronology.md` when neither is designated. Give each event a source, show claim and element links where the record supports them, and identify date conflicts, uncertainty and deadline discrepancies.
 
 ## Inputs
 
-Resolve the owning root under `wiser` Workspace Model and read its instructions and the matter's `AGENTS.md` before using matter files. If the owning root or matter is missing or ambiguous, surface any known urgent date and ask for the missing choice before assembling the timeline. Use the matter's declared chronology destination, the designated dated-facts record when it owns the chronology, or `chronology.md` in the matter directory when neither is designated.
+Resolve the owning root under `wiser` Workspace Model and read its instructions and the matter's `AGENTS.md` before using matter files. If the owning root or matter is missing or ambiguous, surface any known urgent date and ask for the missing choice before assembling the timeline. Use the single destination in Objective. Ask which governs before writing if the declaration gives conflicting ownership.
 
 - `<user_request>` names the matter and any issue or date scope.
 - `<context>` names the matter `AGENTS.md`, current posture and destination.
@@ -41,7 +41,7 @@ Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Coun
 3. Is a date explicit and undisputed, disputed, inferred, or absent? Sort confirmed dates oldest first. In a separate unresolved-dates section, retain each competing date and its source, the inferred date and its basis, or "date unknown," as applicable. Keep each row tied to a filename and location, filing date or exhibit reference. Leave an event without an identifiable source out of the chronology and report the evidence gap.
 4. Read the claims record and any verified Claim Chart. Does a source support a connection to a stated claim, defense, element or procedural trigger? Cite that claim or element reference in Notes. If the mapping is unclear or authority is missing, label it unresolved. If the event has no identified claim relationship, keep it when relevant to the procedural timeline. Do not turn temporal association into causation or infer new elements.
 5. Cross-check actual filing and service dates against the calculated dates in the deadline record. Record agreements and discrepancies, including competing dates and missing triggers, with their sources. Use [Maintain Matter File's phase deadline handoff](../Maintain%20Matter%20File/SKILL.md#what-should-a-phase-do-with-a-deadline) for each correction and report the read-back or pending entry.
-6. Use `Date | Event | Source document | Notes` for a standalone chronology where the matter permits one. Give the Handoff label in the handoff message, never in the chronology. If the matter gives a designated record sole ownership of dated facts, use that file’s approved shape for an update and link to those entries from companion records. For read-only work, return the proposed rows without updating the matter.
+6. Use `Date | Event | Source document | Notes` for a standalone chronology where the matter permits one. Give the Handoff label in the handoff message, never in the chronology. If the matter gives a designated record sole ownership of dated facts, use that file’s approved shape for an update and link to those entries from companion records. Leave the timeline in its designated owner only. For read-only work, return the proposed rows without updating the matter.
 
 ## Pitfalls
 
@@ -50,4 +50,4 @@ Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Coun
 
 ## Success
 
-The timeline is ascending for confirmed dates, every row can be traced to source evidence, competing and inferred dates remain visible, claim and element links stay within the record, and the deadline cross-check lists each discrepancy or missing trigger.
+The timeline has one authoritative destination and is ascending for confirmed dates, every row can be traced to source evidence, competing and inferred dates remain visible, claim and element links stay within the record, and the deadline cross-check lists each discrepancy or missing trigger.

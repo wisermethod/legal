@@ -11,11 +11,12 @@ import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
 import { Marked } from 'marked';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import { checkMarkdownToken, compose, prepareBody } from '../scripts/compose-core.js';
-import { classifyTitle, resolveLimits, validateCaption, validateProfile } from '../scripts/schema-core.js';
+import { compose, parseFilingMarkdown, prepareBody } from '../scripts/compose-core.js';
+import { resolveLimits, suggestTypes, titleChecks, validateCaption, validateProfile } from '../scripts/schema-core.js';
 import { markdownWordCount, printedBodyText, wordCount } from '../scripts/body-text-core.js';
 import { validate } from '../scripts/validate-core.js';
 import { bodyEvidence, removeRepeatedHeaders } from '../scripts/filing-text-core.js';
+import { readTextLines } from '../scripts/pdf-evidence-core.js';
 
 const tool = fileURLToPath(new URL('..', import.meta.url));
 const cli = join(tool, 'scripts', 'court-filing.js');
@@ -25,7 +26,8 @@ const readJson = path => JSON.parse(readFileSync(path, 'utf8'));
 const example = () => readJson(asset('example-caption.json'));
 const profile = () => readJson(profilePath);
 const body = () => readFileSync(asset('example-body.md'), 'utf8');
-const parse = new Marked({ walkTokens: checkMarkdownToken }).parse;
+const marked = new Marked({ gfm: true });
+const parse = body => parseFilingMarkdown(marked, body);
 const digest = text => createHash('sha256').update(text).digest('hex');
 const compos = inputs => compose(inputs, parse, digest);
 const noLimit = ['--no-length-limit'];
@@ -83,16 +85,16 @@ test('profile types own their title, blocks, packet and limit choices', () => {
     [{ signer: undefined }, /signer must be an object/],
     [{ parties: [] }, /parties must be a non-empty array/],
     [{ document_type: 'unknown' }, /document_type is not listed/],
-    [{ title: 'Stage Directions' }, /title does not match/],
+    [{ type_confirmed: 'true' }, /type_confirmed must be a boolean/],
   ]) assert.throws(() => validateCaption({ ...example(), ...change }, current), expected);
   const brokenEmail = example();
   brokenEmail.service.recipients[0].emails = ['not an email'];
   assert.throws(() => validateCaption(brokenEmail, current), /caption\.service\.recipients\[0\]\.emails\[0\] must be an email address/);
   const limited = preset => resolveLimits(current, example(), preset);
-  assert.throws(() => limited(), /Choose --limit/);
+  assert.equal(limited().choice, 'profile-alternatives');
   assert.throws(() => limited({ noLimit: true }), /not allowed for this profile document type/);
   assert.throws(() => limited({ preset: 'general-reply-pages' }), /not listed for this profile document type/);
-  assert.throws(() => validateCaption({ ...example(), document_type: 'rule-12-or-56-motion' }, current), /title does not match/);
+  assert.throws(() => compos({ caption: { ...example(), document_type: 'rule-12-or-56-motion' }, body: body(), profile: current }), /caption.type_confirmed: true/);
   assert.equal(validateCaption({ ...example(), document_type: 'rule-12-or-56-motion', title: 'Motion for Summary Judgment' }, current)
     .document_type, 'rule-12-or-56-motion');
   assert.deepEqual(limited({ preset: 'general-motion-pages' }), {
@@ -136,7 +138,7 @@ test('one exact custom certificate omission is a listed document type', () => {
   const caption = { ...initial, document_type: 'fictional-exemption' };
   listed.document_types[caption.document_type] = { ...type, certificate: false, exact_title: caption.title };
   assert.deepEqual(validateCaption(caption, listed), caption);
-  assert.throws(() => validateCaption({ ...caption, title: 'Motion for Something Else' }, listed), /title does not match/);
+  assert.equal(titleChecks(listed, { ...caption, title: 'Motion for Something Else' })[0].status, 'fail');
   assert.throws(() => validateCaption({ ...caption, service }, listed), /service must be omitted/);
   assert.throws(() => validateCaption({ ...initial, no_service_certificate: 'fictional-exemption' }, listed), /not a recognized field/);
 });
@@ -151,12 +153,12 @@ test('packet modes cannot waive service on a motion or invent a judicial form', 
   const { html: declarationHtml } = compos({ caption: declaration, body: body(), profile: profile() });
   assert.match(declarationHtml, /class="closing"/);
   assert.doesNotMatch(declarationHtml, /class="cert"/);
-  assert.throws(() => validateCaption({ ...order, title: 'Order to Show Cause' }, profile()), /title does not match/);
+  assert.equal(titleChecks(profile(), { ...order, title: 'Order to Show Cause' })[0].status, 'fail');
   assert.throws(() => validateCaption({ ...order, signer: example().signer }, profile()), /omit filer/);
   assert.throws(() => compos({ caption: order, body: 'The request is denied.', profile: profile() }), /blank signature line/);
   assert.throws(() => validateCaption({ ...declaration, filing_packet: undefined }, profile()), /filing_packet/);
   assert.throws(() => validateCaption({ ...declaration, service: example().service }, profile()), /service must be omitted/);
-  assert.throws(() => validateCaption({ ...declaration, title: 'Motion to Strike the Declaration' }, profile()), /title does not match/);
+  assert.equal(titleChecks(profile(), { ...declaration, title: 'Motion to Strike the Declaration' })[0].status, 'fail');
 });
 
 test('compose refuses raw HTML, image loads and non-document links', () => {
@@ -358,7 +360,7 @@ async function fixture(t, options = {}) {
       draw(options.marker ?? 'COURT USE ONLY', 651, 385);
       draw('Case No: ' + (options.caseNumber ?? caption.case_number), 629, 378);
       draw('Division: ' + (options.division ?? caption.division), 610, 378);
-      centered(options.title ?? caption.title.toUpperCase(), 558);
+      centered(options.title ?? caption.title, 558);
       if (options.extraTitleLine) centered(options.extraTitleLine, 543);
       draw(options.bodyText ?? fixtureBody, 530);
     }
@@ -616,15 +618,15 @@ test('only the complaint type may use the new-case packet and blank docket', () 
   const initial = initialCaption();
   assert.equal(validateCaption(initial, current).case_number, '');
   assert.throws(() => validateCaption({ ...initial, case_number: '2099CV00000' }, current), /case_number must be blank/);
-  assert.throws(() => validateCaption({ ...initial, title: 'Motion to Amend the Complaint' }, current), /title does not match/);
-  assert.throws(() => validateCaption({ ...initial, title: 'Complaint and Notice of Hearing' }, current), /title does not match/);
+  assert.equal(titleChecks(current, { ...initial, title: 'Motion to Amend the Complaint' })[0].status, 'fail');
+  assert.equal(titleChecks(current, { ...initial, title: 'Complaint and Notice of Hearing' })[0].status, 'advisory');
   assert.throws(() => validateCaption({ ...initial, filing_packet: 'unknown_packet' }, current), /filing_packet must match/);
   assert.throws(() => validateCaption({ ...example(), case_number: '' }, current), /case_number must be populated/);
-  assert.throws(() => resolveLimits(current, initial, { preset: 'general-motion-pages' }), /requires --no-length-limit/);
+  assert.throws(() => resolveLimits(current, initial, { preset: 'general-motion-pages' }), /not listed for this profile document type/);
   assert.match(run(['validate', '--no-length-limit', 'n/a']).stderr, /Unknown option n\/a/);
 });
 
-test('unlimited answers and discovery cannot include motions or other briefed papers', () => {
+test('multiple-paper hints never switch or refuse a matched unlimited type', () => {
   for (const [document_type, simple, mixed] of [
     ['answer', "Defendant's Answer", "Defendant's Answer and Motion for Summary Judgment"],
     ['discovery-request', "Plaintiff's First Requests for Production", "Plaintiff's Requests for Production and Motion to Compel"],
@@ -634,7 +636,9 @@ test('unlimited answers and discovery cannot include motions or other briefed pa
   ]) {
     const caption = { ...example(), document_type, title: simple };
     assert.equal(resolveLimits(profile(), caption, { noLimit: true }).pages, null);
-    assert.throws(() => validateCaption({ ...caption, title: mixed }, profile()), /title does not match/);
+    const result = compos({ caption: { ...caption, title: mixed }, body: fixtureBody, profile: profile() });
+    assert.equal(result.documentType, document_type);
+    assert.equal(result.advisories[0].label, 'Possible second paper in title');
   }
 });
 
@@ -691,88 +695,81 @@ test('the longer page presets require an actual Rule 12 or 56 motion phrase', ()
   for (const [kind, eligible, ineligible] of cases) {
     const document_type = 'rule-12-or-56-' + kind;
     assert.equal(validateCaption({ ...example(), document_type, title: eligible }, profile()).title, eligible);
-    assert.throws(() => validateCaption({ ...example(), document_type, title: ineligible }, profile()), /title does not match/);
+    const title = titleChecks(profile(), { ...example(), document_type, title: ineligible });
+    assert.equal(title[0].status, kind === 'reply' ? 'advisory' : 'fail');
   }
 });
 
-test('classifies real title forms before falling back and refuses only definite second papers', () => {
+test('suggestions rank specific matches and title heuristics remain advisory', () => {
   const current = validateProfile(profile());
-  const cases = [
-    ['discovery-response', "Defendant's Answers to Plaintiff's First Set of Interrogatories"],
-    ['discovery-response', "Defendant's Answers and Objections to Plaintiff's First Set of Interrogatories"],
-    ['discovery-response', "Plaintiff's Supplemental Responses to Defendant's First Set of Interrogatories"],
-    ['discovery-response', "Objections and Responses to Plaintiff's First Set of Requests for Production"],
-    ['discovery-response', "Defendant's Objections and Answers to the Third Set of Interrogatories"],
-    ['discovery-response', 'Amended Answers and Objections to the Second Set of Interrogatories'],
-    ['discovery-response', 'Supplemental Objections and Responses to Requests for Admission'],
-    ['discovery-response', 'Answer to the Fourth Set of Interrogatories'],
-    ['motion', "Plaintiff's Opposed Motion to Compel"],
-    ['motion', "Plaintiff's Supplemental Motion to Compel"],
-    ['motion', 'Motion for Leave to File a Sur-Reply'],
-    ['motion', 'Motion to Strike the Response'],
-    ['motion', 'Motion to Strike (And Motion to Strike in the Quoted Heading)'],
-    ['motion', 'Motion to Strike (Use Exhibit (A) and Notice of Hearing for Reference)'],
-    ['brief', 'Brief in Support of the Motion to Dismiss'],
-    ['brief', 'Brief in Support of Its Motion to Confirm the Award'],
-    ['brief', 'Memorandum in Support of His Motion to Exclude Testimony'],
-    ['brief', 'Brief in Support of Her Motion for Extension of Time'],
-    ['brief', 'Brief in Support of Their Motion to Adjust Discovery Limits'],
-    ['answer', "Defendant's Amended Answer"],
-    ['answer', 'Answer and Counterclaim'],
-    ['answer', 'Answer and Counterclaims'],
-    ['answer', 'Answer and Affirmative Defenses'],
-    ['answer', 'Answer and Jury Demand'],
-    ['answer', 'Answer and Counterclaims and Jury Demand'],
-    ['case-management-submission', "Plaintiff's Proposed Case Management Order on Outstanding Discovery Responses"],
-    ['case-management-submission', 'Amended Proposed Case-Management Order Regarding the Notice of Hearing'],
-    ['other-paper', 'Case Management Order'],
-    ['other-paper', 'Amended Case Management Order'],
-    ['other-paper', 'Response to Motion to Dismiss and Motion to Strike'],
-    ['other-paper', 'Response to Motion for Summary Judgment and Motion to Strike'],
-    ['other-paper', 'Notice Regarding the Hearing and the Supplemental Motion for Leave'],
-    ['other-paper', 'Notice Regarding the Hearing and Supplemental Motion for Leave'],
-    ['other-paper', 'Statement Re: Exhibit Numbering & Reply to Objections'],
-    ['other-paper', 'Motion for Leave to File a Sur-Reply and Response to Supplemental Authority'],
-    ['other-paper', 'Motion for Settlement Conference and Response Deadlines'],
-    ['other-paper', 'Status Report on Courtroom Access and Notice Requirements'],
-    ['other-paper', 'Notice of Entry of a Substituted Appearance'],
-    ['rule-12-or-56-motion', 'Opposed Motion for Partial Summary Judgment'],
-    ['rule-12-or-56-response', 'Supplemental Opposition to the Motion for Partial Summary Judgment'],
-    ['rule-12-or-56-reply', 'Joint Reply in Support of the Motion for Summary Judgment'],
-    ['response', 'Amended Response to an Objection About the Exhibit Index'],
-    ['reply', 'Reply to Written Objections Regarding the Proposed Schedule'],
-    [null, 'Renewed Motion for Summary Judgment and Motion to Strike'],
-    [null, 'Joint Response and Motion for Sanctions'],
-    [null, 'Amended Reply and Motion for Leave'],
-    [null, "Reply & Defendant's Supplemental Cross-Motion for Leave"],
-    [null, 'Motion for Summary Judgment; Amended Opposition to Leave'],
-    [null, 'Answer, and Joint Notice of Hearing'],
-    [null, 'Notice of Hearing and Answer to an Amended Complaint'],
-    [null, 'Status Report & Brief in Support of a Motion'],
-    [null, 'Answer and Counterclaims & Motion for Leave'],
-    [null, 'Proposed Order Setting a Hearing; Separate Notice of Setting'],
-    [null, 'Motion to Compel and Example Workshop LLC’s Motion for Sanctions'],
-    [null, 'Example Workshop LLC’s Motion to Compel and Reply to Objections'],
-    [null, "Memorandum of Costs, and Plaintiffs' Reply"],
-    [null, 'Answer and Cross Motion'],
-    [null, 'Reply and Counterclaim for Restitution'],
-    [null, 'Response; and Requesting Party’s Renewed Motion for Leave'],
-    [null, 'Response and Brief'],
-    [null, 'Reply and Opposition'],
-  ];
-  for (const [type, title] of cases) {
-    if (type) {
-      assert.equal(classifyTitle(current, title), type, title);
-      const caption = { ...example(), title, document_type: type };
-      assert.equal(validateCaption(caption, current).title, title);
-    } else {
-      assert.throws(() => classifyTitle(current, title), /does not match a single paper/, title);
-      for (const document_type of Object.keys(current.document_types)) {
-        const caption = { ...example(), title, document_type };
-        assert.throws(() => compos({ caption, body: body(), profile: current }), /does not match a single paper/, title);
-      }
-    }
+  for (const [document_type, title] of [
+    ['motion', 'Motion for Continuance and Notice of Hearing'],
+    ['rule-12-or-56-motion', 'Motion for Summary Judgment and Brief in Support'],
+    ['discovery-response', "Defendant's Answers and Responses to Plaintiff's First Set of Interrogatories"],
+    ['discovery-response', 'Responses and Answers to Requests for Admission'],
+    ['discovery-response', 'Answers to Interrogatories and Responses to Requests for Production'],
+    ['discovery-response', "Defendant's Objections to Plaintiff's First Set of Interrogatories"],
+    ['amended-complaint', 'Fourth Amended Complaint'],
+    ['amended-complaint', 'Twenty-First Amended and Restated Complaint'],
+    ['amended-complaint', 'Amended and Supplemental Complaint'],
+    ['amended-complaint', '42nd Amended Complaint'],
+    ['proposed-order', 'Proposed Order'],
+    ['proposed-order', "Order re: Applicant's Request"],
+  ]) {
+    const base = document_type === 'proposed-order' ? orderCaption() : example();
+    const markdown = document_type === 'proposed-order' ?
+      'Conference set.\n\nBY THE COURT: __________\n\nDistrict Court Judge' : fixtureBody;
+    const caption = { ...base, document_type, title };
+    const result = compos({ caption, body: markdown, profile: current });
+    assert.equal(suggestTypes(current, title)[0], document_type, title);
+    assert.deepEqual(result.advisories, [], title);
+    assert.equal(result.documentType, document_type, title);
+    assert.ok(result.html.includes(title), title);
   }
+  assert.deepEqual(resultOf(run(['classify', '--profile', 'colorado-district', '--title', 'Motion for Summary Judgment'])), {
+    profile: 'colorado-district', suggestions: ['rule-12-or-56-motion', 'motion', 'other-paper'],
+  });
+  for (const [document_type, title] of [
+    ['rule-12-or-56-response', 'Response to Motion for Summary Judgment and Motion to Strike'],
+    ['response', "Defendant's Response to the Motion to Compel and Defendant's Motion for Sanctions"],
+    ['motion', 'Motion for Leave to File a Sur-Reply and Response to Supplemental Authority'],
+    ['reply', 'Reply in Support of the Motion to Compel and Motion for Sanctions'],
+    ['other-paper', 'Status Report & Brief in Support of a Motion'],
+    ['motion', 'Motion for Settlement Conference and Response Deadlines'],
+  ]) {
+    const result = compos({ caption: { ...example(), document_type, title }, body: fixtureBody, profile: current });
+    assert.equal(result.documentType, document_type);
+    assert.ok(result.advisories.some(check => check.label === 'Possible second paper in title'), title);
+  }
+  const oddMotion = compos({ caption: { ...example(), title: 'Request for a Fictional Conference' }, body: fixtureBody, profile: current });
+  assert.equal(oddMotion.advisories[0].label, 'Declared type and title');
+  assert.match(oddMotion.advisories[0].detail, /usual wording/);
+});
+
+test('only an off-pattern permissive type requires confirmation', () => {
+  const current = profile();
+  const guarded = [
+    { ...example(), document_type: 'rule-12-or-56-motion' },
+    { ...example(), document_type: 'discovery-response' },
+    { ...orderCaption(), title: 'Scheduling of the Fictional Conference' },
+    { ...declarationCaption(), title: 'Affidavit Regarding an Exhibit' },
+  ];
+  for (const caption of guarded) {
+    assert.throws(() => compos({ caption, body: fixtureBody, profile: current }),
+      /Choose the type the paper is, or set caption.type_confirmed: true/);
+    assert.equal(titleChecks(current, { ...caption, type_confirmed: false })[0].status, 'fail');
+    const confirmed = { ...caption, type_confirmed: true };
+    const markdown = caption.document_type === 'proposed-order' ?
+      'The request is granted.\n\nBY THE COURT: __________\n\nDistrict Court Judge' : fixtureBody;
+    const result = compos({ caption: confirmed, body: markdown, profile: current });
+    assert.equal(result.advisories[0].detail, "type confirmed by the person; title does not match the type's usual wording");
+  }
+  const types = current.document_types;
+  const wider = { ...types.motion, title_pattern: 'Special paper' };
+  types['word-extension'] = { ...wider, length_mode: 'alternatives' };
+  current.validation.limits['extra-words'] = { ...current.validation.limits['general-motion-words'], maximum: 5000 };
+  types['word-extension'].length_presets = ['general-motion-pages', 'extra-words'];
+  assert.equal(titleChecks(current, { ...example(), document_type: 'word-extension' })[0].status, 'fail');
 });
 
 test('every independently written ordinary title composes verbatim', () => {
@@ -810,15 +807,14 @@ test('every independently written ordinary title composes verbatim', () => {
     "Written Election of the Preferred Hearing Dates",
   ];
   for (const title of titles) {
-    const document_type = classifyTitle(current, title);
-    assert.ok(document_type, title);
+    const document_type = 'other-paper';
     const caption = { ...example(), title, document_type };
     const { html } = compos({ caption, body: fixtureBody, profile: current });
     assert.ok(html.includes('class="doc-title">' + title + '</td>'), title);
   }
 });
 
-test('other-paper keeps the real title, both general limits and the filer and service blocks', () => {
+test('other-paper is declared, requires both filer blocks, and has alternative ceilings', () => {
   const current = validateProfile(profile());
   const caption = { ...example(), title: 'Notice of Entry of a Substituted Appearance', document_type: 'other-paper' };
   const { html } = compos({ caption, body: fixtureBody, profile: current });
@@ -830,22 +826,18 @@ test('other-paper keeps the real title, both general limits and the filer and se
     delete incomplete[field];
     assert.throws(() => validateCaption(incomplete, current), new RegExp(field + ' (?:is required|must be supplied)'));
   }
-  assert.throws(() => validateCaption({ ...caption, document_type: 'motion' }, current), /title does not match.*Use other-paper/);
-  assert.throws(() => validateCaption({ ...caption, title: example().title }, current), /title does not match.*Use motion/);
-  for (const document_type of ['case-management-submission', 'proposed-order']) {
-    assert.throws(() => validateCaption({ ...caption, title: 'Case Management Order', document_type }, current),
-      /title does not match.*Use other-paper/);
-  }
-  assert.deepEqual(resolveLimits(current, caption), { choice: 'profile-fallback', preset: null, pages: 15, words: 4000 });
-  assert.deepEqual(resolveLimits(current, caption, { pages: 12 }), {
-    choice: 'explicit-maxima', preset: null, pages: 12, words: 4000,
+  assert.equal(titleChecks(current, { ...caption, title: example().title })[0].status, 'advisory');
+  assert.deepEqual(resolveLimits(current, caption), { choice: 'profile-alternatives', preset: null, pages: 15, words: 4000 });
+  assert.deepEqual(resolveLimits(current, caption, { preset: 'general-motion-pages' }), {
+    choice: 'profile-preset', preset: 'general-motion-pages', pages: 15, words: null,
   });
-  for (const preset of ['general-motion-pages', 'general-motion-words']) {
-    assert.deepEqual(resolveLimits(current, caption, { preset }), { choice: 'profile-preset', preset, pages: 15, words: 4000 });
-  }
-  for (const preset of ['rule-12-or-56-motion-pages', 'rule-12-or-56-reply-pages']) {
-    assert.throws(() => resolveLimits(current, caption, { preset }), /not listed/);
-  }
+  assert.deepEqual(resolveLimits(current, caption, { preset: 'general-motion-words' }), {
+    choice: 'profile-preset', preset: 'general-motion-words', pages: null, words: 4000,
+  });
+  assert.deepEqual(resolveLimits(current, caption, { pages: 12 }), {
+    choice: 'explicit-maxima', preset: null, pages: 12, words: null,
+  });
+  assert.throws(() => resolveLimits(current, caption, { preset: 'rule-12-or-56-motion-pages' }), /not listed/);
   assert.throws(() => resolveLimits(current, caption, { noLimit: true }), /not allowed/);
   assert.throws(() => resolveLimits(current, caption, { pages: 16 }), /cannot exceed/);
   assert.throws(() => resolveLimits(current, caption, { words: 4001 }), /cannot exceed/);
@@ -909,6 +901,209 @@ test('blocks, tables, and footnotes have explicit Markdown treatment', () => {
   }
 });
 
+test('legacy HTML refusal inventories constructs and identifies the declarative table equivalents', () => {
+  const markdown = '<style>td { width: 25%; text-align: left; white-space: nowrap; padding: 2px; ' +
+    'font-size: 10pt; vertical-align: top; }</style>\n\n' +
+    '<!-- legacy comment -->\n\n<table><tr><td style="padding: 0">Entry</td></tr></table>\n\nText<br>here.';
+  assert.throws(() => parse(markdown), error => {
+    for (const phrase of ['leading <style> block', 'HTML comment', '<table>', '<tr>', '<td>', '<br>',
+      'inline style attribute', 'Markdown pipe tables', 'column_widths_percent', 'column_alignment',
+      'header_alignment', 'nowrap_columns', 'cell_padding_pt', 'font_size_pt', 'vertical_alignment']) {
+      assert.ok(error.message.includes(phrase), phrase);
+    }
+    return true;
+  });
+  const legacy = example();
+  delete legacy.document_type;
+  assert.throws(() => compos({ caption: legacy, body: markdown, profile: profile() }), /document_type is required/);
+});
+
+test('table presentation applies bounded defaults and top-level table overrides', () => {
+  const table = '| Entry | Count |\n| --- | ---: |\n| Sample | 5 |';
+  const markdown = table + '\n\n' + table;
+  const caption = { ...example(), table_presentation: {
+    default: { column_widths_percent: [60, 40], column_alignment: ['left', 'center'],
+      header_alignment: ['left', null], nowrap_columns: [2], cell_padding_pt: 2, vertical_alignment: 'top' },
+    tables: { 2: { body_cell_padding_pt: [1, 2, 3, 4], font_size_pt: 10, nowrap_columns: [] } },
+  } };
+  const result = compos({ caption, body: markdown, profile: profile() });
+  assert.match(result.html, /data-table="1"\] col:nth-child\(1\) \{ width: 60%;/);
+  assert.match(result.html, /data-table="1"\] th:nth-child\(1\) \{ text-align: left !important;/);
+  assert.match(result.html, /data-table="1"\] td:nth-child\(2\) \{ white-space: nowrap;/);
+  assert.match(result.html, /data-table="1"\] td \{ vertical-align: top;/);
+  assert.doesNotMatch(result.html, /data-table="2"\].*white-space/);
+  assert.match(result.html, /data-table="2"\] td \{ padding: 1pt 2pt 3pt 4pt;/);
+  assert.match(result.html, /data-table="2"\] \{ font-size: 10pt;/);
+  for (const [change, expected] of [
+    [{ font_size_pt: 7 }, /8 through 16/],
+    [{ cell_padding_pt: [0, 0, 13, 0] }, /0 through 12/],
+    [{ column_alignment: ['left; color: red'] }, /one of left, center, right/],
+    [{ column_widths_percent: [60, 50] }, /total at most 100/],
+    [{ header_alignment: ['left', 'right', 'center'] }, /fewer columns/],
+    [{ nowrap_columns: [3] }, /distinct existing columns/],
+    [{ style: 'display:none' }, /not a recognized field/],
+  ]) {
+    const invalid = { ...caption, table_presentation: { default: change } };
+    assert.throws(() => compos({ caption: invalid, body: markdown, profile: profile() }), expected);
+  }
+  const nonexistent = { ...caption, table_presentation: { tables: { 3: {} } } };
+  assert.throws(() => compos({ caption: nonexistent, body: markdown, profile: profile() }), /does not name a Markdown pipe table/);
+  assert.throws(() => compos({ caption, body: fixtureBody, profile: profile() }), /needs at least one/);
+});
+
+pdfTest('compare reports changed tokens, page geometry and RGB pixel differences without writing files', async t => {
+  const reference = await fixture(t, { bodyText: 'I request different relief.' });
+  const rebuilt = await fixture(t, { pages: 3, secondSize: [595.28, 841.89] });
+  const before = [reference, rebuilt].map(path => digest(readFileSync(path)));
+  const args = ['compare', '--reference', reference, '--pdf', rebuilt];
+  const compared = run(args);
+  assert.equal(compared.status, 0, compared.stderr);
+  const result = resultOf(compared);
+  assert.equal(result.label, 'Not for filing');
+  assert.match(result.note, /signature or filled date on the reference is expected to differ/);
+  assert.deepEqual([result.reference.sha256, result.rebuilt.sha256], before);
+  assert.deepEqual([reference, rebuilt].map(path => digest(readFileSync(path))), before);
+  assert.equal(result.samePageCount, false);
+  assert.equal(result.samePageSizes, false);
+  assert.deepEqual(result.reference.pageSizesPt[0], [612, 792]);
+  assert.equal(result.text.equal, false);
+  assert.ok(result.text.changes.some(change => change.referenceTokens.includes('different')));
+  assert.equal(result.raster.perPage.length, 3);
+  assert.ok(result.raster.perPage[0].differencePercent > 0);
+  assert.equal(result.raster.perPage[2].differencePercent, 100);
+  assert.match(run(['compare', '--reference', reference, '--pdf', 'relative.pdf']).stderr, /must be an absolute path/);
+  const same = resultOf(run(['compare', '--reference', reference, '--pdf', reference]));
+  assert.equal(same.samePageCount, true);
+  assert.equal(same.samePageSizes, true);
+  assert.equal(same.text.equal, true);
+  assert.deepEqual(same.text.changes, []);
+  assert.deepEqual(same.raster.perPage.map(page => page.differencePercent), [0, 0]);
+});
+
+function renderFiling(scratch, name, caption, markdown, remake) {
+  const abs = extension => join(scratch, name + extension);
+  const [cap, input, html, pdf] = ['.json', '.md', '.html', '.pdf'].map(abs);
+  writeFileSync(cap, JSON.stringify(caption));
+  writeFileSync(input, markdown);
+  const base = ['--caption', cap, '--body', input, '--profile', 'colorado-district'];
+  const composed = run(['compose', ...base, '--out', html]);
+  assert.equal(composed.status, 0, composed.stderr);
+  const receipt = resultOf(composed);
+  if (remake) writeFileSync(html, remake(readFileSync(html, 'utf8')));
+  const rendered = spawnSync(process.execPath, [process.env.COURT_FILING_RENDER, 'pdf', '--input', html,
+    '--output', pdf, ...receipt.pdfArgs], { encoding: 'utf8' });
+  assert.equal(rendered.status, 0, rendered.stderr);
+  const validateArgs = ['validate', ...base, '--pdf', pdf, '--body-sha256', receipt.bodySha256];
+  return { pdf, cap, receipt, validateArgs };
+}
+
+pdfTest('default Markdown tables match legacy header alignment, wrapping and page breaks', t => {
+  if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
+  const caption = { ...example(), title: 'MOTION FOR A FICTIONAL CONFERENCE', certificate_year: 2026 };
+  const markdown = ['## Fictional exhibit inventory', '', '| Entry | Description | Code |', '| --- | --- | --- |',
+    ...Array.from({ length: 64 }, (_, i) => {
+      const n = String(i + 1).padStart(2, '0');
+      return '| Row' + n + ' | A fictional item with a long descriptive label for checking ordinary wrapping across narrow columns. | S' + n + ' |';
+    }), '', 'The inventory ends here.'].join('\n');
+  const { pdf, validateArgs } = renderFiling(temp(t), 'default-table', caption, markdown);
+  const checked = run(validateArgs);
+  assert.equal(checked.status, 0, checked.stderr);
+  const tsv = spawnSync('pdftotext', ['-tsv', pdf, '-']);
+  assert.equal(tsv.status, 0);
+  const pages = readTextLines(tsv.stdout, 5);
+  assert.ok(pages);
+  // Recorded from a fresh old-renderer build of this same fixture.
+  const legacyStarts = [1, 12, 33, 54];
+  const legacyRows = [11, 21, 21, 11, 0];
+  const legacyHeaderX = [76.58, 280.34, 511.08];
+  for (const [index, { lines }] of pages.entries()) {
+    const words = lines.flatMap(line => line.words);
+    const rows = words.filter(({ text }) => /^Row\d{2}$/u.test(text));
+    assert.equal(rows.length, legacyRows[index]);
+    if (!rows.length) continue;
+    assert.equal(Number(rows[0].text.slice(3)), legacyStarts[index]);
+    const headings = ['Entry', 'Description', 'Code'].map(name => words.find(word => word.text === name));
+    for (const [i, heading] of headings.entries()) assert.ok(Math.abs(heading.bounds.x - legacyHeaderX[i]) < 1);
+    const wrapped = words.filter(({ text }) => text === 'columns.');
+    assert.equal(wrapped.length, rows.length);
+    assert.ok(Math.abs(wrapped[0].bounds.x - 181.90) < 1);
+    assert.ok(wrapped[0].bounds.y > rows[0].bounds.y);
+  }
+});
+
+pdfTest('styled table fonts validate only with the declared presentation', t => {
+  if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
+  const caption = { ...example(), table_presentation: { tables: { 1: {
+    column_widths_percent: [20, 80], header_alignment: 'left', column_alignment: ['right', 'left'],
+    cell_padding_pt: 2, nowrap_columns: [1], font_size_pt: 10,
+  } } } };
+  const markdown = fixtureBody + '\n\n| Sample | Description |\n| --- | --- |\n| A & B | A fictional appendix row. |';
+  const scratch = temp(t);
+  const built = renderFiling(scratch, 'styled', caption, markdown);
+  const validated = run(built.validateArgs);
+  assert.equal(validated.status, 0, validated.stderr);
+  const wrong = renderFiling(scratch, 'wrong-size', caption, markdown, html =>
+    html.replace(/(data-table="1"\] \{ font-size:) 10pt/, '$1 11pt'));
+  const refused = run(wrong.validateArgs);
+  assert.equal(refused.status, 1);
+  assert.equal(checksByName(resultOf(refused))['Profile type size'], 'fail');
+});
+
+pdfTest('named limits are alternatives unless the profile requires both', t => {
+  if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
+  const scratch = temp(t);
+  const caption = { ...example(), title: 'Notice of Filing', document_type: 'other-paper' };
+  const built = renderFiling(scratch, 'alternatives', caption, fixtureBody);
+  const short = profile();
+  const limits = short.validation.limits;
+  const check = (name, pages, words, mode, flags, accepted, satisfiedBy) => {
+    const path = join(scratch, name + '.json');
+    limits['general-motion-pages'].maximum = pages;
+    limits['general-motion-words'].maximum = words;
+    short.document_types['other-paper'].length_mode = mode;
+    writeFileSync(path, JSON.stringify(short));
+    const result = run([...built.validateArgs.map(arg => arg === 'colorado-district' ? path : arg), ...flags]);
+    assert.equal(result.status, accepted ? 0 : 1, result.stderr);
+    const parsed = resultOf(result);
+    assert.deepEqual(parsed.limits.satisfiedBy, satisfiedBy);
+    if (satisfiedBy) {
+      const evidence = parsed.checks.find(check => check.label === 'Within a profile length alternative');
+      assert.deepEqual(evidence.counts, { pageCount: parsed.pages, bodyWords: 5, pdfBodyWords: 5 });
+    }
+  };
+  check('page-only', 15, 4, 'alternatives', [], true, ['pages']);
+  check('word-only', 1, 4000, 'alternatives', [], true, ['words']);
+  check('neither', 1, 4, 'alternatives', [], false, []);
+  check('pinned-words', 15, 4, 'alternatives', ['--limit', 'general-motion-words'], false);
+  check('both-required', 15, 4, 'all', [], false);
+});
+
+pdfTest('an ambiguous reply keeps the reply cap and confirmation persists in validation', async t => {
+  const scratch = temp(t);
+  const caption = { ...example(), document_type: 'reply', title: 'Reply in Support of the Motion to Compel and Motion for Sanctions' };
+  const cap = join(scratch, 'reply.json');
+  writeFileSync(cap, JSON.stringify(caption));
+  const reply = validateFile(await fixture(t, { caption, pages: 11 }), { caption: cap, flags: ['--limit', 'general-reply-pages'] });
+  assert.equal(reply.result.documentType, 'reply');
+  assert.equal(checksByName(reply.result)['Within page limit (10)'], 'fail');
+  assert.equal(checksByName(reply.result)['Possible second paper in title'], 'advisory');
+
+  const confirmed = { ...example(), document_type: 'discovery-response', title: 'Responses Regarding the Inventory', type_confirmed: true };
+  const confirmedPdf = await fixture(t, { caption: confirmed });
+  writeFileSync(cap, JSON.stringify(confirmed));
+  const result = validateFile(confirmedPdf, { caption: cap, flags: [] }).result;
+  assert.equal(checksByName(result)['No length preset for profile document type'], 'pass');
+  assert.equal(result.advisories[0].detail, "type confirmed by the person; title does not match the type's usual wording");
+  assert.deepEqual(validateFile(confirmedPdf, { caption: cap, flags: noLimit }).result.limits, result.limits);
+  assert.equal(validateFile(confirmedPdf, { caption: cap, flags: ['--max-pages', '1'] }).result.limits.choice, 'explicit-maxima');
+  delete confirmed.type_confirmed;
+  writeFileSync(cap, JSON.stringify(confirmed));
+  const unconfirmed = validateFile(confirmedPdf, { caption: cap, flags: [] }).result;
+  const guard = unconfirmed.checks.find(check => check.label === 'Document type confirmation');
+  assert.equal(guard.status, 'fail');
+  assert.match(guard.detail, /caption.type_confirmed: true/);
+});
+
 pdfTest('real render chain validates ordinary and separate packet artifacts, including a table continued across pages', t => {
   const render = process.env.COURT_FILING_RENDER;
   if (!render) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
@@ -928,14 +1123,14 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
   exemptProfile.document_types['fixture-only-exemption'] = { ...type, certificate: false, exact_title: exempt.title };
   exempt.document_type = 'fixture-only-exemption';
   writeFileSync(exemptFile, JSON.stringify(exemptProfile));
-  const proposed = orderCaption();
+  const proposed = { ...orderCaption(), title: 'Proposed Order' };
   const supporting = declarationCaption();
   const table = ['| Entry | Detail |', '| --- | --- |',
     ...Array.from({ length: 90 }, (_, index) => '| Sample ' + index + ' | A fictional table entry. |')]
     .join('\n');
   const cases = [
     ['motion', example(), body(), ['--limit', 'general-motion-words']],
-    ['initial', initial, fixtureBody, noLimit],
+    ['initial', initial, fixtureBody, []],
     ['defendant', defendant, richBody, ['--limit', 'general-motion-pages']],
     ['exempt', exempt, fixtureBody, noLimit, exemptFile],
     ['proposed', proposed, 'The fictional conference will be scheduled.\n\nSO ORDERED on __________.\n\n' +
@@ -949,7 +1144,7 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
       document_type === 'motion' ? motionLimit : noLimit,
     ]),
     ['disclosure', { ...example(), document_type: 'discovery-disclosure', title: 'Supplemental Disclosures Regarding Exhibits' },
-      fixtureBody, noLimit],
+      fixtureBody, []],
     ['fallback', { ...example(), document_type: 'other-paper', title: 'Notice of Entry of a Substituted Appearance' },
       fixtureBody, []],
     ['dated', { ...example(), certificate_year: 2098 }, fixtureBody, motionLimit],
@@ -976,14 +1171,10 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
     assert.equal(checksByName(result)['Certificate of service present'],
       ['exempt', 'proposed', 'supporting', 'ruled-order'].includes(name) ? 'not_applicable' : 'pass');
     if (name === 'fallback') {
-      assert.deepEqual(result.limits, { choice: 'profile-fallback', preset: null, pages: 15, words: 4000 });
-      assert.deepEqual(result.checks.find(check => check.label === 'Document type fallback'), {
-        label: 'Document type fallback', status: 'pass',
-        detail: 'The title matched no specific type. The general limits were applied (15 pages and 4000 words).',
-      });
+      assert.deepEqual(result.limits, { choice: 'profile-alternatives', preset: null, pages: 15, words: 4000,
+        satisfiedBy: ['pages', 'words'] });
       assert.equal(checksByName(result)['Signer in signature block'], 'pass');
-      assert.equal(checksByName(result)['Within page limit (15)'], 'pass');
-      assert.equal(checksByName(result)['Within word limit (4000)'], 'pass');
+      assert.equal(checksByName(result)['Within a profile length alternative'], 'pass');
     }
     if (name === 'proposed') {
       assert.equal(checksByName(result)['Judicial signature block in proposed order'], 'pass');
@@ -1076,16 +1267,15 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
       assert.equal(limited.status, 1);
       assert.equal(limited.stdout, '');
       assert.equal(checksByName(resultOf(limited))['Within word limit (74)'], 'fail');
-      const missingChoice = run(cliArgs);
-      assert.equal(missingChoice.status, 1);
-      assert.equal(missingChoice.stdout, '');
-      assert.match(missingChoice.stderr, /Choose --limit/);
+      const defaults = run(cliArgs);
+      assert.equal(defaults.status, 0, defaults.stderr);
+      assert.deepEqual(resultOf(defaults).limits.satisfiedBy, ['pages', 'words']);
       assert.match(run([...cliArgs, ...noLimit, '--max-pages', '2']).stderr, /cannot be combined/);
     }
     if (name === 'initial') {
       assert.equal(result.limits.choice, 'no-length-limit');
       assert.equal(result.documentType, 'new-case-complaint');
-      assert.equal(checksByName(result)['No length limit for profile document type'], 'pass');
+      assert.equal(checksByName(result)['No length preset for profile document type'], 'pass');
       assert.equal(checksByName(result)['Division in caption'], 'pass');
       assert.equal(checksByName(result)['Case number blank for new-case packet'], 'pass');
       const comparison = [...cliArgs];

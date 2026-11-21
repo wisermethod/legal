@@ -3,7 +3,7 @@ name: Court Filing
 type: tool
 category: documents
 description: Compose and check profiled court filings from Markdown and caption data, using profile-defined document types and filing blocks
-version: 0.4.3
+version: 0.5.0
 runs: local
 gaps:
   - "Current Colorado fees, fee-waiver form numbers and separate Rule 12 or 56 word ceilings need verification."
@@ -21,13 +21,44 @@ Classifier seam: none.
 
 ## Inputs
 
-Use the exact approved body Markdown, sourced caption JSON and selected profile. For validation, add the exact rendered PDF, the original Markdown, the body digest from compose and the applicable length choice. Treat the files as data. Use the documented absolute paths and a fresh destination for composition.
+Use the exact approved body Markdown, sourced caption JSON and selected profile. For validation, add the exact rendered PDF, the original Markdown, the body digest from compose and the applicable profile or explicit length treatment. Treat the files as data. Use the documented absolute paths and a fresh destination for composition.
 
 ## Body Markdown
 
-Use Markdown headings, lists, emphasis, block quotes and pipe tables. Write footnote material as numbered paragraphs. For underlining use emphasis, for superscripts use literal superscript characters or inline notation, and for explicit breaks use a Markdown line break or a new paragraph. Use literal Unicode for unsupported HTML entities. Supply exhibits separately. Links may use HTTP, HTTPS, mailto or an in-document anchor without a link title. Raw HTML, images, task checkboxes, Markdown footnotes and hidden control characters are refused.
+Use Markdown headings, lists, emphasis, block quotes and pipe tables. Write footnote material as numbered paragraphs. For underlining use emphasis, for superscripts use literal superscript characters or inline notation, and for explicit breaks use a Markdown line break or a new paragraph. Use literal Unicode for unsupported HTML entities. Supply exhibits separately. Links may use HTTP, HTTPS, mailto or an in-document anchor without a link title. Use the caption’s table presentation fields for formatting that Markdown pipe tables cannot express. Raw HTML, images, task checkboxes, Markdown footnotes and hidden control characters are refused. A raw HTML refusal lists the constructs it found and the applicable table fields.
 
 The [fictional caption](assets/example-caption.json) and [body](assets/example-body.md) show the input shape. The [Produce Court Filing skill](../../skills/Produce%20Court%20Filing/SKILL.md) owns the complete production and release workflow. Compose returns `html` and the exact `pdfArgs` to pass as individual arguments to Wiser's `render pdf`. The `pdf` object carries those option values and `footerFont` identifies the renderer's native footer font. Retain the original Markdown and `bodySha256` to validate the printed PDF. When a certificate prints, composition preprints the caption’s `certificate_year` or the current calendar year. The day and month are left blank for the signer.
+
+## Quick start
+
+Run from a visible working directory with a fresh review destination. The shipped [fictional caption](assets/example-caption.json) and [body](assets/example-body.md) are ready for this local example. Finder hides folders whose names begin with a dot. Keep build receipts in scratch and put the review PDF where the person can find it.
+
+```sh
+court="/absolute/path/to/legal/tools/Court Filing"
+render="/absolute/path/to/wiser/tools/render/scripts/render.js"
+scratch="$(mktemp -d)"
+review="$PWD/Fictional Motion - review.pdf"
+caption="$court/assets/example-caption.json"
+body="$court/assets/example-body.md"
+
+node "$court/scripts/court-filing.js" compose --body "$body" --caption "$caption" \
+  --profile colorado-district --out "$scratch/filing.html" > "$scratch/compose.json" &&
+node --input-type=module -e '
+  import { readFileSync } from "node:fs";
+  import { execFileSync } from "node:child_process";
+  const [render, receipt, output] = process.argv.slice(1);
+  const build = JSON.parse(readFileSync(receipt, "utf8"));
+  execFileSync(process.execPath, [render, "pdf", "--input", build.html,
+    "--output", output, ...build.pdfArgs], { stdio: "inherit" });
+' "$render" "$scratch/compose.json" "$review" &&
+node "$court/scripts/court-filing.js" validate --pdf "$review" --caption "$caption" \
+  --profile colorado-district --body "$body" \
+  --body-sha256 "$(node -p 'require(process.argv[1]).bodySha256' "$scratch/compose.json")"
+```
+
+Pass the returned `pdfArgs` unchanged as individual arguments. The composed filer block contains a blank signature line and `Date: ____________________`. The certificate contains its own blank signature line and `____ day of __________, <year>`. Use the profile and record to determine which blocks apply.
+
+For a fictional motion, suppose the draft caption uses Division W and an old service email. The docket in the example assigns Division X and shows case number `2099CV00000`. The latest accepted service notice supplies `service@example.invalid`. Correct the division and recipient email against those records, verify the court address and party order, and record where each value came from before composing. Keep the paper’s actual title and choose `motion` with the person. Leave the signature and the dates blank for the signer.
 
 ## Commands
 
@@ -36,16 +67,18 @@ Run from the tool directory. All file arguments are absolute paths. `--profile` 
 | Invocation | Result |
 |---|---|
 | `node scripts/court-filing.js help` or `--help` | Print usage without reading consent, installing packages or checking for dependencies. A command also accepts `help` or `--help`. |
-| `node scripts/court-filing.js compose --body <file> --caption <file> --profile <id-or-file> --out <file> [--install]` | Write the HTML and print `html`, `profile`, `pdf`, `pdfArgs`, `footerFont`, `bodySha256` and `bodyWords` as one object. |
-| `node scripts/court-filing.js validate --pdf <file> --caption <file> --profile <id-or-file> --body-sha256 <digest> --body <file> [--limit <id>] [--max-pages <N>] [--max-words <N>] [--no-length-limit] [--install]` | For `other-paper`, omit length flags to use both general ceilings. For other limited types, select one listed preset or one or both positive explicit maxima. For an unlimited type, pass the standalone `--no-length-limit` flag. |
+| `node scripts/court-filing.js compose --body <file> --caption <file> --profile <id-or-file> --out <file> [--install]` | Write the HTML and return `html`, `profile`, `documentType`, `pdf`, `pdfArgs`, `footerFont`, `bodySha256`, `bodyWords`, `checks` and `advisories`. |
+| `node scripts/court-filing.js validate --pdf <file> --caption <file> --profile <id-or-file> --body-sha256 <digest> --body <file> [--limit <id>] [--max-pages <N>] [--max-words <N>] [--no-length-limit] [--install]` | Omit length flags to use the applicable profile treatment when available. `--limit` selects a listed preset or pins a listed alternative. Use one or both positive explicit maxima for verified requirements. `--no-length-limit` is equivalent to omitting flags for a null-preset type. |
+| `node scripts/court-filing.js classify --profile <id-or-file> --title <title>` | Return `profile` and an array of `suggestions` in order of specificity. The caller declares the document type. |
+| `node scripts/court-filing.js compare --reference <archived-pdf> --pdf <rebuilt-pdf>` | Read two PDFs and return page, normalized text and per-page raster differences. Exit 0 when comparison finishes, including when differences are present. |
 | `node scripts/court-filing.js profiles` | Print the validated shipped profiles, including layout, document types, limits, rule notes and packet registry. No package install. |
-| `node scripts/court-filing.js check [--install]` | Report Marked as `absent`, `incomplete`, or `complete`, Poppler program versions, and readiness for `compose` and `validate`. Survey exits 0. `--install` prepares Marked if needed and runs the survey. |
+| `node scripts/court-filing.js check [--install]` | Report Marked as `absent`, `incomplete`, or `complete`, Poppler program versions, and readiness for `compose`, `validate` and `compare`. Survey exits 0. `--install` prepares Marked if needed and runs the survey. |
 
 Run `check` first if a dependency may be missing. Node 18 or newer is required. `compose` and `validate` share Marked 12.0.2. A missing package prompts through a refusal on the first unapproved run. Re-run with `--install` on consent, or set `WISER_ALLOW_INSTALL=1` for a preapproved unattended run. You'll only be asked once: your yes also covers anything else Wiser needs to download later, including after updates. npm installs the pinned package from `registry.npmjs.org` into this tool's `node_modules/`, uses its ordinary cache, and leaves the lockfile as shipped. A survey without `--install` writes nothing. The install records consent in the person config and matching plugin copy. A completed compose leaves its one HTML file at the caller's new path. Validation reports the SHA-256 of the exact PDF bytes it inspected.
 
 ### Dependencies
 
-`validate` needs six Poppler utilities in PATH. The presence checks are `pdfinfo -v` for page metadata, `pdftotext -v` for text and word positions, `pdffonts -v` for the font inventory, `pdftohtml -v` for typeset dimensions, `pdfimages -v` for the image inventory, and `pdftoppm -v` for rendered ink. Use a build of `pdftotext` that supports `-tsv`. The other Court Filing commands need no Poppler utilities.
+`validate` needs six Poppler utilities in PATH. The presence checks are `pdfinfo -v` for page metadata, `pdftotext -v` for text and word positions, `pdffonts -v` for the font inventory, `pdftohtml -v` for typeset dimensions, `pdfimages -v` for the image inventory, and `pdftoppm -v` for rendered ink. Use a build of `pdftotext` that supports `-tsv`. `compare` needs `pdfinfo`, `pdftotext` and `pdftoppm`. The other commands can run without Poppler.
 
 ## Caption schema
 
@@ -53,8 +86,9 @@ Use one JSON object. Unlisted and repeated keys are refused. Text values are sin
 
 | Field | Type and use |
 |---|---|
-| `court`, `court_address`, `case_number`, `division`, `title` | Required strings. Use the sourced court, address, docket fields and matching title. A type with `blank_case_number` requires the empty string. A type with `allow_blank_division` accepts the empty string when allowed by the court. Composition uppercases court names and titles. |
-| `document_type` | Required ID from the chosen profile’s `document_types`. Its entry determines the allowed title, blocks, docket fields, packet and length choices. Choose a specific matching type first. For a Colorado district title with no specific match, use `other-paper` and keep the real title. A title that clearly joins a second paper is refused across all types. Titles whose wording leaves this unclear can use `other-paper`. |
+| `court`, `court_address`, `case_number`, `division`, `title` | Required strings. Use the sourced court, address, docket fields and exact title. A type with `blank_case_number` requires the empty string. A type with `allow_blank_division` accepts the empty string when allowed by the court. Composition uppercases court names and preserves the title’s supplied spelling, capitalization and punctuation. |
+| `document_type` | Required ID from the selected profile’s `document_types`. Choose the paper’s type with the person. It determines filing blocks, docket fields, packet and length treatment. Use `other-paper` for a paper with no specific type. |
+| `type_confirmed` | Optional boolean. An off-pattern type with longer presets than the general type, no preset, or without a required general filing block requires `true` after the person confirms this type for this exact title. Keep the confirmation in the build record. |
 | `filing_packet` | Required when the type names a packet. Supply that exact ID from the profile’s `filing_packets`. Otherwise omit it. |
 | `parties` | Nonempty ordered array with `role` and `name` strings. Names print uppercase. In an adversarial caption the existing order is preserved and a single `v.` goes before the first defendant-side entry when an entry precedes it. |
 | `signer` | Required when the type prints the filer signature. Supply `name` and, where applicable, `role` and `lines` for address or contact text. Omit it when the type has no filer signature. |
@@ -62,8 +96,49 @@ Use one JSON object. Unlisted and repeated keys are refused. Text values are sin
 | `service` | Required when the type prints a certificate and omitted otherwise. Optional fields are `method` (defaults to email), `served_by` (defaults to the filer), `firm`, `firm_lines` (array) and `firm_note`. |
 | `service.recipients` | Nonempty array of objects with `name` and an `emails` array. Supply at least one email per recipient for email service. |
 | `certificate_year` | Optional four-digit integer used to preprint the certificate and anchor its validation. Each command uses its own current calendar year when this field is omitted. |
+| `table_presentation` | Optional object with `default` style and a `tables` object keyed by one-based Markdown table number in body order. Each per-table field overrides the default field with the same name. See the fields below. |
 
 For a `proposed-order` confirmed to use this form, end the Markdown with `BY THE COURT:`, a blank underline or underscore rule, and a judge designation. Keep an incompatible prescribed form in its original format and record that Court Filing cannot validate it. Keep a `supporting-declaration` with the exact enclosing packet and its verified certificate.
+
+## Table presentation
+
+Omit the table fields for the legacy renderer’s ordinary Markdown table defaults, including standard header alignment, cell spacing, wrapping and running headers. Markdown alignment markers continue to apply wherever the caption leaves alignment unspecified.
+
+| Style field | Allowed value |
+|---|---|
+| `column_widths_percent` | Array of column widths from 1 through 100 percent, with `null` for automatic widths. The listed widths may total at most 100. Supplying this field uses fixed layout across the printable area. |
+| `column_alignment` | Array of body column alignments, `left`, `center`, `right`, or `null` to leave the Markdown or browser default. |
+| `header_alignment` | One alignment for all headings or an array in column order. Allowed entries are the same as body column alignments. |
+| `nowrap_columns` | Array of distinct one-based column numbers. Keeps those body cells on one line. Use `[]` to override an inherited list. Check wide cells in preview. |
+| `cell_padding_pt`, `body_cell_padding_pt` | Number in points or four numbers in top, right, bottom and left order. Each is from 0 through 12. The first field controls all cells, and the second overrides it for body cells. |
+| `font_size_pt` | Number from 8 through 16. Default is the profile body size. Confirm that the chosen size meets the applicable record. |
+| `vertical_alignment` | `top`, `middle`, `bottom` or `baseline` for header and body cells. |
+
+Column arrays can end early to leave remaining columns at their defaults. Values beyond the table’s actual columns are refused. For example, a legacy style that aligns every header and cell left and top, keeps the first two body columns on one line, and sets body padding to `4px 8px 2px 0` can be represented as follows. At 96 CSS pixels per inch, multiply pixels by 0.75 to obtain points.
+
+```json
+{
+  "table_presentation": {
+    "default": {
+      "header_alignment": "left",
+      "column_alignment": ["left", "left", "left"],
+      "vertical_alignment": "top",
+      "nowrap_columns": [1, 2],
+      "body_cell_padding_pt": [3, 6, 1.5, 0]
+    }
+  }
+}
+```
+
+## Convert an archived body and caption
+
+Use a new `mktemp -d` directory and copy only the archived body and caption there. Keep the originals and reference PDF read-only. Record their paths and hashes locally. Read the original paper and record to choose its type. `classify` may suggest the available types. In the temporary caption add `document_type`, its packet field if required and the archived certificate year if established. Preserve the supplied title. Apply the appropriate filer and certificate fields from the record and report any reconciliation.
+
+In the temporary Markdown, move supported styling from the leading `<style>` block or inline HTML into `table_presentation`. Translate any HTML tables into pipe tables, including header and cell text in order. Remove the original style or markup from the copy after recording what it did. Preserve the rest of the filing text and record any style or structure you could not reproduce. Keep signatures and filled dates in the reference only. Compose and render to fresh temporary paths using the same three-command inputs from the quick start, with the temporary paths supplied to each command. Use `compare --reference <archived-pdf> --pdf <rebuilt-pdf>` for the historical result. Label the whole replay **Not for filing**.
+
+## Comparison result
+
+The command writes no files. It returns `label`, `note`, `reference` and `rebuilt` (each with `pages`, `pageSizesPt`, `textTokens` and `sha256`), `samePageCount`, `samePageSizes`, `text` and `raster`. The `text.equal` result compares Poppler’s reading-order text after NFC normalization and whitespace collapse. `text.changes` gives zero-based token offsets and changed token spans. For very large unmatched spans, `text.granularity` is `changed-span`. `text.inventoryDelta` reports per-token count differences, positive when more occur in the reference. `raster.perPage` gives both pixel sizes, the differing and total pixel counts and the percentage of differing pixels at 144 dpi. It compares RGB values at the same coordinates from the top left and counts unpaired pixels and pages as differences. A signature or filled date on the reference is expected to differ. The comparison covers 16 MiB and 200 pages per PDF.
 
 ## Profile schema
 
@@ -80,22 +155,23 @@ For a `proposed-order` confirmed to use this form, end the Markdown with `BY THE
 | `caption_defaults` | Caption example conforming to the schema above. Copy it and supply sourced values. It is never merged into a caller's caption. |
 | `validation` | Object containing required `limits`, `exclusions` and `notes`. `limits` maps lowercase hyphenated IDs to objects with `unit` (`pages` or `words`), positive integer `maximum`, `citation` and `verification`. `exclusions` and `notes` are arrays of strings. Optional `double_spacing` supplies a rule with a nonblank `citation` and `verification`. |
 | `rules` | Array of objects with `citation`, `verification` and string `notes`. |
-| `document_types` | Required closed object keyed by lowercase hyphenated IDs. Each type declares booleans `filer_signature`, `certificate`, `judicial_closing`, `blank_case_number` and `allow_blank_division`, exactly one of `title_pattern` (whole-title case-insensitive regex) or `exact_title`, `filing_packet` (listed ID or null), and `length_presets` (array of listed IDs, empty for explicit maxima only, or null for no limit). A certificate omission requires a judicial closing, listed enclosing packet or exact title. A blank case number requires a listed packet. Optional `double_spacing` lists the distinct categories the sourced validation rule applies to for this type, drawn from `table`, `list` and `heading`. The fallback entry uses the fields in the next row in place of a title matcher. |
-| `fallback_document_type` | Optional ID of the title fallback. Its entry requires a filer signature and certificate, a null filing packet, and one applicable page preset and one applicable word preset. List narrower specific title patterns before broader ones. |
+| `document_types` | Required closed object keyed by lowercase hyphenated IDs. Each type declares booleans `filer_signature`, `certificate`, `judicial_closing`, `blank_case_number` and `allow_blank_division`, exactly one of `title_pattern` (whole-title case-insensitive regex) or `exact_title`, `filing_packet` (listed ID or null), and `length_presets` (array of listed IDs, empty for explicit maxima only, or null for no profile preset). Optional `length_mode` identifies a page/word pair as `alternatives` or `all`. With `all`, both ceilings apply even when a preset is named. A certificate omission requires a judicial closing, listed enclosing packet or exact title. A blank case number requires a listed packet. Optional `double_spacing` lists the distinct categories the sourced validation rule applies to for this type, drawn from `table`, `list` and `heading`. The general entry uses the fields in the next row in place of a title matcher. |
+| `fallback_document_type` | Optional ID of the explicitly declared general type. Its entry requires a filer signature and certificate, a null filing packet, and one applicable page and word preset. For compatibility a custom general type without `length_mode` applies both ceilings. List narrower specific title patterns before broader ones for suggestions. Exact title entries are suggested first. |
 | `filing_packets` | Object keyed by lowercase IDs with underscores. Each packet has string `description`, nonempty `required_at_filing` (objects with `item`, `method`, `notes`, `citation`, `verification`), `post_filing_steps` (objects with `step`, `notes`, `citation`, `verification`) and a string array `notes`. |
 
 A `citation` identifies the authority to check, or is null when no citation is listed. `verification` is `working-default` or `verify`. Older custom profiles can use `recorded-in-source` for `working-default`. Confirm working defaults against the applicable rule and any court order before filing. A `verify` limit requires an explicit maximum based on checked authority. Confirm the fee, fee-waiver form number and separately unconfirmed word ceilings before relying on them. The Colorado packet registry names the official fillable JDF 601 and JDF 600 forms. Obtain those forms from the issuing court.
 
 ## Validation result
 
-A pass writes one JSON object to stdout with `ok: true` and `result: "ALL CHECKS PASSED"`, and exits 0. Failed mechanical validation writes one object to stderr with `ok: false`, `result: "VALIDATION FAILED"` and `remediation`, and exits 1 with empty stdout. Usage, path and schema failures use a plain error on stderr. Both validation objects report `profile`, `documentType`, `pages`, `bodySha256`, `pdfSha256`, `bodyWords`, `pdfBodyWords`, `limits`, `checks` and `unavailable`. Each check carries `label`, `status` and `detail`. An `advisory` prompts human preview and permits a mechanical pass. Missing system programs are named with their presence commands. Hold a required `not_checked`.
+A pass writes one JSON object to stdout with `ok: true` and `result: "ALL CHECKS PASSED"`, and exits 0. Failed mechanical validation writes one object to stderr with `ok: false`, `result: "VALIDATION FAILED"` and `remediation`, and exits 1 with empty stdout. Usage, path and schema failures use a plain error on stderr. Both validation objects report `profile`, `documentType`, `pages`, `bodySha256`, `pdfSha256`, `bodyWords`, `pdfBodyWords`, `limits`, `checks`, `advisories` and `unavailable`. Each check carries `label`, `status` and `detail`. An `advisory` prompts human preview and permits a mechanical pass. Missing system programs are named with their presence commands. Hold a required `not_checked`.
 
 - **Caption and filing blocks.** The boxed first-page caption must contain the sourced court and address, ordered parties, docket fields, applicable counsel block and complete centered title. Check the filer closing, date field and supplied contact lines where applicable. A certificate requires its own heading, statement, date fields, exact recipients and emails, supplied firm lines and expected service signer. The validation anchor is the caption’s `certificate_year` or the calendar year when validation runs. An untouched preprint must show the anchor year or either adjacent year. Filled date fields must form a real calendar date in that same year range. Common month abbreviations, including Sept and Sept., are accepted. The PDF title’s composition year is informational. When the type omits a certificate, presence is `not_applicable` and the separate absence check must pass. An order needs the approved unsigned judicial closing and the absence of filer and certificate blocks.
-- **Body and limits.** Validation independently re-parses the required Markdown through composition’s parser. It compares extracted PDF body characters and word boundaries to that result, using positioned text to reconcile extraction breaks and handling wrapped hyphens and complete running table headers. The title metadata carries a second copy of the Markdown digest. Both counts must meet a word ceiling and include ordered-list markers. The composed body count uses the higher of the printed-text count and the Markdown token count. The latter strips code spans, fenced code, image links, link destinations, formatting characters and standalone dash or plus list markers. The caption, filer signature and certificate are outside the body count. On a text mismatch the PDF count is diagnostic and the binding fails. A page ceiling counts the entire PDF, including parts the rule may exempt. The `limits` object reports `choice` (`profile-preset`, `profile-fallback`, `explicit-maxima`, or `no-length-limit`), `preset`, `pages` and `words`. The `other-paper` check reports when the title matched no specific type and the general limits applied. That type applies both 15 pages and 4,000 words by default. Selecting one of its listed presets still applies both limits. Explicit maxima can only tighten them.
-- **Layout.** Every page needs unrotated MediaBox and CropBox geometry within 1 pt of the profile size. Checks require approved embedded fonts, profile type sizes, paragraph line spacing where measurable, the visible caption box and an aligned visible footer on each page. At 144 dpi, the margin check allows 1.5 pt for rounding and exempts the matched footer words. Ink checks reject embedded images, invisible words, missing expected marks and unexpected visible ink outside the recognized text and ruling areas. Human preview checks the exact artifact, including appearance inside recognized ink areas and signature completion.
+- **Body and limits.** Validation independently re-parses the required Markdown through composition’s parser. It compares extracted PDF body characters and word boundaries to that result, using positioned text to reconcile extraction breaks and handling wrapped hyphens and complete running table headers. The title metadata carries a second copy of the Markdown digest. Both counts must meet a word ceiling and include ordered-list markers. The composed body count uses the higher of the printed-text count and the Markdown token count. The latter strips code spans, fenced code, image links, link destinations, formatting characters and standalone dash or plus list markers. The caption, filer signature and certificate are outside the body count. On a text mismatch the PDF count is diagnostic and the binding fails. A page ceiling counts the entire PDF, including parts the rule may exempt. The `limits` object reports `choice` (`profile-preset`, `profile-alternatives`, `profile-all`, `explicit-maxima`, or `no-length-limit`), `preset`, `pages` and `words`. For alternatives, the check reports both counts and `limits.satisfiedBy` identifies the passing units. A listed `--limit` pins one alternative. With one applicable preset and no flag, that preset applies. The shipped `other-paper` applies 15 pages or 4,000 words by default. Explicit maxima for the general type may only tighten the corresponding figures. Null presets report a passing no-preset check when no explicit maximum is supplied. The calling workflow records whether a rule or order supplies a maximum.
+- **Title and type.** Compose and validate report the same title advisories for wording outside the declared type’s pattern or a joined phrase that may be another paper. The declared type governs all checks. An off-pattern type that is more permissive than the general type requires the person’s confirmation for the exact title. Compose refuses that combination without `caption.type_confirmed: true`, and validate marks a failed confirmation check. With confirmation the mismatch stays visible as an advisory. Choosing the general type may also show specific matches for review.
+- **Layout.** Every page needs unrotated MediaBox and CropBox geometry within 1 pt of the profile size. Checks require approved embedded fonts, profile type sizes and declared table sizes, paragraph line spacing where measurable, the visible caption box and an aligned visible footer on each page. At 144 dpi, the margin check allows 1.5 pt for rounding and exempts the matched footer words. Ink checks reject embedded images, invisible words, missing expected marks and unexpected visible ink outside the recognized text and ruling areas. Human preview checks the exact artifact, including appearance inside recognized ink areas and signature completion.
 - **Table, list and heading double spacing.** This named check reports how many printed body lines have text in these categories below double spacing and their share of all extracted printed body lines. It includes running table headers and counts each extracted line once in the total. It measures matched successive PDF baselines where available and estimates isolated or unmatched lines from the retained layout. The check's `counts` carries `totalLines`, `underDoubleLines`, `share` as a fraction, `estimatedLines`, and affected `table`, `list` and `heading` line counts. The named check fails for short lines in a category covered by the selected type's sourced spacing rule. Otherwise short lines are an advisory for human preview. The shipped profile leaves these three categories to preview.
 - **Inspection bounds.** The tool accepts up to 16 MiB and measures up to 200 pages. Interactive forms or PDF JavaScript leave required appearance evidence unchecked. The mechanical result and its PDF digest support the caller’s separate citation, forum, preview and exact-artifact approval gates.
 
 ## Success
 
-Composition publishes the one fresh HTML file and returns its path and renderer arguments. Validation produces an exact verdict for the supplied PDF, caption, profile and limits. The result reports each applicable check and the profile treatment for an omitted certificate, where applicable. Unavailable evidence or a failed applicable check holds release.
+Composition publishes the one fresh HTML file and returns its path and renderer arguments. Validation produces an exact verdict for the supplied PDF, caption, profile and limits. The result reports each applicable check and the profile treatment for an omitted certificate, where applicable. Unavailable evidence or a failed applicable check holds release. Comparison returns differences and the historical label for the two exact PDFs.

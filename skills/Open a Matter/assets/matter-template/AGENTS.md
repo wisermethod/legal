@@ -8,9 +8,12 @@ This folder is the matter project. Read the owning user root's instructions firs
 
 ## Binding matter rules and session entry
 
-[List the governing matter files in read order, with what each governs and how conflicts are resolved. Include standing instructions, intake, ownership or source rules, and the current handoff where present. Say which files bind work and which summarize it. The owning root governs the instruction chain. Applicable rules, operative orders and authentic notices govern the procedural facts they establish.]
+Follow this order on every matter request, including on resume:
 
-Run Maintain Matter File for matter preflight before substantive work.
+1. Read the standing do-nots. [Name the governing instruction files and what they bind, or state that there are no additional matter-specific do-nots.]
+2. Run Maintain Matter File’s **Deadline review** on the designated deadline record and applicable dated primary evidence. Give the overdue or possibly missed items and dates in the next 14 days before answering the request. State the evidence limits when the alert cannot be verified.
+3. Read the authoritative history and current handoff for posture. [Name the actual paths and which files summarize the record.] Use the operative orders, rules and authentic notices to resolve procedural facts.
+4. Load the remaining intake, ownership, source or task references as needed. [Name each binding reference and its role. State the designated glossary path or that no glossary is designated.]
 
 ## Forum and posture
 
@@ -26,7 +29,7 @@ Run Maintain Matter File for matter preflight before substantive work.
 |---|---|
 | `AGENTS.md` | Matter declaration and entry instructions |
 | `HISTORY.md` | Current posture, timeline, status changes and open questions |
-| `DEADLINES.md` | Upcoming and satisfied obligations, triggers and verified calculation bases |
+| `DEADLINES.md` | Obligations, owners, date types, triggers, evidence and states |
 | `PARTIES.md` | Parties, service contacts, representation and confirmed forum details |
 | `CLAIMS.md` | Claims, defenses, elements, evidence links and damages |
 | `ARGUMENTS.md` | Current and abandoned positions, attacks, rebuttals and development needs |
@@ -40,4 +43,4 @@ Run Maintain Matter File for matter preflight before substantive work.
 
 Replace defaults with the paths this matter actually uses. Give every retained matter-level file a row with its role, including local rules, handoffs, archives or retained legacy copies. Link indexed directories to their authoritative index. Account for each retained file in an individual row here or in the index that owns it.
 
-Keep original records intact and link to them. Record an unknown or disputed fact with its status and source. Apply Maintain Matter File to confirmed filings, orders, correspondence and new deadlines. Read the glossary designated by the owning root when available.
+Keep original records intact and link to them. Record an unknown or disputed fact with its status and source. Apply Maintain Matter File to confirmed filings, orders, correspondence and new deadlines.

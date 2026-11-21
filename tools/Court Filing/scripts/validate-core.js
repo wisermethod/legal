@@ -1,6 +1,6 @@
 import { filingTextChecks } from './filing-text-core.js';
-import { documentType, resolveLimits, validateCaption, validateProfile } from './schema-core.js';
-import { footerCandidates, isExpectedPage, measureInk, readFonts, readPageInfo, readTextLines, readTypography, imagesAbsent, paragraphSpacing, bodySpacing, captionRuling, judicialRuling, filingInk, markPositions } from './pdf-evidence-core.js';
+import { documentType, resolveLimits, titleChecks, validateCaption, validateProfile } from './schema-core.js';
+import { footerCandidates, isExpectedPage, measureInk, readFonts, readPageInfo, readTextLines, readTypography, tableTypography, imagesAbsent, paragraphSpacing, bodySpacing, captionRuling, judicialRuling, filingInk, markPositions } from './pdf-evidence-core.js';
 
 export const PASS = 'ALL CHECKS PASSED';
 export const FAIL = 'VALIDATION FAILED';
@@ -9,7 +9,7 @@ export const MAX_PDF_PAGES = 200;
 const decoder = new TextDecoder();
 const resultOf = yes => yes ? 'pass' : 'fail';
 
-function pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines, prepared) {
+function pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines, prepared, repeated) {
   const { layout } = profile;
   const unchecked = why => {
     add('Profile type size', 'not_checked', why);
@@ -42,11 +42,12 @@ function pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines
       rejected.length ? [...new Set(rejected.map(font => font.name + (font.embedded ? ' (outside profile)' : ' (not embedded)')))].join(', ') :
         [...new Set(fonts.map(font => font.name))].join(', '));
 
-  const typography = readTypography(inspect('typography', pdf), info.count, layout);
+  const tableText = tableTypography(prepared, bodyLines, repeated, layout);
+  const typography = readTypography(inspect('typography', pdf), info.count, layout, tableText);
   const spacing = paragraphSpacing(positioned, bodyLines, prepared.paragraphs, layout);
   const noImages = imagesAbsent(inspect('images', pdf));
   const measured = (name, evidence, detail) => add(name, evidence === null ? 'not_checked' : resultOf(evidence), detail);
-  measured('Profile type size', typography, 'Measured body, caption and footer type sizes must match the profile.');
+  measured('Profile type size', typography, 'Measured type sizes must match the profile and any declared table font size.');
   measured('Body paragraph spacing', spacing, 'Measured successive lines within composed prose paragraphs must use the profile spacing.');
   measured('No embedded page images', noImages, 'The composed filing body and blocks use text and ruling. File exhibits separately.');
 
@@ -110,7 +111,8 @@ export function validate({ pdf, caption, profile, limits, prepared, parseUnavail
   });
   limits = verifiedLimits;
   const { bodySha256, bodyWords } = prepared;
-  const checks = [];
+  const title = titleChecks(profile, caption);
+  const checks = [...title];
   const add = (label, status, detail, counts) => checks.push(counts ? { label, status, detail, counts } : { label, status, detail });
   const pdfInfo = inspect('page-info', pdf);
   const info = pdfInfo && readPageInfo(pdfInfo);
@@ -123,23 +125,34 @@ export function validate({ pdf, caption, profile, limits, prepared, parseUnavail
     parseUnavailable ? 'A required Poppler program is unavailable. See unavailable.' :
       info && text ? info.count + ' page(s) with extractable text.' :
         info?.count > MAX_PDF_PAGES ? 'PDF exceeds the ' + MAX_PDF_PAGES + '-page inspection ceiling.' : 'No readable PDF text or page count.');
-  if (caption.document_type === profile.fallback_document_type) {
-    add('Document type fallback', 'pass', 'The title matched no specific type. The general limits were applied (' +
-      limits.pages + ' pages and ' + limits.words + ' words).');
-  }
-  if (limits.pages !== null) {
+  const alternatives = limits.choice === 'profile-alternatives';
+  if (!alternatives && limits.pages !== null) {
     add('Within page limit (' + limits.pages + ')', info ? resultOf(info.count <= limits.pages) : 'not_checked',
       info ? info.count + ' total PDF page(s), including any parts the rule exempts.' : 'PDF page count is unavailable.');
   }
   if (limits.choice === 'no-length-limit') {
-    add('No length limit for profile document type', resultOf(documentType(profile, caption).length_presets === null),
-      caption.document_type);
+    add('No length preset for profile document type', 'pass', 'This type has no length preset in the profile.');
   }
   const certificateYear = caption.certificate_year ?? validationDate.getFullYear();
   const { pdfBodyWords, bodyLines, repeated, spacingBound } = filingTextChecks({
     caption, profile, extracted, info, prepared, add, positioned, certificateYear,
   });
-  if (limits.words !== null) {
+  if (alternatives) {
+    const pageCount = info?.count ?? null;
+    const wordCount = pdfBodyWords === null || bodyWords === null ? null : Math.max(pdfBodyWords, bodyWords);
+    const satisfiedBy = [
+      ...(pageCount !== null && pageCount <= limits.pages ? ['pages'] : []),
+      ...(wordCount !== null && wordCount <= limits.words ? ['words'] : []),
+    ];
+    limits = { ...limits, satisfiedBy };
+    const count = value => value ?? 'unavailable';
+    const detail = count(pageCount) + ' PDF pages against ' + limits.pages + '; ' +
+      count(bodyWords) + ' composed body words and ' + count(pdfBodyWords) + ' PDF body words against ' + limits.words + '. ' +
+      (satisfiedBy.length ? 'Satisfied by: ' + satisfiedBy.join(' and ') + '.' : 'Neither alternative was established.');
+    add('Within a profile length alternative', satisfiedBy.length ? 'pass' :
+      pageCount === null || wordCount === null ? 'not_checked' : 'fail', detail,
+    { pageCount, bodyWords, pdfBodyWords });
+  } else if (limits.words !== null) {
     add('Within word limit (' + limits.words + ')', pdfBodyWords === null || bodyWords === null ? 'not_checked' : resultOf(Math.max(pdfBodyWords, bodyWords) <= limits.words),
       pdfBodyWords === null || bodyWords === null ? 'The PDF body or composition word count is unavailable.' :
         pdfBodyWords + ' words in the rendered PDF body and ' + bodyWords + ' for the composed body. ' +
@@ -161,7 +174,8 @@ export function validate({ pdf, caption, profile, limits, prepared, parseUnavail
     ' The document type requires double spacing for ' + failedSpacing.join(', ') + ' under ' + profile.validation.double_spacing.citation + '.' :
     spacingStatus === 'advisory' ? ' Inspect these elements in the human preview.' : '';
   add('Table, list and heading double spacing', spacingStatus, spacingDetail + spacingAction, spacing);
-  pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines, prepared);
+  pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines, prepared, repeated);
   const ok = checks.every(check => ['pass', 'not_applicable', 'advisory'].includes(check.status));
-  return { ok, result: ok ? PASS : FAIL, pages: info?.count ?? null, bodyWords, pdfBodyWords, bodySha256, documentType: caption.document_type, limits, checks };
+  return { ok, result: ok ? PASS : FAIL, pages: info?.count ?? null, bodyWords, pdfBodyWords, bodySha256,
+    documentType: caption.document_type, limits, checks, advisories: checks.filter(check => check.status === 'advisory') };
 }

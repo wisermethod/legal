@@ -7,9 +7,10 @@ import { createHash, randomUUID } from 'node:crypto';
 import { homedir } from 'node:os';
 import { dirname, extname, isAbsolute, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { checkMarkdownToken, compose, prepareBody } from './compose-core.js';
+import { compose, parseFilingMarkdown, prepareBody } from './compose-core.js';
 import { RASTER_DPI } from './pdf-evidence-core.js';
-import { documentType, resolveLimits, validateCaption, validateProfile } from './schema-core.js';
+import { documentType, resolveLimits, suggestTypes, validateCaption, validateProfile } from './schema-core.js';
+import { comparePdfs } from './compare-core.js';
 import { MAX_PDF_PAGES, validate } from './validate-core.js';
 
 const SCRIPT = fileURLToPath(import.meta.url);
@@ -116,6 +117,8 @@ function rememberConsent(root) {
 const COMMANDS = {
   compose: { required: ['--body', '--caption', '--profile', '--out'], optional: [], install: true },
   validate: { required: ['--pdf', '--caption', '--profile', '--body-sha256', '--body'], optional: ['--limit', '--max-pages', '--max-words'], switches: ['--no-length-limit'], install: true },
+  classify: { required: ['--profile', '--title'], optional: [], install: false },
+  compare: { required: ['--reference', '--pdf'], optional: [], install: false },
   profiles: { required: [], optional: [], install: false },
   check: { required: [], optional: [], install: true },
 };
@@ -123,11 +126,13 @@ const COMMANDS = {
 const POPPLER = {
   'page-info': 'pdfinfo',
   text: 'pdftotext',
+  'comparison-text': 'pdftotext',
   'positioned-text': 'pdftotext',
   fonts: 'pdffonts',
   typography: 'pdftohtml',
   images: 'pdfimages',
   raster: 'pdftoppm',
+  'color-raster': 'pdftoppm',
 };
 const PROGRAMS = [...new Set(Object.values(POPPLER))];
 
@@ -136,13 +141,16 @@ function usage() {
     'Usage:',
     '  node scripts/court-filing.js compose --body <absolute Markdown path> --caption <absolute JSON path> --profile <id or absolute JSON path> --out <new absolute HTML path> [--install]',
     '  node scripts/court-filing.js validate --pdf <absolute PDF path> --caption <absolute JSON path> --profile <id or absolute JSON path> --body-sha256 <compose digest> --body <absolute Markdown path> [--limit <id> | --max-pages <N> and/or --max-words <N> | --no-length-limit] [--install]',
+    '  node scripts/court-filing.js classify --profile <id or absolute JSON path> --title <title>',
+    '  node scripts/court-filing.js compare --reference <absolute archived PDF path> --pdf <absolute rebuilt PDF path>',
     '  node scripts/court-filing.js profiles',
     '  node scripts/court-filing.js check [--install]',
     '  ' + HELP + ' (or --help, also after a command)',
     '',
     '--body is required. Validation parses the original Markdown independently and checks it against the PDF.',
-    '--limit selects a preset listed for the document type. --no-length-limit is only for a profile type without a limit.',
-    'For other-paper, omit length flags to use both general limits. Explicit maxima may tighten them.',
+    'Omit length flags to use the declared type\'s profile treatment. --limit pins a listed alternative.',
+    '--no-length-limit is an optional equivalent for a type whose length_presets is null.',
+    'classify suggests types. The caller declares the type. compare reports historical differences and writes nothing.',
     '--install authorizes the package install and completes this command. ' + INSTALL_ONCE,
     '',
   ].join('\n');
@@ -285,12 +293,12 @@ function installMarked(install) {
 async function markdownParser(install) {
   installMarked(install);
   const { Marked } = await import('marked');
-  const parser = new Marked({ async: false, gfm: true, walkTokens: checkMarkdownToken });
-  return body => parser.parse(body);
+  const parser = new Marked({ async: false, gfm: true });
+  return body => parseFilingMarkdown(parser, body);
 }
 
-function popplerVersions() {
-  return Object.fromEntries(PROGRAMS.map(program => {
+function popplerVersions(programs = PROGRAMS) {
+  return Object.fromEntries(programs.map(program => {
     const result = spawnSync(program, ['-v'], { encoding: 'utf8', timeout: 5000, windowsHide: true });
     const match = /^(\S+ version [^\r\n]+)$/m.exec((result.stderr ?? '') + '\n' + (result.stdout ?? ''));
     return [program, !result.error && result.status === 0 && match ? match[1] : null];
@@ -301,18 +309,20 @@ function inspect(kind, input, page) {
   const args = {
     'page-info': ['-box', '-f', '1', '-l', String(MAX_PDF_PAGES), '-'],
     text: ['-enc', 'UTF-8', '-raw', '-', '-'],
+    'comparison-text': ['-enc', 'UTF-8', '-', '-'],
     'positioned-text': ['-enc', 'UTF-8', '-tsv', '-', '-'],
     typography: ['-xml', '-stdout', '-zoom', '4', '-noroundcoord', '-fontfullname', '-i', '-hidden', '-', '-'],
     images: ['-list', '-'],
     fonts: ['-'],
     raster: ['-r', String(RASTER_DPI), '-gray', '-singlefile', '-f', String(page), '-l', String(page), '-'],
+    'color-raster': ['-r', String(RASTER_DPI), '-singlefile', '-f', String(page), '-l', String(page), '-'],
   };
   const result = spawnSync(POPPLER[kind], args[kind], {
     input,
     env: { ...process.env, LC_ALL: 'C' },
     timeout: 15000,
     windowsHide: true,
-    maxBuffer: 8 * 1024 * 1024,
+    maxBuffer: (kind === 'color-raster' ? 32 : 8) * 1024 * 1024,
   });
   return !result.error && result.status === 0 && result.stderr.length === 0 ? result.stdout : null;
 }
@@ -351,6 +361,12 @@ function writeHtml(path, html) {
 
 const digest = value => createHash('sha256').update(value).digest('hex');
 
+function readPdf(path, flag) {
+  const pdf = readInput(path, flag);
+  if (pdf.byteLength > MAX_PDF_BYTES) throw new Error(flag + ' exceeds the 16 MiB inspection ceiling.');
+  return pdf;
+}
+
 async function main(args) {
   const [command = 'help', ...rest] = args;
   if (command === 'help' || command === '--help' ||
@@ -364,13 +380,27 @@ async function main(args) {
   if (command === 'profiles') {
     const ids = readdirSync(PROFILES).filter(name => name.endsWith('.json')).sort().map(name => name.slice(0, -5));
     result = { profiles: ids.map(loadProfile) };
+  } else if (command === 'classify') {
+    const profile = loadProfile(flags.get('--profile'));
+    result = { profile: profile.jurisdiction_id, suggestions: suggestTypes(profile, flags.get('--title')) };
+  } else if (command === 'compare') {
+    const referencePath = screened('--reference', flags.get('--reference'), '.pdf');
+    const pdfPath = screened('--pdf', flags.get('--pdf'), '.pdf');
+    const missing = Object.entries(popplerVersions(['pdfinfo', 'pdftotext', 'pdftoppm'])).filter(([, version]) => !version);
+    if (missing.length) throw new Error('compare needs Poppler on PATH. Missing: ' + missing.map(([program]) => program).join(', ') + '.');
+    const reference = readPdf(referencePath, '--reference');
+    const rebuilt = readPdf(pdfPath, '--pdf');
+    result = comparePdfs(reference, rebuilt, inspect);
+    result.reference.sha256 = digest(reference);
+    result.rebuilt.sha256 = digest(rebuilt);
   } else if (command === 'check') {
     if (explicitInstall) installMarked(true);
     const programs = popplerVersions();
     const marked = markedState();
     result = {
       marked, markedVersion: MARKED_VERSION, poppler: programs,
-      ready: { compose: marked === 'complete', validate: marked === 'complete' && Object.values(programs).every(Boolean) },
+      ready: { compose: marked === 'complete', validate: marked === 'complete' && Object.values(programs).every(Boolean),
+        compare: Boolean(programs.pdfinfo && programs.pdftotext && programs.pdftoppm) },
     };
   } else {
     const profile = loadProfile(flags.get('--profile'));
@@ -392,6 +422,7 @@ async function main(args) {
       result = {
         html: out, profile: profile.jurisdiction_id, pdf: composed.pdf, pdfArgs: renderArgs(composed.pdf),
         footerFont: composed.footerFont, bodySha256: composed.bodySha256, bodyWords: composed.bodyWords,
+        documentType: composed.documentType, checks: composed.checks, advisories: composed.advisories,
       };
     } else {
       const pdfPath = screened('--pdf', flags.get('--pdf'), '.pdf');
@@ -405,11 +436,10 @@ async function main(args) {
         throw new Error('--body does not match --body-sha256. Pass the original Markdown or compose and render again.');
       }
       const parse = await markdownParser(explicitInstall);
-      const prepared = prepareBody(body, documentType(profile, caption), parse, digest);
+      const prepared = prepareBody(body, documentType(profile, caption), parse, digest, caption.table_presentation);
       const dependencies = popplerVersions();
       const missing = PROGRAMS.filter(program => !dependencies[program]);
-      const pdf = readInput(pdfPath, '--pdf');
-      if (pdf.byteLength > MAX_PDF_BYTES) throw new Error('--pdf exceeds the 16 MiB inspection ceiling.');
+      const pdf = readPdf(pdfPath, '--pdf');
       const unavailable = missing.map(program => ({ program, check: program + ' -v' }));
       const resultOfValidation = validate({
         pdf, caption, profile, limits, prepared,

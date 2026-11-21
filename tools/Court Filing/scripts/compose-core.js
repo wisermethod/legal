@@ -1,5 +1,5 @@
 import { blockBindings, bodyMarks, judicialClosing, markdownWordCount, printedBodyText, tableHeaderBindings, wordCount } from './body-text-core.js';
-import { counselLabel, documentType, SIDES, validateCaption, validateProfile } from './schema-core.js';
+import { counselLabel, documentType, SIDES, titleChecks, validateCaption, validateProfile } from './schema-core.js';
 
 function escapeHtml(s) {
   return String(s)
@@ -132,7 +132,7 @@ function courtCss(layout) {
   .counsel-block { margin-top: 10pt; padding-top: 8pt; border-top: 1pt solid #000; }
   .counsel-label { font-weight: bold; margin-bottom: 2pt; }
   .counsel-name { margin-bottom: 2pt; }
-  tr.caption-title-row td.doc-title { border-top: 1.5pt solid #000; text-align: center; font-weight: bold; text-transform: uppercase; line-height: 1.3; padding: 8pt 12pt; }
+  tr.caption-title-row td.doc-title { border-top: 1.5pt solid #000; text-align: center; font-weight: bold; white-space: pre-wrap; line-height: 1.3; padding: 8pt 12pt; }
 
   .body p { line-height: ${layout.body_line_height}; margin: 0 0 6pt 0; text-align: left; }
   .body h1, .body h4, .body h5, .body h6 { font-size: ${layout.body_font_size_pt}pt; }
@@ -161,12 +161,14 @@ export function compositionTitle(bodySha256, certificateYear = null) {
   return 'Court Filing ' + bodySha256 + (certificateYear === null ? '' : ' | Certificate year ' + certificateYear);
 }
 
-function buildHtml(caption, layout, bodyHtml, bodySha256, certificateYear) {
+function buildHtml(caption, layout, prepared, certificateYear) {
+  const { bodyHtml, tableStyles, bodySha256 } = prepared;
+  const presentation = styleTables(bodyHtml, tableStyles);
   return `<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><title>${compositionTitle(bodySha256, certificateYear)}</title><style>${courtCss(layout)}</style></head>
+<html lang="en"><head><meta charset="UTF-8"><title>${compositionTitle(bodySha256, certificateYear)}</title><style>${courtCss(layout)}${presentation.css}</style></head>
 <body>
   ${captionTable(caption)}
-  <div class="body">${bodyHtml}</div>
+  <div class="body">${presentation.html}</div>
   ${signatureBlock(caption.signer)}
   ${caption.service ? certificateOfService(caption.service, caption.title, certificateYear, caption.signer) : ''}
 </body></html>`;
@@ -176,7 +178,67 @@ function cssInches(value) {
   return value + 'in';
 }
 
-export function prepareBody(body, treatment, parseMarkdown, digest) {
+function resolveTableStyles(headers, presentation) {
+  if (!presentation) return [];
+  if (presentation.default && headers.length === 0) {
+    throw new Error('caption.table_presentation.default needs at least one Markdown pipe table.');
+  }
+  for (const key of Object.keys(presentation.tables ?? {})) {
+    if (Number(key) > headers.length) throw new Error('caption.table_presentation.tables.' + key + ' does not name a Markdown pipe table.');
+  }
+  return headers.map(({ columns }, index) => {
+    const key = index + 1;
+    const style = { ...presentation.default, ...presentation.tables?.[key] };
+    for (const field of ['column_widths_percent', 'column_alignment', 'header_alignment']) {
+      if (Array.isArray(style[field]) && style[field].length > columns) {
+        throw new Error('Table ' + key + ' has fewer columns than caption.table_presentation ' + field + '.');
+      }
+    }
+    if (style.column_widths_percent?.reduce((sum, width) => sum + (width ?? 0), 0) > 100) {
+      throw new Error('Table ' + key + ' column_widths_percent must total at most 100.');
+    }
+    if (style.nowrap_columns?.some(column => column > columns) ||
+        style.nowrap_columns && new Set(style.nowrap_columns).size !== style.nowrap_columns.length) {
+      throw new Error('Table ' + key + ' nowrap_columns must name distinct existing columns.');
+    }
+    return style;
+  });
+}
+
+function styleTables(bodyHtml, styles) {
+  let index = 0;
+  const rules = [];
+  const html = bodyHtml.replace(/<table>/g, tag => {
+    const style = styles[index++];
+    if (!style || !Object.keys(style).length) return tag;
+    const table = '.body table[data-table="' + index + '"]';
+    const rule = (target, property, value) => rules.push(table + target + ' { ' + property + ': ' + value + '; }');
+    const columns = (values, target, property, format = value => value) => values?.forEach((value, i) => {
+      if (value !== null) rule(' ' + target + ':nth-child(' + (i + 1) + ')', property, format(value));
+    });
+    const widths = style.column_widths_percent;
+    if (widths) {
+      rules.push(table + ' { width: 100%; table-layout: fixed; }');
+      columns(widths, 'col', 'width', value => value + '%');
+    }
+    const align = value => value + ' !important'; // Overrides Marked's GFM column alignment where declared.
+    columns(style.column_alignment, 'td', 'text-align', align);
+    if (Array.isArray(style.header_alignment)) columns(style.header_alignment, 'th', 'text-align', align);
+    else if (style.header_alignment) rule(' th', 'text-align', align(style.header_alignment));
+    for (const column of style.nowrap_columns ?? []) rule(' td:nth-child(' + column + ')', 'white-space', 'nowrap');
+    for (const cell of ['th', 'td']) {
+      const padding = (cell === 'td' ? style.body_cell_padding_pt : undefined) ?? style.cell_padding_pt;
+      if (padding !== undefined) rule(' ' + cell, 'padding', [].concat(padding).map(value => value + 'pt').join(' '));
+      if (style.vertical_alignment) rule(' ' + cell, 'vertical-align', style.vertical_alignment);
+    }
+    if (style.font_size_pt !== undefined) rule('', 'font-size', style.font_size_pt + 'pt');
+    const cols = widths ? '<colgroup>' + '<col>'.repeat(widths.length) + '</colgroup>' : '';
+    return '<table data-table="' + index + '">' + cols;
+  });
+  return { html, css: rules.join('\n') };
+}
+
+export function prepareBody(body, treatment, parseMarkdown, digest, presentation) {
   if (typeof body !== 'string' || body.trim() === '') {
     throw new Error('Body markdown must contain filing text.');
   }
@@ -197,9 +259,10 @@ export function prepareBody(body, treatment, parseMarkdown, digest) {
   const printedWords = wordCount(bodyText);
   if (!printedWords) throw new Error('Body Markdown must produce readable filing text. Add the filing text and compose again.');
   const bodyWords = Math.max(printedWords, markdownWordCount(body));
+  const headers = tableHeaderBindings(bodyHtml);
   return {
     bodyHtml, bodyText, bodyWords, bodySha256: digest(body),
-    headers: tableHeaderBindings(bodyHtml),
+    headers, tableStyles: resolveTableStyles(headers, presentation),
     paragraphs: blockBindings(bodyHtml, 'p'),
     ruledClosing, marks: bodyMarks(bodyHtml, ruledClosing),
   };
@@ -208,13 +271,19 @@ export function prepareBody(body, treatment, parseMarkdown, digest) {
 export function compose({ caption, body, profile }, parseMarkdown, digest) {
   validateProfile(profile);
   validateCaption(caption, profile);
+  const checks = titleChecks(profile, caption);
+  const refusal = checks.find(check => check.status === 'fail');
+  if (refusal) throw new Error(refusal.detail);
   const layout = profile.layout;
   const certificateYear = caption.service ? caption.certificate_year ?? new Date().getFullYear() : null;
-  const prepared = prepareBody(body, documentType(profile, caption), parseMarkdown, digest);
+  const prepared = prepareBody(body, documentType(profile, caption), parseMarkdown, digest, caption.table_presentation);
   return {
+    documentType: caption.document_type,
+    checks,
+    advisories: checks.filter(check => check.status === 'advisory'),
     bodySha256: prepared.bodySha256,
     bodyWords: prepared.bodyWords,
-    html: buildHtml(caption, layout, prepared.bodyHtml, prepared.bodySha256, certificateYear),
+    html: buildHtml(caption, layout, prepared, certificateYear),
     pdf: {
       paperSize: layout.page_size,
       margin: SIDES.map(side => cssInches(layout.margins_inches[side])).join(' '),
@@ -228,10 +297,42 @@ export function compose({ caption, body, profile }, parseMarkdown, digest) {
   };
 }
 
-export function checkMarkdownToken(token) {
-  if (token.type === 'html') {
-    throw new Error('Body Markdown contains raw HTML. Rewrite it in supported Markdown. Use Markdown emphasis for underlining, literal superscript characters or inline notation for superscripts, and a Markdown line break or new paragraph for a break.');
+const tableConversions = [
+  [/(?:\bwidth\s*[:=]|<col\b)/iu, 'column_widths_percent'],
+  [/\b(?:text-align\s*:|align\s*=)/iu, 'column_alignment or header_alignment'],
+  [/\b(?:white-space\s*:\s*nowrap|nowrap\b)/iu, 'nowrap_columns'],
+  [/\b(?:padding(?:-(?:top|right|bottom|left))?\s*:|cellpadding\s*=)/iu, 'cell_padding_pt or body_cell_padding_pt'],
+  [/\bfont-size\s*:/iu, 'font_size_pt'],
+  [/\b(?:vertical-align\s*:|valign\s*=)/iu, 'vertical_alignment'],
+];
+
+export function parseFilingMarkdown(parser, markdown) {
+  const tokens = parser.lexer(markdown);
+  const html = [];
+  parser.walkTokens(tokens, token => { if (token.type === 'html') html.push(token.raw); });
+  if (html.length) {
+    const source = html.join('\n');
+    const constructs = new Set();
+    if (/^\s*<style\b/iu.test(markdown)) constructs.add('leading <style> block');
+    for (const [, tag] of source.matchAll(/<\/?([a-z][a-z0-9:-]*)\b/giu)) {
+      if (tag.toLowerCase() !== 'style' || !constructs.has('leading <style> block')) constructs.add('<' + tag.toLowerCase() + '>');
+    }
+    if (/<!--/u.test(source)) constructs.add('HTML comment');
+    if (/<![^-]|<\?/u.test(source)) constructs.add('HTML declaration');
+    if (/\bstyle\s*=/iu.test(source)) constructs.add('inline style attribute');
+    const conversions = tableConversions.filter(([pattern]) => pattern.test(source)).map(([, field]) => field);
+    const table = /<(?:table|thead|tbody|tr|th|td|colgroup|col)\b/iu.test(source) ?
+      ' Convert HTML tables to Markdown pipe tables.' : '';
+    const styles = conversions.length ? ' For table styling use caption.table_presentation with ' + conversions.join(', ') + '.' : '';
+    throw new Error('Body Markdown contains raw HTML (' + ([...constructs].join(', ') || 'HTML markup') +
+      '). Rewrite it in supported Markdown.' + table + styles +
+      ' Use Markdown emphasis, literal superscript characters, or Markdown line breaks as needed.');
   }
+  parser.walkTokens(tokens, checkMarkdownToken);
+  return parser.parser(tokens);
+}
+
+function checkMarkdownToken(token) {
   if (token.type === 'text' && /\[\^[^\]\n]+\]/.test(token.raw)) {
     throw new Error('Markdown footnotes are unsupported. Put each note in a numbered paragraph in the body.');
   }

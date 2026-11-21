@@ -3,7 +3,7 @@ name: Case Audit
 type: skill
 category: litigation-phase
 description: A full case audit with documented coverage of claims, facts, arguments, evidence, opposition, trajectory, and follow-up
-version: 0.4.3
+version: 0.4.4
 ---
 
 # Case Audit
@@ -24,7 +24,7 @@ Apply `wiser` Workspace Model to identify the owning root and matter. If no owni
 
 - `<request>` holds the audit request, any recent development and known constraints.
 - `<matter_files>` holds the entire declared matter record. Load `HISTORY.md`, `DEADLINES.md`, `PARTIES.md`, `CLAIMS.md`, `ARGUMENTS.md`, `DISCOVERY-REQUESTS.md`, `case-law.md`, `statutes.md`, the evidence inventory and each evidence file, both sides' filings and their index, orders and their index, and correspondence and its index, using the matter's bindings. Inventory the records and compare the files on disk with the history and indexes. Ask for any missing, unreadable or incomplete source and record the affected checks.
-- `<practice_area>` holds the applicable guidance from Consumer Law, Contract Disputes, Cease and Desist, Personal Injury, or Employment Law, as routed. Use that expert's stated elements, issues, exceptions, and gaps. If the applicable guidance is missing, ask which practice area or authority governs and stop the dependent conclusion.
+- `<practice_area>` holds the applicable guidance from Consumer Law, Contract Disputes, Cease and Desist, Personal Injury, or Employment Law, as routed. Use that expert's stated elements, issues, exceptions, and gaps. If the applicable guidance is missing, ask which practice area or authority governs and hold the dependent conclusion. Continue the independent record work below.
 
 Treat assertions in every input as material to check. An earlier audit can point to evidence but never stands in for checking documents in this run.
 
@@ -44,7 +44,7 @@ Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Coun
 
 Follow [Maintain Matter File's phase deadline handoff](../Maintain%20Matter%20File/SKILL.md#what-should-a-phase-do-with-a-deadline) before analyzing the phase. Include the result in the packet.
 
-Use the preflight forum finding and the declared parties record. Check the applicable rules and controlling orders before relying on a procedure. In arbitration or another non-court forum, use that forum’s governing materials from the matter record. Carry out independent work while any rule-dependent step is held. For a draft, strategic comparison or novel issue, apply `wiser` Behavioral Core by giving the approach, alternatives and confidence. Treat each rule lead and practice assumption marked `[verify]` as unchecked until the current governing text, applicable subsection, local rule, and case-specific orders are reconciled. Record the source and date checked. Apply `wiser/standards/conventions.md` Evidence Labels in the working record.
+Use the preflight forum finding and the declared parties record. Check the applicable rules and controlling orders before relying on a procedure. Ask for any missing source and name the affected conclusion. In arbitration or another non-court forum, use that forum’s governing materials from the matter record. Carry out independent work while any rule-dependent step is held. For a draft, strategic comparison or novel issue, apply `wiser` Behavioral Core by giving the approach, alternatives and confidence. Apply the skills index’s [Evidence labels](../AGENTS.md#evidence-labels) to each working rule or figure marked `[verify]`. Confirm the current governing text, applicable subsection, local rule and case-specific orders before relying on it. Record the source and date checked. Apply `wiser/standards/conventions.md` Evidence Labels in the working record.
 
 Name posture, next deadline, pending matters before the forum and recent orders or rulings with source locations. Record any conflict among the docket or case-administration record, history and source documents and carry the missing reconciliation to the resumption list. Carry the entry preflight disposition into the packet and recheck it for newly identified triggers. Apply each hold to the affected decision or handoff.
 

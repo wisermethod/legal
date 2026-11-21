@@ -61,7 +61,7 @@ function captionText(first, caption, profile, add, positioned) {
   const divisionEnd = divisionAt < 0 ? -1 : matchLines(first, divisionAt, division);
   add('Division in caption', divisionEnd > 0 && Boolean(boxed), caption.division);
   add('COURT USE ONLY caption marker', markerAt >= 0 && Boolean(boxed?.marker), 'Caption marker before Case No. and Division.');
-  const title = caption.title.toUpperCase();
+  const title = caption.title;
   const titleEnd = matchLines(first, divisionEnd, title, true);
   add('Document title in caption', titleEnd > 0 && boxed?.title === normalize(title), caption.title);
   return titleEnd;
@@ -208,7 +208,7 @@ export function removeRepeatedHeaders(pages, headers) {
   const cleaned = pages.map((lines, index) => {
     if (index > 0) {
       const pageText = canonicalBody(lines.join(' '));
-      const header = headers.find(({ offset, end, text }) => offset + text.length <= prior.length && prior.length < end &&
+      const header = headers.find(({ offset, end, text }) => text && offset + text.length <= prior.length && prior.length < end &&
         pageText.startsWith(text) && !headers.some(next => next.offset === prior.length && next.text === text));
       if (header) {
         let consumed = 0;

@@ -1,20 +1,16 @@
 # Deadlines
 
-## Upcoming Deadlines
+## Deadline register
 
-| Due date | Obligation | Filing required | Trigger and source | Status |
-|---|---|---|---|---|
-| | | | | |
+| Due or event date | Obligation or event | Owner | Date type | Trigger | Source | State | Outcome, completion evidence or replacement |
+|---|---|---|---|---|---|---|---|
+| | | | | | | | |
 
-## Calculation Notes
+Use YYYY-MM-DD and include time and time zone if the source sets them. Write the trigger when the date is pending. Name the litigant, other side, forum or third party as owner. Use one date type per row: fixed by order or rule, calculated, requested, conditional or personal reminder. Give a source locator and one state: `open`, `satisfied`, `superseded` or `verify`. For a documented expiration with no duty remaining, record `satisfied` with outcome “expired” and its evidence. A passed date alone does not establish completion or expiration. Keep open dates in chronological order. Record a completed event and a resulting notice or obligation on separate linked rows. For a superseded date, retain its source and link the replacement. For conflicting readings, retain each candidate and its source and identify what will settle the conflict.
 
-<!-- Record the verified governing rule, calendar method, service, local rule or order, and calculation. Mark uncertain dates. -->
+## Calculation notes
 
-## Completed Deadlines
-
-| Date | Obligation | Outcome | Confirmation |
-|---|---|---|---|
-| | | | |
+<!-- Record the governing rule and version, computation, trigger evidence and any modifications. Mark uncertain inputs. -->
 
 ## Working response periods
 
@@ -23,4 +19,4 @@ Use these working periods when planning and seeding the deadline record. Check t
 | Court | Answer to complaint | Motion response | Discovery response |
 |---|---|---|---|
 | Colorado state | 21 days from service, or 35 days for out-of-state service in the Colorado district civil initiation procedure | 14 days, check local rules | 30 days |
-| Federal court in Colorado | 21 days from service | 21 days, check local rules | 30 days |
+| Federal court in Colorado | Check whether there was actual service or a waiver. Verify the period and its trigger for that path before calculating. | 21 days, check local rules | 30 days |

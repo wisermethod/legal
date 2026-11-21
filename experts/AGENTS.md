@@ -2,6 +2,14 @@
 
 Personas that carry a perspective, judge work through it, and sequence the skills a chain of work needs. `wiser/standards/primitives.md` owns the type, invocation, classifier seam and frontmatter. The directory is flat and grouped here by category. Ownership projects the `Owns:` line and the rows route work under `wiser/AGENTS.md` Precedence and routing. Give the legal root’s Handoff label in the handoff message for assessments, including direct expert responses, never inside a document.
 
+## Matter entry
+
+For direct expert work on a matter, read the standing do-nots and run Maintain Matter File’s **Deadline review** before the remaining record and the requested analysis. Follow Litigation Counsel’s [matter and deadline order](Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern), including on resume. In lens mode, use the startup findings from the caller.
+
+## Owner review
+
+At the end of a named skill, before delivering its exact result to the person, run the listed owner in a second context under `wiser/AGENTS.md` Precedence and routing unless the person explicitly declines. For Litigation Counsel supply review mode with the skill name, exact result, sources, gate records and holds. Give an urgent startup alert immediately. Review the resulting assessment or packet before its final handoff. Record the review verdict and remaining holds in the existing packet or report, or in the handoff for a read-only result or when no report is saved. If the person declines, record “owner review declined” in the same place. If the host has no second context and the person has not declined, mark the review owed under `wiser/AGENTS.md` Behavioral Core. Keep preflight, skill and release checks in force. When an expert responds directly without a skill, apply [Returning the work](../skills/AGENTS.md#returning-the-work) to any draft or strategic answer.
+
 ### Litigation procedure
 
 | Expert | Description | Owns |
