@@ -3,7 +3,7 @@ name: Employment Law
 type: expert
 category: practice-area
 description: Assess a Colorado employment dispute against the agreement, wage record, and authority, returning supported claim distinctions, holds, and the next litigation skill
-version: 0.1.0
+version: 0.2.0
 gaps:
   - Employment coverage is working and lacks official confirmation of the 2025 wage amendments, the current CDLE cap, and a current filing forms and venue check
   - Employment briefing lacks complete opinion reads for the flagged cases and verified Colorado authority for notice and cure, prevention of a bonus condition, remote-worker jurisdiction, and unsigned arbitration
@@ -17,7 +17,7 @@ gaps:
 
 Use for an individual worker or a business handling its own employment dispute about discharge, contract pay, wages, restrictive covenants, or forum. Load [Colorado employment authority](authority.md). Apply `legal/AGENTS.md` Standing constraint. End matter-specific assistance when asked to act for or advise someone else. Unemployment-insurance hearings, workers' compensation, and union labor law are outside this coverage. Discrimination, FMLA, and disability route to the counsel stop.
 
-This expert supplies substantive judgment and owns no skill.
+This expert organizes the evidence and authority for the person's own assessment and owns no skill.
 
 Classifier seam: none.
 
@@ -35,6 +35,8 @@ Read the promises and payment record against the asserted reason for separation.
 
 ## Steps
 
+Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+
 ### What kind of assessment is requested?
 
 For `lens` mode, use the supplied matter and dates and return the substantive assessment, counsel triggers and ordering prerequisites. For a direct request, identify the matter and surface missed dates and due dates within 14 days from its history and deadline record, or from supplied sources while the files are missing. Then assess the substance and give the assessment to `experts/Litigation Counsel/` for preflight before routing. In either mode, end matter-specific work outside the Standing constraint or hold dependent findings if the record cannot establish whose matter this is. If the matter is new or undeclared, use intake dates first and route record setup through Open a Matter or Take Over a Matter as appropriate. If the matter, scope or jurisdiction is unclear, ask and hold the dependent finding. For general research, name the law and its jurisdiction. For a review of an existing output, assess its substantive claims only.
@@ -46,7 +48,7 @@ Does the record show a Cause, severance or arbitration-clause dispute against a 
 ### Which employment question controls the work?
 
 - If the dispute concerns pay after discharge or resignation, distinguish an express severance promise and its conditions from an assertion of earned wages, bonuses, commissions, or vacation under the wage statute. Check the pay record against the authority file. Identify dates of separation, payday and demand, any tender, and the proposed court or CDLE route. Hold owner liability, the 2025 retaliation additions, and the current CDLE cap pending official confirmation. Hold application of the severance case if the opinion has yet to be verified.
-- If Cause or at-will status is disputed, compare the operative writing with the alleged Cause prong. Where the agreement calls for a written notice and a reasonable chance to cure, check the authority file's contract-reading checklist against the actual notice and later conduct. Treat the employment case-law application as `[verify]`. If alleged facts concern handbook promises, reliance, public policy, deliberate intolerable conditions, or prevention of a bonus condition, use the corresponding source entries and surface adverse evidence. Keep unverified cases and applications out of a filing.
+- If Cause or at-will status is disputed, compare the operative writing with the alleged Cause prong. Where the agreement calls for a written notice and a reasonable chance to cure, check the authority file's contract-reading checklist against the actual notice and later conduct. Keep a Colorado employment opinion applying the notice-and-cure requirement `[verify]`. Use the authority record’s sourced contract-reading checklist. If alleged facts concern handbook promises, reliance, public policy, deliberate intolerable conditions, or prevention of a bonus condition, use the corresponding source entries and surface adverse evidence. Keep unverified cases and applications out of a filing.
 - If covenant, forum, or arbitration is in question, obtain the covenant and signed versions of the operative agreements. Track place of work, forum, governing-law language, any home-state exception, incorporation and assent. Name `skills/Venue Selection/` as the next route if forum is unresolved. Hold conclusions on remote-worker jurisdiction, venue, unsigned arbitration, and any applicable out-of-state law pending authority.
 - If a filing is imminent, verify the authority needed for the live dispute first, including current court rules, local fee, and forms. If a protection or remedy rests on unfinished coverage, name that gap and apply the counsel stop if triggered. For employment discovery, assess preservation before planning requests. Identify records at risk and check the applicable obligations. If a preservation or hold letter is warranted on that record, prepare it first for the user's review under the transmission gate. If preservation is settled, proceed to the requests. If obligations or preservation needs remain uncertain, flag the gap and hold the dependent work. Then name `skills/Discovery/` as the next route for items such as personnel records, Cause memoranda and relevant messages, including messages held on personal devices. For a voluntary exchange of pay for release, name `skills/Settlement Negotiation/` as the next route only within the counsel stop.
 

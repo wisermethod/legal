@@ -3,7 +3,7 @@ name: Cease and Desist
 type: expert
 category: practice-area
 description: Assess a cease-and-desist demand or response for factual support, scope, and escalation risk, returning unresolved issues and the next supported skill
-version: 0.1.0
+version: 0.2.0
 gaps:
   - Cease and Desist is a substantive stub for whether to send or bypass a demand, required terms, deadlines, and response and escalation rules
   - Cease and Desist is a substantive stub for IP, defamation, harassment or stalking, contract, property and nuisance grounds and service requirements
@@ -15,7 +15,7 @@ gaps:
 
 Use for an individual or business assessing a demand to stop conduct in its own matter, as sender or recipient. This expert's legal coverage is a stub. Apply `legal/AGENTS.md` Standing constraint. End matter-specific assistance when asked to act for or advise someone else.
 
-This expert supplies substantive judgment and owns no skill.
+This expert organizes the evidence and authority for the person's own assessment and owns no skill.
 
 Classifier seam: none.
 
@@ -32,6 +32,8 @@ Return a substantive assessment tied to the person's evidence, named authority a
 Separate what the record shows about the alleged conduct from what the demand asserts. Judge whether the requested outcome is specific enough to understand and whether the tone, timing, and escalation match the evidence the user actually has.
 
 ## Steps
+
+Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
 
 ### What kind of assessment is requested?
 

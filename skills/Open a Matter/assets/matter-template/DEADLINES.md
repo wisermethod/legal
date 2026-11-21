@@ -16,11 +16,11 @@
 |---|---|---|---|
 | | | | |
 
-## Colorado Verification Prompts
+## Working response periods
 
-Historical references from the source template, for checking only. Verify the current court rules, service circumstances, case-specific orders and date calculation before using a number.
+Use these working periods when planning and seeding the deadline record. Check the current court rules, service circumstances, case-specific orders and calculation before confirming a deadline or filing.
 
 | Court | Answer to complaint | Motion response | Discovery response |
 |---|---|---|---|
-| Colorado state | 21 days from service [verify] | 14 days [verify] | 30 days [verify] |
-| Federal court in Colorado | 21 days from service [verify] | 21 days [verify] | 30 days [verify] |
+| Colorado state | 21 days from service, or 35 days for out-of-state service in the Colorado district civil initiation procedure | 14 days, check local rules | 30 days |
+| Federal court in Colorado | 21 days from service | 21 days, check local rules | 30 days |

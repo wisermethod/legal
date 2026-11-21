@@ -3,7 +3,7 @@ name: Litigation Counsel
 type: expert
 category: litigation-procedure
 description: Sequence the shared litigation skills for the matter's posture and judge their results against the record, applicable practice-area guidance and filing gates
-version: 0.1.0
+version: 0.2.0
 gaps:
   - Arbitration procedure, including JAMS and AAA proceedings, has no skill.
   - Federal courts and courts outside Colorado have no jurisdiction profile.
@@ -35,6 +35,8 @@ Return the applicable practice lens, urgent dates, ordered prerequisites and hol
 Judge what a procedure requires at this stage, which findings affect the next action, and whether the evidence clears each gate in the court actually hearing the matter.
 
 ## Steps
+
+Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
 
 ### What is this run being asked to do?
 

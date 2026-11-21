@@ -68,14 +68,48 @@ const service = shape({ recipients: list(recipient, 1) }, {
 const captionShape = shape({
   court: text,
   parties: list(party, 1),
-  case_number: text,
+  case_number: (value, at) => { if (value !== '') text(value, at); },
   division: text,
   title: text,
   signer,
-}, { court_address: text, caption_counsel: bool, counsel_label: text, service, no_service_certificate: id });
+}, { court_address: text, caption_counsel: bool, counsel_label: text, service, no_service_certificate: id, filing_packet: text });
+
+export function counselLabel(caption) {
+  const role = caption.signer.role?.trim() ?? '';
+  const side = /^(?:(pro se) )?(plaintiff|defendant|petitioner|respondent)$/i.exec(role);
+  let inferred;
+  if (side) {
+    const party = side[2][0].toUpperCase() + side[2].slice(1).toLowerCase();
+    inferred = (side[1] ? 'Pro Se ' : '') + party + ':';
+  } else {
+    const counsel = /^(?:attorney|counsel) for (.+)$/i.exec(role);
+    if (counsel && caption.parties.some(party => party.name.toLowerCase() === counsel[1].toLowerCase())) {
+      inferred = 'Counsel for ' + counsel[1] + ':';
+    }
+  }
+  if (inferred) {
+    if (caption.counsel_label && caption.counsel_label.trim() !== inferred) {
+      throw new Error('caption.counsel_label conflicts with the signer role. Use ' + inferred + ' or omit counsel_label.');
+    }
+    return inferred;
+  }
+  if (caption.counsel_label) return caption.counsel_label;
+  throw new Error('caption.counsel_label is required when the signer role does not identify one side or a named party.');
+}
 
 export function validateCaption(value, profile, at = 'caption') {
   captionShape(value, at);
+  if (value.filing_packet !== undefined && !Object.hasOwn(profile?.filing_packets ?? {}, value.filing_packet)) {
+    throw new Error(at + '.filing_packet is not listed for this profile. Run profiles.');
+  }
+  const newCase = value.filing_packet !== undefined && value.filing_packet === profile?.new_case_packet;
+  if (newCase && !/\bcomplaint\b/i.test(value.title)) {
+    throw new Error(at + '.title must identify the complaint for the new-case packet.');
+  }
+  if ((value.case_number === '') !== newCase) {
+    throw new Error(at + '.case_number must be blank for the new-case packet and populated for every other filing.');
+  }
+  if (at === 'caption') counselLabel(value);
   if (Object.hasOwn(value, 'service') === Object.hasOwn(value, 'no_service_certificate')) {
     throw new Error(at + ' must supply exactly one of service and no_service_certificate.');
   }
@@ -83,6 +117,8 @@ export function validateCaption(value, profile, at = 'caption') {
     if (!Object.hasOwn(profile?.no_service_certificate_reasons ?? {}, value.no_service_certificate)) {
       throw new Error(at + '.no_service_certificate is not listed for this profile. Run profiles.');
     }
+    const allowed = profile.no_service_certificate_reasons[value.no_service_certificate];
+    if (value.title !== allowed.title) throw new Error(at + '.no_service_certificate is not allowed for this title.');
     return value;
   }
   if (value.service.method === undefined || value.service.method.toLowerCase().trim() === 'email') {
@@ -151,7 +187,7 @@ function noServiceCertificateReasons(value, at) {
   object(value, at);
   for (const [key, reason] of Object.entries(value)) {
     id(key, at + ' reason identifier');
-    text(reason, at + '.' + key);
+    shape({ description: text, title: text })(reason, at + '.' + key);
   }
 }
 
@@ -164,10 +200,13 @@ const profileShape = shape({
   validation,
   rules: list(shape({ citation, verification: evidence, notes: text })),
   filing_packets: packets,
-}, { no_service_certificate_reasons: noServiceCertificateReasons });
+}, { no_service_certificate_reasons: noServiceCertificateReasons, new_case_packet: text });
 
 export function validateProfile(value) {
   profileShape(value, 'profile');
+  if (value.new_case_packet !== undefined && !Object.hasOwn(value.filing_packets, value.new_case_packet)) {
+    throw new Error('profile.new_case_packet must name a listed filing packet.');
+  }
   validateCaption(value.caption_defaults, value, 'profile.caption_defaults');
   const { page_size, margins_inches: margins, footer } = value.layout;
   const [width, height] = PAGE_SIZES[page_size];
@@ -180,7 +219,14 @@ export function validateProfile(value) {
   return value;
 }
 
-export function resolveLimits(profile, preset, pages, words) {
+export function resolveLimits(profile, preset, pages, words, noLimit) {
+  if (noLimit !== undefined) {
+    if ([preset, pages, words].some(value => value !== undefined)) {
+      throw new Error('--no-length-limit cannot be combined with a preset or explicit maxima.');
+    }
+    text(noLimit, '--no-length-limit reason');
+    return { choice: 'no-length-limit', pages: null, words: null, preset: null, reason: noLimit };
+  }
   if (preset !== undefined) {
     if (pages !== undefined || words !== undefined) {
       throw new Error('--limit cannot be combined with --max-pages or --max-words.');
@@ -191,6 +237,7 @@ export function resolveLimits(profile, preset, pages, words) {
       throw new Error('--limit ' + preset + ' requires verification. Use an explicit maximum after checking the applicable rule or order.');
     }
     return {
+      choice: 'profile-preset',
       pages: selected.unit === 'pages' ? selected.maximum : null,
       words: selected.unit === 'words' ? selected.maximum : null,
       preset,
@@ -198,5 +245,8 @@ export function resolveLimits(profile, preset, pages, words) {
   }
   if (pages !== undefined) positive(pages, '--max-pages');
   if (words !== undefined) positive(words, '--max-words');
-  return { pages: pages ?? null, words: words ?? null, preset: null };
+  if (pages === undefined && words === undefined) {
+    throw new Error('Choose --limit, --max-pages and/or --max-words, or --no-length-limit with the reason.');
+  }
+  return { choice: 'explicit-maxima', pages: pages ?? null, words: words ?? null, preset: null };
 }

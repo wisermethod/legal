@@ -3,7 +3,7 @@ name: Verify Citations
 type: skill
 category: procedure
 description: Check every legal citation and the proposition it supports, then return a citation report and an annotated draft with any filing holds
-version: 0.1.0
+version: 0.2.0
 gaps:
   - The case-law connector does not provide a dedicated reporter-citation lookup or opinion-text operation. Checks need a full-text source when its returned material is insufficient.
   - State docket coverage through Trellis was planned and is unavailable. Use authoritative public or supplied records where available.
@@ -28,6 +28,8 @@ Save a citation report and annotated copy of the draft alongside the filing buil
 - `<context>` supplies the build path, jurisdiction, document type and relevant rule or law date, when known. A scoped request can produce a partial report. Filing clearance requires the whole draft.
 
 ## Steps
+
+Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
 
 ### What can proceed on this entry?
 

@@ -3,7 +3,7 @@ name: Case Audit
 type: skill
 category: litigation-phase
 description: A full case audit with documented coverage of claims, facts, arguments, evidence, opposition, trajectory, and follow-up
-version: 0.1.0
+version: 0.2.0
 ---
 
 # Case Audit
@@ -33,6 +33,8 @@ Treat assertions in every input as material to check. An earlier audit can point
 A candid reviewer who looks for the strongest opposing case, checks the person's assertions against originals and surfaces unfavorable findings early.
 
 ## Steps
+
+Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
 
 ### What can proceed on this entry?
 
@@ -70,7 +72,7 @@ State strengths, weaknesses, likely trajectory, risk factors and matters outside
 
 ### 7. What actions follow from the findings?
 
-Prioritize specific options for the person with reasons and deadlines. Cover arguments to strengthen, modify or drop, evidence to gather, research to conduct, filings to consider and settlement considerations. Record why a category is inapplicable when warranted. Give each actionable item a source finding and an owner or a decision for the person. Route a later filing or message to its phase skill, which applies the governing court register for filings, routes original outward prose through Content Author in `wiser` with the owning root's bound voice when that voice applies, and requires verified citations and Produce Court Filing for a requested validated filing artifact.
+Prioritize specific options for the person with reasons and deadlines. Cover arguments to strengthen, modify or drop, evidence to gather, research to conduct, filings to consider and settlement considerations. Record why a category is inapplicable when warranted. Give each action a source finding and an owner or decision for the person. Route a later filing or message to its phase skill, applying Draft Motion’s Document registers. Use Verify Citations and Produce Court Filing for a requested validated filing artifact.
 
 ### Did all seven stages run in full?
 

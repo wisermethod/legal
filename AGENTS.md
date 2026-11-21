@@ -14,7 +14,7 @@ apps:
 
 A WISER domain plugin. This file is this root's constitution. The chain starts here: load it before the first read or write under this root.
 
-A WISER plugin for a person or a company handling its own legal matters: practice-area experts, litigation procedure, and document preparation. Litigation Counsel owns the shared phase and procedure skills, five experts supply practice-area judgment, and Court Filing supplies caption composition and pre-filing PDF validation.
+A WISER plugin for a person or a company handling its own legal matters: practice-area experts, litigation procedure, and document preparation. Litigation Counsel owns the shared phase and procedure skills, five experts assess practice-area records and authorities, and Court Filing supplies caption composition and pre-filing PDF validation.
 
 ## What this root is
 
@@ -52,6 +52,12 @@ Each family directory carries its own `AGENTS.md` index. An empty index is still
 ## Standing constraint
 
 Whatever this plugin becomes, it does not give legal advice and does not hold itself out as a lawyer. That constraint is decided; it binds any later design and is not open for a build session to relax.
+
+## Handoff label
+
+Put this label in each person-facing assessment, packet or draft, including a held output and an expert-only assessment. For a court artifact or outward message, put it in the covering handoff to the person, outside the text proposed for transmission. Apply it before any return that delivers such an output, whether the work entered through a skill or an expert and whether owner review ran.
+
+> This is a working draft for your own review and decision. It is not legal advice, does not create an attorney-client relationship, and is not a substitute for a lawyer.
 
 ## Layout
 

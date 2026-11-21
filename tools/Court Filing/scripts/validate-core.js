@@ -1,51 +1,15 @@
+import { filingTextChecks } from './filing-text-core.js';
 import { validateCaption, validateProfile } from './schema-core.js';
-import { footerCandidates, isExpectedPage, measureInk, readFonts, readPageInfo } from './pdf-evidence-core.js';
+import { footerCandidates, isExpectedPage, measureInk, readFonts, readPageInfo, readTextLines } from './pdf-evidence-core.js';
 
 export const PASS = 'ALL CHECKS PASSED';
 export const FAIL = 'VALIDATION FAILED';
 export const MAX_PDF_PAGES = 200;
 
-const normalize = text => text.replace(/\s+/gu, ' ').trim();
 const decoder = new TextDecoder();
 const resultOf = yes => yes ? 'pass' : 'fail';
 
-function literal(text, expected, edge = '\\p{L}\\p{N}_') {
-  const escaped = expected.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&');
-  return new RegExp('(?:^|[^' + edge + '])' + escaped + '(?![' + edge + '])', 'u').test(text);
-}
-
-export function countWords(bodyHtml) {
-  // Separate blocks while preserving inline text split by emphasis and links.
-  const text = bodyHtml
-    .replace(/<\/?(?:p|li|[ou]l|blockquote|h[1-6]|pre|br|hr|table|thead|tbody|tr|td|th)\b[^>]*>/gi, ' ')
-    .replace(/<[^>]*>/g, '')
-    .replace(/&nbsp;|&Tab;|&NewLine;|&#(?:0*(?:9|10|11|12|13|32|133|160|5760|819[2-9]|820[01]|823[239]|8287|12288)|x0*(?:0?[9a-d]|20|85|a0|1680|200[0-9a]|202[89f]|205f|3000));?/gi, ' ');
-  return normalize(text).match(/\S+/gu)?.length ?? 0;
-}
-
-function textChecks(add, caption, profile, text, firstPage) {
-  const status = predicate => text === null ? 'not_checked' : resultOf(predicate());
-  const evidence = value => text === null ? 'Extractable PDF text is unavailable.' : value;
-  add('Case number present', status(() => literal(text, normalize(caption.case_number), '\\p{L}\\p{N}_-')), evidence(caption.case_number));
-  add('Document title present', status(() => literal(firstPage.toUpperCase(), normalize(caption.title).toUpperCase())), evidence(caption.title));
-  add('COURT USE ONLY caption marker', status(() => literal(firstPage.toUpperCase(), 'COURT USE ONLY')), evidence('First-page text'));
-  if (caption.service) {
-    add('Certificate of service present', status(() => literal(text.toUpperCase(), 'CERTIFICATE OF SERVICE')), evidence('PDF text'));
-  } else {
-    const reason = caption.no_service_certificate;
-    add('Certificate of service present', 'not_applicable',
-      'Not applicable by declaration (' + reason + '): ' + profile.no_service_certificate_reasons[reason]);
-  }
-  add('Signer name present', status(() => literal(text, normalize(caption.signer.name))), evidence(caption.signer.name));
-  for (const recipient of caption.service?.recipients ?? []) {
-    for (const email of recipient.emails) {
-      add('Service email present: ' + email,
-        status(() => literal(text, email, "\\p{L}\\p{N}@._%+!#&'=/^~-")), evidence(email));
-    }
-  }
-}
-
-function pdfLayoutChecks(add, profile, info, pdf, inspect) {
+function pdfLayoutChecks(add, profile, info, pdf, inspect, positioned) {
   const { layout } = profile;
   const unchecked = why => {
     add('Page size', 'not_checked', why);
@@ -72,8 +36,7 @@ function pdfLayoutChecks(add, profile, info, pdf, inspect) {
       rejected.length ? [...new Set(rejected.map(font => font.name + (font.embedded ? ' (outside profile)' : ' (not embedded)')))].join(', ') :
         [...new Set(fonts.map(font => font.name))].join(', '));
 
-  const tsv = inspect('positioned-text', pdf);
-  const footers = tsv && footerCandidates(tsv, info.count, layout);
+  const footers = footerCandidates(positioned, info.count, layout);
   const noGeometry = info.active || wrongPages.length > 0 || !footers;
   if (noGeometry) {
     const reason = info.active ? 'Interactive PDF fields or JavaScript make the printed appearance uncertain.' :
@@ -105,7 +68,7 @@ function pdfLayoutChecks(add, profile, info, pdf, inspect) {
     'Visible ink is within the profile margins, allowing 1.5 pt for print rounding and excluding the matched footer words.'));
 }
 
-export function validate({ pdf, caption, profile, limits, bodyHtml, parseUnavailable = false }, inspect) {
+export function validate({ pdf, caption, profile, limits, bodySha256, digest, parseUnavailable = false }, inspect) {
   validateProfile(profile);
   validateCaption(caption, profile);
   const checks = [];
@@ -114,8 +77,9 @@ export function validate({ pdf, caption, profile, limits, bodyHtml, parseUnavail
   const info = pdfInfo && readPageInfo(pdfInfo);
   const textBytes = info && info.count <= MAX_PDF_PAGES ? inspect('text', pdf) : null;
   const extracted = textBytes ? decoder.decode(textBytes) : '';
-  const text = normalize(extracted) || null;
-  const firstPage = normalize(extracted.split('\f', 1)[0]);
+  const text = extracted.trim() || null;
+  const positionedBytes = info && info.count <= MAX_PDF_PAGES ? inspect('positioned-text', pdf) : null;
+  const positioned = positionedBytes && readTextLines(positionedBytes, info.count);
   add('PDF parses', parseUnavailable ? 'not_checked' : resultOf(Boolean(info && text)),
     parseUnavailable ? 'A required Poppler program is unavailable. See unavailable.' :
       info && text ? info.count + ' page(s) with extractable text.' :
@@ -124,13 +88,19 @@ export function validate({ pdf, caption, profile, limits, bodyHtml, parseUnavail
     add('Within page limit (' + limits.pages + ')', info ? resultOf(info.count <= limits.pages) : 'not_checked',
       info ? info.count + ' total PDF page(s), including any parts the rule exempts.' : 'PDF page count is unavailable.');
   }
-  const words = bodyHtml === undefined ? null : countWords(bodyHtml);
-  if (limits.words !== null) {
-    add('Within word limit (' + limits.words + ')', words === null ? 'not_checked' : resultOf(words <= limits.words),
-      words === null ? 'Pass --body with the Markdown used to compose this filing.' : words + ' words in the supplied Markdown body.');
+  if (limits.choice === 'no-length-limit') {
+    add('No length limit declared', 'pass', limits.reason);
+  } else if (!['profile-preset', 'explicit-maxima'].includes(limits.choice) ||
+             (limits.pages === null && limits.words === null)) {
+    add('Length limit choice', 'fail', 'Select a profile preset or explicit maxima, or declare why no length limit applies.');
   }
-  textChecks(add, caption, profile, text, firstPage);
-  pdfLayoutChecks(add, profile, info, pdf, inspect);
+  const { bodyWords, pdfBodyWords } = filingTextChecks({ caption, profile, extracted, info, bodySha256, digest, add, positioned });
+  if (limits.words !== null) {
+    add('Within word limit (' + limits.words + ')', pdfBodyWords === null || bodyWords === null ? 'not_checked' : resultOf(Math.max(pdfBodyWords, bodyWords) <= limits.words),
+      pdfBodyWords === null || bodyWords === null ? 'The PDF body or composition word count is unavailable.' :
+        pdfBodyWords + ' words in the rendered PDF body and ' + bodyWords + ' in the composed Markdown.');
+  }
+  pdfLayoutChecks(add, profile, info, pdf, inspect, positioned);
   const ok = checks.every(check => check.status === 'pass' || check.status === 'not_applicable');
-  return { ok, result: ok ? PASS : FAIL, pages: info?.count ?? null, bodyWords: words, limits, checks };
+  return { ok, result: ok ? PASS : FAIL, pages: info?.count ?? null, bodyWords, pdfBodyWords, bodySha256, limits, checks };
 }

@@ -3,7 +3,7 @@ name: Chronology
 type: skill
 category: procedure
 description: Build a sourced litigation timeline that connects events to pleaded issues and reconciles filing dates with tracked deadlines
-version: 0.1.0
+version: 0.2.0
 ---
 
 # Chronology
@@ -25,6 +25,8 @@ Save `chronology.md` in the matter. Give each event a source, show claim and ele
 - `<source_material>` holds the history, filings index and underlying filings, orders, correspondence, evidence, claims and any Claim Chart. Use the deadline record for cross-checks.
 
 ## Steps
+
+Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
 
 ### What can proceed on this entry?
 

@@ -3,7 +3,7 @@ name: Maintain Matter File
 type: skill
 category: procedure
 description: Check matter deadlines first and keep events, source references, arguments, discovery needs and indexes in sync with the record
-version: 0.1.0
+version: 0.2.0
 ---
 
 # Maintain Matter File
@@ -26,6 +26,8 @@ Leave a checkable record of what happened, where the primary documents sit, what
 
 ## Steps
 
+Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+
 ### What can proceed on this entry?
 
 Before dependent work, request `preflight` from [Litigation Counsel](../../experts/Litigation%20Counsel/EXPERT.md) with this skill's name, the planned work, and the available matter or intake record. Reuse its current result only for the same issue, action and facts. On `proceed`, apply the returned practice-area prerequisites. On `hold`, record the reason and resolution needed, and limit work to independent preparation or a clearly held draft. On `stop`, end the affected work. Ask for missing facts that determine any unresolved trigger or ordering requirement. Apply this step on direct entry and when separate owner review is declined. Recheck when new information changes a trigger, posture or prerequisite.
@@ -44,7 +46,7 @@ Before dependent work, request `preflight` from [Litigation Counsel](../../exper
    - **"What do we need in discovery?" or "add to discovery list."** Load the matter's discovery requests. Classify each candidate as a document request, interrogatory, request for admission or third-party subpoena. Give its source, need, date identified and priority. Show the additions and ask before recording them. Apply this continuously. When any matter work reveals information needed from the other side, ask whether to add it to the discovery list.
    - **Different or unclear operation.** Ask which listed operation the person wants, keep deadline alerts visible and return before any write.
 3. **Write and reconcile.** What supports the update? If original records and reported facts agree, use the primary source and record the dates, source and status. If only the person's report is available, label the basis and any missing file or receipt. If records conflict, preserve both readings, flag the conflict and ask before changing a contested fact. Check existing paths and index entries before copying or appending. Reuse identical existing files and update one entry per event. If a path holds different bytes, preserve both and obtain a distinct path before adding the new copy. Keep orders' issuance, entry and service dates separate when relevant. Check rule version, trigger, court modification and calculation before treating a deadline as confirmed. Read back the changed paths, history links, indexes, deadline status and Current Status. Surface remaining gaps.
-4. **Maintain reusable knowledge on confirmation.** When research or drafting finds reusable case law, statutes, evidence references or a term, show the finding and its source and ask whether to add it to the relevant record. Apply only the confirmed addition. For glossary terms, use plain English, a precise definition where needed, typical context and first encounter date or source. Ask the litigant to name a writable glossary home when none is designated. Do not write glossary additions to the plugin. When applicable guidance is a placeholder or thin, identify the gap, research within scope, and propose a sourced addition in an authorized home on confirmation.
+4. **Maintain reusable knowledge on confirmation.** Show the confirmed finding, its source and the exact proposed addition. Ask before writing it. Store case authority in the matter’s `case-law.md`, statutes and rules in `statutes.md`, and reusable definitions in the owning root’s designated writable glossary. If a glossary has no designated home, ask for one. Link evidence through the matter’s own evidence record. Use plain English, a precise definition where needed, typical context and the encounter date or source for glossary entries. When a reference is thin, research the gap and propose the supported addition in the matching writable record. Improvements to an expert’s reference material belong to the plugin maintainer.
 
 ## Pitfalls
 

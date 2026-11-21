@@ -3,9 +3,9 @@ name: Venue Selection
 type: skill
 category: litigation-phase
 description: A sourced court and venue comparison with jurisdiction, threshold, timing, and procedural risk checks in the matter file
-version: 0.1.0
+version: 0.2.0
 gaps:
-  - verified Colorado court thresholds, fees, appeal and transfer practices, and case-specific venue and federal removal requirements
+  - Local court variations and case-specific venue, fee, appeal, transfer and removal questions still need current sources.
 ---
 
 # Venue Selection
@@ -36,6 +36,8 @@ A forum researcher who establishes legal eligibility separately from cost, speed
 
 ## Steps
 
+Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+
 ### What can proceed on this entry?
 
 Before dependent work, request `preflight` from [Litigation Counsel](../../experts/Litigation%20Counsel/EXPERT.md) with this skill's name, the planned work, and the available matter or intake record. Reuse its current result only for the same issue, action and facts. On `proceed`, apply the returned practice-area prerequisites. On `hold`, record the reason and resolution needed, and limit work to independent preparation or a clearly held draft. On `stop`, end the affected work. Ask for missing facts that determine any unresolved trigger or ordering requirement. Apply this step on direct entry and when separate owner review is declined. Recheck when new information changes a trigger, posture or prerequisite.
@@ -54,13 +56,13 @@ For an unfiled matter, frame plausible courts from the claimed facts, location, 
 
 For each candidate, record supported, ruled out, or `[verify]` with the underlying authority and facts. Rule out a candidate with a verified failed check. If no check fails but a required one is unresolved, keep the candidate open for research. Mark a candidate supported only when all three checks pass. Whether a profile exists is a separate production question.
 
-1. **Subject matter.** Check state general jurisdiction and exceptions. For federal court, verify federal question arising under the Constitution, a federal statute or a treaty under 28 U.S.C. § 1331, complete diversity and an amount exceeding $75,000 under 28 U.S.C. § 1332, any statute-specific grant, and supplemental jurisdiction for related state claims with a federal basis. These are source leads `[verify]`. Screen exclusive federal jurisdiction claim by claim. The source flags bankruptcy, federal criminal cases, and many patent, copyright, antitrust and securities matters. Verify exceptions and concurrent jurisdiction before using any category as an exclusion. For federal or state consumer claims, check the applicable FDCPA, FCRA or TILA grant where relevant.
-2. **Personal jurisdiction.** Verify general jurisdiction leads for an individual's domicile and an entity's incorporation or principal place of business. Verify specific jurisdiction leads for purposeful forum contacts, a claim arising from those activities, and reasonableness. Check preservation at the first response and possible waiver. These source leads are `[verify]`. Resolve each defendant's relationship to the proposed forum.
-3. **Geographic venue.** For Colorado, check C.R.C.P. 98 `[verify]` claim by claim for the county of defendant residence, employment, business or accrual, including where the contract was made or tort occurred. For entities, examine principal place of business, registered agent and place of accrual. For multiple defendants check the source's any-one-defendant and other parties' contacts lead `[verify]`. For federal venue, check 28 U.S.C. § 1391 `[verify]`, including residence of a defendant where all defendants are residents of the same state and the substantial events, omissions or property grounds. Colorado is one federal district in the source lead `[verify]`. Apply the actual statutory definitions, exceptions and claim-specific rules.
+1. **Subject matter.** Check state general jurisdiction and exceptions. For federal court, verify federal question arising under the Constitution, a federal statute or a treaty under 28 U.S.C. § 1331, complete diversity and an amount exceeding $75,000 under 28 U.S.C. § 1332, any statute-specific grant, and supplemental jurisdiction for related state claims with a federal basis. Screen exclusive federal jurisdiction claim by claim. The source flags bankruptcy, federal criminal cases, and many patent, copyright, antitrust and securities matters. Verify exceptions and concurrent jurisdiction before using any category as an exclusion. For federal or state consumer claims, check the applicable FDCPA, FCRA or TILA grant where relevant.
+2. **Personal jurisdiction.** Verify general jurisdiction leads for an individual's domicile and an entity's incorporation or principal place of business. Verify specific jurisdiction leads for purposeful forum contacts, a claim arising from those activities, and reasonableness. Check preservation at the first response and possible waiver. Resolve each defendant's relationship to the proposed forum.
+3. **Geographic venue.** For Colorado, check C.R.C.P. 98 claim by claim for the county of defendant residence, employment, business or accrual, including where the contract was made or tort occurred. For entities, examine principal place of business, registered agent and place of accrual. If a town straddles counties, confirm the county of the actual home-office address. For example, Windsor can be in Weld or Larimer County. For multiple defendants check the source's any-one-defendant and other parties’ contacts working rule. For federal venue, check 28 U.S.C. § 1391, including residence of a defendant where all defendants are residents of the same state and the substantial events, omissions or property grounds. Colorado has one federal district. Confirm the venue rules against the current rule before filing. Apply the actual statutory definitions, exceptions and claim-specific rules.
 
 ### What do the verified court options offer?
 
-Every entry in this matrix is a source lead `[verify]`. Use current court rules, fee schedules and reliable court information for applicability or estimates. Preserve uncertainty for unsourced practice impressions.
+Apply the matrix’s working thresholds and timing or cost estimates when comparing candidates. Confirm against current rules and fee schedules before filing. Treat the intervals as planning estimates. Keep Pleadings’ current county and district fee checks open.
 
 | Court | Amount and scope to check | Procedure, remedy and practical factors to compare |
 |---|---|---|
@@ -75,11 +77,11 @@ Compare state familiarity, location, cost and speed with federal procedural cons
 
 ### Is removal, remand or transfer in play?
 
-- **Removal or remand.** Verify original federal jurisdiction, when the clock begins, consent requirements and exceptions, and the diversity forum-defendant rule. Keep the source's removal lead of 30 days from receipt of the complaint and all-defendant consent `[verify]`. For remand, screen timeliness, procedural defects and subject matter jurisdiction. Keep the source's 30 days from the notice of removal for procedural remand and later subject matter challenge lead `[verify]`, checking the actual trigger and outer boundary before recording a due date.
-- **Transfer.** For Colorado state cases, check improper county and convenience of parties or witnesses, and verify choice-of-law effects. For federal cases, check 28 U.S.C. § 1404 for convenience and § 1406 for improper venue, both `[verify]`. Verify when the original forum's law still applies and when exceptions change the result.
+- **Removal or remand.** Verify original federal jurisdiction, when the clock begins, consent requirements and exceptions, and the diversity forum-defendant rule. Use the source’s 30 days from receipt of the complaint and all-defendant consent as working removal checks. For remand, screen timeliness, procedural defects and subject matter jurisdiction. Use 30 days from the notice of removal for procedural remand and separately check the source’s later subject-matter challenge rule. Confirm against the current rule before filing and check the actual trigger and outer boundary before recording a due date.
+- **Transfer.** For Colorado state cases, check improper county and convenience of parties or witnesses, and verify choice-of-law effects. For federal cases, check 28 U.S.C. § 1404 for convenience and § 1406 for improper venue. Confirm against the current rule before filing. Verify when the original forum's law still applies and when exceptions change the result.
 - **Neither or unresolved.** Record inapplicability with the known posture. If the facts suggest a pending forum notice or motion, get the actual document and dates and hold the affected conclusion.
 
-For a requested remand or transfer motion with unresolved authority, timing or facts affecting the relief, hand the record to Motions Practice in procedure-only mode and hold Draft Motion. Once the dependent issues are resolved, use Motions Practice for its gate and Draft Motion with the verified authority, evidence, deadline and relief. Use Verify Citations on any proposed filing authorities. The receiving skill owns court-register drafting and uses Content Author in `wiser` for original outward prose where an owning-root voice applies, including its required voice stop. Use Produce Court Filing for a requested confirmed filing artifact via that skill's checks. For a forum event or court order already received, use Maintain Matter File to update the record and index, history, deadlines and Current Status.
+For a requested remand or transfer motion with unresolved authority, timing or facts affecting the relief, hand the record to Motions Practice in procedure-only mode and hold Draft Motion. Once the dependent issues are resolved, use Motions Practice for its gate and Draft Motion with the verified authority, evidence, deadline and relief. Use Verify Citations on any proposed filing authorities. The receiving skill applies Draft Motion’s Document registers and owns any court drafting. Use Produce Court Filing for a requested confirmed filing artifact via that skill's checks. For a forum event or court order already received, use Maintain Matter File to update the record and index, history, deadlines and Current Status.
 
 ### Is the comparison ready for the person's decision?
 

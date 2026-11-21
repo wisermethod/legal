@@ -1,4 +1,5 @@
-import { SIDES, validateCaption, validateProfile } from './schema-core.js';
+import { canonicalBody, printedBodyText, wordCount } from './body-text-core.js';
+import { counselLabel, SIDES, validateCaption, validateProfile } from './schema-core.js';
 
 function escapeHtml(s) {
   return String(s)
@@ -10,22 +11,32 @@ function lines(arr) {
   return (arr || []).map(l => `<div>${escapeHtml(l)}</div>`).join('');
 }
 
-function formatPartyName(name, role) {
+export function formatPartyName(name, role) {
   const upper = String(name || '').toUpperCase();
-  const suffix = role === 'Plaintiff' ? ';' : '.';
+  const suffix = role.trim().toLowerCase() === 'plaintiff' ? ';' : '.';
   return `${upper}${suffix}`;
 }
 
 function counselInCaption(c) {
   const s = c.signer;
   if (!s || c.caption_counsel === false) return '';
-  const label = c.counsel_label || (String(s.role || '').toLowerCase().includes('pro se') ? 'Pro Se Plaintiff:' : 'Counsel:');
+  const label = counselLabel(c);
   return `
     <div class="counsel-block">
       <div class="counsel-label">${escapeHtml(label)}</div>
       <div class="counsel-name">${escapeHtml(s.name)}</div>
       ${lines(s.lines)}
     </div>`;
+}
+
+export function captionParties(parties) {
+  const isDefendant = party => party.role.trim().toLowerCase() === 'defendant';
+  const isPlaintiff = party => party.role.trim().toLowerCase() === 'plaintiff';
+  if (parties.some(isPlaintiff) && parties.some(isDefendant)) {
+    const lead = parties.filter(party => !isDefendant(party));
+    return { ordered: [...lead, ...parties.filter(isDefendant)], separator: lead.length };
+  }
+  return { ordered: parties, separator: -1 };
 }
 
 /**
@@ -35,9 +46,9 @@ function counselInCaption(c) {
  */
 function captionTable(c) {
   const partyBlocks = [];
-  for (let i = 0; i < (c.parties || []).length; i++) {
-    const p = c.parties[i];
-    if (p.role === 'Defendant' && i > 0) partyBlocks.push('<div class="vs">v.</div>');
+  const { ordered, separator } = captionParties(c.parties);
+  for (const [index, p] of ordered.entries()) {
+    if (index === separator) partyBlocks.push('<div class="vs">v.</div>');
     partyBlocks.push(
       `<div class="party"><span class="role">${escapeHtml(p.role)}:</span> ${escapeHtml(formatPartyName(p.name, p.role))}</div>`
     );
@@ -110,6 +121,7 @@ function courtCss(layout) {
   body { font-family: '${layout.body_font}', Times, serif; font-size: ${layout.body_font_size_pt}pt; color: #000; }
 
   table.caption { width: 100%; border-collapse: collapse; border: 1.5pt solid #000; margin-bottom: 18pt; table-layout: fixed; }
+  table.caption { break-inside: avoid; }
   table.caption td { vertical-align: top; }
   td.cap-left { width: 62%; border-right: 1.5pt solid #000; padding: 8pt 10pt; }
   td.cap-right { width: 38%; padding: 0; }
@@ -148,9 +160,9 @@ function courtCss(layout) {
 `;
 }
 
-function buildHtml(caption, layout, bodyHtml) {
+function buildHtml(caption, layout, bodyHtml, binding) {
   return `<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><style>${courtCss(layout)}</style></head>
+<html lang="en"><head><meta charset="UTF-8"><title>${escapeHtml(binding)}</title><style>${courtCss(layout)}</style></head>
 <body>
   ${captionTable(caption)}
   <div class="body">${bodyHtml}</div>
@@ -163,16 +175,26 @@ function cssInches(value) {
   return value + 'in';
 }
 
-export function compose({ caption, body, profile }, parseMarkdown) {
+export function compose({ caption, body, profile }, parseMarkdown, digest) {
   validateProfile(profile);
   validateCaption(caption, profile);
   if (typeof body !== 'string' || body.trim() === '') {
     throw new Error('Body markdown must contain filing text.');
   }
   const layout = profile.layout;
+  if (/^ {0,3}\[\^[^\]\n]+\]:/m.test(body)) {
+    throw new Error('Markdown footnotes are unsupported. Put each note in a numbered paragraph in the body.');
+  }
   const bodyHtml = parseMarkdown(body);
+  const bodyWords = wordCount(printedBodyText(bodyHtml, false));
+  if (!bodyWords) throw new Error('Body Markdown must produce readable filing text. Add the filing text and compose again.');
+  const bodySha256 = digest(body);
+  const printedSha256 = digest(canonicalBody(printedBodyText(bodyHtml)));
+  const binding = 'Court Filing ' + bodySha256 + ' ' + printedSha256 + ' ' + bodyWords;
   return {
-    html: buildHtml(caption, layout, bodyHtml),
+    bodySha256,
+    bodyWords,
+    html: buildHtml(caption, layout, bodyHtml, binding),
     pdf: {
       paperSize: layout.page_size,
       margin: SIDES.map(side => cssInches(layout.margins_inches[side])).join(' '),
@@ -187,7 +209,12 @@ export function compose({ caption, body, profile }, parseMarkdown) {
 }
 
 export function checkMarkdownToken(token) {
-  if (token.type === 'html') throw new Error('Body markdown contains raw HTML. Replace it with Markdown so the filing layout stays under tool control.');
+  if (token.type === 'html') {
+    throw new Error('Body Markdown contains raw HTML. Rewrite it in supported Markdown. Use Markdown emphasis for underlining, literal superscript characters or inline notation for superscripts, and a Markdown line break or new paragraph for a break.');
+  }
+  if (token.type === 'text' && /\[\^[^\]\n]+\]/.test(token.raw)) {
+    throw new Error('Markdown footnotes are unsupported. Put each note in a numbered paragraph in the body.');
+  }
   if (token.type === 'image') throw new Error('Body markdown contains an image. Supply exhibits separately from the filing body.');
   if (token.type === 'link' && !/^(?:https?:\/\/|mailto:|#)/i.test(token.href)) {
     throw new Error('Body markdown link must use http, https, mailto or an in-document anchor.');

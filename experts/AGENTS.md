@@ -1,6 +1,6 @@
 # Experts
 
-Personas that carry a perspective, judge work through it, and sequence the skills a chain of work needs. `wiser/standards/primitives.md` owns the type, invocation, classifier seam and frontmatter. The directory is flat and grouped here by category. Ownership projects the `Owns:` line and the rows route work under `wiser/AGENTS.md` Precedence and routing.
+Personas that carry a perspective, judge work through it, and sequence the skills a chain of work needs. `wiser/standards/primitives.md` owns the type, invocation, classifier seam and frontmatter. The directory is flat and grouped here by category. Ownership projects the `Owns:` line and the rows route work under `wiser/AGENTS.md` Precedence and routing. Apply the legal root’s Handoff label to assessments, including direct expert responses.
 
 ### Litigation procedure
 

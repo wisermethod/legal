@@ -156,9 +156,7 @@
       "notes": "Word limits for the listed C.R.C.P. 12 and 56 motion classes were not separately confirmed in the source."
     }
   ],
-  "no_service_certificate_reasons": {
-    "initial-complaint-before-service": "Initial complaint filed before service of process. The new-case packet records Rule 4 service and proof as post-filing steps."
-  },
+  "no_service_certificate_reasons": {},
   "filing_packets": {
     "new_case_complaint": {
       "description": "Colorado district court civil new case initiation (CV, claims over $25,000)",
@@ -166,7 +164,7 @@
         {
           "item": "Complaint",
           "method": "Court Filing",
-          "notes": "Caption, numbered factual allegations, counts with elements, jury demand, prayer for relief",
+          "notes": "Caption, numbered factual allegations, counts with elements, jury demand, prayer for relief; leave Case No blank for the court and include the certificate of service",
           "citation": "C.R.C.P. 8",
           "verification": "recorded-in-source"
         },
@@ -195,23 +193,24 @@
       "post_filing_steps": [
         {
           "step": "Service of process",
-          "notes": "Serve defendant using approved method; file return or proof of service",
+          "notes": "Serve defendant using approved method; file return or proof of service; the working service interval is within 63 days after filing. Confirm against the current rule before filing.",
           "citation": "C.R.C.P. 4",
           "verification": "recorded-in-source"
         },
         {
           "step": "Seed answer deadline in DEADLINES.md",
-          "notes": "21 days after in-state service; 35 days after out-of-state service",
+          "notes": "21 days after in-state service; 35 days after out-of-state service; confirm against the current rule before filing",
           "citation": "C.R.C.P. 12",
           "verification": "recorded-in-source"
         }
       ],
       "notes": [
         "Use official fillable forms from coloradojudicial.gov self-help forms; recreating court forms risks rejection.",
-        "District court civil (CV) applies to claims over $25,000.",
+        "District court civil (CV) applies to claims over $25,000. Confirm against the current rule before filing.",
         "Current filing fee amount [verify].",
         "Fee-waiver motion and financial affidavit form number [verify]."
       ]
     }
-  }
+  },
+  "new_case_packet": "new_case_complaint"
 }

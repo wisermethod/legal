@@ -16,7 +16,7 @@ export function readPageInfo(bytes) {
     const [, page, field, values] = match;
     if (pages[Number(page) - 1]) pages[Number(page) - 1][field] = values.trim().split(/\s+/).map(Number);
   }
-  return { count, pages, active: /^JavaScript:\s+yes$|^Form:\s+(?!none$)\S+/im.test(text) };
+  return { count, pages, title: /^Title:[ \t]+([^\r\n]+)$/m.exec(text)?.[1], active: /^JavaScript:\s+yes$|^Form:\s+(?!none$)\S+/im.test(text) };
 }
 
 const near = (actual, expected, tolerance) => Math.abs(actual - expected) <= tolerance;
@@ -41,7 +41,7 @@ export function readFonts(bytes) {
   return fonts;
 }
 
-function readTextLines(bytes, count) {
+export function readTextLines(bytes, count) {
   const [header, ...rows] = DECODER.decode(bytes).trimEnd().split(/\r?\n/);
   if (header !== 'level\tpage_num\tpar_num\tblock_num\tline_num\tword_num\tleft\ttop\twidth\theight\tconf\ttext') return null;
   const pages = Array.from({ length: count }, () => ({ bounds: null, lines: [] }));
@@ -65,8 +65,7 @@ function readTextLines(bytes, count) {
 
 const normalized = text => text.replace(/\s+/gu, ' ').trim();
 
-export function footerCandidates(bytes, count, layout) {
-  const pages = readTextLines(bytes, count);
+export function footerCandidates(pages, count, layout) {
   if (!pages) return null;
   return pages.map(({ bounds, lines }, index) => {
     const expected = normalized(layout.footer.format.replace('{page}', String(index + 1)).replace('{pages}', String(count)));

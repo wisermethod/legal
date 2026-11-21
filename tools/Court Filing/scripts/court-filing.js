@@ -1,13 +1,13 @@
 import { spawnSync } from 'node:child_process';
 import {
-  closeSync, fsyncSync, linkSync, lstatSync, mkdirSync, openSync, readFileSync, readdirSync,
-  realpathSync, statSync, unlinkSync, writeFileSync,
+  closeSync, constants, fstatSync, fsyncSync, linkSync, lstatSync, mkdirSync, openSync, readFileSync, readdirSync,
+  realpathSync, renameSync, statSync, unlinkSync, writeFileSync,
 } from 'node:fs';
-import { randomUUID } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
+import { homedir } from 'node:os';
 import { dirname, extname, isAbsolute, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { checkMarkdownToken, compose } from './compose-core.js';
-import { configDirectory, INSTALL_ONCE, rememberConsent, savedConsent } from './consent.js';
 import { RASTER_DPI } from './pdf-evidence-core.js';
 import { resolveLimits, validateCaption, validateProfile } from './schema-core.js';
 import { MAX_PDF_PAGES, validate } from './validate-core.js';
@@ -21,9 +21,101 @@ const MARKED_VERSION = '12.0.2';
 const MAX_PDF_BYTES = 16 * 1024 * 1024;
 const HELP = 'node scripts/court-filing.js help';
 
+const INSTALL_ONCE = "You'll only be asked once: your yes also covers anything else Wiser needs to download later, including after updates.";
+
+const MARKER = '.wiser-consent';
+const NO_FOLLOW = process.platform === 'win32' ? 0 : constants.O_NOFOLLOW;
+const trustedOwner = info => process.platform === 'win32' ||
+  (info.uid === process.getuid() && (info.mode & 0o022) === 0);
+
+function configDirectory() {
+  const home = homedir();
+  if (process.platform === 'darwin') return join(home, 'Library', 'Application Support', 'wiser');
+  if (process.platform === 'win32') return join(process.env.APPDATA || join(home, 'AppData', 'Roaming'), 'wiser');
+  return join(process.env.XDG_CONFIG_HOME || join(home, '.config'), 'wiser');
+}
+
+function checkDirectory(directory) {
+  const info = lstatSync(directory);
+  if (process.platform === 'win32' && info.isSymbolicLink()) return;
+  if (!info.isDirectory() || !trustedOwner(info)) {
+    throw new Error('The person config directory must be a real directory owned by this user and protected from other writers.');
+  }
+}
+
+function readMarker(path, person) {
+  let fd;
+  try {
+    fd = openSync(path, constants.O_RDONLY | NO_FOLLOW | constants.O_NONBLOCK);
+    const info = fstatSync(fd);
+    if (!info.isFile() || info.size > 8192 || (person && !trustedOwner(info))) return null;
+    return JSON.parse(readFileSync(fd, 'utf8'));
+  } catch {
+    return null;
+  } finally {
+    if (fd !== undefined) closeSync(fd);
+  }
+}
+
+function savedConsent(root) {
+  try {
+    const directory = configDirectory();
+    checkDirectory(directory);
+    const data = readMarker(join(directory, MARKER), true);
+    if (data?.scope === 'person' && typeof data.tool === 'string' && data.tool &&
+        typeof data.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(data.date) &&
+        !data.date.startsWith('0000-') && Number.isFinite(Date.parse(data.date)) &&
+        new Date(data.date).toISOString().slice(0, 10) === data.date) return true;
+  } catch {
+    // The matching copy marker can still authorize an install.
+  }
+  return readMarker(join(root, MARKER), false)?.realpath === root;
+}
+
+function writeMarker(directory, data) {
+  const path = join(directory, MARKER);
+  const temp = path + '.tmp-' + randomUUID();
+  const fd = openSync(temp, constants.O_WRONLY | constants.O_CREAT | constants.O_EXCL | NO_FOLLOW, 0o600);
+  try {
+    try {
+      writeFileSync(fd, JSON.stringify(data) + '\n');
+    } finally {
+      closeSync(fd);
+    }
+    renameSync(temp, path);
+  } catch (error) {
+    try { unlinkSync(temp); } catch { /* Publication failed. */ }
+    throw error;
+  }
+}
+
+function rememberConsent(root) {
+  const stamp = { date: new Date().toISOString().slice(0, 10), tool: 'Court Filing' };
+  let personError;
+  try {
+    const directory = configDirectory();
+    mkdirSync(directory, { recursive: true, mode: 0o700 });
+    checkDirectory(directory);
+    writeMarker(directory, { scope: 'person', ...stamp });
+  } catch (error) {
+    personError = error;
+  }
+  let copySaved = false;
+  try {
+    writeMarker(root, { realpath: root, ...stamp });
+    copySaved = true;
+  } catch {
+    // Consent authorizes the current install even if neither marker can be saved.
+  }
+  if (personError) {
+    const scope = copySaved ? 'this plugin copy only' : 'this run only';
+    process.stderr.write('Wiser will install with consent for ' + scope + '. Reason: ' + personError.message + '\n');
+  }
+}
+
 const COMMANDS = {
   compose: { required: ['--body', '--caption', '--profile', '--out'], optional: [], install: true },
-  validate: { required: ['--pdf', '--caption', '--profile'], optional: ['--body', '--limit', '--max-pages', '--max-words'], install: true },
+  validate: { required: ['--pdf', '--caption', '--profile', '--body-sha256'], optional: ['--body', '--limit', '--max-pages', '--max-words', '--no-length-limit'], install: false },
   profiles: { required: [], optional: [], install: false },
   check: { required: [], optional: [], install: true },
 };
@@ -41,12 +133,12 @@ function usage() {
   return [
     'Usage:',
     '  node scripts/court-filing.js compose --body <absolute Markdown path> --caption <absolute JSON path> --profile <id or absolute JSON path> --out <new absolute HTML path> [--install]',
-    '  node scripts/court-filing.js validate --pdf <absolute PDF path> --caption <absolute JSON path> --profile <id or absolute JSON path> [--body <absolute Markdown path>] [--limit <id> | --max-pages <N> --max-words <N>] [--install]',
+    '  node scripts/court-filing.js validate --pdf <absolute PDF path> --caption <absolute JSON path> --profile <id or absolute JSON path> --body-sha256 <compose digest> [--body <absolute Markdown path>] (--limit <id> | --max-pages <N> and/or --max-words <N> | --no-length-limit <reason>)',
     '  node scripts/court-filing.js profiles',
     '  node scripts/court-filing.js check [--install]',
     '  ' + HELP + ' (or --help, also after a command)',
     '',
-    '--body supplies the same Markdown to the word check; --install on validate requires --body.',
+    '--body optionally checks the original Markdown against --body-sha256. Words are measured on the PDF.',
     '--limit selects a profile preset. --max-pages and --max-words are independent explicit maxima.',
     '--install authorizes the package install and completes this command. ' + INSTALL_ONCE,
     '',
@@ -72,9 +164,6 @@ function parseFlags(command, args) {
   }
   for (const option of spec.required) {
     if (!values.has(option)) throw new Error(option + ' is required. Run ' + HELP + '.');
-  }
-  if (command === 'validate' && values.has('--install') && !values.has('--body')) {
-    throw new Error('Use --install with validate only when passing --body. Run ' + HELP + '.');
   }
   return values;
 }
@@ -208,7 +297,7 @@ function popplerVersions() {
 function inspect(kind, input, page) {
   const args = {
     'page-info': ['-box', '-f', '1', '-l', String(MAX_PDF_PAGES), '-'],
-    text: ['-enc', 'UTF-8', '-', '-'],
+    text: ['-enc', 'UTF-8', '-raw', '-', '-'],
     'positioned-text': ['-enc', 'UTF-8', '-tsv', '-', '-'],
     fonts: ['-'],
     raster: ['-r', String(RASTER_DPI), '-gray', '-singlefile', '-f', String(page), '-l', String(page), '-'],
@@ -255,6 +344,8 @@ function writeHtml(path, html) {
   }
 }
 
+const digest = value => createHash('sha256').update(value).digest('hex');
+
 async function main(args) {
   const [command = 'help', ...rest] = args;
   if (command === 'help' || command === '--help' ||
@@ -286,33 +377,38 @@ async function main(args) {
       const body = readInput(bodyPath, '--body', 'utf8');
       if (!body.trim()) throw new Error('--body must contain filing text.');
       const parse = await markdownParser(explicitInstall);
-      const composed = compose({ caption, body, profile }, parse);
+      const composed = compose({ caption, body, profile }, parse, digest);
       writeHtml(out, composed.html);
-      result = { html: out, profile: profile.jurisdiction_id, pdf: composed.pdf, pdfArgs: renderArgs(composed.pdf), footerFont: composed.footerFont };
+      result = {
+        html: out, profile: profile.jurisdiction_id, pdf: composed.pdf, pdfArgs: renderArgs(composed.pdf),
+        footerFont: composed.footerFont, bodySha256: composed.bodySha256, bodyWords: composed.bodyWords,
+      };
     } else {
       const pdfPath = screened('--pdf', flags.get('--pdf'), '.pdf');
       const numeric = key => flags.has(key) ? (/^\d+$/.test(flags.get(key)) ? Number(flags.get(key)) : NaN) : undefined;
-      const limits = resolveLimits(profile, flags.get('--limit'), numeric('--max-pages'), numeric('--max-words'));
+      const limits = resolveLimits(profile, flags.get('--limit'), numeric('--max-pages'), numeric('--max-words'), flags.get('--no-length-limit'));
+      const bodySha256 = flags.get('--body-sha256');
+      if (!/^[a-f0-9]{64}$/.test(bodySha256)) throw new Error('--body-sha256 must be the lowercase SHA-256 returned by compose.');
+      if (bodyPath && digest(readInput(bodyPath, '--body', 'utf8')) !== bodySha256) {
+        throw new Error('--body does not match --body-sha256. Pass the original Markdown or compose and render again.');
+      }
       const dependencies = popplerVersions();
       const missing = PROGRAMS.filter(program => !dependencies[program]);
       const pdf = readInput(pdfPath, '--pdf');
       if (pdf.byteLength > MAX_PDF_BYTES) throw new Error('--pdf exceeds the 16 MiB inspection ceiling.');
-      let bodyHtml;
-      if (bodyPath) {
-        const body = readInput(bodyPath, '--body', 'utf8');
-        if (!body.trim()) throw new Error('--body must contain the Markdown used to compose this filing.');
-        const parse = await markdownParser(explicitInstall);
-        bodyHtml = parse(body);
-      }
       const unavailable = missing.map(program => ({ program, check: program + ' -v' }));
       const resultOfValidation = validate({
-        pdf, caption, profile, limits, bodyHtml,
+        pdf, caption, profile, limits, bodySha256, digest,
         parseUnavailable: !dependencies.pdfinfo || !dependencies.pdftotext,
       }, (kind, ...args) => dependencies[POPPLER[kind]] ? inspect(kind, ...args) : null);
       result = { profile: profile.jurisdiction_id, ...resultOfValidation, unavailable };
+      if (!result.ok) {
+        result.remediation = 'Resolve the failed or unchecked evidence listed in checks, then compose and render again if an input or the filing body changed.';
+      }
     }
   }
-  process.stdout.write(JSON.stringify(result) + '\n');
+  const stream = result.ok === false ? process.stderr : process.stdout;
+  stream.write(JSON.stringify(result) + '\n');
   return result.ok === false ? 1 : 0;
 }
 

@@ -3,7 +3,7 @@ name: Claim Chart
 type: skill
 category: procedure
 description: Map the verified elements of a claim or defense to sourced facts and evidence and show support gaps for the current litigation stage
-version: 0.1.0
+version: 0.2.0
 gaps:
   - An element list with missing or unverified governing authority is held until that authority can be checked.
 ---
@@ -27,6 +27,8 @@ Save `claim-chart-<claim-slug>.md` in the matter or its dedicated build director
 - `<source_material>` contains the claims and history records, evidence, filings and correspondence, plus the applicable practice-area guidance and controlling text.
 
 ## Steps
+
+Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
 
 ### What can proceed on this entry?
 

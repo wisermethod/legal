@@ -52,24 +52,23 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Motions Practice](../skills/Motions%20Practice/SKILL.md)
 
-- Owed are verified court-specific deadlines, page limits, formatting, hearing rules, and motion standards.
-- Owed is independently verified scope and exceptions for Colorado motion conferral and sur-replies.
+- Court-specific briefing deadlines, local variations, hearing rules, and motion standards still need governing sources.
+- The source has no procedure for preparing and validating a proposed-order artifact.
 
 ### [Open a Matter](../skills/Open%20a%20Matter/SKILL.md)
 
 - The Colorado initiation procedure does not cover county court, small claims, federal court or other states.
 - The source leaves the current filing fee and fee-waiver form number unverified. Confirm both against the court before relying on them.
-- The template's example Colorado response periods are verification prompts. No deadline is confirmed until the current rule and any order have been checked.
 
 ### [Pleadings](../skills/Pleadings/SKILL.md)
 
-- Owed are independently verified defaults for pleading deadlines, filing fees, service methods, and local caption and jury demand requirements.
+- Current filing fees and unstated local caption, jury demand and service variations need governing sources.
 
 ### [Produce Court Filing](../skills/Produce%20Court%20Filing/SKILL.md)
 
 - A court or document with no supported jurisdiction profile cannot clear PDF production until the applicable profile and rules are available.
 - Mechanical validation measures PDF font names and embedding and visible margin ink. Exact type sizing, spacing and court-specific requirements still need review.
-- A mandatory blank case or division field is outside the current caption schema. Prescribed Word structures beyond the paragraph schema require suitable Word artifacts and an equivalent validated proof.
+- The caption schema supports a blank case number for the declared new-case complaint packet. It has no blank division or validated proposed-order format. Prescribed Word structures beyond the paragraph schema require suitable Word artifacts and an equivalent validated proof.
 
 ### [Settlement Negotiation](../skills/Settlement%20Negotiation/SKILL.md)
 
@@ -81,7 +80,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Venue Selection](../skills/Venue%20Selection/SKILL.md)
 
-- Owed are verified Colorado court thresholds, fees, appeal and transfer practices, and case-specific venue and federal removal requirements.
+- Local court variations and case-specific venue, fee, appeal, transfer and removal questions still need current sources.
 
 ### [Verify Citations](../skills/Verify%20Citations/SKILL.md)
 
@@ -93,3 +92,4 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 ### [Court Filing](../tools/Court%20Filing/TOOL.md)
 
 - Current Colorado fees, fee-waiver form numbers and separate Rule 12 or 56 word ceilings need verification.
+- A proposed order needs its court-prescribed form and a separate review path. The tool has no validated judge-signature format.

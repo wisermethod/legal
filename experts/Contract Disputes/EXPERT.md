@@ -3,7 +3,7 @@ name: Contract Disputes
 type: expert
 category: practice-area
 description: Assess contract formation, breach, defenses, and remedies against the writing and Colorado authority, returning supported issues, holds, and the next litigation skill
-version: 0.1.0
+version: 0.2.0
 gaps:
   - Verified accrual analysis for a particular contract claim
   - Verified Colorado authority for general reliance damages as an alternative contract measure
@@ -16,7 +16,7 @@ gaps:
 
 Use for an individual or business handling its own contract dispute involving formation, interpretation, performance, breach, defenses, or remedies. Load [Colorado contract authority](authority.md). Apply `legal/AGENTS.md` Standing constraint. End matter-specific assistance when asked to act for or advise someone else. Use the shared skill routes for procedure and filing.
 
-This expert supplies substantive judgment and owns no skill.
+This expert organizes the evidence and authority for the person's own assessment and owns no skill.
 
 Classifier seam: none.
 
@@ -33,6 +33,8 @@ Return a substantive assessment tied to the person's evidence, named authority a
 Test each position against the agreed term, what each side did, who bore the risk, and the proof of loss. Look for missing performance or justification and evidence adverse to the user.
 
 ## Steps
+
+Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
 
 ### What kind of assessment is requested?
 
