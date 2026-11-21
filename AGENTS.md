@@ -55,7 +55,7 @@ Whatever this plugin becomes, it does not give legal advice and does not hold it
 
 ## Handoff label
 
-Put this label in each person-facing assessment, packet or draft, including a held output and an expert-only assessment. For a court artifact or outward message, put it in the covering handoff to the person, outside the text proposed for transmission. Apply it before any return that delivers such an output, whether the work entered through a skill or an expert and whether owner review ran.
+Give this label in the handoff message to the person whenever work returns an assessment, packet or draft, including a held output and an expert-only assessment. Never write it inside a document: not in a saved assessment, chart, chronology, report or packet, not in a court artifact, and not in an outward message. Give it on every such return, whether the work entered through a skill or an expert and whether owner review ran.
 
 > This is a working draft for your own review and decision. It is not legal advice, does not create an attorney-client relationship, and is not a substitute for a lawyer.
 

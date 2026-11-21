@@ -3,7 +3,7 @@ name: Draft Motion
 type: skill
 category: procedure
 description: Draft a motion body and a sourced caption packet that clear citation and factual checks before court filing production
-version: 0.4.1
+version: 0.4.2
 ---
 
 # Draft Motion
@@ -26,7 +26,7 @@ Save a reviewed `body.md` and a verified `caption.json` or `forum-submission.md`
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What can proceed on this entry?
 
@@ -34,7 +34,7 @@ Read the owning root and project declarations and the record in the project's de
 
 ### What clears the motion or submission draft?
 
-Use this procedure for a non-court submission with its governing notice, rules and orders in place of court sources. Verify submission type, timing, format, conferral where applicable, service and any limits. Keep the sourced factual and citation work moving while a rule-dependent step is held. Use the build location designated for the project. If it is unresolved, ask before saving. Keep supporting evidence and the labeled handoff with the draft, outside the proposed submission text.
+Use this procedure for a non-court submission with its governing notice, rules and orders in place of court sources. Verify submission type, timing, format, conferral where applicable, service and any limits. Keep the sourced factual and citation work moving while a rule-dependent step is held. Use the build location designated for the project. If it is unresolved, ask before saving. Keep supporting evidence with the draft, outside the proposed submission text, and the Handoff label in the handoff message.
 
 1. **Establish the record.** Run Maintain Matter File for its matter preflight and drafting cross-references. Surface deadlines within 14 days before drafting. Use the procedural checklist from Motions Practice when supplied and the preflight assessment for the substantive basis. Accept a supplied `complete`, `exception verified` or sourced `not applicable` conferral outcome only for this motion with the same relief, facts and rule. A supplied `held` keeps drafting held until the documented gap clears. Verify the source for any other or stale status before proceeding. For a direct drafting request, verify the governing rule, conferral, page limit and checklist requirements from the current forum sources. Do not restart Motions Practice's drafting route when it handed over the motion. Confirm jurisdiction before drafting. Is conferral required under the rules for this motion, including applicable Colorado conferral rules when relevant? If required and documented, cite the date, participants, result and source. If required and undocumented, ask whether conferral occurred and its outcome. Hold drafting until the required record is established. If applicability is unresolved, verify it and hold the dependent draft. If an exception is verified, include its explanation only where the court requires it. If the rule makes conferral inapplicable, record the source without adding a certificate. In Colorado check the applicable C.R.C.P. 121 provision. Never imply conferral occurred from silence.
 2. **Draft substance.** Draft the body within this skill using Document registers and the Filing prose checklist below. Use the litigant's wording where it meets that checklist. Put the introduction and exact relief up front, then any required conferral certificate, sourced facts in chronological order, arguments connecting the facts and legal elements, and a conclusion and prayer for relief. Leave caption, layout markup, signature and certificate of service to structured data and production. Record the approach, alternatives considered and confidence for the litigant to review. If the record conflicts or is thin, show the conflict or gap and mark the draft pending wherever it affects a factual assertion or requested relief.
@@ -97,4 +97,4 @@ Draft court and counsel text inside the relevant legal skill. A bound or missing
 
 ## Success
 
-The build directory holds the substantive `body.md`, profiled `caption.json` or forum submission record, citation report and reconciliation, or identifies any output held and the evidence needed to complete it. A production handoff has no unresolved verification flags, records the plain-language review, and leaves signature and service dates for the litigant. Every filing draft, including a held draft, comes with the Handoff label and asks the litigant to report back after filing so the record can be updated.
+The build directory holds the substantive `body.md`, profiled `caption.json` or forum submission record, citation report and reconciliation, or identifies any output held and the evidence needed to complete it. A production handoff has no unresolved verification flags, records the plain-language review, and leaves signature and service dates for the litigant. Every filing draft, including a held draft, is handed over under the Handoff label, kept out of the draft, and asks the litigant to report back after filing so the record can be updated.

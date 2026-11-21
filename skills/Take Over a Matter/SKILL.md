@@ -3,7 +3,7 @@ name: Take Over a Matter
 type: skill
 category: procedure
 description: Map an existing case folder into the matter contract and verify an approved copy or staged-folder adoption against the original inventory
-version: 0.3.1
+version: 0.3.2
 ---
 
 # Take Over a Matter
@@ -26,7 +26,7 @@ Deliver a read-only inventory and exact change plan first. On explicit approval,
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What can proceed on this entry?
 

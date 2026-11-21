@@ -3,7 +3,7 @@ name: Consumer Law
 type: expert
 category: practice-area
 description: Assess consumer-protection disputes for governing authority, conduct and loss, returning evidence gaps, holds, and the next skill
-version: 0.2.0
+version: 0.2.1
 gaps:
   - Consumer Law is a substantive stub for the Colorado Consumer Protection Act, including scope, deceptive practices, elements, damages, and limitations
   - Consumer Law is a substantive stub for federal FDCPA, TILA, FCRA, and TCPA provisions, elements, and damages
@@ -34,7 +34,7 @@ Examine the representation or conduct actually documented, who made or received 
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What kind of assessment is requested?
 

@@ -3,7 +3,7 @@ name: Claim Chart
 type: skill
 category: procedure
 description: Map the verified elements of a claim or defense to sourced facts and evidence and show support gaps for the current litigation stage
-version: 0.3.1
+version: 0.3.2
 gaps:
   - An element list with missing or unverified governing authority is held until that authority can be checked.
 ---
@@ -30,7 +30,7 @@ Resolve the owning root through `wiser` Workspace Model and read its instruction
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What can proceed on this entry?
 
@@ -46,8 +46,8 @@ Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Coun
    |---|---|---|---|
    | Element and verified authority | Facts the record supplies | File and pinpoint | Yes or no, with basis |
 
-4. Summarize which elements are supported, which need pleading detail, discovery or further theory development, and what the current record can support at the stated posture. If a gap appears fatal, the theory appears unsupported, or the matter exceeds the litigant's depth, suggest licensed counsel and name the element or decision that warrants review. Apply the Handoff label in the chart and any delivered Word copy. Use the claim name as a lowercase hyphenated slug. Save the Markdown chart to the confirmed destination. Reuse an identical Markdown chart. Preserve a different existing chart and use the first unused numbered suffix starting at `-2`.
-5. Is a Word copy of a chart requested? If no, deliver the Markdown. If a native table is required, report that the create schema takes paragraphs and keep the Markdown chart available for import into Word. Otherwise locate `word-document` through the composed `wiser` plugin's `tools/AGENTS.md`, load its tool contract, and prepare UTF-8 JSON with `title` and `paragraphs`. Use one labeled paragraph per element retaining the facts, source and gap, followed by the assessment. From that tool's directory run `node scripts/word-document.js create --input <json> --output <fresh.docx>` with absolute paths. Use the chart's stem, with the first unused numbered suffix starting at `-2` if the Word path already exists. Require success with the canonical `output`. Read the output in Word or inspect each main-document paragraph in `word/document.xml` from the DOCX package and reconcile the text to the chart and label. If creation or read-back fails, deliver the Markdown and report the specific Word hold.
+4. Summarize which elements are supported, which need pleading detail, discovery or further theory development, and what the current record can support at the stated posture. If a gap appears fatal, the theory appears unsupported, or the matter exceeds the litigant's depth, suggest licensed counsel and name the element or decision that warrants review. Give the Handoff label in the handoff message, never in the chart or a delivered Word copy. Use the claim name as a lowercase hyphenated slug. Save the Markdown chart to the confirmed destination. Reuse an identical Markdown chart. Preserve a different existing chart and use the first unused numbered suffix starting at `-2`.
+5. Is a Word copy of a chart requested? If no, deliver the Markdown. If a native table is required, report that the create schema takes paragraphs and keep the Markdown chart available for import into Word. Otherwise locate `word-document` through the composed `wiser` plugin's `tools/AGENTS.md`, load its tool contract, and prepare UTF-8 JSON with `title` and `paragraphs`. Use one labeled paragraph per element retaining the facts, source and gap, followed by the assessment. From that tool's directory run `node scripts/word-document.js create --input <json> --output <fresh.docx>` with absolute paths. Use the chart's stem, with the first unused numbered suffix starting at `-2` if the Word path already exists. Require success with the canonical `output`. Read the output in Word or inspect each main-document paragraph in `word/document.xml` from the DOCX package and reconcile the text to the chart. If creation or read-back fails, deliver the Markdown and report the specific Word hold.
 
 ## Pitfalls
 
@@ -56,4 +56,4 @@ Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Coun
 
 ## Success
 
-Each charted element points to checked authority. Each supporting fact resolves to its source. The chart names every identified gap, states its posture and limits, and avoids predicting the result. A held record with no chart identifies the missing law and resumption condition. A delivered Word copy matches the chart and carries the Handoff label.
+Each charted element points to checked authority. Each supporting fact resolves to its source. The chart names every identified gap, states its posture and limits, and avoids predicting the result. A held record with no chart identifies the missing law and resumption condition. A delivered Word copy matches the chart, and neither holds the Handoff label.

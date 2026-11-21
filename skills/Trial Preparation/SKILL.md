@@ -3,7 +3,7 @@ name: Trial Preparation
 type: skill
 category: litigation-phase
 description: A trial readiness packet with the schedule, binder map, witness and exhibit preparation, and preservation checks
-version: 0.3.2
+version: 0.3.3
 gaps:
   - verified pretrial disclosure, trial procedure, evidence, post-trial motion, and appeal requirements
 ---
@@ -36,7 +36,7 @@ A readiness reviewer who traces procedural requirements to the court and trial p
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What can proceed on this entry?
 
@@ -78,7 +78,7 @@ For each section, link available material and note absent or unusable material w
 
 Draft original filing prose within this skill using the [Draft Motion filing prose checklist](../Draft%20Motion/SKILL.md#filing-prose-checklist). Apply its [Document registers](../Draft%20Motion/SKILL.md#document-registers) to each other item. Use its [Opposing-counsel correspondence checklist](../Draft%20Motion/SKILL.md#opposing-counsel-correspondence-checklist) for counsel messages. Follow verified forms and procedural requirements for structured documents. For court speaking practice, keep preparation to sourced notes and prompts. Apply filing gates to written submissions.
 
-Which handoff applies? For a private binder, chart, practice outline or deadline and preservation packet, save and return the labeled packet and the requested private artifacts. For a counsel message or an unfiled exchange, apply the applicable service and approval checks and use the final handoff below. For a proposed filing or forum submission, apply the filing checks below to the exact draft.
+Which handoff applies? For a private binder, chart, practice outline or deadline and preservation packet, save and return the packet and the requested private artifacts. For a counsel message or an unfiled exchange, apply the applicable service and approval checks and use the final handoff below. For a proposed filing or forum submission, apply the filing checks below to the exact draft.
 
 For a proposed submission, follow [Produce Court Filing’s phase handoff](../Produce%20Court%20Filing/SKILL.md#what-does-a-phase-send-for-filing-production).
 

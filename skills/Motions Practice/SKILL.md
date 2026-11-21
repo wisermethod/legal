@@ -3,7 +3,7 @@ name: Motions Practice
 type: skill
 category: litigation-phase
 description: A motion or opposition preparation packet with conferral, briefing deadlines, local requirements, and a pre-filing verdict
-version: 0.4.2
+version: 0.4.3
 gaps:
   - Court-specific briefing deadlines, local variations, hearing rules, and motion standards still need governing sources.
 ---
@@ -36,7 +36,7 @@ A motion preparer who grounds each requested order in the governing standard and
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What can proceed on this entry?
 
@@ -81,7 +81,7 @@ Record one result and reason for each applicable item: the exact conferral outco
 
 Draft original filing prose within this skill using the [Draft Motion filing prose checklist](../Draft%20Motion/SKILL.md#filing-prose-checklist). Apply its [Document registers](../Draft%20Motion/SKILL.md#document-registers) to each other item. Use its [Opposing-counsel correspondence checklist](../Draft%20Motion/SKILL.md#opposing-counsel-correspondence-checklist) for counsel messages. Follow verified forms and procedural requirements for structured documents.
 
-Which handoff applies? For procedure-only, no supported brief, or a hold with no filing draft, return the labeled packet with the applicable checklist and any allowed conferral draft. Do not start a citation or production run without filing text. For a motion draft, use the filing workflow of Draft Motion. For a brief drafted here or another proposed filing or forum submission, apply the exact-input checks below. Use the final handoff for any requested conferral message.
+Which handoff applies? For procedure-only, no supported brief, or a hold with no filing draft, return the packet with the applicable checklist and any allowed conferral draft. Do not start a citation or production run without filing text. For a motion draft, use the filing workflow of Draft Motion. For a brief drafted here or another proposed filing or forum submission, apply the exact-input checks below. Use the final handoff for any requested conferral message.
 
 For a proposed submission, follow [Produce Court Filing’s phase handoff](../Produce%20Court%20Filing/SKILL.md#what-does-a-phase-send-for-filing-production).
 

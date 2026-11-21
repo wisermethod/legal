@@ -3,7 +3,7 @@ name: Litigation Counsel
 type: expert
 category: litigation-procedure
 description: Sequence the shared litigation skills for the matter's posture and judge their results against the record, applicable practice-area guidance and filing gates
-version: 0.3.1
+version: 0.3.2
 gaps:
   - No arbitration rules reference is shipped. Use the governing materials in the matter record.
   - Federal courts and courts outside Colorado have no jurisdiction profile.
@@ -36,7 +36,7 @@ Judge what a procedure requires at this stage, which findings affect the next ac
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What is this run being asked to do?
 

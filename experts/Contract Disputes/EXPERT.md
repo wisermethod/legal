@@ -3,7 +3,7 @@ name: Contract Disputes
 type: expert
 category: practice-area
 description: Assess contract formation, breach, defenses, and remedies against the writing and Colorado authority, returning supported issues, holds, and the next litigation skill
-version: 0.2.0
+version: 0.2.1
 gaps:
   - Verified accrual analysis for a particular contract claim
   - Verified Colorado authority for general reliance damages as an alternative contract measure
@@ -34,7 +34,7 @@ Test each position against the agreed term, what each side did, who bore the ris
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What kind of assessment is requested?
 

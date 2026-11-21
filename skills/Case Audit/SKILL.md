@@ -3,7 +3,7 @@ name: Case Audit
 type: skill
 category: litigation-phase
 description: A full case audit with documented coverage of claims, facts, arguments, evidence, opposition, trajectory, and follow-up
-version: 0.4.2
+version: 0.4.3
 ---
 
 # Case Audit
@@ -34,7 +34,7 @@ A candid reviewer who looks for the strongest opposing case, checks the person's
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) in the saved audit and whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What can proceed on this entry?
 

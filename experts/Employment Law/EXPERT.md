@@ -3,7 +3,7 @@ name: Employment Law
 type: expert
 category: practice-area
 description: Assess a Colorado employment dispute against the agreement, wage record, and authority, returning supported claim distinctions, holds, and the next litigation skill
-version: 0.3.0
+version: 0.3.1
 gaps:
   - Employment coverage is working and lacks official confirmation of the 2025 wage amendments, the current CDLE cap, and a current filing forms and venue check
   - Employment briefing lacks complete opinion reads for the flagged cases and verified Colorado authority for notice and cure, prevention of a bonus condition, remote-worker jurisdiction, and unsigned arbitration
@@ -35,7 +35,7 @@ Read the promises and payment record against the asserted reason for separation.
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What kind of assessment is requested?
 

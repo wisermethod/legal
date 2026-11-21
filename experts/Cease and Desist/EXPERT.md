@@ -3,7 +3,7 @@ name: Cease and Desist
 type: expert
 category: practice-area
 description: Assess a cease-and-desist demand or response for factual support, scope, and escalation risk, returning unresolved issues and the next supported skill
-version: 0.2.0
+version: 0.2.1
 gaps:
   - Cease and Desist is a substantive stub for whether to send or bypass a demand, required terms, deadlines, and response and escalation rules
   - Cease and Desist is a substantive stub for IP, defamation, harassment or stalking, contract, property and nuisance grounds and service requirements
@@ -33,7 +33,7 @@ Separate what the record shows about the alleged conduct from what the demand as
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What kind of assessment is requested?
 

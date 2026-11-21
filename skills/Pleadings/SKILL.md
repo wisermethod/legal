@@ -3,7 +3,7 @@ name: Pleadings
 type: skill
 category: litigation-phase
 description: A matter-specific complaint, answer, or amendment drafting packet with a service and pre-filing checklist
-version: 0.4.2
+version: 0.4.3
 gaps:
   - Current filing fees and unstated local caption, jury demand and service variations need governing sources.
 ---
@@ -36,7 +36,7 @@ A pleading preparer who traces each factual allegation and legal element to the 
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What can proceed on this entry?
 
@@ -90,7 +90,7 @@ For an **answer**, check the verified service-based answer date or operative ext
 
 Draft original filing prose within this skill using the [Draft Motion filing prose checklist](../Draft%20Motion/SKILL.md#filing-prose-checklist). Apply its [Document registers](../Draft%20Motion/SKILL.md#document-registers) to each other item. Use its [Opposing-counsel correspondence checklist](../Draft%20Motion/SKILL.md#opposing-counsel-correspondence-checklist) for counsel messages. Follow verified forms and procedural requirements for structured documents.
 
-Which item is being handed off? For a route, checklist or deadline-only result, save the labeled packet and stop before the filing checks. For an editable pleading draft, keep it with the packet and name any unresolved filing or submission checks. Apply the checks below to the exact text of any draft proposed for filing or forum submission. Run production only when the person requests the artifact and the applicable prerequisites clear.
+Which item is being handed off? For a route, checklist or deadline-only result, save the packet and stop before the filing checks. For an editable pleading draft, keep it with the packet and name any unresolved filing or submission checks. Apply the checks below to the exact text of any draft proposed for filing or forum submission. Run production only when the person requests the artifact and the applicable prerequisites clear.
 
 For a proposed submission, follow [Produce Court Filing’s phase handoff](../Produce%20Court%20Filing/SKILL.md#what-does-a-phase-send-for-filing-production).
 

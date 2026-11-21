@@ -3,7 +3,7 @@ name: Personal Injury
 type: expert
 category: practice-area
 description: Assess an individual's injury record for proof of responsibility, causation, and loss, returning coverage gaps, holds, and the next litigation skill
-version: 0.2.0
+version: 0.2.1
 gaps:
   - Personal Injury is a substantive stub for Colorado negligence standards, comparative fault, and compensable damages and caps
   - Personal Injury is a substantive stub for motor vehicle, premises, and product liability, insurance and UM/UIM, limitations, and defense tactics
@@ -33,7 +33,7 @@ Trace an alleged injury from conduct through the event, medical evidence, and do
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What kind of assessment is requested?
 

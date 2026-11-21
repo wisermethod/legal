@@ -3,7 +3,7 @@ name: Chronology
 type: skill
 category: procedure
 description: Build a sourced litigation timeline that connects events to pleaded issues and reconciles filing dates with tracked deadlines
-version: 0.3.2
+version: 0.3.3
 ---
 
 # Chronology
@@ -28,7 +28,7 @@ Resolve the owning root under `wiser` Workspace Model and read its instructions 
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What can proceed on this entry?
 
@@ -41,7 +41,7 @@ Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Coun
 3. Is a date explicit and undisputed, disputed, inferred, or absent? Sort confirmed dates oldest first. In a separate unresolved-dates section, retain each competing date and its source, the inferred date and its basis, or "date unknown," as applicable. Keep each row tied to a filename and location, filing date or exhibit reference. Leave an event without an identifiable source out of the chronology and report the evidence gap.
 4. Read the claims record and any verified Claim Chart. Does a source support a connection to a stated claim, defense, element or procedural trigger? Cite that claim or element reference in Notes. If the mapping is unclear or authority is missing, label it unresolved. If the event has no identified claim relationship, keep it when relevant to the procedural timeline. Do not turn temporal association into causation or infer new elements.
 5. Cross-check actual filing and service dates against the calculated dates in the deadline record. Record agreements and discrepancies, including competing dates and missing triggers, with their sources. Use [Maintain Matter File's phase deadline handoff](../Maintain%20Matter%20File/SKILL.md#what-should-a-phase-do-with-a-deadline) for each correction and report the read-back or pending entry.
-6. Use `Date | Event | Source document | Notes` for a standalone chronology where the matter permits one and include the Handoff label. If the matter gives a designated record sole ownership of dated facts, use that file’s approved shape for an update and link to those entries from companion records. For read-only work, return the proposed rows without updating the matter.
+6. Use `Date | Event | Source document | Notes` for a standalone chronology where the matter permits one. Give the Handoff label in the handoff message, never in the chronology. If the matter gives a designated record sole ownership of dated facts, use that file’s approved shape for an update and link to those entries from companion records. For read-only work, return the proposed rows without updating the matter.
 
 ## Pitfalls
 

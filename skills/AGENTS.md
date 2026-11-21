@@ -1,6 +1,6 @@
 # Skills
 
-Capabilities a user invokes by name for their output. `wiser/standards/primitives.md` owns type, invocation and frontmatter. The directory is flat and the index is grouped by category. The Owner column projects the declarations in the typed files. Draft Motion holds the document registers and the court and counsel checklists. The legal root’s Handoff label applies to each person-facing assessment, packet and draft.
+Capabilities a user invokes by name for their output. `wiser/standards/primitives.md` owns type, invocation and frontmatter. The directory is flat and the index is grouped by category. The Owner column projects the declarations in the typed files. Draft Motion holds the document registers and the court and counsel checklists. The legal root’s Handoff label goes in the handoff message for each person-facing assessment, packet and draft, never inside a document.
 
 ### Litigation phase
 

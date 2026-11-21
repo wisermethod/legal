@@ -3,7 +3,7 @@ name: Maintain Matter File
 type: skill
 category: procedure
 description: Reconcile matter deadlines and posture, then keep events, source references, arguments, discovery needs and designated indexes in sync
-version: 0.3.2
+version: 0.3.3
 ---
 
 # Maintain Matter File
@@ -26,7 +26,7 @@ Leave a checkable record of what happened, where the primary documents sit, what
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What can proceed on this entry?
 

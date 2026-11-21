@@ -3,7 +3,7 @@ name: Produce Court Filing
 type: skill
 category: procedure
 description: Produce a filing or forum submission from sourced inputs, then check the exact artifact for human preview and approval
-version: 0.4.1
+version: 0.4.2
 gaps:
   - Mechanical jurisdiction-profile validation covers the shipped Colorado district layout and compatible custom profiles.
   - Prescribed forms outside the supported types need the forum’s own form and requirements gate. Court Filing cannot validate those artifacts.
@@ -30,7 +30,7 @@ Produce the exact artifact in the forum's required format and keep the build rec
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What can proceed on this entry?
 

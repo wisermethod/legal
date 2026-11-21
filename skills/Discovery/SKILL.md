@@ -3,7 +3,7 @@ name: Discovery
 type: skill
 category: litigation-phase
 description: A prioritized discovery plan, request or response draft, or dispute packet tied to the matter record
-version: 0.3.2
+version: 0.3.3
 gaps:
   - verified discovery limits, deadlines, objections, privilege rules, and supplementation requirements
   - detailed discovery sequencing, dispute, production, and preservation guidance
@@ -37,7 +37,7 @@ A discovery organizer who can tie each proposed request to a real gap and distin
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What can proceed on this entry?
 
@@ -71,7 +71,7 @@ For every relevant production, log its source, date, description, related reques
 
 Draft original filing prose within this skill using the [Draft Motion filing prose checklist](../Draft%20Motion/SKILL.md#filing-prose-checklist). Apply its [Document registers](../Draft%20Motion/SKILL.md#document-registers) to each other item. Use its [Opposing-counsel correspondence checklist](../Draft%20Motion/SKILL.md#opposing-counsel-correspondence-checklist) for counsel messages. Follow verified forms and procedural requirements for structured documents. Draft served discovery papers here under the applicable rules, form and privilege constraints. Hold any service draft with unresolved production, timing, privilege or form requirements.
 
-Which handoff applies? For a private plan, inventory, dispute packet or hold with no outward draft, save the labeled packet and stop before the filing checks. For discovery for exchange only or a counsel message, save the exact draft and apply the applicable form, timing, privilege, service and approval checks. Use the final handoff below without invoking filing checks. For a proposed court filing or forum submission, apply the filing checks below to its exact draft or route the motion to the skill that owns it. For an unsent exchange or message, use the declared draft home or the packet home if no draft home is declared.
+Which handoff applies? For a private plan, inventory, dispute packet or hold with no outward draft, save the packet and stop before the filing checks. For discovery for exchange only or a counsel message, save the exact draft and apply the applicable form, timing, privilege, service and approval checks. Use the final handoff below without invoking filing checks. For a proposed court filing or forum submission, apply the filing checks below to its exact draft or route the motion to the skill that owns it. For an unsent exchange or message, use the declared draft home or the packet home if no draft home is declared.
 
 For a proposed submission, follow [Produce Court Filing’s phase handoff](../Produce%20Court%20Filing/SKILL.md#what-does-a-phase-send-for-filing-production).
 

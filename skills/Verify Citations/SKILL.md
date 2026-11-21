@@ -3,7 +3,7 @@ name: Verify Citations
 type: skill
 category: procedure
 description: Check every legal citation and the proposition it supports, then return a citation report and an annotated draft with any filing holds
-version: 0.3.1
+version: 0.3.2
 gaps:
   - The case-law connector does not provide a dedicated reporter-citation lookup or opinion-text operation. Checks need a full-text source when its returned material is insufficient.
   - State docket coverage through Trellis was planned and is unavailable. Use authoritative public or supplied records where available.
@@ -29,7 +29,7 @@ For a draft check, save a citation report and annotated copy alongside the filin
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What can proceed on this entry?
 
@@ -54,7 +54,7 @@ Use the `wiser` Workspace Model and the owning root's instructions and matter's 
 4. **Read sources manually when needed.** Prefer the issuing court, official reporter or statute/rule publisher. Where retrieval is allowed, use the available browser to search CourtListener's public opinion pages or Google Scholar's Case law search. Use the Caselaw Access Project only if its exact opinion page can be opened. Search by name or citation, open the actual opinion, and compare reporter citation, page and holding. For Colorado, use the official legislative or judicial publisher for statutes or court rules as applicable. If login or a CAPTCHA intervenes, ask the litigant to handle it in their browser or supply the authority. If the source cannot be obtained through an available path or a supplied copy, leave the flag and name the exact material needed.
 5. **Record the result.** For every occurrence, report cite, location, proposition and pinpoint, authoritative source consulted and the exact URL or supplied file location, check result, and any limitation or next step. Use `verified` only when the cite exists in the stated form, matches the intended authority and supports its use, including any quote or paraphrase, and fits the applicable forum and date. Otherwise use `unverified` and preserve the citation for human resolution. Append `[verify]` at the cite in the annotated draft, in an exhibit note keyed to its original locator, or in the citations-only occurrence entry.
    - In the report, record the scope as exactly `full` or `partial` and the date as YYYY-MM-DD. For a draft check, record the draft path and SHA-256 and the manifest with each exhibit identifier, original path, SHA-256 and coverage (`complete` or `incomplete`). Include any companion text evidence and occurrence locators. Record exactly one citation clearance value, `cleared` or `held`. Use `cleared` only for full coverage of the exact draft and manifest with every occurrence verified and no unresolved `[verify]`. Any incomplete coverage, unresolved citation or proposition, missing artifact, or draft flag yields `held`. Carry the preflight disposition separately in the report. Citation clearance only covers authority and artifact coverage.
-   - For a draft check, save `citation-report.md` and, when the exact draft is readable, `annotated-<draft-stem>.md` in the confirmed build directory. If a draft or destination is unavailable, deliver the findings and name the missing input before promising the affected file. For citations-only work, return the report to the caller or person, or save `citation-report.md` in the confirmed directory when requested. Leave originals intact. If any output path is occupied, preserve it and use the same first numbered suffix, starting at `-2`, that leaves every output path unused. Apply the Handoff label to each review output before delivery.
+   - For a draft check, save `citation-report.md` and, when the exact draft is readable, `annotated-<draft-stem>.md` in the confirmed build directory. If a draft or destination is unavailable, deliver the findings and name the missing input before promising the affected file. For citations-only work, return the report to the caller or person, or save `citation-report.md` in the confirmed directory when requested. Leave originals intact. If any output path is occupied, preserve it and use the same first numbered suffix, starting at `-2`, that leaves every output path unused. Give the Handoff label in the handoff message that delivers a review output, never inside the report or the annotated draft.
 
 ## Pitfalls
 

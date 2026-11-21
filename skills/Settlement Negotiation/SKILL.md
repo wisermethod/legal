@@ -3,7 +3,7 @@ name: Settlement Negotiation
 type: skill
 category: litigation-phase
 description: A settlement preparation packet with sourced scenario assumptions, negotiation options, and a terms and dismissal review
-version: 0.3.2
+version: 0.3.3
 gaps:
   - verified settlement valuation, Rule 408, confidentiality, enforcement, dismissal, and tax guidance
 ---
@@ -36,7 +36,7 @@ A preparation partner who exposes assumptions, costs and unresolved terms and le
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What can proceed on this entry?
 
@@ -65,7 +65,7 @@ If no outward document is requested, complete the private packet. If a document 
 
 Draft original filing prose within this skill using the [Draft Motion filing prose checklist](../Draft%20Motion/SKILL.md#filing-prose-checklist). Apply its [Document registers](../Draft%20Motion/SKILL.md#document-registers) to each other item. Use its [Opposing-counsel correspondence checklist](../Draft%20Motion/SKILL.md#opposing-counsel-correspondence-checklist) for counsel messages. Follow verified forms and procedural requirements for structured documents.
 
-Apply the filing checks below only to an exact draft proposed for filing or submission to the forum. For private work without an outward draft, save and return the labeled packet. For an offer, letter or unfiled agreement, use the final handoff below with the saved draft and the applicable communication or signature holds.
+Apply the filing checks below only to an exact draft proposed for filing or submission to the forum. For private work without an outward draft, save and return the packet. For an offer, letter or unfiled agreement, use the final handoff below with the saved draft and the applicable communication or signature holds.
 
 For a proposed submission, follow [Produce Court Filing’s phase handoff](../Produce%20Court%20Filing/SKILL.md#what-does-a-phase-send-for-filing-production).
 

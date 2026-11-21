@@ -3,7 +3,7 @@ name: Venue Selection
 type: skill
 category: litigation-phase
 description: A sourced court and venue comparison with jurisdiction, threshold, timing, and procedural risk checks in the matter file
-version: 0.4.2
+version: 0.4.3
 gaps:
   - Local court variations and case-specific venue, fee, appeal, transfer and removal questions still need current sources.
 ---
@@ -36,7 +36,7 @@ A forum researcher who establishes legal eligibility separately from cost, speed
 
 ## Steps
 
-Apply the [Handoff label](../../AGENTS.md#handoff-label) in the saved comparison and whenever this work returns an assessment, packet or draft to the person, including on an early return.
+Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message whenever this work returns an assessment, packet or draft to the person, including on an early return. Never write it inside a document.
 
 ### What can proceed on this entry?
 
