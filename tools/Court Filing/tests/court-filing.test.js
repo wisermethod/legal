@@ -12,7 +12,7 @@ import { test } from 'node:test';
 import { Marked } from 'marked';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { checkMarkdownToken, compose, prepareBody } from '../scripts/compose-core.js';
-import { resolveLimits, validateCaption, validateProfile } from '../scripts/schema-core.js';
+import { classifyTitle, resolveLimits, validateCaption, validateProfile } from '../scripts/schema-core.js';
 import { markdownWordCount, printedBodyText, wordCount } from '../scripts/body-text-core.js';
 import { validate } from '../scripts/validate-core.js';
 import { bodyEvidence, removeRepeatedHeaders } from '../scripts/filing-text-core.js';
@@ -475,7 +475,7 @@ pdfTest('certificate words in the body do not replace a certificate block', asyn
   assert.equal(checksByName(result)['Service email present: service@example.invalid'], 'fail');
 });
 
-pdfTest('certificate date uses the composed year and accepts a complete date one year either way', async t => {
+pdfTest('certificate date uses the caption year for preprints and complete dates one year either way', async t => {
   const caption = { ...example(), certificate_year: 2098 };
   const captionPath = join(temp(t), 'caption.json');
   writeFileSync(captionPath, JSON.stringify(caption));
@@ -484,15 +484,19 @@ pdfTest('certificate date uses the composed year and accepts a complete date one
   assert.throws(() => validateCaption({ ...caption, certificate_year: '2098' }, profile()), /four-digit year/);
   for (const [certificateDate, status] of [
     ['____ day of __________, 2098', 'pass'],
+    ['____ day of __________, 2097', 'pass'],
+    ['____ day of __________, 2099', 'pass'],
+    ['____ day of __________, 2100', 'fail'],
     ['12th day of January, 2099', 'pass'],
     ['31 day of December, 2097', 'pass'],
+    ['1st day of Oct., 2098', 'pass'],
+    ['3rd day of Nov, 2098', 'pass'],
     ['12 day of January, 2100', 'fail'],
     ['12 day of January, 2096', 'fail'],
     ['29 day of February, 2099', 'fail'],
     ['12 day of January, ____', 'fail'],
     ['12 day of __________, 2098', 'fail'],
     ['____ day of January, 2098', 'fail'],
-    ['____ day of __________, 2099', 'fail'],
   ]) {
     const pdf = await fixture(t, { caption, certificateDate });
     const checks = checksByName(validateFile(pdf, { caption: captionPath }).result);
@@ -500,14 +504,52 @@ pdfTest('certificate date uses the composed year and accepts a complete date one
     assert.equal(checks['Certificate of service present'], 'pass');
     assert.equal(checks['Composed body SHA-256'], 'pass');
   }
-  const withoutOverride = await fixture(t, { caption, certificateDate: '12 day of January, 2099' });
-  const recorded = checksByName(validateFile(withoutOverride).result);
-  assert.equal(recorded['Certificate date fields'], 'pass');
-  assert.equal(recorded['Composed body SHA-256'], 'pass');
-  const archived = await fixture(t, { metadata: 'Court Filing ' + fixtureDigest, certificateDate: '____ day of __________, 2026' });
+  const calendarYear = new Date().getFullYear();
+  const withoutOverride = await fixture(t, { caption: { ...caption, certificate_year: calendarYear + 4 },
+    certificateDate: '12 day of January, ' + (calendarYear + 4) });
+  const movedYear = checksByName(validateFile(withoutOverride).result);
+  assert.equal(movedYear['Certificate date fields'], 'fail');
+  assert.equal(movedYear['Composed body SHA-256'], 'pass');
+  const archived = await fixture(t, { metadata: 'Court Filing ' + fixtureDigest,
+    certificateDate: '____ day of __________, ' + calendarYear });
   const archivedChecks = checksByName(validateFile(archived).result);
   assert.equal(archivedChecks['Certificate date fields'], 'pass');
   assert.equal(archivedChecks['Composed body SHA-256'], 'pass');
+});
+
+pdfTest('injected validation date anchors the certificate independently of PDF metadata', async t => {
+  const current = profile();
+  current.layout.certificate_year = 2030;
+  const caption = example();
+  const title = 'Court Filing ' + fixtureDigest;
+  const prepared = prepareBody(fixtureBody, current.document_types.motion, parse, digest);
+  const limits = resolveLimits(current, caption, { preset: 'general-motion-pages' });
+  for (const [validationYear, metadataYear, certificateDate, expected] of [
+    [2026, 2030, '____ day of __________, 2030', 'fail'],
+    [2026, 2030, '12th day of Sept., 2030', 'fail'],
+    [2026, 2030, '12th day of Sept., 2026', 'pass'],
+    [2026, 2026, '12th day of Sept, 2026', 'pass'],
+    [2026, 2026, '12th day of Sep., 2026', 'pass'],
+    [2026, 2026, '31 day of Sept., 2026', 'fail'],
+    [2027, 2026, '____ day of __________, 2026', 'pass'],
+    [2026, 2027, '____ day of __________, 2027', 'pass'],
+    [2027, null, '____ day of __________, 2027', 'pass'],
+    [2028, 2026, '____ day of __________, 2026', 'fail'],
+    [2028, 2028, '29th day of Feb., 2028', 'pass'],
+  ]) {
+    const metadata = metadataYear ? title + ' | Certificate year ' + metadataYear : title;
+    const pdf = await fixture(t, { metadata, certificateDate });
+    const validationDate = new Date(validationYear, 0, 1);
+    const result = validate({ pdf, caption, profile: current, limits, prepared, validationDate }, kind => {
+      if (kind === 'page-info') return spawnSync('pdfinfo', ['-box', '-f', '1', '-l', '2', pdf]).stdout;
+      if (kind === 'text') return spawnSync('pdftotext', ['-enc', 'UTF-8', '-raw', pdf, '-']).stdout;
+      return null;
+    });
+    const checks = checksByName(result);
+    assert.equal(checks['Certificate of service present'], 'pass', certificateDate);
+    assert.equal(checks['Certificate date fields'], expected, certificateDate);
+    assert.equal(checks['Composed body SHA-256'], 'pass');
+  }
 });
 
 pdfTest('a 16-page PDF fails the selected 15-page profile preset', async t => {
@@ -653,6 +695,162 @@ test('the longer page presets require an actual Rule 12 or 56 motion phrase', ()
   }
 });
 
+test('classifies real title forms before falling back and refuses only definite second papers', () => {
+  const current = validateProfile(profile());
+  const cases = [
+    ['discovery-response', "Defendant's Answers to Plaintiff's First Set of Interrogatories"],
+    ['discovery-response', "Defendant's Answers and Objections to Plaintiff's First Set of Interrogatories"],
+    ['discovery-response', "Plaintiff's Supplemental Responses to Defendant's First Set of Interrogatories"],
+    ['discovery-response', "Objections and Responses to Plaintiff's First Set of Requests for Production"],
+    ['discovery-response', "Defendant's Objections and Answers to the Third Set of Interrogatories"],
+    ['discovery-response', 'Amended Answers and Objections to the Second Set of Interrogatories'],
+    ['discovery-response', 'Supplemental Objections and Responses to Requests for Admission'],
+    ['discovery-response', 'Answer to the Fourth Set of Interrogatories'],
+    ['motion', "Plaintiff's Opposed Motion to Compel"],
+    ['motion', "Plaintiff's Supplemental Motion to Compel"],
+    ['motion', 'Motion for Leave to File a Sur-Reply'],
+    ['motion', 'Motion to Strike the Response'],
+    ['motion', 'Motion to Strike (And Motion to Strike in the Quoted Heading)'],
+    ['motion', 'Motion to Strike (Use Exhibit (A) and Notice of Hearing for Reference)'],
+    ['brief', 'Brief in Support of the Motion to Dismiss'],
+    ['brief', 'Brief in Support of Its Motion to Confirm the Award'],
+    ['brief', 'Memorandum in Support of His Motion to Exclude Testimony'],
+    ['brief', 'Brief in Support of Her Motion for Extension of Time'],
+    ['brief', 'Brief in Support of Their Motion to Adjust Discovery Limits'],
+    ['answer', "Defendant's Amended Answer"],
+    ['answer', 'Answer and Counterclaim'],
+    ['answer', 'Answer and Counterclaims'],
+    ['answer', 'Answer and Affirmative Defenses'],
+    ['answer', 'Answer and Jury Demand'],
+    ['answer', 'Answer and Counterclaims and Jury Demand'],
+    ['case-management-submission', "Plaintiff's Proposed Case Management Order on Outstanding Discovery Responses"],
+    ['case-management-submission', 'Amended Proposed Case-Management Order Regarding the Notice of Hearing'],
+    ['other-paper', 'Case Management Order'],
+    ['other-paper', 'Amended Case Management Order'],
+    ['other-paper', 'Response to Motion to Dismiss and Motion to Strike'],
+    ['other-paper', 'Response to Motion for Summary Judgment and Motion to Strike'],
+    ['other-paper', 'Notice Regarding the Hearing and the Supplemental Motion for Leave'],
+    ['other-paper', 'Notice Regarding the Hearing and Supplemental Motion for Leave'],
+    ['other-paper', 'Statement Re: Exhibit Numbering & Reply to Objections'],
+    ['other-paper', 'Motion for Leave to File a Sur-Reply and Response to Supplemental Authority'],
+    ['other-paper', 'Motion for Settlement Conference and Response Deadlines'],
+    ['other-paper', 'Status Report on Courtroom Access and Notice Requirements'],
+    ['other-paper', 'Notice of Entry of a Substituted Appearance'],
+    ['rule-12-or-56-motion', 'Opposed Motion for Partial Summary Judgment'],
+    ['rule-12-or-56-response', 'Supplemental Opposition to the Motion for Partial Summary Judgment'],
+    ['rule-12-or-56-reply', 'Joint Reply in Support of the Motion for Summary Judgment'],
+    ['response', 'Amended Response to an Objection About the Exhibit Index'],
+    ['reply', 'Reply to Written Objections Regarding the Proposed Schedule'],
+    [null, 'Renewed Motion for Summary Judgment and Motion to Strike'],
+    [null, 'Joint Response and Motion for Sanctions'],
+    [null, 'Amended Reply and Motion for Leave'],
+    [null, "Reply & Defendant's Supplemental Cross-Motion for Leave"],
+    [null, 'Motion for Summary Judgment; Amended Opposition to Leave'],
+    [null, 'Answer, and Joint Notice of Hearing'],
+    [null, 'Notice of Hearing and Answer to an Amended Complaint'],
+    [null, 'Status Report & Brief in Support of a Motion'],
+    [null, 'Answer and Counterclaims & Motion for Leave'],
+    [null, 'Proposed Order Setting a Hearing; Separate Notice of Setting'],
+    [null, 'Motion to Compel and Example Workshop LLC’s Motion for Sanctions'],
+    [null, 'Example Workshop LLC’s Motion to Compel and Reply to Objections'],
+    [null, "Memorandum of Costs, and Plaintiffs' Reply"],
+    [null, 'Answer and Cross Motion'],
+    [null, 'Reply and Counterclaim for Restitution'],
+    [null, 'Response; and Requesting Party’s Renewed Motion for Leave'],
+    [null, 'Response and Brief'],
+    [null, 'Reply and Opposition'],
+  ];
+  for (const [type, title] of cases) {
+    if (type) {
+      assert.equal(classifyTitle(current, title), type, title);
+      const caption = { ...example(), title, document_type: type };
+      assert.equal(validateCaption(caption, current).title, title);
+    } else {
+      assert.throws(() => classifyTitle(current, title), /does not match a single paper/, title);
+      for (const document_type of Object.keys(current.document_types)) {
+        const caption = { ...example(), title, document_type };
+        assert.throws(() => compos({ caption, body: body(), profile: current }), /does not match a single paper/, title);
+      }
+    }
+  }
+});
+
+test('every independently written ordinary title composes verbatim', () => {
+  const current = validateProfile(profile());
+  const titles = [
+    "Statement of Compliance with the Scheduling Directive",
+    "Application to Attend the Conference by Telephone",
+    "Request for a Certified Copy of the Docket",
+    "Designation of a Substitute Custodian of Records",
+    "Objection to the Taxation of Transcript Costs",
+    "Withdrawal of a Pending Request for Clarification",
+    "Election to Proceed on the Existing Record",
+    "Amendment to the List of Trial Exhibits",
+    "Summary of Undisputed Ledger Entries",
+    "Verification of the Corrected Exhibit Index",
+    "Tender of the Revised Demonstrative Set",
+    "Consent to the Use of Recorded Testimony",
+    "Reservation of Objections to the Transcript",
+    "Submission of Agreed Corrections to the Minutes",
+    "Defendant's Supplemental Disclosures for the Status Conference",
+    "Filer's Statement Regarding the Availability of an Interpreter",
+    "Witness List and Exhibit List for the Evidentiary Hearing",
+    "Affidavit of the Museum's Records Custodian",
+    "Declaration Concerning the Timing of the Delivery",
+    "Acknowledgment of Receipt of the Sealed Materials",
+    "Certificate of Compliance with the Exchange Schedule",
+    "Praecipe for a Transcript of the Status Conference",
+    "Memorandum Regarding the Treatment of Archived Photographs",
+    "Petition to Preserve the Original Specimens",
+    "Stipulation for the Return of the Demonstrative Models",
+    "Status Update Following the Equipment Inspection",
+    "Filing of the Corrected Site Diagram",
+    "Supplement to the Register of Recorded Statements",
+    "Objections to the Form of the Lodged Judgment",
+    "Written Election of the Preferred Hearing Dates",
+  ];
+  for (const title of titles) {
+    const document_type = classifyTitle(current, title);
+    assert.ok(document_type, title);
+    const caption = { ...example(), title, document_type };
+    const { html } = compos({ caption, body: fixtureBody, profile: current });
+    assert.ok(html.includes('class="doc-title">' + title + '</td>'), title);
+  }
+});
+
+test('other-paper keeps the real title, both general limits and the filer and service blocks', () => {
+  const current = validateProfile(profile());
+  const caption = { ...example(), title: 'Notice of Entry of a Substituted Appearance', document_type: 'other-paper' };
+  const { html } = compos({ caption, body: fixtureBody, profile: current });
+  assert.ok(html.includes('class="doc-title">' + caption.title + '</td>'));
+  assert.match(html, /class="closing"/);
+  assert.match(html, /class="cert"/);
+  for (const field of ['signer', 'service']) {
+    const incomplete = { ...caption };
+    delete incomplete[field];
+    assert.throws(() => validateCaption(incomplete, current), new RegExp(field + ' (?:is required|must be supplied)'));
+  }
+  assert.throws(() => validateCaption({ ...caption, document_type: 'motion' }, current), /title does not match.*Use other-paper/);
+  assert.throws(() => validateCaption({ ...caption, title: example().title }, current), /title does not match.*Use motion/);
+  for (const document_type of ['case-management-submission', 'proposed-order']) {
+    assert.throws(() => validateCaption({ ...caption, title: 'Case Management Order', document_type }, current),
+      /title does not match.*Use other-paper/);
+  }
+  assert.deepEqual(resolveLimits(current, caption), { choice: 'profile-fallback', preset: null, pages: 15, words: 4000 });
+  assert.deepEqual(resolveLimits(current, caption, { pages: 12 }), {
+    choice: 'explicit-maxima', preset: null, pages: 12, words: 4000,
+  });
+  for (const preset of ['general-motion-pages', 'general-motion-words']) {
+    assert.deepEqual(resolveLimits(current, caption, { preset }), { choice: 'profile-preset', preset, pages: 15, words: 4000 });
+  }
+  for (const preset of ['rule-12-or-56-motion-pages', 'rule-12-or-56-reply-pages']) {
+    assert.throws(() => resolveLimits(current, caption, { preset }), /not listed/);
+  }
+  assert.throws(() => resolveLimits(current, caption, { noLimit: true }), /not allowed/);
+  assert.throws(() => resolveLimits(current, caption, { pages: 16 }), /cannot exceed/);
+  assert.throws(() => resolveLimits(current, caption, { words: 4001 }), /cannot exceed/);
+});
+
 test('word evidence reconciles a hyphenated line wrap without accepting different text', () => {
   assert.deepEqual(bodyEvidence([['This is court-', 'approved.']], 'This is court-approved.'),
     { wordsMatch: true, pdfBodyWords: 3 });
@@ -752,6 +950,8 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
     ]),
     ['disclosure', { ...example(), document_type: 'discovery-disclosure', title: 'Supplemental Disclosures Regarding Exhibits' },
       fixtureBody, noLimit],
+    ['fallback', { ...example(), document_type: 'other-paper', title: 'Notice of Entry of a Substituted Appearance' },
+      fixtureBody, []],
     ['dated', { ...example(), certificate_year: 2098 }, fixtureBody, motionLimit],
   ];
   for (const [name, fields, markdown, flags, selected = 'colorado-district'] of cases) {
@@ -775,6 +975,16 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
     assert.equal(result.pdfSha256, digest(readFileSync(out)));
     assert.equal(checksByName(result)['Certificate of service present'],
       ['exempt', 'proposed', 'supporting', 'ruled-order'].includes(name) ? 'not_applicable' : 'pass');
+    if (name === 'fallback') {
+      assert.deepEqual(result.limits, { choice: 'profile-fallback', preset: null, pages: 15, words: 4000 });
+      assert.deepEqual(result.checks.find(check => check.label === 'Document type fallback'), {
+        label: 'Document type fallback', status: 'pass',
+        detail: 'The title matched no specific type. The general limits were applied (15 pages and 4000 words).',
+      });
+      assert.equal(checksByName(result)['Signer in signature block'], 'pass');
+      assert.equal(checksByName(result)['Within page limit (15)'], 'pass');
+      assert.equal(checksByName(result)['Within word limit (4000)'], 'pass');
+    }
     if (name === 'proposed') {
       assert.equal(checksByName(result)['Judicial signature block in proposed order'], 'pass');
       assert.equal(checksByName(result)['Filer signature and certificate of service absent'], 'pass');

@@ -20,7 +20,6 @@
       "position": "center"
     },
     "caption_style": "Two-column boxed table; left column court and parties; right column COURT USE ONLY box, case number, division",
-    "certificate_year": 2026,
     "pdf_font_names": [
       "TimesNewRomanPSMT",
       "TimesNewRomanPS-BoldMT",
@@ -230,8 +229,20 @@
     }
   },
   "document_types": {
+    "rule-12-or-56-motion": {
+      "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion +(?:for +(?:partial +)?summary judgment\\b(?! +(?:hearing|conference)\\b)|to +dismiss +(?:under|pursuant +to) +(?:rule|c\\.r\\.c\\.p\\.) +12\\(b\\)\\([12]\\)(?![\\w(])).*",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": [
+        "rule-12-or-56-motion-pages"
+      ]
+    },
     "motion": {
-      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion\\b.*",
+      "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion\\b.*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -243,8 +254,18 @@
         "general-motion-words"
       ]
     },
-    "rule-12-or-56-motion": {
-      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion +(?:for +(?:partial +)?summary judgment\\b(?! +(?:hearing|conference)\\b)|to +dismiss +(?:under|pursuant +to) +(?:rule|c\\.r\\.c\\.p\\.) +12\\(b\\)\\([12]\\)(?![\\w(])).*",
+    "discovery-response": {
+      "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:(?:answers?|responses?)(?: +and +objections)?|objections +and +(?:answers?|responses?)) +to +(?:the +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|(?:thir|four|fif|six|seven|eigh|nine)teenth|(?:twentieth|thirtieth)|(?:twenty|thirty)[- ](?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth)|\\d+(?:st|nd|rd|th)) +(?:set +of +)?)?(?:interrogatories|requests? +for +(?:production|admissions?))\\b.*",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": null
+    },
+    "rule-12-or-56-response": {
+      "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:response|opposition)(?: +brief)? +(?:to|in +opposition +to) +(?:the +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion +(?:for +(?:partial +)?summary judgment\\b(?! +(?:hearing|conference)\\b)|to +dismiss +(?:under|pursuant +to) +(?:rule|c\\.r\\.c\\.p\\.) +12\\(b\\)\\([12]\\)(?![\\w(])).*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -256,7 +277,7 @@
       ]
     },
     "response": {
-      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:response|opposition)(?: +brief)?\\b.*",
+      "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:response|opposition)(?: +brief)?\\b.*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -268,8 +289,8 @@
         "general-motion-words"
       ]
     },
-    "rule-12-or-56-response": {
-      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:response|opposition)(?: +brief)? +(?:to|in +opposition +to) +(?:the +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion +(?:for +(?:partial +)?summary judgment\\b(?! +(?:hearing|conference)\\b)|to +dismiss +(?:under|pursuant +to) +(?:rule|c\\.r\\.c\\.p\\.) +12\\(b\\)\\([12]\\)(?![\\w(])).*",
+    "rule-12-or-56-reply": {
+      "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?reply(?: +brief)? +(?:in +support +of|to) +(?:the +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion +(?:for +(?:partial +)?summary judgment\\b(?! +(?:hearing|conference)\\b)|to +dismiss +(?:under|pursuant +to) +(?:rule|c\\.r\\.c\\.p\\.) +12\\(b\\)\\([12]\\)(?![\\w(])).*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -277,11 +298,11 @@
       "allow_blank_division": false,
       "filing_packet": null,
       "length_presets": [
-        "rule-12-or-56-motion-pages"
+        "rule-12-or-56-reply-pages"
       ]
     },
     "reply": {
-      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?reply(?: +brief)?\\b.*",
+      "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?reply(?: +brief)?\\b.*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -293,20 +314,8 @@
         "general-reply-words"
       ]
     },
-    "rule-12-or-56-reply": {
-      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?reply(?: +brief)? +(?:in +support +of|to) +(?:the +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion +(?:for +(?:partial +)?summary judgment\\b(?! +(?:hearing|conference)\\b)|to +dismiss +(?:under|pursuant +to) +(?:rule|c\\.r\\.c\\.p\\.) +12\\(b\\)\\([12]\\)(?![\\w(])).*",
-      "filer_signature": true,
-      "certificate": true,
-      "judicial_closing": false,
-      "blank_case_number": false,
-      "allow_blank_division": false,
-      "filing_packet": null,
-      "length_presets": [
-        "rule-12-or-56-reply-pages"
-      ]
-    },
     "brief": {
-      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:brief|memorandum) +in +support +of +(?:a +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion\\b.*",
+      "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:brief|memorandum) +in +support +of +(?:(?:a|the|its|his|her|their) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?motion\\b.*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -319,7 +328,7 @@
       ]
     },
     "new-case-complaint": {
-      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:verified +)?(?:initial +)?complaint\\b(?!(?:.*\\b(?:motion|response|reply|brief|notice)\\b)).*",
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:verified +)?(?:initial +)?complaint\\b.*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -329,7 +338,7 @@
       "length_presets": null
     },
     "amended-complaint": {
-      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:verified +)?(?:(?:first|second|third) +)?amended +complaint\\b(?!(?:.*\\b(?:motion|response|reply|brief|notice)\\b)).*",
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:verified +)?(?:(?:first|second|third) +)?amended +complaint\\b.*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -339,7 +348,7 @@
       "length_presets": null
     },
     "answer": {
-      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?answer\\b(?!.*\\b(?:motion|response|reply|brief|notice)\\b).*",
+      "title_pattern": "(?:(?:pro se )?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:amended|supplemental|verified) +)*answer\\b.*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -349,17 +358,7 @@
       "length_presets": null
     },
     "discovery-request": {
-      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|(?:thir|four|fif|six|seven|eigh|nine)teenth|(?:twentieth|thirtieth)|(?:twenty|thirty)[- ](?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth)|\\d+(?:st|nd|rd|th)) +(?:set +of +)?)?(?:interrogatories|requests? +for +(?:production|admissions?))\\b(?!.*\\b(?:motion|responses?|reply|brief|notice)\\b).*",
-      "filer_signature": true,
-      "certificate": true,
-      "judicial_closing": false,
-      "blank_case_number": false,
-      "allow_blank_division": false,
-      "filing_packet": null,
-      "length_presets": null
-    },
-    "discovery-response": {
-      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?responses?(?: +and +objections)? +to +(?:the +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|(?:thir|four|fif|six|seven|eigh|nine)teenth|(?:twentieth|thirtieth)|(?:twenty|thirty)[- ](?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth)|\\d+(?:st|nd|rd|th)) +(?:set +of +)?)?(?:interrogatories|requests? +for +(?:production|admissions?))\\b(?!.*\\b(?:motion|responses?|reply|brief|notice)\\b).*",
+      "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:cross[- ])?(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|(?:thir|four|fif|six|seven|eigh|nine)teenth|(?:twentieth|thirtieth)|(?:twenty|thirty)[- ](?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth)|\\d+(?:st|nd|rd|th)) +(?:set +of +)?)?(?:interrogatories|requests? +for +(?:production|admissions?))\\b.*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -369,7 +368,7 @@
       "length_presets": null
     },
     "discovery-disclosure": {
-      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|(?:thir|four|fif|six|seven|eigh|nine)teenth|(?:twentieth|thirtieth)|(?:twenty|thirty)[- ](?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth)|\\d+(?:st|nd|rd|th)) +)?(?:(?:initial|supplemental) +)?disclosures?\\b(?!.*\\b(?:motion|responses?|reply|brief|notice)\\b).*",
+      "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|(?:thir|four|fif|six|seven|eigh|nine)teenth|(?:twentieth|thirtieth)|(?:twenty|thirty)[- ](?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth)|\\d+(?:st|nd|rd|th)) +)?(?:(?:initial|supplemental) +)?disclosures?\\b.*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -379,7 +378,7 @@
       "length_presets": null
     },
     "case-management-submission": {
-      "title_pattern": "(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|joint|amended|verified|renewed|stipulated|expedited) +)*(?:proposed +)?case[- ]management +order\\b(?!.*\\b(?:motion|responses?|reply|brief|notice)\\b).*",
+      "title_pattern": "(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:(?:pro se +)?(?:plaintiff|defendant|petitioner|respondent)(?:['’]s|s['’]) +)?(?:(?:emergency|unopposed|opposed|joint|amended|supplemental|verified|renewed|stipulated|expedited) +)*(?:\\[proposed\\]|proposed) +case[- ]management +order\\b.*",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -407,6 +406,19 @@
       "allow_blank_division": false,
       "filing_packet": "motion_response_with_declaration",
       "length_presets": null
+    },
+    "other-paper": {
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": [
+        "general-motion-pages",
+        "general-motion-words"
+      ]
     }
-  }
+  },
+  "fallback_document_type": "other-paper"
 }

@@ -1,3 +1,5 @@
+import { titleScope } from './title-core.js';
+
 export const PAGE_SIZES = Object.freeze({
   Letter: [612, 792],
   Legal: [612, 1008],
@@ -107,13 +109,34 @@ export function documentType(profile, caption) {
   return Object.hasOwn(profile.document_types, caption.document_type) ? profile.document_types[caption.document_type] : null;
 }
 
+function matchingTitleTypes(profile, title, at) {
+  const fallback = profile.fallback_document_type;
+  const scope = titleScope(title);
+  if (scope === 'combined') throw new Error(at + ' does not match a single paper. Compose each paper separately.');
+  if (scope === 'ambiguous' && fallback) return [fallback];
+  const matches = Object.entries(profile.document_types)
+    .filter(([key, treatment]) => key !== fallback && (treatment.exact_title !== undefined ?
+      title === treatment.exact_title : new RegExp('^(?:' + treatment.title_pattern + ')$', 'iu').test(title)))
+    .map(([key]) => key);
+  return matches.length || !fallback ? matches : [fallback];
+}
+
+export function classifyTitle(profile, title) {
+  text(title, 'title');
+  return matchingTitleTypes(profile, title, 'title')[0] ?? null;
+}
+
 export function validateCaption(value, profile, at = 'caption') {
   captionShape(value, at);
   const treatment = documentType(profile, value);
   if (!treatment) throw new Error(at + '.document_type is not listed for this profile. Run profiles.');
-  const titleMatches = treatment.exact_title !== undefined ? value.title === treatment.exact_title :
-    new RegExp('^(?:' + treatment.title_pattern + ')$', 'iu').test(value.title);
-  if (!titleMatches) throw new Error(at + '.title does not match the pattern for ' + value.document_type + '.');
+  const matches = matchingTitleTypes(profile, value.title, at + '.title');
+  if (!matches.includes(value.document_type)) {
+    const fallback = profile.fallback_document_type;
+    const guidance = !fallback ? '' : matches[0] === fallback ? ' Use ' + fallback + ' with the real title.' :
+      ' Use ' + matches[0] + ' for this title. Use ' + fallback + ' when no specific type fits.';
+    throw new Error(at + '.title does not match the pattern for ' + value.document_type + '.' + guidance);
+  }
   if ((value.filing_packet ?? null) !== treatment.filing_packet) {
     throw new Error(at + '.filing_packet must match the profile document type: ' + (treatment.filing_packet ?? 'omit it') + '.');
   }
@@ -158,9 +181,10 @@ const layout = shape({
   body_line_height: number(1, 5),
   footer,
   caption_style: text,
+  pdf_font_names: list(fontName, 1),
+}, {
   certificate_year: (value, at) => required(value, at,
     x => x === null || isYear(x), 'a four-digit year or null'),
-  pdf_font_names: list(fontName, 1),
 });
 
 const evidence = choice('working-default', 'recorded-in-source', 'verify');
@@ -205,9 +229,6 @@ const documentTypes = (value, at) => {
     id(key, at + ' document type identifier');
     const path = at + '.' + key;
     entry(treatment, path);
-    if (Boolean(treatment.exact_title) === Boolean(treatment.title_pattern)) {
-      throw new Error(path + ' requires one of exact_title and title_pattern.');
-    }
     if (treatment.title_pattern) new RegExp('^(?:' + treatment.title_pattern + ')$', 'iu');
     if (treatment.judicial_closing && (treatment.filer_signature || treatment.certificate) ||
         !treatment.judicial_closing && !treatment.filer_signature ||
@@ -230,11 +251,20 @@ const profileShape = shape({
   rules: list(shape({ citation, verification: evidence, notes: text })),
   filing_packets: packets,
   document_types: documentTypes,
+}, {
+  fallback_document_type: id,
 });
 
 export function validateProfile(value) {
   profileShape(value, 'profile');
   for (const [key, treatment] of Object.entries(value.document_types)) {
+    if (key === value.fallback_document_type) {
+      if (treatment.exact_title || treatment.title_pattern) {
+        throw new Error('profile.fallback_document_type takes every eligible title without a specific match.');
+      }
+    } else if (Boolean(treatment.exact_title) === Boolean(treatment.title_pattern)) {
+      throw new Error('profile.document_types.' + key + ' requires one of exact_title and title_pattern.');
+    }
     if (treatment.double_spacing && (!value.validation.double_spacing ||
         new Set(treatment.double_spacing).size !== treatment.double_spacing.length)) {
       throw new Error('profile.document_types.' + key + '.double_spacing needs a sourced validation.double_spacing rule and distinct categories.');
@@ -246,6 +276,14 @@ export function validateProfile(value) {
       if (!Object.hasOwn(value.validation.limits, preset)) {
         throw new Error('profile.document_types.' + key + ' refers to an unlisted length preset.');
       }
+    }
+  }
+  if (value.fallback_document_type) {
+    const fallback = documentType(value, { document_type: value.fallback_document_type });
+    const ceilings = fallback?.length_presets?.map(preset => value.validation.limits[preset]);
+    if (!fallback?.certificate || fallback.filing_packet || ceilings?.length !== 2 ||
+        new Set(ceilings.map(limit => limit.unit)).size !== 2 || ceilings.some(limit => limit.verification === 'verify')) {
+      throw new Error('profile.fallback_document_type must name a paper type with filer signature, certificate, and applicable page and word presets.');
     }
   }
   validateCaption(value.caption_defaults, value, 'profile.caption_defaults');
@@ -262,6 +300,7 @@ export function validateProfile(value) {
 
 export function resolveLimits(profile, caption, { preset, pages, words, noLimit = false } = {}) {
   const allowed = documentType(profile, caption).length_presets;
+  const fallback = caption.document_type === profile.fallback_document_type;
   if (noLimit) {
     if ([preset, pages, words].some(value => value !== undefined)) {
       throw new Error('--no-length-limit cannot be combined with a preset or explicit maxima.');
@@ -279,15 +318,28 @@ export function resolveLimits(profile, caption, { preset, pages, words, noLimit 
     if (selected.verification === 'verify') {
       throw new Error('This --limit requires verification. Use an explicit maximum after checking the applicable rule or order.');
     }
-    return {
-      choice: 'profile-preset',
-      pages: selected.unit === 'pages' ? selected.maximum : null,
-      words: selected.unit === 'words' ? selected.maximum : null,
-      preset,
-    };
+    if (!fallback) {
+      return {
+        choice: 'profile-preset',
+        pages: selected.unit === 'pages' ? selected.maximum : null,
+        words: selected.unit === 'words' ? selected.maximum : null,
+        preset,
+      };
+    }
   }
   if (pages !== undefined) positive(pages, '--max-pages');
   if (words !== undefined) positive(words, '--max-words');
+  if (fallback) {
+    const caps = Object.fromEntries(allowed.map(id => {
+      const limit = profile.validation.limits[id];
+      return [limit.unit, limit.maximum];
+    }));
+    if (pages > caps.pages || words > caps.words) {
+      throw new Error('A fallback paper cannot exceed its profile page or word ceiling.');
+    }
+    const choice = preset ? 'profile-preset' : pages !== undefined || words !== undefined ? 'explicit-maxima' : 'profile-fallback';
+    return { choice, pages: pages ?? caps.pages, words: words ?? caps.words, preset: preset ?? null };
+  }
   if (pages === undefined && words === undefined) {
     throw new Error('Choose --limit or supply --max-pages and/or --max-words.');
   }

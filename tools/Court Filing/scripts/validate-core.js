@@ -99,7 +99,7 @@ function pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines
     'Visible ink is within the profile margins, allowing 1.5 pt for print rounding and excluding the matched footer words.'));
 }
 
-export function validate({ pdf, caption, profile, limits, prepared, parseUnavailable = false }, inspect) {
+export function validate({ pdf, caption, profile, limits, prepared, parseUnavailable = false, validationDate = new Date() }, inspect) {
   validateProfile(profile);
   validateCaption(caption, profile);
   const verifiedLimits = resolveLimits(profile, caption, {
@@ -123,6 +123,10 @@ export function validate({ pdf, caption, profile, limits, prepared, parseUnavail
     parseUnavailable ? 'A required Poppler program is unavailable. See unavailable.' :
       info && text ? info.count + ' page(s) with extractable text.' :
         info?.count > MAX_PDF_PAGES ? 'PDF exceeds the ' + MAX_PDF_PAGES + '-page inspection ceiling.' : 'No readable PDF text or page count.');
+  if (caption.document_type === profile.fallback_document_type) {
+    add('Document type fallback', 'pass', 'The title matched no specific type. The general limits were applied (' +
+      limits.pages + ' pages and ' + limits.words + ' words).');
+  }
   if (limits.pages !== null) {
     add('Within page limit (' + limits.pages + ')', info ? resultOf(info.count <= limits.pages) : 'not_checked',
       info ? info.count + ' total PDF page(s), including any parts the rule exempts.' : 'PDF page count is unavailable.');
@@ -131,7 +135,10 @@ export function validate({ pdf, caption, profile, limits, prepared, parseUnavail
     add('No length limit for profile document type', resultOf(documentType(profile, caption).length_presets === null),
       caption.document_type);
   }
-  const { pdfBodyWords, bodyLines, repeated, spacingBound } = filingTextChecks({ caption, profile, extracted, info, prepared, add, positioned });
+  const certificateYear = caption.certificate_year ?? validationDate.getFullYear();
+  const { pdfBodyWords, bodyLines, repeated, spacingBound } = filingTextChecks({
+    caption, profile, extracted, info, prepared, add, positioned, certificateYear,
+  });
   if (limits.words !== null) {
     add('Within word limit (' + limits.words + ')', pdfBodyWords === null || bodyWords === null ? 'not_checked' : resultOf(Math.max(pdfBodyWords, bodyWords) <= limits.words),
       pdfBodyWords === null || bodyWords === null ? 'The PDF body or composition word count is unavailable.' :

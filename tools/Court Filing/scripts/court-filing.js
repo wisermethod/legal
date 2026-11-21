@@ -135,13 +135,14 @@ function usage() {
   return [
     'Usage:',
     '  node scripts/court-filing.js compose --body <absolute Markdown path> --caption <absolute JSON path> --profile <id or absolute JSON path> --out <new absolute HTML path> [--install]',
-    '  node scripts/court-filing.js validate --pdf <absolute PDF path> --caption <absolute JSON path> --profile <id or absolute JSON path> --body-sha256 <compose digest> --body <absolute Markdown path> (--limit <id> | --max-pages <N> and/or --max-words <N> | --no-length-limit) [--install]',
+    '  node scripts/court-filing.js validate --pdf <absolute PDF path> --caption <absolute JSON path> --profile <id or absolute JSON path> --body-sha256 <compose digest> --body <absolute Markdown path> [--limit <id> | --max-pages <N> and/or --max-words <N> | --no-length-limit] [--install]',
     '  node scripts/court-filing.js profiles',
     '  node scripts/court-filing.js check [--install]',
     '  ' + HELP + ' (or --help, also after a command)',
     '',
     '--body is required. Validation parses the original Markdown independently and checks it against the PDF.',
     '--limit selects a preset listed for the document type. --no-length-limit is only for a profile type without a limit.',
+    'For other-paper, omit length flags to use both general limits. Explicit maxima may tighten them.',
     '--install authorizes the package install and completes this command. ' + INSTALL_ONCE,
     '',
   ].join('\n');

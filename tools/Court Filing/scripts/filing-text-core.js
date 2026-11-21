@@ -124,6 +124,7 @@ function calendarDate(year, month, day) {
 
 function monthIndex(name) {
   const normalized = name.toLowerCase().replace(/\.$/u, '');
+  if (normalized === 'sept') return 8;
   return months.findIndex(month => month.toLowerCase() === normalized || month.slice(0, 3).toLowerCase() === normalized);
 }
 
@@ -143,12 +144,9 @@ const mentionsCertificate = text => /\bCERTIFICATE\s*OF\s*SERVICE\b/iu.test(text
 function certificateDateMatches(date, expectedYear) {
   if (!date) return false;
   const [, day, month, printedYear] = date;
-  if (blank.test(day) && blank.test(month)) {
-    return expectedYear === null ? blank.test(printedYear) : printedYear === String(expectedYear);
-  }
   const year = Number(printedYear);
-  return (expectedYear === null || Math.abs(year - expectedYear) <= 1) &&
-    calendarDate(year, monthIndex(month), Number.parseInt(day, 10));
+  if (!Number.isInteger(year) || Math.abs(year - expectedYear) > 1) return false;
+  return blank.test(day) && blank.test(month) || calendarDate(year, monthIndex(month), Number.parseInt(day, 10));
 }
 
 function certificateChecks(caption, expectedYear, lines, check) {
@@ -157,12 +155,12 @@ function certificateChecks(caption, expectedYear, lines, check) {
   const statement = lines.slice(1, statementEnd + 1).join(' ');
   const statementTail = 'a true and correct copy of the foregoing ' + caption.title +
     ' was served by ' + (service.method ?? 'email') + ' to:';
-  const dateMatch = /^I certify that on this (_{3,}|\d{1,2}(?:st|nd|rd|th)?) day of (_{3,}|[A-Za-z]+), (\d{4}|_{3,}), (.*)$/u.exec(statement);
+  const dateMatch = /^I certify that on this (_{3,}|\d{1,2}(?:st|nd|rd|th)?) day of (_{3,}|[A-Za-z]+\.?), (\d{4}|_{3,}), (.*)$/u.exec(statement);
   const hasCertificate = lines[0] === certificateHeading && Boolean(dateMatch) &&
     compact(dateMatch[4]) === compact(statementTail);
   check('Certificate of service present', hasCertificate, 'Own heading and exact service statement after the signature block.');
   check('Certificate date fields', certificateDateMatches(dateMatch, expectedYear),
-    'Exact year on an untouched preprint or a complete calendar date within one year of the composed year.');
+    'Untouched preprint or complete calendar date within one year of ' + expectedYear + '.');
   let cursor = hasCertificate ? statementEnd + 1 : -1;
   for (const recipient of service.recipients) {
     const printed = recipient.name + ' (' + recipient.emails.join('; ') + ')';
@@ -301,7 +299,7 @@ export function bodyEvidence(pages, expected, positioned) {
   };
 }
 
-export function filingTextChecks({ caption, profile, extracted, info, prepared, add, positioned }) {
+export function filingTextChecks({ caption, profile, extracted, info, prepared, add, positioned, certificateYear }) {
   const check = (label, passes, detail) => add(label, extracted ? (passes ? 'pass' : 'fail') : 'not_checked',
     extracted ? detail : 'Extractable PDF text is unavailable.');
   const pages = stripFooters(extracted, profile.layout.footer.format, info?.count ?? 1);
@@ -311,11 +309,11 @@ export function filingTextChecks({ caption, profile, extracted, info, prepared, 
   const remainder = bodyPages.flat();
   let remaining = remainder.length;
   const treatment = documentType(profile, caption);
-  const legacyTitle = compositionTitle(prepared.bodySha256);
-  const metadataYear = /\| Certificate year ([1-9]\d{3})$/u.exec(info?.title ?? '')?.[1];
-  const certificateYear = caption.certificate_year ?? (metadataYear ? Number(metadataYear) : profile.layout.certificate_year);
-  const expectedTitle = treatment.certificate && (caption.certificate_year !== undefined || metadataYear) ?
-    compositionTitle(prepared.bodySha256, certificateYear) : legacyTitle;
+  const digestTitle = compositionTitle(prepared.bodySha256);
+  const title = info?.title ?? '';
+  const metadataSuffix = title.slice(digestTitle.length);
+  const digestTitleMatches = title.startsWith(digestTitle) &&
+    (metadataSuffix === '' || treatment.certificate && /^ \| Certificate year [1-9]\d{3}$/u.test(metadataSuffix));
   if (treatment.judicial_closing) {
     check('Judicial signature block in proposed order', judicialClosing(remainder.join(' '), prepared.ruledClosing),
       'The composed body ends with the unsigned court signature block.');
@@ -339,8 +337,7 @@ export function filingTextChecks({ caption, profile, extracted, info, prepared, 
   const continued = exactCharacters ? { pages: bodyLines, aligned: true, repeated: [] } : removeRepeatedHeaders(bodyLines, prepared.headers);
   check('Continued table header alignment', continued.aligned, 'A repeated header must occupy complete lines at the top of its continuation page.');
   const evidence = bodyEvidence(continued.pages, prepared.bodyText, positioned);
-  check('Composed body SHA-256', info?.title === expectedTitle,
-    'The PDF title carries the supplied Markdown SHA-256 and any recorded composition certificate year.');
+  check('Composed body SHA-256', digestTitleMatches, 'The PDF title carries the supplied Markdown SHA-256.');
   check('Printed PDF body matches composition', evidence.wordsMatch,
     'Compare independently parsed Markdown with the PDF body after removing expected running headers.');
   return {
