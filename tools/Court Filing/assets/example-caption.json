@@ -1,0 +1,26 @@
+{
+  "court": "District Court, Example County, Colorado",
+  "court_address": "100 Fictional Plaza, Example, CO 00000",
+  "parties": [
+    { "role": "Plaintiff", "name": "Rowan Example" },
+    { "role": "Defendant", "name": "Imaginary Workshop LLC" }
+  ],
+  "case_number": "2099CV00000",
+  "division": "X",
+  "title": "Plaintiff's Example Motion",
+  "signer": {
+    "name": "Rowan Example",
+    "role": "Pro Se Plaintiff",
+    "lines": ["100 Fictional Plaza", "Example, CO 00000", "rowan@example.invalid"]
+  },
+  "service": {
+    "method": "email",
+    "served_by": "Rowan Example",
+    "recipients": [
+      { "name": "Morgan Sample", "emails": ["morgan@example.invalid", "service@example.invalid"] }
+    ],
+    "firm": "Example Counsel",
+    "firm_lines": ["200 Fictional Plaza", "Example, CO 00000"],
+    "firm_note": "Counsel for Imaginary Workshop LLC"
+  }
+}

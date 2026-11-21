@@ -1,0 +1,217 @@
+{
+  "jurisdiction_id": "colorado-district",
+  "display_name": "Colorado District Court",
+  "renderer_profile": "colorado-two-column-boxed",
+  "layout": {
+    "page_size": "Letter",
+    "margins_inches": {
+      "top": 1,
+      "right": 1,
+      "bottom": 1,
+      "left": 1
+    },
+    "body_font": "Times New Roman",
+    "body_font_size_pt": 12,
+    "body_line_height": 2,
+    "footer": {
+      "format": "Page {page} of {pages}",
+      "font": "Times New Roman",
+      "size_pt": 10,
+      "position": "center"
+    },
+    "caption_style": "Two-column boxed table; left column court and parties; right column COURT USE ONLY box, case number, division",
+    "certificate_year": 2026,
+    "pdf_font_names": [
+      "TimesNewRomanPSMT",
+      "TimesNewRomanPS-BoldMT",
+      "TimesNewRomanPS-ItalicMT",
+      "TimesNewRomanPS-BoldItalicMT"
+    ]
+  },
+  "caption_defaults": {
+    "court": "District Court, [County] County, Colorado",
+    "court_address": "[Court Address]",
+    "parties": [
+      {
+        "role": "Plaintiff",
+        "name": "[Plaintiff Name]"
+      },
+      {
+        "role": "Defendant",
+        "name": "[Defendant Name]"
+      }
+    ],
+    "case_number": "[Case Number]",
+    "division": "[Division]",
+    "title": "[Document Title in Title Case]",
+    "signer": {
+      "name": "[Your Name]",
+      "role": "Pro Se [Plaintiff/Defendant]",
+      "lines": [
+        "[Street Address]",
+        "[City, State ZIP]",
+        "[Phone]",
+        "[Email]"
+      ]
+    },
+    "service": {
+      "method": "email",
+      "served_by": "[Your Name]",
+      "recipients": [
+        {
+          "name": "[Opposing Counsel Name]",
+          "emails": [
+            "counsel@example.invalid"
+          ]
+        }
+      ],
+      "firm": "[Law Firm Name]",
+      "firm_lines": [
+        "[Firm Street Address]",
+        "[City, State ZIP]"
+      ],
+      "firm_note": "Attorneys for [Party Name]"
+    }
+  },
+  "validation": {
+    "limits": {
+      "general-motion-pages": {
+        "unit": "pages",
+        "maximum": 15,
+        "citation": "C.R.C.P. 121 section 1-15(1)(a)",
+        "verification": "recorded-in-source"
+      },
+      "general-motion-words": {
+        "unit": "words",
+        "maximum": 4000,
+        "citation": "C.R.C.P. 121 section 1-15(1)(a)",
+        "verification": "recorded-in-source"
+      },
+      "rule-12-or-56-motion-pages": {
+        "unit": "pages",
+        "maximum": 25,
+        "citation": "C.R.C.P. 121 section 1-15(1)(a)",
+        "verification": "recorded-in-source"
+      },
+      "general-reply-pages": {
+        "unit": "pages",
+        "maximum": 10,
+        "citation": "C.R.C.P. 121 section 1-15(1)(a)",
+        "verification": "recorded-in-source"
+      },
+      "general-reply-words": {
+        "unit": "words",
+        "maximum": 2500,
+        "citation": "C.R.C.P. 121 section 1-15(1)(a)",
+        "verification": "recorded-in-source"
+      },
+      "rule-12-or-56-reply-pages": {
+        "unit": "pages",
+        "maximum": 15,
+        "citation": "C.R.C.P. 121 section 1-15(1)(a)",
+        "verification": "recorded-in-source"
+      }
+    },
+    "exclusions": [
+      "caption",
+      "signature block",
+      "certificate of service",
+      "attachments"
+    ],
+    "notes": [
+      "The source records page limits unless the court orders otherwise. General motions and responses use the general motion presets. The separate motion and reply presets cover C.R.C.P. 12(b)(1), 12(b)(2), and 56.",
+      "The general motion and reply word limits are alternatives to the corresponding page limits, with the same exclusions.",
+      "The source did not separately confirm word limits for C.R.C.P. 12(b)(1), 12(b)(2), or 56 motions. Verify before using a word figure for these filings."
+    ]
+  },
+  "rules": [
+    {
+      "citation": "C.R.C.P. 10",
+      "verification": "recorded-in-source",
+      "notes": "The source uses a two-column boxed caption with court and parties on the left and COURT USE ONLY, case number, and division on the right. Supply the address of the court on the docket."
+    },
+    {
+      "citation": "C.R.C.P. 10(d)",
+      "verification": "recorded-in-source",
+      "notes": "The source records at least 1-inch margins, 12-point type, and double spacing, with exceptions such as footnotes and block quotes. This profile sets Letter paper, one-inch margins, and Times New Roman 12-point double-spaced body text."
+    },
+    {
+      "citation": "C.R.C.P. 121 section 1-15(1)(a)",
+      "verification": "recorded-in-source",
+      "notes": "The source rule figures and exclusions are in validation. Verify the rule and any applicable court order before choosing a limit."
+    },
+    {
+      "citation": "C.R.C.P. 121 section 1-15(8)",
+      "verification": "recorded-in-source",
+      "notes": "The source calls for good-faith conferral with opposing counsel before filing most motions. State conferral in the body when required."
+    },
+    {
+      "citation": null,
+      "verification": "recorded-in-source",
+      "notes": "The renderer leaves signature and service dates blank for manual completion immediately before filing via Colorado CCEF. The legacy certificate preprints only the year."
+    },
+    {
+      "citation": "C.R.C.P. 121 section 1-15(1)(a)",
+      "verification": "verify",
+      "notes": "Word limits for the listed C.R.C.P. 12 and 56 motion classes were not separately confirmed in the source."
+    }
+  ],
+  "no_service_certificate_reasons": {
+    "initial-complaint-before-service": "Initial complaint filed before service of process. The new-case packet records Rule 4 service and proof as post-filing steps."
+  },
+  "filing_packets": {
+    "new_case_complaint": {
+      "description": "Colorado district court civil new case initiation (CV, claims over $25,000)",
+      "required_at_filing": [
+        {
+          "item": "Complaint",
+          "method": "Court Filing",
+          "notes": "Caption, numbered factual allegations, counts with elements, jury demand, prayer for relief",
+          "citation": "C.R.C.P. 8",
+          "verification": "recorded-in-source"
+        },
+        {
+          "item": "JDF 601 District Court Civil Case Cover Sheet",
+          "method": "Official fillable PDF (coloradojudicial.gov)",
+          "notes": "Required with initial pleading per C.R.C.P. 16.1; do not recreate",
+          "citation": "C.R.C.P. 16.1",
+          "verification": "recorded-in-source"
+        },
+        {
+          "item": "JDF 600 District Court Civil Summons",
+          "method": "Official fillable PDF (coloradojudicial.gov)",
+          "notes": "Do not recreate",
+          "citation": null,
+          "verification": "recorded-in-source"
+        },
+        {
+          "item": "Filing fee or fee-waiver motion plus financial affidavit",
+          "method": "CCEF payment or waiver filing",
+          "notes": "Confirm current filing fee [verify]; confirm fee-waiver form number [verify]",
+          "citation": null,
+          "verification": "verify"
+        }
+      ],
+      "post_filing_steps": [
+        {
+          "step": "Service of process",
+          "notes": "Serve defendant using approved method; file return or proof of service",
+          "citation": "C.R.C.P. 4",
+          "verification": "recorded-in-source"
+        },
+        {
+          "step": "Seed answer deadline in DEADLINES.md",
+          "notes": "21 days after in-state service; 35 days after out-of-state service",
+          "citation": "C.R.C.P. 12",
+          "verification": "recorded-in-source"
+        }
+      ],
+      "notes": [
+        "Use official fillable forms from coloradojudicial.gov self-help forms; recreating court forms risks rejection.",
+        "District court civil (CV) applies to claims over $25,000.",
+        "Current filing fee amount [verify].",
+        "Fee-waiver motion and financial affidavit form number [verify]."
+      ]
+    }
+  }
+}

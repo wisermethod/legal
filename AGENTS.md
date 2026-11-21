@@ -14,7 +14,7 @@ apps:
 
 A WISER domain plugin. This file is this root's constitution. The chain starts here: load it before the first read or write under this root.
 
-A WISER plugin for a person or a company handling its own legal matters: practice-area experts, litigation procedure, and document preparation. No skills or experts have been built yet; a Consumer Law expert, with skills under it, is the first planned.
+A WISER plugin for a person or a company handling its own legal matters: practice-area experts, litigation procedure, and document preparation. Litigation Counsel owns the shared phase and procedure skills, five experts supply practice-area judgment, and Court Filing supplies caption composition and pre-filing PDF validation.
 
 ## What this root is
 

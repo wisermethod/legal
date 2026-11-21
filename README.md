@@ -1,6 +1,12 @@
 # Legal
 
-A WISER plugin for a person or a company handling its own legal matters: practice-area experts, litigation procedure, and document preparation. No skills or experts have been built yet; a Consumer Law expert, with skills under it, is the first planned.
+A WISER plugin for a person or a company handling its own legal matters: practice-area experts, litigation procedure, and document preparation.
+
+Use Legal to open or adopt a matter, organize evidence and deadlines, and prepare pleadings, discovery, motions, negotiations or trial materials. Ask for a named output such as a chronology, claim chart, citation review or full case audit. Litigation Counsel sequences that work and brings in Consumer Law, Contract Disputes, Cease and Desist, Personal Injury or Employment Law for the issue at hand.
+
+Court Filing composes and checks PDFs for the shipped Colorado district court profile. It supports review of an initial civil complaint before service when the court's requirements fit that profile. Your review, signature and approval govern the release of every filing. The [coverage record](system/GAPS.md) lists the substantive gaps, unsupported forums and checks that still need current authority.
+
+The plugin loads alongside Wiser. It uses Wiser's general skills, the CourtListener connector through Wiser's gateway for case-law lookup, `render pdf` for court PDFs and `word-document` for supported Word output. Connect CourtListener in Wiser if a lookup needs it. Court Filing runs with Node.js 18 or later and uses local Poppler utilities for PDF validation. The [tool index](tools/AGENTS.md) lists the installation and dependency details.
 
 ## Install
 
