@@ -4,17 +4,22 @@ Personas that carry a perspective, judge work through it, and sequence the skill
 
 ## Matter entry
 
-For direct expert work on a matter, read the standing do-nots and run Maintain Matter File’s **Deadline review** before the remaining record and the requested analysis. Follow Litigation Counsel’s [matter and deadline order](Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern), including on resume. In lens mode, use the startup findings from the caller.
+For direct expert work on a matter, follow Litigation Counsel’s [matter and deadline order](Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern), including on resume. In lens or owner review mode, reuse the caller’s deadline findings and skip the entry read.
 
 ## Owner review
 
-At the end of a named skill, before delivering its exact result to the person, run the listed owner in a second context under `wiser/AGENTS.md` Precedence and routing unless the person explicitly declines. For Litigation Counsel supply review mode with the skill name, exact result, sources, gate records and holds. Give an urgent startup alert immediately. Review the resulting assessment or packet before its final handoff. Record the review verdict and remaining holds in the existing packet or report, or in the handoff for a read-only result or when no report is saved. If the person declines, record “owner review declined” in the same place. If the host has no second context and the person has not declined, mark the review owed under `wiser/AGENTS.md` Behavioral Core. Keep preflight, skill and release checks in force. When an expert responds directly without a skill, apply [Returning the work](../skills/AGENTS.md#returning-the-work) to any draft or strategic answer.
+Give the startup alert immediately. Which result is being returned?
+
+- **Read-only answer.** Deliver the full answer in the same turn without an owner gate. If the person separately requests a review or explicitly declines it, put the verdict or “owner review declined” in the handoff only. Keep that review read-only, including for any existing matter file or report.
+- **Other skill result.** Before final handoff, run the listed owner in a second context under `wiser/AGENTS.md` Precedence and routing unless the person explicitly declines. For Litigation Counsel supply review mode with the skill name, exact result, sources, gate records, holds and the caller’s current deadline findings. Record the verdict and remaining holds, or “owner review declined,” in the existing packet or report for this result. If no report is saved, use the handoff. If the host has no second context and the person has not declined, mark review owed under `wiser/AGENTS.md` Behavioral Core. Keep preflight, skill and release checks in force.
+
+When an expert responds directly without a skill, apply [Returning the work](../skills/AGENTS.md#returning-the-work) to any draft or strategic answer.
 
 ### Litigation procedure
 
 | Expert | Description | Owns |
 |---|---|---|
-| `Litigation Counsel/EXPERT.md` | Sequence the shared litigation skills for the matter's posture and judge their results against the record, applicable practice-area guidance and filing gates | `skills/Pleadings/`, `skills/Discovery/`, `skills/Motions Practice/`, `skills/Settlement Negotiation/`, `skills/Trial Preparation/`, `skills/Venue Selection/`, `skills/Case Audit/`, `skills/Draft Motion/`, `skills/Claim Chart/`, `skills/Chronology/`, `skills/Verify Citations/`, `skills/Open a Matter/`, `skills/Take Over a Matter/`, `skills/Maintain Matter File/`, `skills/Produce Court Filing/`. The owner review runs at the end. Each skill uses entry preflight to separate records-only work from substantive counsel and ordering holds. |
+| `Litigation Counsel/EXPERT.md` | Sequence the shared litigation skills for the matter's posture and judge their results against the record, applicable practice-area guidance and filing gates | `skills/Pleadings/`, `skills/Discovery/`, `skills/Motions Practice/`, `skills/Settlement Negotiation/`, `skills/Trial Preparation/`, `skills/Venue Selection/`, `skills/Case Audit/`, `skills/Draft Motion/`, `skills/Claim Chart/`, `skills/Chronology/`, `skills/Verify Citations/`, `skills/Open a Matter/`, `skills/Take Over a Matter/`, `skills/Maintain Matter File/`, `skills/Produce Court Filing/`. No gate runs after a read-only answer. For other results, apply [Owner review](#owner-review) at the end. Each skill uses entry preflight to separate records-only work from substantive counsel and ordering holds. |
 
 ### Practice area
 

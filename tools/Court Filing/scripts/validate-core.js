@@ -3,6 +3,7 @@ import { documentType, resolveLimits, titleChecks, validateCaption, validateProf
 import { footerCandidates, isExpectedPage, measureInk, readFonts, readPageInfo, readTextLines, readTypography, tableTypography, imagesAbsent, paragraphSpacing, bodySpacing, captionRuling, judicialRuling, filingInk, markPositions } from './pdf-evidence-core.js';
 
 export const PASS = 'ALL CHECKS PASSED';
+export const REPLAY_PASS = 'REPLAY CHECKS PASSED - NOT FOR FILING';
 export const FAIL = 'VALIDATION FAILED';
 export const MAX_PDF_PAGES = 200;
 
@@ -100,9 +101,9 @@ function pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines
     'Visible ink is within the profile margins, allowing 1.5 pt for print rounding and excluding the matched footer words.'));
 }
 
-export function validate({ pdf, caption, profile, limits, prepared, parseUnavailable = false, validationDate = new Date() }, inspect) {
+export function validate({ pdf, caption, profile, limits, prepared, replay = false, parseUnavailable = false, validationDate = new Date() }, inspect) {
   validateProfile(profile);
-  validateCaption(caption, profile);
+  validateCaption(caption, profile, 'caption', replay);
   const verifiedLimits = resolveLimits(profile, caption, {
     preset: limits.preset ?? undefined,
     pages: limits.choice === 'explicit-maxima' ? limits.pages ?? undefined : undefined,
@@ -125,7 +126,9 @@ export function validate({ pdf, caption, profile, limits, prepared, parseUnavail
     parseUnavailable ? 'A required Poppler program is unavailable. See unavailable.' :
       info && text ? info.count + ' page(s) with extractable text.' :
         info?.count > MAX_PDF_PAGES ? 'PDF exceeds the ' + MAX_PDF_PAGES + '-page inspection ceiling.' : 'No readable PDF text or page count.');
-  const alternatives = limits.choice === 'profile-alternatives';
+  const alternatives = limits.choice === 'profile-alternatives' ||
+    limits.choice === 'explicit-maxima' && documentType(profile, caption).length_mode === 'alternatives' &&
+    limits.pages !== null && limits.words !== null;
   if (!alternatives && limits.pages !== null) {
     add('Within page limit (' + limits.pages + ')', info ? resultOf(info.count <= limits.pages) : 'not_checked',
       info ? info.count + ' total PDF page(s), including any parts the rule exempts.' : 'PDF page count is unavailable.');
@@ -135,7 +138,7 @@ export function validate({ pdf, caption, profile, limits, prepared, parseUnavail
   }
   const certificateYear = caption.certificate_year ?? validationDate.getFullYear();
   const { pdfBodyWords, bodyLines, repeated, spacingBound } = filingTextChecks({
-    caption, profile, extracted, info, prepared, add, positioned, certificateYear,
+    caption, profile, extracted, info, prepared, add, positioned, certificateYear, replay,
   });
   if (alternatives) {
     const pageCount = info?.count ?? null;
@@ -176,6 +179,6 @@ export function validate({ pdf, caption, profile, limits, prepared, parseUnavail
   add('Table, list and heading double spacing', spacingStatus, spacingDetail + spacingAction, spacing);
   pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines, prepared, repeated);
   const ok = checks.every(check => ['pass', 'not_applicable', 'advisory'].includes(check.status));
-  return { ok, result: ok ? PASS : FAIL, pages: info?.count ?? null, bodyWords, pdfBodyWords, bodySha256,
+  return { ok, result: ok ? (replay ? REPLAY_PASS : PASS) : FAIL, pages: info?.count ?? null, bodyWords, pdfBodyWords, bodySha256,
     documentType: caption.document_type, limits, checks, advisories: checks.filter(check => check.status === 'advisory') };
 }

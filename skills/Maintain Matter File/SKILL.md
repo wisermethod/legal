@@ -3,7 +3,7 @@ name: Maintain Matter File
 type: skill
 category: procedure
 description: Answer read-only deadline questions, reconcile posture and keep events, deadlines, source references and designated matter records in sync
-version: 0.3.4
+version: 0.3.5
 ---
 
 # Maintain Matter File
@@ -30,26 +30,26 @@ Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message w
 
 ### What can proceed on this entry?
 
-For **Deadline review** (including when called for the startup alert), apply the Standing constraint and run the read below directly. It supplies the deadline read to [Litigation Counsel's preflight](../../experts/Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern), so that call needs no new preflight. On direct entry, apply the skills index’s [Returning the work](../AGENTS.md#returning-the-work) to the full answer. For other operations, follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Counsel/EXPERT.md#how-does-a-skill-request-and-apply-preflight) and use its deadline findings.
+For **Deadline review**, apply the Standing constraint and run the read below directly. It supplies the deadline findings to [Litigation Counsel's preflight](../../experts/Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern). Reuse current findings when the caller already ran this read. For other operations, follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Counsel/EXPERT.md#how-does-a-skill-request-and-apply-preflight) and use its deadline findings.
 
 ### Deadline review (read-only)
 
-Use for “what is due,” “what is overdue” and the first alert on every matter request, including a resume. Identify the owning matter and its standing do-nots. If the matter cannot be identified, surface any urgent date supplied, then ask which matter to read. For a new or undeclared matter use supplied intake or originals and name the missing record. Read the designated deadline record and the available dated orders, docket or administration entries, receipts, notices and service proof needed to check it. Check dated primary records for obligations a stale or missing schedule may omit. Give the urgent findings before the requested work. In startup use, surface the first two groups immediately, or state what the available evidence permits you to say about their absence. A user asking for deadline review gets the full answer in this order:
+Use for “what is due,” “what is overdue” and the first alert on every matter request, including a resume. Identify the owning matter and its standing do-nots. If the matter cannot be identified, surface any urgent date supplied, then ask which matter to read. For a new or undeclared matter use supplied intake or originals and name the missing record. Read the designated deadline record and the available dated orders, docket or administration entries, receipts, notices and service proof needed to check it. Check dated primary records for obligations a stale or missing schedule may omit.
 
-1. Overdue or possibly missed items.
-2. Open dated items from today through 14 days ahead.
-3. Later fixed dates, including currently operative dates calculated from verified triggers.
-4. Conditional or requested dates, and personal reminders outside the urgent window. Identify the unmet trigger, pending approval or purpose.
-5. Completed or expired items. Distinguish fulfilled obligations from lapsed offers or reminders. Show the dates and evidence for both.
-6. What could not be verified locally. Name unchecked sources, the latest records checked and what could change the answer. Say `local-only` when the live docket or forum record is unconfirmed.
+When a status summary and an applicable dated primary record disagree, use the dated record and identify the stale file, line or entry in the answer. If two rows concern the same clock, link the readings in the answer and give each its own date or trigger and source. When operative evidence settles which reading governs, identify it and show the displaced reading as `superseded` in the answer only. Otherwise show both as `verify`, name the authority or trigger evidence needed and hold the dependent timeliness conclusion. Check rule version, applicability and computation before confirming a calculated date. Read earlier deadline records as they stand. Recover missing fields from their evidence where possible and identify the fields that still require verification.
 
-Sort dated items within each group by date. Every row has an obligation or event, its date or pending trigger, owner (the litigant, the other side, the forum or a third party), date type (fixed by order or rule, calculated, requested, conditional or personal reminder), trigger, source locator and state. Identify the specific owner when known. Keep a request or reminder labeled as such even when its calendar date is near or past. Put any possible missed obligation in the first group and distinguish it from a passed reminder or an unsupported default inference. For an urgent potential or verified fatal deadline, name the risk and the prompt licensed-counsel trigger.
+Give the first two groups as the startup alert before the requested work, or state what the available evidence permits you to say about their absence. For a standalone deadline question, give all six groups in the same turn. Put each row in exactly one group. Assign group 4 first by date type, then group 5 by resolved state. For remaining rows, use the first applicable group in the answer order below.
 
-When a status summary and an applicable dated primary record disagree, use the dated record and identify the stale file, line or entry. If two rows concern the same clock, show both dates or readings together with their respective sources. Identify which governs and mark the displaced reading superseded when the operative evidence settles it. Otherwise label both readings `verify`, state what authority or trigger evidence would settle the conflict and hold a dependent timeliness conclusion. Check rule version, applicability and computation before confirming a calculated date. Read earlier deadline records as they stand. Recover missing fields from their evidence where possible and identify the fields that still require verification.
+1. Overdue fixed or calculated obligations, and those the available evidence indicates may have been missed. Flag uncertainty and name the risk and prompt licensed-counsel trigger for any urgent potential or verified fatal deadline.
+2. Open fixed or calculated obligations with an operative date from today through 14 days ahead.
+3. Open fixed or calculated obligations with a later operative date.
+4. Requested dates, conditional dates and personal reminders, including near or past dates. Identify the pending approval, unmet trigger or reminder purpose. Keep any documented completion or expiry visible in the row’s outcome.
+5. Other completed, expired or superseded rows. Distinguish fulfilled obligations, documented expirations and displaced readings, with dates and evidence for each.
+6. Other rows that could not be verified locally and any limits on the review. Name unchecked sources, the latest records checked and what could change the answer. Say `local-only` when the live docket or forum record is unconfirmed.
 
-**Fictional example.** A working calculation in the deadline record puts the litigant’s reply on April 6. An entered order states April 9 for the same reply and controls. Show April 9 as fixed by order and open, with the entered order and its entry as source and trigger. Show April 6 as calculated and superseded with the working row and its service trigger. Name the stale line repeating April 6. If the order’s entry or applicability is uncertain, keep both dates visible and name the docket entry or clarification needed to resolve them.
+Sort dated items within each group by date. Every row has an obligation or event, its date or pending trigger, owner (the litigant, the other side, the forum or a third party), date type (fixed by order or rule, calculated, requested, conditional or personal reminder), trigger, source locator and state. Identify the specific owner when known. A past date alone establishes neither completion nor expiration.
 
-Return the findings in the response. Ask for missing evidence only if useful. Leave record changes for a separate update request.
+Return the findings and end the deadline review here. Ask for missing evidence if useful. Perform no writes, request no write approval and skip the update procedure below, even when the register is missing or stale. Follow [Owner review](../../experts/AGENTS.md#owner-review) for a read-only answer.
 
 ### Which matter record needs attention?
 
@@ -80,4 +80,4 @@ Lead phase analysis with the alert from the current entry preflight. Run a fresh
 
 ## Success
 
-The person sees overdue or possibly missed items and dates in the next 14 days before other work. A Deadline review returns the six groups in order with sourced, typed rows, stale lines and competing readings identified, and local limits visible. It leaves the matter unchanged and asks for no write approval. A completed update identifies the original, the actual date and the applicable index, history and deadline entries. Read-back resolves those references or names the affected write and what will clear it. A preflight, ambiguous request or other held update returns a labeled handoff with its findings, pending edits, missing items, conflicts and any discovery or glossary additions awaiting approval.
+The person sees the first two deadline groups before other work. A standalone Deadline review returns all six groups in the same turn, with each sourced, typed row in one group, stale lines and competing readings identified, and local limits visible. It leaves the matter unchanged and asks for no write approval. A completed update identifies the original, the actual date and the applicable index, history and deadline entries. Read-back resolves those references or names the affected write and what will clear it. A preflight, ambiguous request or other held update returns a labeled handoff with its findings, pending edits, missing items, conflicts and any discovery or glossary additions awaiting approval.

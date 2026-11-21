@@ -142,6 +142,13 @@ function courtCss(layout) {
   .body ol, .body ul { line-height: ${layout.body_line_height}; margin: 0 0 6pt 0; padding-left: 36pt; }
   .body em { font-style: italic; }
   .body strong { font-weight: bold; }
+  /* The original renderer left ordinary pipe tables to Chromium's print defaults. */
+  .body table { border-collapse: separate; border-spacing: 2px; }
+  .body table thead { display: table-header-group; vertical-align: middle; }
+  .body table tbody { vertical-align: middle; }
+  .body table tr, .body table th, .body table td { vertical-align: inherit; }
+  .body table th, .body table td { padding: 1px; }
+  .body table th:not([align]) { text-align: center; }
 
   .closing { margin-top: 18pt; line-height: 1.4; break-inside: avoid; }
   .closing p { margin: 12pt 0; }
@@ -157,15 +164,20 @@ function courtCss(layout) {
 `;
 }
 
-export function compositionTitle(bodySha256, certificateYear = null) {
-  return 'Court Filing ' + bodySha256 + (certificateYear === null ? '' : ' | Certificate year ' + certificateYear);
+export const REPLAY_LABEL = 'Not for filing';
+export const REPLAY_PREFIX = REPLAY_LABEL + ' - ';
+export const REPLAY_TITLE_SUFFIX = ' | ' + REPLAY_LABEL;
+
+export function compositionTitle(bodySha256, certificateYear = null, replay = false) {
+  return 'Court Filing ' + bodySha256 + (certificateYear === null ? '' : ' | Certificate year ' + certificateYear) +
+    (replay ? REPLAY_TITLE_SUFFIX : '');
 }
 
-function buildHtml(caption, layout, prepared, certificateYear) {
+function buildHtml(caption, layout, prepared, certificateYear, replay) {
   const { bodyHtml, tableStyles, bodySha256 } = prepared;
   const presentation = styleTables(bodyHtml, tableStyles);
   return `<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><title>${compositionTitle(bodySha256, certificateYear)}</title><style>${courtCss(layout)}${presentation.css}</style></head>
+<html lang="en"><head><meta charset="UTF-8"><title>${compositionTitle(bodySha256, certificateYear, replay)}</title><style>${courtCss(layout)}${presentation.css}</style></head>
 <body>
   ${captionTable(caption)}
   <div class="body">${presentation.html}</div>
@@ -268,9 +280,9 @@ export function prepareBody(body, treatment, parseMarkdown, digest, presentation
   };
 }
 
-export function compose({ caption, body, profile }, parseMarkdown, digest) {
+export function compose({ caption, body, profile, replay = false }, parseMarkdown, digest) {
   validateProfile(profile);
-  validateCaption(caption, profile);
+  validateCaption(caption, profile, 'caption', replay);
   const checks = titleChecks(profile, caption);
   const refusal = checks.find(check => check.status === 'fail');
   if (refusal) throw new Error(refusal.detail);
@@ -283,7 +295,8 @@ export function compose({ caption, body, profile }, parseMarkdown, digest) {
     advisories: checks.filter(check => check.status === 'advisory'),
     bodySha256: prepared.bodySha256,
     bodyWords: prepared.bodyWords,
-    html: buildHtml(caption, layout, prepared, certificateYear),
+    html: buildHtml(caption, layout, prepared, certificateYear, replay),
+    pdfFilenamePrefix: replay ? REPLAY_PREFIX : null,
     pdf: {
       paperSize: layout.page_size,
       margin: SIDES.map(side => cssInches(layout.margins_inches[side])).join(' '),

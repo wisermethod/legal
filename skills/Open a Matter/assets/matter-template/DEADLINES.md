@@ -19,4 +19,4 @@ Use these working periods when planning and seeding the deadline record. Check t
 | Court | Answer to complaint | Motion response | Discovery response |
 |---|---|---|---|
 | Colorado state | 21 days from service, or 35 days for out-of-state service in the Colorado district civil initiation procedure | 14 days, check local rules | 30 days |
-| Federal court in Colorado | Check whether there was actual service or a waiver. Verify the period and its trigger for that path before calculating. | 21 days, check local rules | 30 days |
+| Federal court in Colorado | 21 days from actual service as a working period. If service was waived, verify the longer period and its trigger before calculating. | 21 days, check local rules | 30 days |

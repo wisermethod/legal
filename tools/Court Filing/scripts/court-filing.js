@@ -5,9 +5,9 @@ import {
 } from 'node:fs';
 import { createHash, randomUUID } from 'node:crypto';
 import { homedir } from 'node:os';
-import { dirname, extname, isAbsolute, join, relative, sep } from 'node:path';
+import { basename, dirname, extname, isAbsolute, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { compose, parseFilingMarkdown, prepareBody } from './compose-core.js';
+import { compose, parseFilingMarkdown, prepareBody, REPLAY_PREFIX } from './compose-core.js';
 import { RASTER_DPI } from './pdf-evidence-core.js';
 import { documentType, resolveLimits, suggestTypes, validateCaption, validateProfile } from './schema-core.js';
 import { comparePdfs } from './compare-core.js';
@@ -115,8 +115,8 @@ function rememberConsent(root) {
 }
 
 const COMMANDS = {
-  compose: { required: ['--body', '--caption', '--profile', '--out'], optional: [], install: true },
-  validate: { required: ['--pdf', '--caption', '--profile', '--body-sha256', '--body'], optional: ['--limit', '--max-pages', '--max-words'], switches: ['--no-length-limit'], install: true },
+  compose: { required: ['--body', '--caption', '--profile', '--out'], optional: [], switches: ['--replay'], install: true },
+  validate: { required: ['--pdf', '--caption', '--profile', '--body-sha256', '--body'], optional: ['--limit', '--max-pages', '--max-words'], switches: ['--no-length-limit', '--replay'], install: true },
   classify: { required: ['--profile', '--title'], optional: [], install: false },
   compare: { required: ['--reference', '--pdf'], optional: [], install: false },
   profiles: { required: [], optional: [], install: false },
@@ -139,8 +139,8 @@ const PROGRAMS = [...new Set(Object.values(POPPLER))];
 function usage() {
   return [
     'Usage:',
-    '  node scripts/court-filing.js compose --body <absolute Markdown path> --caption <absolute JSON path> --profile <id or absolute JSON path> --out <new absolute HTML path> [--install]',
-    '  node scripts/court-filing.js validate --pdf <absolute PDF path> --caption <absolute JSON path> --profile <id or absolute JSON path> --body-sha256 <compose digest> --body <absolute Markdown path> [--limit <id> | --max-pages <N> and/or --max-words <N> | --no-length-limit] [--install]',
+    '  node scripts/court-filing.js compose --body <absolute Markdown path> --caption <absolute JSON path> --profile <id or absolute JSON path> --out <new absolute HTML path> [--replay] [--install]',
+    '  node scripts/court-filing.js validate --pdf <absolute PDF path> --caption <absolute JSON path> --profile <id or absolute JSON path> --body-sha256 <compose digest> --body <absolute Markdown path> [--limit <id> | --max-pages <N> and/or --max-words <N> | --no-length-limit] [--replay] [--install]',
     '  node scripts/court-filing.js classify --profile <id or absolute JSON path> --title <title>',
     '  node scripts/court-filing.js compare --reference <absolute archived PDF path> --pdf <absolute rebuilt PDF path>',
     '  node scripts/court-filing.js profiles',
@@ -150,6 +150,7 @@ function usage() {
     '--body is required. Validation parses the original Markdown independently and checks it against the PDF.',
     'Omit length flags to use the declared type\'s profile treatment. --limit pins a listed alternative.',
     '--no-length-limit is an optional equivalent for a type whose length_presets is null.',
+    '--replay marks composition metadata and requires a PDF filename starting with "Not for filing - " in validation.',
     'classify suggests types. The caller declares the type. compare reports historical differences and writes nothing.',
     '--install authorizes the package install and completes this command. ' + INSTALL_ONCE,
     '',
@@ -413,19 +414,24 @@ async function main(args) {
       if (error instanceof TypeError) throw new Error('--body must be valid UTF-8.');
       throw error;
     }
-    const caption = validateCaption(json(captionPath, '--caption'), profile);
+    const replay = flags.has('--replay');
+    const caption = validateCaption(json(captionPath, '--caption'), profile, 'caption', replay);
     if (command === 'compose') {
       const out = screened('--out', flags.get('--out'), '.html', true);
       const parse = await markdownParser(explicitInstall);
-      const composed = compose({ caption, body, profile }, parse, digest);
+      const composed = compose({ caption, body, profile, replay }, parse, digest);
       writeHtml(out, composed.html);
       result = {
         html: out, profile: profile.jurisdiction_id, pdf: composed.pdf, pdfArgs: renderArgs(composed.pdf),
         footerFont: composed.footerFont, bodySha256: composed.bodySha256, bodyWords: composed.bodyWords,
+        pdfFilenamePrefix: composed.pdfFilenamePrefix,
         documentType: composed.documentType, checks: composed.checks, advisories: composed.advisories,
       };
     } else {
       const pdfPath = screened('--pdf', flags.get('--pdf'), '.pdf');
+      if (replay && !basename(pdfPath).startsWith(REPLAY_PREFIX)) {
+        throw new Error('--replay requires a PDF filename starting with "' + REPLAY_PREFIX + '".');
+      }
       const numeric = key => flags.has(key) ? (/^\d+$/.test(flags.get(key)) ? Number(flags.get(key)) : NaN) : undefined;
       const limits = resolveLimits(profile, caption, {
         preset: flags.get('--limit'), pages: numeric('--max-pages'), words: numeric('--max-words'), noLimit: flags.has('--no-length-limit'),
@@ -442,7 +448,7 @@ async function main(args) {
       const pdf = readPdf(pdfPath, '--pdf');
       const unavailable = missing.map(program => ({ program, check: program + ' -v' }));
       const resultOfValidation = validate({
-        pdf, caption, profile, limits, prepared,
+        pdf, caption, profile, limits, prepared, replay,
         parseUnavailable: !dependencies.pdfinfo || !dependencies.pdftotext,
       }, (kind, ...args) => dependencies[POPPLER[kind]] ? inspect(kind, ...args) : null);
       result = { profile: profile.jurisdiction_id, ...resultOfValidation, pdfSha256: digest(pdf), unavailable };

@@ -4,7 +4,7 @@ Capabilities a user invokes by name for their output. `wiser/standards/primitive
 
 ## Deadline routing
 
-“What is due?” and “What is overdue?” enter Maintain Matter File’s [Deadline review](Maintain%20Matter%20File/SKILL.md#deadline-review-read-only). Answer in chat without asking for write approval. On any matter request, give its alert first under Litigation Counsel’s entry preflight, including when resuming work.
+Standalone deadline questions, including “What is due?” and “What is overdue?”, enter Maintain Matter File’s [Deadline review](Maintain%20Matter%20File/SKILL.md#deadline-review-read-only). On any matter request, give its alert first under Litigation Counsel’s entry preflight, including when resuming work.
 
 ## Evidence labels
 
@@ -12,9 +12,9 @@ In working records, `[verify]` means `Unverified: requires confirmation`. State 
 
 ## Returning the work
 
-Before returning any draft or strategic answer, ask “Is this the best thinking? What would a careful opponent attack?” Resolve an evidenced flaw or state the remaining weakness and the hold it requires. For a filing draft, end the handoff message with “After you file this, tell me so I can update the case record.”
+Before returning any draft or strategic answer, ask “Is this our best thinking? What would a careful opponent attack?” State any weakness the check identifies and the hold it requires, if any. Change the draft in response to this check only when the person asks for that change. For a filing draft, end the handoff message with “After you file this, tell me so I can update the case record.”
 
-For a result a skill will deliver to the person, follow the owner review in the [experts index](../experts/AGENTS.md) before release. Apply the legal root’s Handoff label and any release checks to the exact result.
+For a result a skill will deliver to the person, apply [Owner review](../experts/AGENTS.md#owner-review) to the result type. Apply the legal root’s Handoff label and any release checks to the exact result.
 
 ### Litigation phase
 

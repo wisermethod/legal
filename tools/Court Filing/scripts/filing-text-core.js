@@ -1,5 +1,5 @@
 import { canonicalBody, judicialClosing, normalize } from './body-text-core.js';
-import { captionParties, compositionTitle, formatPartyName } from './compose-core.js';
+import { captionParties, compositionTitle, formatPartyName, REPLAY_TITLE_SUFFIX } from './compose-core.js';
 import { counselLabel, documentType } from './schema-core.js';
 
 const certificateHeading = 'CERTIFICATE OF SERVICE';
@@ -299,7 +299,7 @@ export function bodyEvidence(pages, expected, positioned) {
   };
 }
 
-export function filingTextChecks({ caption, profile, extracted, info, prepared, add, positioned, certificateYear }) {
+export function filingTextChecks({ caption, profile, extracted, info, prepared, add, positioned, certificateYear, replay }) {
   const check = (label, passes, detail) => add(label, extracted ? (passes ? 'pass' : 'fail') : 'not_checked',
     extracted ? detail : 'Extractable PDF text is unavailable.');
   const pages = stripFooters(extracted, profile.layout.footer.format, info?.count ?? 1);
@@ -310,9 +310,15 @@ export function filingTextChecks({ caption, profile, extracted, info, prepared, 
   let remaining = remainder.length;
   const treatment = documentType(profile, caption);
   const digestTitle = compositionTitle(prepared.bodySha256);
-  const title = info?.title ?? '';
+  const printedTitle = info?.title ?? '';
+  const markedReplay = printedTitle.endsWith(REPLAY_TITLE_SUFFIX);
+  const title = markedReplay ? printedTitle.slice(0, -REPLAY_TITLE_SUFFIX.length) : printedTitle;
+  if (replay || markedReplay) {
+    check('PDF replay metadata', markedReplay === replay, replay ?
+      'Replay PDF title must include Not for filing.' : 'Not for filing PDFs require --replay and cannot pass production validation.');
+  }
   const metadataSuffix = title.slice(digestTitle.length);
-  const digestTitleMatches = title.startsWith(digestTitle) &&
+  const digestTitleMatches = markedReplay === replay && title.startsWith(digestTitle) &&
     (metadataSuffix === '' || treatment.certificate && /^ \| Certificate year [1-9]\d{3}$/u.test(metadataSuffix));
   if (treatment.judicial_closing) {
     check('Judicial signature block in proposed order', judicialClosing(remainder.join(' '), prepared.ruledClosing),

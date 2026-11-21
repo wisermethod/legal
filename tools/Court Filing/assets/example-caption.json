@@ -6,7 +6,7 @@
     { "role": "Defendant", "name": "Imaginary Workshop LLC" }
   ],
   "case_number": "2099CV00000",
-  "division": "X",
+  "division": "W",
   "title": "Plaintiff's Motion for a Conference",
   "document_type": "motion",
   "signer": {
@@ -18,7 +18,7 @@
     "method": "email",
     "served_by": "Rowan Example",
     "recipients": [
-      { "name": "Morgan Sample", "emails": ["morgan@example.invalid", "service@example.invalid"] }
+      { "name": "Morgan Sample", "emails": ["morgan@example.invalid", "former-service@example.invalid"] }
     ],
     "firm": "Example Counsel",
     "firm_lines": ["200 Fictional Plaza", "Example, CO 00000"],

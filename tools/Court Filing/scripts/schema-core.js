@@ -88,6 +88,7 @@ const tableStyle = shape({}, {
 });
 const tablePresentation = shape({}, {
   default: tableStyle,
+  smaller_font_authority: shape({ source: text, minimum_font_size_pt: number(8, 16) }),
   tables: (value, at) => {
     object(value, at);
     for (const [key, style] of Object.entries(value)) {
@@ -96,6 +97,7 @@ const tablePresentation = shape({}, {
     }
   },
 });
+const confirmation = shape({ title: text, document_type: id });
 const captionShape = shape({
   court: text,
   parties: list(party, 1),
@@ -106,7 +108,13 @@ const captionShape = shape({
   court_address: text,
 }, {
   signer, caption_counsel: bool, counsel_label: text, service, filing_packet: text,
-  type_confirmed: bool, table_presentation: tablePresentation,
+  type_confirmed: (value, at) => {
+    if (typeof value === 'boolean') {
+      throw new Error(at + ' no longer accepts a boolean. Remove it and obtain fresh confirmation, then set { "title": "<exact title>", "document_type": "<exact type>" }.');
+    }
+    confirmation(value, at);
+  },
+  table_presentation: tablePresentation,
   certificate_year: (value, at) => required(value, at, isYear, 'a four-digit year'),
 });
 
@@ -151,14 +159,23 @@ export function suggestTypes(profile, title) {
   return suggestions;
 }
 
-function morePermissive(profile, treatment) {
-  if (!treatment.filer_signature || !treatment.certificate || !treatment.length_presets?.length) return true;
-  const general = profile.document_types[profile.fallback_document_type];
-  return treatment.length_presets.some(id => {
-    const { unit, maximum } = profile.validation.limits[id];
-    const baseline = general?.length_presets?.map(id => profile.validation.limits[id]).find(limit => limit.unit === unit);
-    return baseline && maximum > baseline.maximum;
-  });
+function ceilings(entries) {
+  const caps = {};
+  for (const { unit, maximum } of entries) caps[unit] = Math.min(caps[unit] ?? Infinity, maximum);
+  return caps;
+}
+
+function lengthEntries(profile, treatment) {
+  return (treatment.length_presets ?? []).map(id => ({ id, ...profile.validation.limits[id] }));
+}
+
+function morePermissive(profile, declared, matching) {
+  if (matching.judicial_closing || matching.filer_signature && !declared.filer_signature ||
+      matching.certificate && !declared.certificate) return true;
+  const caps = ceilings(lengthEntries(profile, declared));
+  const matchingEntries = lengthEntries(profile, matching);
+  return Object.entries(ceilings(matchingEntries)).some(([unit, maximum]) => (caps[unit] ?? Infinity) > maximum) ||
+    declared.length_mode === 'alternatives' && (matching.length_mode === 'all' || matchingEntries.length === 1);
 }
 
 export function titleChecks(profile, caption) {
@@ -172,28 +189,47 @@ export function titleChecks(profile, caption) {
       'A joined phrase reads like a second paper. Check the intended paper or papers at preview.' :
       'A joined phrase starts with a paper name whose role is unclear. Check the intended paper or papers at preview.');
   }
-  if (type === profile.fallback_document_type) {
-    const specific = suggestTypes(profile, title).filter(id => id !== type);
-    if (specific.length) advisory('General document type declared', 'The declared general type applies. The title also matches ' + specific.join(', ') + '.');
-  } else if (!matchesTitle(treatment, title)) {
-    const guarded = morePermissive(profile, treatment);
-    if (guarded && !caption.type_confirmed) {
-      checks.push({
-        label: 'Document type confirmation', status: 'fail',
-        detail: 'caption.title does not match the usual wording for ' + type +
-          '. Choose the type the paper is, or set caption.type_confirmed: true after the person confirms this type for this exact title.',
-      });
-    } else {
-      advisory('Declared type and title', caption.type_confirmed ?
-        "type confirmed by the person; title does not match the type's usual wording" :
-        'The title does not match the usual wording for the declared type ' + type + '.');
-    }
+  const general = profile.fallback_document_type;
+  const matching = Object.entries(profile.document_types).filter(([id, entry]) => id !== type && matchesTitle(entry, title));
+  const looser = matching.filter(([, entry]) => morePermissive(profile, treatment, entry)).map(([id]) => id);
+  const offPattern = type !== general && !matchesTitle(treatment, title);
+  const baseline = general && profile.document_types[general];
+  const looserOffPattern = offPattern && (baseline ? morePermissive(profile, treatment, baseline) :
+    !treatment.filer_signature || !treatment.certificate || !treatment.length_presets?.length);
+  if (looser.length || looserOffPattern) {
+    const reason = looser.length ?
+      'The declared type ' + type + ' has different or looser treatment than matching type(s) ' + looser.join(', ') + '.' :
+      'The title is outside the usual wording for ' + type + ', which has looser filing treatment.';
+    const confirmed = caption.type_confirmed?.title === title && caption.type_confirmed?.document_type === type;
+    checks.push({
+      label: 'Document type confirmation', status: confirmed ? 'advisory' : 'fail',
+      detail: reason + (confirmed ? ' The person confirmed this exact title and type.' :
+        ' Correct the declared type or obtain the person’s fresh confirmation and set caption.type_confirmed to the exact title and document_type.'),
+    });
+  } else if (type === general && matching.length) {
+    advisory('General document type declared', 'The title also matches ' + matching.map(([id]) => id).join(', ') + '.');
+  } else if (offPattern) {
+    advisory('Declared type and title', 'The title does not match the usual wording for the declared type ' + type + '.');
   }
   return checks;
 }
 
-export function validateCaption(value, profile, at = 'caption') {
+export function validateCaption(value, profile, at = 'caption', replay = false) {
   captionShape(value, at);
+  const confirmed = value.type_confirmed;
+  if (confirmed && (confirmed.title !== value.title || confirmed.document_type !== value.document_type)) {
+    throw new Error(at + '.type_confirmed must match the exact title and document_type. Remove it and obtain fresh confirmation if needed.');
+  }
+  if (replay && confirmed) throw new Error('Replay requires a caption without type_confirmed. Remove it from the temporary copy.');
+  const presentation = value.table_presentation;
+  const minimum = profile.layout.body_font_size_pt;
+  const authority = presentation?.smaller_font_authority;
+  for (const style of [presentation?.default, ...Object.values(presentation?.tables ?? {})]) {
+    const size = style?.font_size_pt;
+    if (size < minimum && !(authority && size >= authority.minimum_font_size_pt)) {
+      throw new Error(at + '.table_presentation.font_size_pt below the profile body size requires smaller_font_authority with the recorded rule or order and permitted minimum.');
+    }
+  }
   const treatment = documentType(profile, value);
   if (!treatment) throw new Error(at + '.document_type is not listed for this profile. Run profiles.');
   if ((value.filing_packet ?? null) !== treatment.filing_packet) {
@@ -396,11 +432,13 @@ export function resolveLimits(profile, caption, { preset, pages, words, noLimit 
   }
   if (pages !== undefined) positive(pages, '--max-pages');
   if (words !== undefined) positive(words, '--max-words');
-  const entries = (allowed ?? []).map(id => ({ id, ...profile.validation.limits[id] }));
-  const caps = Object.fromEntries(entries.filter(limit => limit.verification !== 'verify').map(limit => [limit.unit, limit.maximum]));
-  if (general && (pages > caps.pages || words > caps.words)) {
-    throw new Error('A general paper cannot exceed its profile page or word ceiling.');
+  const entries = lengthEntries(profile, treatment);
+  const profileCaps = ceilings(entries);
+  if (pages > profileCaps.pages || words > profileCaps.words) {
+    throw new Error('An explicit maximum cannot exceed its document type’s profile ceiling.');
   }
+  const usable = entries.filter(limit => limit.verification !== 'verify');
+  const caps = ceilings(usable);
   if (all) {
     if (!(pages ?? caps.pages) || !(words ?? caps.words)) {
       throw new Error('This profile requires both ceilings. Supply explicit maxima for any unverified ceiling.');
@@ -408,11 +446,16 @@ export function resolveLimits(profile, caption, { preset, pages, words, noLimit 
     return { choice: explicit ? 'explicit-maxima' : preset ? 'profile-preset' : 'profile-all',
       pages: pages ?? caps.pages, words: words ?? caps.words, preset: preset ?? null };
   }
-  if (explicit) return { choice: 'explicit-maxima', pages: pages ?? null, words: words ?? null, preset: null };
+  if (explicit) {
+    const maxima = { pages: pages ?? caps.pages ?? null, words: words ?? caps.words ?? null };
+    if (Object.keys(profileCaps).some(unit => maxima[unit] === null)) {
+      throw new Error('Supply an explicit maximum based on the applicable rule or order for each unverified profile ceiling.');
+    }
+    return { choice: 'explicit-maxima', ...maxima, preset: null };
+  }
   if (alternatives && caps.pages && caps.words) {
     return { choice: 'profile-alternatives', pages: caps.pages, words: caps.words, preset: null };
   }
-  const usable = entries.filter(limit => limit.verification !== 'verify');
   if (usable.length === 1 && (alternatives || entries.length === 1)) {
     return resolveLimits(profile, caption, { preset: usable[0].id });
   }

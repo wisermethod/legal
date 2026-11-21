@@ -3,7 +3,7 @@ name: Chronology
 type: skill
 category: procedure
 description: Build a sourced litigation timeline that connects events to pleaded issues and reconciles filing dates with tracked deadlines
-version: 0.3.4
+version: 0.3.5
 ---
 
 # Chronology
@@ -16,11 +16,11 @@ Classifier seam: none.
 
 ## Objective
 
-Save one chronology in the designated dated-facts record when that record owns the chronology. Otherwise use the matter’s declared chronology destination, or `chronology.md` when neither is designated. Give each event a source, show claim and element links where the record supports them, and identify date conflicts, uncertainty and deadline discrepancies.
+Save one chronology. If the declaration gives a record sole ownership of dated facts, save the timeline there. Otherwise use the declared chronology destination, or `chronology.md` when none is declared. Give each event a source, show claim and element links where the record supports them, and identify date conflicts, uncertainty and deadline discrepancies.
 
 ## Inputs
 
-Resolve the owning root under `wiser` Workspace Model and read its instructions and the matter's `AGENTS.md` before using matter files. If the owning root or matter is missing or ambiguous, surface any known urgent date and ask for the missing choice before assembling the timeline. Use the single destination in Objective. Ask which governs before writing if the declaration gives conflicting ownership.
+Resolve the owning root under `wiser` Workspace Model and read its instructions and the matter's `AGENTS.md` before using matter files. If the owning root or matter is missing or ambiguous, surface any known urgent date and ask for the missing choice before assembling the timeline. Use the single destination in Objective. Ask which governs before writing if the declaration assigns the same ownership to competing records.
 
 - `<user_request>` names the matter and any issue or date scope.
 - `<context>` names the matter `AGENTS.md`, current posture and destination.
@@ -40,12 +40,12 @@ Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Coun
 2. Do the sources record the same event with agreeing details, competing details, or separate events? Merge agreeing duplicates, citing the most authoritative source for the event and preserving useful corroboration. Keep conflicting versions visible with their respective sources and refer the conflict to the litigant. Keep separate events separate. Prefer the primary order, docket entry, notice or case-administration record that documents the event directly.
 3. Is a date explicit and undisputed, disputed, inferred, or absent? Sort confirmed dates oldest first. In a separate unresolved-dates section, retain each competing date and its source, the inferred date and its basis, or "date unknown," as applicable. Keep each row tied to a filename and location, filing date or exhibit reference. Leave an event without an identifiable source out of the chronology and report the evidence gap.
 4. Read the claims record and any verified Claim Chart. Does a source support a connection to a stated claim, defense, element or procedural trigger? Cite that claim or element reference in Notes. If the mapping is unclear or authority is missing, label it unresolved. If the event has no identified claim relationship, keep it when relevant to the procedural timeline. Do not turn temporal association into causation or infer new elements.
-5. Cross-check actual filing and service dates against the calculated dates in the deadline record. Record agreements and discrepancies, including competing dates and missing triggers, with their sources. Use [Maintain Matter File's phase deadline handoff](../Maintain%20Matter%20File/SKILL.md#what-should-a-phase-do-with-a-deadline) for each correction and report the read-back or pending entry.
-6. Use `Date | Event | Source document | Notes` for a standalone chronology where the matter permits one. Give the Handoff label in the handoff message, never in the chronology. If the matter gives a designated record sole ownership of dated facts, use that file’s approved shape for an update and link to those entries from companion records. Leave the timeline in its designated owner only. For read-only work, return the proposed rows without updating the matter.
+5. Cross-check actual filing and service dates against the calculated dates in the deadline record. Record agreements and discrepancies, including competing dates and missing triggers, with their sources. Report proposed deadline corrections with their evidence and verification state. When a correction is authorized and the work is not read-only, use [Maintain Matter File's phase deadline handoff](../Maintain%20Matter%20File/SKILL.md#what-should-a-phase-do-with-a-deadline) and report the read-back or pending entry.
+6. For read-only work, return the proposed rows without updating the matter. Otherwise save once at the destination selected in Objective. Use the destination’s declared shape, or `Date | Event | Source document | Notes` for a standalone chronology without a prescribed shape. Refer to the authoritative entries by link from companion records.
 
 ## Pitfalls
 
-- If matter or issue scope is ambiguous, clarify before assembling the timeline. Before saving, check the path. If it is fresh or already holds identical bytes, save or reuse it respectively. If this run refreshes an earlier chronology, preserve the earlier version through the owning root's archive and write rules or use a distinct path when replacement is unauthorized.
+- If matter or issue scope is ambiguous, clarify before assembling the timeline. Before saving, check the path. If it is fresh or already holds identical bytes, save or reuse it respectively. If this run refreshes an earlier chronology, follow the owning root's archive and write rules. When replacement is unauthorized, return the proposed rows.
 - A court order dated one day and entered or served another can support multiple events. Preserve those distinctions and the authority that selects the deadline trigger.
 
 ## Success

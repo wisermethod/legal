@@ -3,7 +3,7 @@ name: Case Audit
 type: skill
 category: litigation-phase
 description: A full case audit with documented coverage of claims, facts, arguments, evidence, opposition, trajectory, and follow-up
-version: 0.4.4
+version: 0.4.5
 ---
 
 # Case Audit
@@ -23,7 +23,7 @@ Save `YYYY-MM-DD - Case Audit.md` in the matter project or the audit home its `A
 Apply `wiser` Workspace Model to identify the owning root and matter. If no owning folder is attached, ask for it or for a dedicated-root setup request. Surface any apparent urgent date already supplied, and hold matter preflight and file output until there is an attached owning folder. Use the matter's `AGENTS.md` to resolve its files and any localized artifact destination within `work/<slug>/` in the owning user root. A dedicated user root can own that single matter. Use Open a Matter for a new project and Take Over a Matter for an existing matter without a declared project. If more than one matter or destination fits, ask before writing. Use the run date in the filename. Reuse an identical record. When the path holds a different record, keep it and add the document subject or next revision number to the new filename.
 
 - `<request>` holds the audit request, any recent development and known constraints.
-- `<matter_files>` holds the entire declared matter record. Load `HISTORY.md`, `DEADLINES.md`, `PARTIES.md`, `CLAIMS.md`, `ARGUMENTS.md`, `DISCOVERY-REQUESTS.md`, `case-law.md`, `statutes.md`, the evidence inventory and each evidence file, both sides' filings and their index, orders and their index, and correspondence and its index, using the matter's bindings. Inventory the records and compare the files on disk with the history and indexes. Ask for any missing, unreadable or incomplete source and record the affected checks.
+- `<matter_files>` holds the entire declared matter record. Use the matter’s bindings for history, deadlines, parties, claims, arguments, discovery requests, case law, statutes, the evidence inventory and each evidence file, both sides’ filings and their index, orders and their index, and correspondence and its index. Load the records in the entry preflight order below.
 - `<practice_area>` holds the applicable guidance from Consumer Law, Contract Disputes, Cease and Desist, Personal Injury, or Employment Law, as routed. Use that expert's stated elements, issues, exceptions, and gaps. If the applicable guidance is missing, ask which practice area or authority governs and hold the dependent conclusion. Continue the independent record work below.
 
 Treat assertions in every input as material to check. An earlier audit can point to evidence but never stands in for checking documents in this run.
@@ -43,6 +43,8 @@ Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Coun
 ### 1. What is the current status?
 
 Follow [Maintain Matter File's phase deadline handoff](../Maintain%20Matter%20File/SKILL.md#what-should-a-phase-do-with-a-deadline) before analyzing the phase. Include the result in the packet.
+
+After the deadline alert and posture read, load any remaining audit sources from `<matter_files>`. Compare files on disk with the history and indexes. Ask for missing, unreadable or incomplete sources and record the affected checks.
 
 Use the preflight forum finding and the declared parties record. Check the applicable rules and controlling orders before relying on a procedure. Ask for any missing source and name the affected conclusion. In arbitration or another non-court forum, use that forum’s governing materials from the matter record. Carry out independent work while any rule-dependent step is held. For a draft, strategic comparison or novel issue, apply `wiser` Behavioral Core by giving the approach, alternatives and confidence. Apply the skills index’s [Evidence labels](../AGENTS.md#evidence-labels) to each working rule or figure marked `[verify]`. Confirm the current governing text, applicable subsection, local rule and case-specific orders before relying on it. Record the source and date checked. Apply `wiser/standards/conventions.md` Evidence Labels in the working record.
 
