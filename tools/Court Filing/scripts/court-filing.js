@@ -153,9 +153,9 @@ function usage() {
     '',
     '--body is required. Validation parses the original Markdown independently and checks it against the PDF.',
     'Omit length flags to use the declared type\'s profile treatment. --limit pins a listed alternative.',
-    '--max-pages and --max-words set the litigant\'s own tighter targets and preserve profile alternatives. Use the order flags for a case-specific order or rule.',
+    '--max-pages and --max-words set the litigant\'s own tighter targets and preserve profile alternatives. An exceeded target is an advisory if the other alternative passes. Use the order flags for a case-specific order or rule.',
     '--order-max-pages and --order-max-words set mandatory ceilings. Supply --order-source with the order or rule, its date and record location.',
-    'Omitted order units retain their profile ceilings only for a type that requires both. A ceiling above the profile is flagged for preview.',
+    'An omitted order unit keeps its profile ceiling unless the type offers page or word alternatives, where the order replaces the pair. A ceiling above the profile is flagged for preview.',
     '--no-length-limit is an optional equivalent for a type whose length_presets is null.',
     '--replay marks composition metadata and requires a PDF filename starting with "Not for filing - " in validation.',
     'classify suggests types. The caller declares the type. compare reports historical differences and writes nothing.',
@@ -440,10 +440,11 @@ async function main(args) {
         throw new Error('--replay requires a PDF filename starting with "' + REPLAY_PREFIX + '".');
       }
       const numeric = key => flags.has(key) ? (/^\d+$/.test(flags.get(key)) ? Number(flags.get(key)) : NaN) : undefined;
-      const limits = resolveLimits(profile, caption, {
+      const limitOptions = {
         preset: flags.get('--limit'), pages: numeric('--max-pages'), words: numeric('--max-words'), noLimit: flags.has('--no-length-limit'),
         orderPages: numeric('--order-max-pages'), orderWords: numeric('--order-max-words'), orderSource: flags.get('--order-source'),
-      });
+      };
+      resolveLimits(profile, caption, limitOptions);
       const bodySha256 = flags.get('--body-sha256');
       if (!/^[a-f0-9]{64}$/.test(bodySha256)) throw new Error('--body-sha256 must be the lowercase SHA-256 returned by compose.');
       if (digest(body) !== bodySha256) {
@@ -456,7 +457,7 @@ async function main(args) {
       const pdf = readPdf(pdfPath, '--pdf');
       const unavailable = missing.map(program => ({ program, check: program + ' -v' }));
       const resultOfValidation = validate({
-        pdf, caption, profile, limits, prepared, replay,
+        pdf, caption, profile, limitOptions, prepared, replay,
         parseUnavailable: !dependencies.pdfinfo || !dependencies.pdftotext,
       }, (kind, ...args) => dependencies[POPPLER[kind]] ? inspect(kind, ...args) : null);
       result = { profile: profile.jurisdiction_id, ...resultOfValidation, pdfSha256: digest(pdf), unavailable };

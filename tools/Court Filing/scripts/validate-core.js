@@ -101,19 +101,10 @@ function pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines
     'Visible ink is within the profile margins, allowing 1.5 pt for print rounding and excluding the matched footer words.'));
 }
 
-export function validate({ pdf, caption, profile, limits, prepared, replay = false, parseUnavailable = false, validationDate = new Date() }, inspect) {
+export function validate({ pdf, caption, profile, limitOptions, prepared, replay = false, parseUnavailable = false, validationDate = new Date() }, inspect) {
   validateProfile(profile);
   validateCaption(caption, profile, 'caption', replay);
-  const verifiedLimits = resolveLimits(profile, caption, {
-    preset: limits.preset ?? undefined,
-    pages: limits.choice === 'explicit-maxima' ? limits.pages ?? undefined : undefined,
-    words: limits.choice === 'explicit-maxima' ? limits.words ?? undefined : undefined,
-    noLimit: limits.choice === 'no-length-limit',
-    orderPages: limits.order?.pages ?? undefined,
-    orderWords: limits.order?.words ?? undefined,
-    orderSource: limits.order?.source,
-  });
-  limits = verifiedLimits;
+  let limits = resolveLimits(profile, caption, limitOptions);
   const { bodySha256, bodyWords } = prepared;
   const title = titleChecks(profile, caption);
   const checks = [...title];
@@ -167,6 +158,17 @@ export function validate({ pdf, caption, profile, limits, prepared, replay = fal
     add('Within a profile length alternative', satisfiedBy.length ? 'pass' :
       pageCount === null || wordCount === null ? 'not_checked' : 'fail', detail,
     { pageCount, bodyWords, pdfBodyWords });
+    if (satisfiedBy.length === 1) {
+      const [unit, measured, quantity] = satisfiedBy[0] === 'words' ?
+        ['pages', pageCount, 'PDF pages'] : ['words', wordCount, 'body words'];
+      const target = limitOptions?.[unit];
+      if (target !== undefined && measured !== null && measured > target) {
+        add('Target exceeded (' + unit + ')', 'advisory',
+          'The filing has ' + measured + ' ' + quantity + ' against a target of ' + target + '. ' +
+          'Pass a ceiling set by an order or rule with --order-max-' + unit +
+          ' and --order-source. A personal target is not an order. On this type an order ceiling replaces both the page and the word alternative and is enforced on its own unit.');
+      }
+    }
   } else if (limits.words !== null) {
     add('Within word limit (' + limits.words + (order?.words ? ', set by order)' : ')'),
       pdfBodyWords === null || bodyWords === null ? 'not_checked' : resultOf(Math.max(pdfBodyWords, bodyWords) <= limits.words),

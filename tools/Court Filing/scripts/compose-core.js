@@ -17,6 +17,12 @@ export function formatPartyName(name, role) {
   return `${upper}${suffix}`;
 }
 
+export function captionTitle(title) {
+  // Chromium applies Unicode default uppercase for the document's English language.
+  // Validation uses String.prototype.toUpperCase() for the same printed text.
+  return { css: 'text-transform: uppercase;', printed: title.toUpperCase() };
+}
+
 function counselInCaption(c) {
   const s = c.signer;
   if (!s || c.caption_counsel === false) return '';
@@ -108,7 +114,7 @@ function certificateOfService(svc, title, year, signer) {
   </div>`;
 }
 
-function courtCss(layout) {
+function courtCss(layout, titleCss, replay) {
   const margin = SIDES.map(side => cssInches(layout.margins_inches[side])).join(" ");
   return `
   @page { size: ${layout.page_size.toLowerCase()}; margin: ${margin}; }
@@ -132,17 +138,18 @@ function courtCss(layout) {
   .counsel-block { margin-top: 10pt; padding-top: 8pt; border-top: 1pt solid #000; }
   .counsel-label { font-weight: bold; margin-bottom: 2pt; }
   .counsel-name { margin-bottom: 2pt; }
-  tr.caption-title-row td.doc-title { border-top: 1.5pt solid #000; text-align: center; font-weight: bold; white-space: pre-wrap; line-height: 1.3; padding: 8pt 12pt; }
+  tr.caption-title-row td.doc-title { border-top: 1.5pt solid #000; text-align: center; font-weight: bold; white-space: pre-wrap; ${titleCss} line-height: 1.3; padding: 8pt 12pt; }
 
   .body p { line-height: ${layout.body_line_height}; margin: 0 0 6pt 0; text-align: left; }
-  .body h1, .body h4, .body h5, .body h6 { font-size: ${layout.body_font_size_pt}pt; }
+${replay ? '' : `  .body h1, .body h2, .body h3, .body h4, .body h5, .body h6 { break-after: avoid; }
+`}  .body h1, .body h4, .body h5, .body h6 { font-size: ${layout.body_font_size_pt}pt; }
   .body code { font-family: inherit; }
   .body h2 { font-size: ${layout.body_font_size_pt}pt; font-weight: bold; line-height: 1.4; margin: 14pt 0 6pt 0; }
   .body h3 { font-size: ${layout.body_font_size_pt}pt; font-weight: bold; font-style: italic; margin: 10pt 0 4pt 0; }
   .body ol, .body ul { line-height: ${layout.body_line_height}; margin: 0 0 6pt 0; padding-left: 36pt; }
   .body em { font-style: italic; }
   .body strong { font-weight: bold; }
-  /* The original renderer left ordinary pipe tables to Chromium's print defaults. */
+  /* Ordinary pipe tables use Chromium's print defaults. */
   .body table { border-collapse: separate; border-spacing: 2px; }
   .body table thead { display: table-header-group; vertical-align: middle; }
   .body table tbody { vertical-align: middle; }
@@ -177,7 +184,7 @@ function buildHtml(caption, layout, prepared, certificateYear, replay) {
   const { bodyHtml, tableStyles, bodySha256 } = prepared;
   const presentation = styleTables(bodyHtml, tableStyles);
   return `<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><title>${compositionTitle(bodySha256, certificateYear, replay)}</title><style>${courtCss(layout)}${presentation.css}</style></head>
+<html lang="en"><head><meta charset="UTF-8"><title>${compositionTitle(bodySha256, certificateYear, replay)}</title><style>${courtCss(layout, captionTitle(caption.title).css, replay)}${presentation.css}</style></head>
 <body>
   ${captionTable(caption)}
   <div class="body">${presentation.html}</div>

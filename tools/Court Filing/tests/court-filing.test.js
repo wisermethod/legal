@@ -43,7 +43,7 @@ function temp(t) {
   return realpathSync(path);
 }
 
-test('compose preserves the legacy caption, spacing and signature/service blocks', () => {
+test('compose lays out the boxed caption, body spacing, signature and certificate', () => {
   const caption = example();
   caption.parties.splice(1, 0, { role: 'Defendant and Counterclaimant', name: 'Second <Party>' });
   caption.parties.push({ role: 'Plaintiff', name: 'Second Plaintiff' });
@@ -76,6 +76,22 @@ test('compose preserves the legacy caption, spacing and signature/service blocks
   caption.signer.role = 'Attorney';
   caption.counsel_label = 'Counsel for Applicant:';
   assert.match(compos({ caption, body: body(), profile: profile() }).html, /class="counsel-label">Counsel for Applicant:/);
+});
+
+test('compose applies uppercase only in the caption title cell and keeps the typed title in the certificate', () => {
+  const caption = { ...example(), title: 'Motion for an "Example" & Request' };
+  const { html } = compos({ caption, body: body(), profile: profile() });
+  assert.match(html, /tr\.caption-title-row td\.doc-title \{[^}]*text-transform: uppercase;[^}]*\}/);
+  assert.match(html, /tr\.caption-title-row td\.doc-title \{[^}]*white-space: pre-wrap;[^}]*\}/);
+  assert.match(html, /<div class="cert">[\s\S]*foregoing\s+Motion for an &quot;Example&quot; &amp; Request was served by email/);
+});
+
+test('headings keep with their text in production, and a replay omits the rule to reproduce earlier page breaks', () => {
+  const rule = /\.body h1, \.body h2, \.body h3, \.body h4, \.body h5, \.body h6 \{ break-after: avoid; \}/;
+  assert.match(compos({ caption: example(), body: body(), profile: profile() }).html, rule);
+  const replayed = compos({ caption: example(), body: body(), profile: profile(), replay: true }).html;
+  assert.doesNotMatch(replayed, /break-after/);
+  assert.match(replayed, /tr\.caption-title-row td\.doc-title \{[^}]*text-transform: uppercase;[^}]*\}/);
 });
 
 test('profile types own their title, blocks, packet and limit choices', () => {
@@ -360,7 +376,7 @@ async function fixture(t, options = {}) {
       draw(options.marker ?? 'COURT USE ONLY', 651, 385);
       draw('Case No: ' + (options.caseNumber ?? caption.case_number), 629, 378);
       draw('Division: ' + (options.division ?? caption.division), 610, 378);
-      centered(options.title ?? caption.title, 558);
+      centered(options.title ?? caption.title.toUpperCase(), 558);
       if (options.extraTitleLine) centered(options.extraTitleLine, 543);
       draw(options.bodyText ?? fixtureBody, 530);
     }
@@ -531,7 +547,7 @@ pdfTest('injected validation date anchors the certificate independently of PDF m
   const caption = example();
   const title = 'Court Filing ' + fixtureDigest;
   const prepared = prepareBody(fixtureBody, current.document_types.motion, parse, digest);
-  const limits = resolveLimits(current, caption, { preset: 'general-motion-pages' });
+  const limitOptions = { preset: 'general-motion-pages' };
   for (const [validationYear, metadataYear, certificateDate, expected] of [
     [2026, 2030, '____ day of __________, 2030', 'fail'],
     [2026, 2030, '12th day of Sept., 2030', 'fail'],
@@ -548,7 +564,7 @@ pdfTest('injected validation date anchors the certificate independently of PDF m
     const metadata = metadataYear ? title + ' | Certificate year ' + metadataYear : title;
     const pdf = await fixture(t, { metadata, certificateDate });
     const validationDate = new Date(validationYear, 0, 1);
-    const result = validate({ pdf, caption, profile: current, limits, prepared, validationDate }, kind => {
+    const result = validate({ pdf, caption, profile: current, limitOptions, prepared, validationDate }, kind => {
       if (kind === 'page-info') return spawnSync('pdfinfo', ['-box', '-f', '1', '-l', '2', pdf]).stdout;
       if (kind === 'text') return spawnSync('pdftotext', ['-enc', 'UTF-8', '-raw', pdf, '-']).stdout;
       return null;
@@ -611,7 +627,7 @@ test('missing PDF system programs produce named unchecked results and presence c
 
 test('unavailable inspection evidence cannot produce a successful gate', () => {
   const result = validate({
-    pdf: new Uint8Array(), caption: example(), profile: profile(), limits: resolveLimits(profile(), example(), { preset: 'general-motion-pages' }),
+    pdf: new Uint8Array(), caption: example(), profile: profile(), limitOptions: { preset: 'general-motion-pages' },
     prepared: prepareBody(fixtureBody, profile().document_types.motion, parse, digest),
   }, () => null);
   assert.equal(result.ok, false);
@@ -1104,6 +1120,121 @@ function renderFiling(scratch, name, caption, markdown, remake, flags = []) {
   return { pdf, cap, receipt, validateArgs };
 }
 
+pdfTest('a mixed-case title prints in capitals in the caption and as typed in the certificate', t => {
+  if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
+  const caption = { ...example(), title: 'Motion for a Straße Conference' };
+  const built = renderFiling(temp(t), 'title-casing', caption, fixtureBody);
+  const validated = run(built.validateArgs);
+  assert.equal(validated.status, 0, validated.stderr);
+  const result = resultOf(validated);
+  const checks = checksByName(result);
+  assert.equal(checks['Document title in caption'], 'pass');
+  assert.equal(checks['Certificate of service present'], 'pass');
+  const positioned = spawnSync('pdftotext', ['-tsv', built.pdf, '-']);
+  assert.equal(positioned.status, 0, positioned.stderr.toString());
+  const [first] = readTextLines(positioned.stdout, result.pages);
+  assert.ok(first.lines.some(line => line.words.map(word => word.text).join(' ') === 'MOTION FOR A STRASSE CONFERENCE'));
+  const printed = spawnSync('pdftotext', ['-raw', built.pdf, '-'], { encoding: 'utf8' });
+  assert.equal(printed.status, 0, printed.stderr);
+  assert.match(printed.stdout, /foregoing\s+Motion for a Straße Conference was served by email/);
+});
+
+pdfTest('validation refuses a PDF with a mixed-case caption title', t => {
+  if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
+  const built = renderFiling(temp(t), 'mixed-case-caption', example(), fixtureBody, html =>
+    html.replace(/(tr\.caption-title-row td\.doc-title \{[^}]*?)text-transform: uppercase;/, '$1'));
+  const validated = run(built.validateArgs);
+  assert.equal(checksByName(resultOf(validated))['Document title in caption'], 'fail');
+  assert.equal(validated.status, 1, validated.stdout);
+});
+
+pdfTest('a heading at a page break moves to the next page with its paragraph', t => {
+  if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
+  const scratch = temp(t);
+  const caption = { ...example(), title: example().title.toUpperCase() };
+  const markdown = [...Array(11).fill('A short fictional paragraph fills the page.'),
+    '## Test heading', 'Its paragraph belongs here.'].join('\n\n');
+  const split = renderFiling(scratch, 'split-heading', caption, markdown, html => html.replace('break-after: avoid;', ''));
+  const kept = renderFiling(scratch, 'kept-heading', caption, markdown);
+  const pagesOf = filing => {
+    const printed = spawnSync('pdftotext', ['-raw', filing.pdf, '-'], { encoding: 'utf8' });
+    assert.equal(printed.status, 0, printed.stderr);
+    return printed.stdout.split('\f').map(page => page.replace(/^Page \d+ of \d+$/m, '').trim());
+  };
+  const [splitFirst, splitSecond] = pagesOf(split);
+  assert.match(splitFirst, /\nTest heading$/);
+  assert.match(splitSecond, /^Its paragraph belongs here\./);
+  const [keptFirst, keptSecond] = pagesOf(kept);
+  assert.doesNotMatch(keptFirst, /Test heading/);
+  assert.match(keptSecond, /^Test heading\s+Its paragraph belongs here\./);
+
+  const validateFiling = filing => {
+    const validated = run(filing.validateArgs);
+    assert.equal(validated.status, 0, validated.stderr);
+    return resultOf(validated);
+  };
+  const checked = validateFiling(kept);
+  const checks = checksByName(checked);
+  for (const label of ['Page size', 'Body paragraph spacing', 'Visible margin geometry', 'Visible filing ink']) {
+    assert.equal(checks[label], 'pass', label);
+  }
+  const spacing = result => result.checks.find(check => check.label === 'Table, list and heading double spacing').counts;
+  assert.deepEqual(spacing(checked), spacing(validateFiling(split)));
+  assert.equal(spacing(checked).heading, 1);
+});
+
+pdfTest('only exceeded explicit targets receive advisories when the other alternative passes', t => {
+  if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
+  const scratch = temp(t);
+  const caption = { ...example(), title: 'Reply in Support of the Motion to Compel', document_type: 'reply' };
+  const markdown = Array(30).fill('A short fictional paragraph fills the page.').join('\n\n');
+  const built = renderFiling(scratch, 'reply-with-targets', caption, markdown);
+  const check = (flags, expectedStatus = 0, selected = 'colorado-district') => {
+    const response = run([...built.validateArgs.map(arg => arg === 'colorado-district' ? selected : arg), ...flags]);
+    assert.equal(response.status, expectedStatus, response.stderr);
+    return resultOf(response);
+  };
+  const targetChecks = list => list.filter(({ label }) => label.startsWith('Target exceeded ('));
+  for (const [unit, alternative, count] of [['pages', 'words', 'PDF pages'], ['words', 'pages', 'body words']]) {
+    const result = check(['--max-' + unit, '1']);
+    assert.deepEqual(result.limits.satisfiedBy, [alternative]);
+    const advisories = targetChecks(result.advisories);
+    assert.deepEqual(targetChecks(result.checks), advisories);
+    assert.equal(advisories.length, 1);
+    const [advisory] = advisories;
+    assert.equal(advisory.label, 'Target exceeded (' + unit + ')');
+    assert.equal(advisory.status, 'advisory');
+    const number = unit === 'pages' ? result.pages : Math.max(result.bodyWords, result.pdfBodyWords);
+    assert.ok(advisory.detail.includes(number + ' ' + count), advisory.detail);
+    assert.match(advisory.detail, /target of 1\b/);
+    assert.ok(advisory.detail.includes('--order-max-' + unit), advisory.detail);
+    assert.match(advisory.detail, /--order-source/);
+    assert.match(advisory.detail, /enforced on its own unit/);
+
+    const custom = profile();
+    custom.validation.limits['general-reply-' + unit].maximum = 1;
+    const customPath = join(scratch, unit + '-profile.json');
+    writeFileSync(customPath, JSON.stringify(custom));
+    const otherTarget = alternative === 'pages' ? '5' : '250';
+    const fromProfile = check(['--max-' + alternative, otherTarget], 0, customPath);
+    assert.deepEqual(fromProfile.limits.satisfiedBy, [alternative]);
+    assert.deepEqual(targetChecks(fromProfile.advisories), []);
+    assert.deepEqual(targetChecks(fromProfile.checks), []);
+
+    const order = check(['--order-max-' + unit, '1', '--order-source', 'Fictional order'], 1);
+    assert.deepEqual(targetChecks(order.advisories), []);
+    assert.deepEqual(targetChecks(order.checks), []);
+  }
+  const defaults = check([]);
+  for (const result of [
+    check(['--max-pages', String(defaults.pages), '--max-words', String(defaults.bodyWords)]),
+    check(['--max-pages', '1', '--max-words', '1'], 1),
+  ]) {
+    assert.deepEqual(targetChecks(result.advisories), []);
+    assert.deepEqual(targetChecks(result.checks), []);
+  }
+});
+
 pdfTest('replay PDF filename, metadata and result cannot be used for production', t => {
   if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
   const scratch = temp(t);
@@ -1178,12 +1309,21 @@ pdfTest('explicit maxima preserve motion alternatives and page-only caps', async
   assert.equal(checksByName(overPages.result)['Within word limit (100)'], 'pass');
 });
 
-test('order limits retain an omitted profile ceiling only when the profile requires both', () => {
+test('order limits retain an omitted profile ceiling unless the type offers page or word alternatives', () => {
   const current = profile();
   const source = 'Fictional Order, 2099-04-05, docket entry 7 at page 2';
   const limit = (type, flags) => resolveLimits(current, { ...example(), document_type: type }, { orderSource: source, ...flags });
   assert.equal(limit('motion', { orderPages: 10 }).words, null);
-  assert.equal(limit('rule-12-or-56-motion', { orderWords: 100 }).pages, null);
+  assert.equal(limit('rule-12-or-56-motion', { orderWords: 100 }).pages, 25);
+  assert.equal(limit('rule-12-or-56-response', { orderWords: 100 }).pages, 25);
+  assert.equal(limit('rule-12-or-56-reply', { orderWords: 100 }).pages, 15);
+  assert.equal(limit('rule-12-or-56-motion', { orderPages: 30 }).pages, 30);
+  assert.equal(limit('reply', { orderWords: 100 }).pages, null);
+  const unverified = profile();
+  unverified.validation.limits['rule-12-or-56-motion-pages'].verification = 'verify';
+  assert.throws(() => resolveLimits(unverified, { ...example(), document_type: 'rule-12-or-56-motion' }, { orderSource: source, orderWords: 100 }),
+    /still requires verification/);
+  assert.equal(resolveLimits(unverified, { ...example(), document_type: 'rule-12-or-56-motion' }, { orderSource: source, orderPages: 20 }).pages, 20);
   assert.equal(limit('proposed-order', { orderPages: 10 }).choice, 'order-maxima');
   current.document_types.motion.length_mode = 'all';
   const resolved = limit('motion', { orderPages: 10 });
@@ -1277,7 +1417,7 @@ pdfTest('an oversized general reply fails both alternatives and cannot use the l
   assert.equal(checksByName(resultOf(guarded))['Document type confirmation'], 'fail');
 });
 
-pdfTest('default Markdown tables match legacy header alignment, wrapping and page breaks', t => {
+pdfTest('default Markdown tables center unaligned headings, wrap cells and repeat headers across page breaks', t => {
   if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
   const caption = { ...example(), title: 'MOTION FOR A FICTIONAL CONFERENCE', certificate_year: 2026 };
   const markdown = ['## Fictional exhibit inventory', '', '| Entry | Description | Code |', '| --- | --- | --- |',

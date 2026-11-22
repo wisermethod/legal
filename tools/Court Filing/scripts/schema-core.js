@@ -398,15 +398,22 @@ export function validateProfile(value) {
   return value;
 }
 
-function resolveOrderLimits(profile, treatment, { orderPages, orderWords, orderSource, all }) {
+function resolveOrderLimits(profile, treatment, { orderPages, orderWords, orderSource, all, alternatives }) {
   text(orderSource, '--order-source');
   if (orderPages !== undefined) positive(orderPages, '--order-max-pages');
   if (orderWords !== undefined) positive(orderWords, '--order-max-words');
   const entries = lengthEntries(profile, treatment);
   const profileCaps = ceilings(entries);
-  const retained = all ? ceilings(entries.filter(limit => limit.verification !== 'verify')) : {};
+  // Under page/word alternatives an order replaces the pair. Otherwise a ceiling in a unit the order
+  // does not name still applies, so a word-only order never removes a page-only type's page cap.
+  const retained = all || !alternatives ? ceilings(entries.filter(limit => limit.verification !== 'verify')) : {};
   const pages = orderPages ?? retained.pages ?? null;
   const words = orderWords ?? retained.words ?? null;
+  // A ceiling the order leaves in force must be a verified one; an unverified ceiling is never dropped silently.
+  if (!alternatives && !all && (orderPages === undefined && profileCaps.pages !== undefined && pages === null ||
+      orderWords === undefined && profileCaps.words !== undefined && words === null)) {
+    throw new Error('The order leaves a profile ceiling in force that still requires verification. Verify that ceiling in the profile or supply it with the applicable order flag.');
+  }
   if (all && (pages === null || words === null)) {
     throw new Error('This profile requires both ceilings. Verify any remaining unverified ceiling in the profile or supply it with the applicable order flags.');
   }
@@ -432,7 +439,7 @@ export function resolveLimits(profile, caption, {
     if (preset !== undefined || explicit || noLimit) {
       throw new Error('Order flags cannot be combined with --limit, --max-pages, --max-words or --no-length-limit.');
     }
-    return resolveOrderLimits(profile, treatment, { orderPages, orderWords, orderSource, all });
+    return resolveOrderLimits(profile, treatment, { orderPages, orderWords, orderSource, all, alternatives });
   }
   if (orderSource !== undefined) throw new Error('--order-source requires --order-max-pages or --order-max-words.');
   if (noLimit) {

@@ -1,5 +1,5 @@
 import { canonicalBody, judicialClosing, normalize } from './body-text-core.js';
-import { captionParties, compositionTitle, formatPartyName, REPLAY_TITLE_SUFFIX } from './compose-core.js';
+import { captionParties, captionTitle, compositionTitle, formatPartyName, REPLAY_TITLE_SUFFIX } from './compose-core.js';
 import { counselLabel, documentType } from './schema-core.js';
 
 const certificateHeading = 'CERTIFICATE OF SERVICE';
@@ -61,7 +61,7 @@ function captionText(first, caption, profile, add, positioned) {
   const divisionEnd = divisionAt < 0 ? -1 : matchLines(first, divisionAt, division);
   add('Division in caption', divisionEnd > 0 && Boolean(boxed), caption.division);
   add('COURT USE ONLY caption marker', markerAt >= 0 && Boolean(boxed?.marker), 'Caption marker before Case No. and Division.');
-  const title = caption.title;
+  const title = captionTitle(caption.title).printed;
   const titleEnd = matchLines(first, divisionEnd, title, true);
   add('Document title in caption', titleEnd > 0 && boxed?.title === normalize(title), caption.title);
   return titleEnd;
