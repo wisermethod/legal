@@ -152,10 +152,10 @@ function usage() {
     '  ' + HELP + ' (or --help, also after a command)',
     '',
     '--body is required. Validation parses the original Markdown independently and checks it against the PDF.',
-    'Omit length flags to use the declared type\'s profile treatment. --limit pins a listed alternative.',
-    '--max-pages and --max-words set the litigant\'s own tighter targets and preserve profile alternatives. An exceeded target is an advisory if the other alternative passes. Use the order flags for a case-specific order or rule.',
+    'Omit length flags to use the declared type\'s profile treatment. The shipped Colorado length presets are page limits. --limit selects a listed preset.',
+    '--max-pages and --max-words set the litigant\'s own tighter targets. In a custom profile with alternatives, an exceeded target is an advisory if the other unit passes.',
     '--order-max-pages and --order-max-words set mandatory ceilings. Supply --order-source with the order or rule, its date and record location.',
-    'An omitted order unit keeps its profile ceiling unless the type offers page or word alternatives, where the order replaces the pair. A ceiling above the profile is flagged for preview.',
+    'A word-only order keeps the shipped page limit in force. For a custom type with alternatives, an order replaces the pair. A ceiling above the profile is flagged for preview.',
     '--no-length-limit is an optional equivalent for a type whose length_presets is null.',
     '--replay marks composition metadata and requires a PDF filename starting with "Not for filing - " in validation.',
     'classify suggests types. The caller declares the type. compare reports historical differences and writes nothing.',
@@ -305,15 +305,40 @@ async function markdownParser(install) {
   return body => parseFilingMarkdown(parser, body);
 }
 
-function popplerVersions(programs = PROGRAMS) {
+function inspectionIssue(program, check, result, page) {
+  return {
+    program, check, ...(page === undefined ? {} : { page }),
+    errorCode: result.error?.code ?? null, status: result.status ?? null, signal: result.signal ?? null,
+    stderr: [...String(result.stderr ?? '').slice(0, 400)].slice(0, 200).join(''),
+  };
+}
+
+function inspectionReason({ program, check, page, errorCode, status, signal, stderr }) {
+  const version = check.endsWith(' -v');
+  const missingOutput = status === 0 && !errorCode && !signal && (version || !stderr) &&
+    (version ? 'no recognizable version banner' : 'no output');
+  const reason = [errorCode && 'spawn error ' + errorCode, status !== null && 'exit status ' + status,
+    signal && 'signal ' + signal, stderr && 'stderr ' + JSON.stringify(stderr), missingOutput].filter(Boolean).join(', ');
+  const step = version ? 'version check' : check + (page === undefined ? '' : ', page ' + page);
+  return program + ' did not provide usable evidence (' + step + (reason ? ': ' + reason : '') + ').';
+}
+
+function popplerVersions(programs = PROGRAMS, unavailable = []) {
   return Object.fromEntries(programs.map(program => {
-    const result = spawnSync(program, ['-v'], { encoding: 'utf8', timeout: 5000, windowsHide: true });
+    const probe = () => spawnSync(program, ['-v'], { encoding: 'utf8', timeout: 5000, windowsHide: true });
+    let result = probe();
+    // One more try only where the program failed to start or was killed without output. A probe that
+    // timed out, exited nonzero or wrote to stderr before failing is final.
+    if ((result.error || result.signal) && !result.status && result.error?.code !== 'ETIMEDOUT' &&
+        !String(result.stderr ?? '').length) result = probe();
     const match = /^(\S+ version [^\r\n]+)$/m.exec((result.stderr ?? '') + '\n' + (result.stdout ?? ''));
-    return [program, !result.error && result.status === 0 && match ? match[1] : null];
+    if (!result.error && result.status === 0 && match) return [program, match[1]];
+    unavailable.push(inspectionIssue(program, program + ' -v', result));
+    return [program, null];
   }));
 }
 
-function inspect(kind, input, page) {
+export function inspect(kind, input, page, spawn = spawnSync) {
   const args = {
     'page-info': ['-box', '-f', '1', '-l', String(MAX_PDF_PAGES), '-'],
     text: ['-enc', 'UTF-8', '-raw', '-', '-'],
@@ -325,14 +350,31 @@ function inspect(kind, input, page) {
     raster: ['-r', String(RASTER_DPI), '-gray', '-singlefile', '-f', String(page), '-l', String(page), '-'],
     'color-raster': ['-r', String(RASTER_DPI), '-singlefile', '-f', String(page), '-l', String(page), '-'],
   };
-  const result = spawnSync(POPPLER[kind], args[kind], {
+  const program = POPPLER[kind];
+  const options = {
     input,
     env: { ...process.env, LC_ALL: 'C' },
     timeout: 15000,
     windowsHide: true,
     maxBuffer: (kind === 'color-raster' ? 32 : 8) * 1024 * 1024,
-  });
-  return !result.error && result.status === 0 && result.stderr.length === 0 ? result.stdout : null;
+  };
+  let result = spawn(program, args[kind], options);
+  if ((result.error || result.signal) && !result.status && !result.stderr?.length) {
+    result = spawn(program, args[kind], options);
+  }
+  if (!result.error && !result.signal && result.status === 0 && !result.stderr?.length && result.stdout?.length) {
+    return { bytes: result.stdout, issue: null };
+  }
+  return { bytes: null, issue: inspectionIssue(program, kind, result, page) };
+}
+
+function pdfInspector(dependencies, unavailable) {
+  return (kind, input, page) => {
+    if (!dependencies[POPPLER[kind]]) return null;
+    const { bytes, issue } = inspect(kind, input, page);
+    if (issue) unavailable.push(issue);
+    return bytes;
+  };
 }
 
 function renderArgs(pdf) {
@@ -394,11 +436,17 @@ async function main(args) {
   } else if (command === 'compare') {
     const referencePath = screened('--reference', flags.get('--reference'), '.pdf');
     const pdfPath = screened('--pdf', flags.get('--pdf'), '.pdf');
-    const missing = Object.entries(popplerVersions(['pdfinfo', 'pdftotext', 'pdftoppm'])).filter(([, version]) => !version);
-    if (missing.length) throw new Error('compare needs Poppler on PATH. Missing: ' + missing.map(([program]) => program).join(', ') + '.');
+    const unavailable = [];
+    const dependencies = popplerVersions(['pdfinfo', 'pdftotext', 'pdftoppm'], unavailable);
+    if (unavailable.length) throw new Error('compare needs Poppler on PATH. ' + unavailable.map(inspectionReason).join(' '));
     const reference = readPdf(referencePath, '--reference');
     const rebuilt = readPdf(pdfPath, '--pdf');
-    result = comparePdfs(reference, rebuilt, inspect);
+    try {
+      result = comparePdfs(reference, rebuilt, pdfInspector(dependencies, unavailable));
+    } catch (error) {
+      if (!unavailable.length) throw error;
+      throw new Error(error.message + ' ' + unavailable.map(inspectionReason).join(' '));
+    }
     result.reference.sha256 = digest(reference);
     result.rebuilt.sha256 = digest(rebuilt);
   } else if (command === 'check') {
@@ -452,14 +500,16 @@ async function main(args) {
       }
       const parse = await markdownParser(explicitInstall);
       const prepared = prepareBody(body, documentType(profile, caption), parse, digest, caption.table_presentation);
-      const dependencies = popplerVersions();
-      const missing = PROGRAMS.filter(program => !dependencies[program]);
       const pdf = readPdf(pdfPath, '--pdf');
-      const unavailable = missing.map(program => ({ program, check: program + ' -v' }));
+      const unavailable = [];
+      const dependencies = popplerVersions(PROGRAMS, unavailable);
+      const inspectionDetail = (kinds, page) => unavailable.filter(issue =>
+        kinds.some(kind => issue.check === kind || issue.check === POPPLER[kind] + ' -v') &&
+        (page === undefined || issue.page === undefined || issue.page === page)).map(inspectionReason).join(' ');
       const resultOfValidation = validate({
-        pdf, caption, profile, limitOptions, prepared, replay,
+        pdf, caption, profile, limitOptions, prepared, replay, inspectionDetail,
         parseUnavailable: !dependencies.pdfinfo || !dependencies.pdftotext,
-      }, (kind, ...args) => dependencies[POPPLER[kind]] ? inspect(kind, ...args) : null);
+      }, pdfInspector(dependencies, unavailable));
       result = { profile: profile.jurisdiction_id, ...resultOfValidation, pdfSha256: digest(pdf), unavailable };
       if (!result.ok) {
         result.remediation = 'Resolve the failed or unchecked evidence listed in checks, then compose and render again if an input or the filing body changed.';

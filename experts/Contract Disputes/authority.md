@@ -67,6 +67,16 @@ The 2026-05-23 re-verification used batch CourtListener opinion search for repor
 | *Huizar* | **Verified, opinion read 2026-05-23.** [CourtListener cluster 2519702](https://www.courtlistener.com/opinion/2519702/allstate-insurance-co-v-huizar/) |
 | *McDonald* | **Verified, opinion read 2026-05-23.** [CourtListener cluster 5344899](https://www.courtlistener.com/opinion/5344899/mcdonald-v-zions-first-national-bank-na/) |
 
+**Reporter numbers not to reuse.** The 2026-05-23 re-verification found these numbers attached to the cases below in an earlier version of this file. Each was wrong and was replaced by the citation this file now carries. Do not restore one from an older draft, note or search result, and treat a draft that carries one as unverified.
+
+| Case | Number not to reuse | Why |
+|------|---------------------|-----|
+| *Clark* | 67 P.3d 1191 | Resolved to a different case in the 2026-05-23 lookup |
+| *City of Littleton* | 495 P.2d 816 and 178 Colo. 812 | Replaced by the citation the 2026-05-23 lookup returned |
+| *Giampapa* | 71 P.3d 897 | Replaced by the citation the 2026-05-23 lookup returned |
+| *Ravenstar* | 399 P.3d 956 | Replaced by the citation the 2026-05-23 lookup returned |
+| *Huizar* | 54 P.3d 264 | Replaced by the citation the 2026-05-23 lookup returned |
+
 | Official Colorado General Assembly 2024 statute publication | Locators |
 |-------------------------------------------------------------|----------|
 | [Title 4 PDF](https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-04.pdf) | **Verified, recorded 2026-05-23.** §§ 4-1-304, 4-1-305(a), 4-1-306, page 11. §§ 4-2-201(1) and 4-2-202, pages 17 to 18. § 4-2-206(1), page 18. §§ 4-2-715(2), 4-2-716(1) to (2), 4-2-718(1) to (2), page 49. |

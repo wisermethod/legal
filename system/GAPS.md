@@ -90,4 +90,4 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Court Filing](../tools/Court%20Filing/TOOL.md)
 
-- Current Colorado fees, fee-waiver form numbers and separate Rule 12 or 56 word ceilings need verification.
+- Current Colorado fees and fee-waiver form numbers need verification.

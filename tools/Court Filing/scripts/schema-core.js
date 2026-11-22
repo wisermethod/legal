@@ -380,10 +380,11 @@ export function validateProfile(value) {
   }
   if (value.fallback_document_type) {
     const fallback = documentType(value, { document_type: value.fallback_document_type });
-    const ceilings = fallback?.length_presets?.map(preset => value.validation.limits[preset]);
-    if (!fallback?.certificate || fallback.filing_packet || ceilings?.length !== 2 ||
-        new Set(ceilings.map(limit => limit.unit)).size !== 2 || ceilings.some(limit => limit.verification === 'verify')) {
-      throw new Error('profile.fallback_document_type must name a paper type with filer signature, certificate, and applicable page and word presets.');
+    const limits = fallback?.length_presets?.map(preset => value.validation.limits[preset]) ?? [];
+    if (!fallback?.certificate || fallback.filing_packet || !limits.some(limit => limit.unit === 'pages') ||
+        limits.length > 2 || new Set(limits.map(limit => limit.unit)).size !== limits.length ||
+        limits.some(limit => limit.verification === 'verify')) {
+      throw new Error('profile.fallback_document_type must name a paper type with filer signature, certificate, an applicable page preset and at most one applicable word preset.');
     }
   }
   validateCaption(value.caption_defaults, value, 'profile.caption_defaults');
@@ -433,7 +434,7 @@ export function resolveLimits(profile, caption, {
   const allowed = treatment.length_presets;
   const general = caption.document_type === profile.fallback_document_type;
   const alternatives = treatment.length_mode === 'alternatives';
-  const all = treatment.length_mode === 'all' || general && !alternatives;
+  const all = treatment.length_mode === 'all' || general && allowed?.length === 2 && !alternatives;
   const explicit = pages !== undefined || words !== undefined;
   if (orderPages !== undefined || orderWords !== undefined) {
     if (preset !== undefined || explicit || noLimit) {

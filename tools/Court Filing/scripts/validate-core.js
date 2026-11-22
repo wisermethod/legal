@@ -10,9 +10,10 @@ export const MAX_PDF_PAGES = 200;
 const decoder = new TextDecoder();
 const resultOf = yes => yes ? 'pass' : 'fail';
 
-function pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines, prepared, repeated) {
+function pdfLayoutChecks(forEvidence, profile, info, pdf, inspect, positioned, bodyLines, prepared, repeated) {
   const { layout } = profile;
   const unchecked = why => {
+    const add = forEvidence(['page-info']);
     add('Profile type size', 'not_checked', why);
     add('Body paragraph spacing', 'not_checked', why);
     add('No embedded page images', 'not_checked', why);
@@ -28,9 +29,11 @@ function pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines
     unchecked(info ? 'Page inspection is limited to ' + MAX_PDF_PAGES + ' pages.' : 'PDF page metadata is unavailable.');
     return;
   }
+  const measured = (kinds, name, evidence, detail, page) => forEvidence(kinds, page)(
+    name, evidence === null ? 'not_checked' : resultOf(evidence), detail);
   const wrongPages = info.pages.flatMap((page, i) => isExpectedPage(page, layout.page_size) ? [] : [i + 1]);
   const missingPageGeometry = info.pages.some(page => !page.rot || !page.MediaBox || !page.CropBox);
-  add('Page size', missingPageGeometry ? 'not_checked' : resultOf(wrongPages.length === 0),
+  forEvidence(['page-info'])('Page size', missingPageGeometry ? 'not_checked' : resultOf(wrongPages.length === 0),
     missingPageGeometry ? 'MediaBox, CropBox or rotation data is unavailable.' :
       wrongPages.length ? 'Expected unrotated ' + layout.page_size + ' MediaBox and CropBox on page(s) ' + wrongPages.join(', ') + '.' :
         layout.page_size + ' MediaBox and CropBox on all pages.');
@@ -38,7 +41,7 @@ function pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines
   const fontBytes = inspect('fonts', pdf);
   const fonts = fontBytes && readFonts(fontBytes);
   const rejected = fonts?.filter(font => !font.embedded || !layout.pdf_font_names.includes(font.name)) ?? [];
-  add('Embedded profile fonts', fonts ? resultOf(fonts.length > 0 && rejected.length === 0) : 'not_checked',
+  forEvidence(['fonts'])('Embedded profile fonts', fonts ? resultOf(fonts.length > 0 && rejected.length === 0) : 'not_checked',
     !fonts ? 'The PDF font inventory is unavailable.' : fonts.length === 0 ? 'The PDF has no listed fonts.' :
       rejected.length ? [...new Set(rejected.map(font => font.name + (font.embedded ? ' (outside profile)' : ' (not embedded)')))].join(', ') :
         [...new Set(fonts.map(font => font.name))].join(', '));
@@ -47,14 +50,17 @@ function pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines
   const typography = readTypography(inspect('typography', pdf), info.count, layout, tableText);
   const spacing = paragraphSpacing(positioned, bodyLines, prepared.paragraphs, layout);
   const noImages = imagesAbsent(inspect('images', pdf));
-  const measured = (name, evidence, detail) => add(name, evidence === null ? 'not_checked' : resultOf(evidence), detail);
-  measured('Profile type size', typography, 'Measured type sizes must match the profile and any declared table font size.');
-  measured('Body paragraph spacing', spacing, 'Measured successive lines within composed prose paragraphs must use the profile spacing.');
-  measured('No embedded page images', noImages, 'The composed filing body and blocks use text and ruling. File exhibits separately.');
+  measured(['typography', 'text', 'positioned-text'], 'Profile type size', typography,
+    'Measured type sizes must match the profile and any declared table font size.');
+  measured(['text', 'positioned-text'], 'Body paragraph spacing', spacing,
+    'Measured successive lines within composed prose paragraphs must use the profile spacing.');
+  measured(['images'], 'No embedded page images', noImages,
+    'The composed filing body and blocks use text and ruling. File exhibits separately.');
 
   const footers = footerCandidates(positioned, info.count, layout);
   const noGeometry = info.active || wrongPages.length > 0 || !footers;
   if (noGeometry) {
+    const add = forEvidence(['positioned-text']);
     const reason = info.active ? 'Interactive PDF fields or JavaScript make the printed appearance uncertain.' :
       wrongPages.length ? 'Expected page geometry is unavailable or does not match.' : 'Positioned PDF text is unavailable.';
     add('Boxed caption ruling', 'not_checked', reason);
@@ -77,12 +83,12 @@ function pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines
     if (!ink) unreadable.push(page);
     else if (ink.outside) badMargins.push(page);
     const box = index === 0 ? captionRuling(bytes, layout, positioned[0]) : null;
-    if (index === 0) measured('Boxed caption ruling', box === null ? null : Boolean(box),
-      'Visible outer box, column divider and title separator on the first page.');
+    if (index === 0) measured(['raster'], 'Boxed caption ruling', box === null ? null : Boolean(box),
+      'Visible outer box, column divider and title separator on the first page.', page);
     const ruled = prepared.ruledClosing && index === info.count - 1;
     const judicialRule = ruled ? judicialRuling(bytes, layout, positioned[index]) : null;
-    if (ruled) measured('Visible judicial signature ruling', judicialRule === null ? null : Boolean(judicialRule),
-      'Visible blank rule between the court heading and judge designation.');
+    if (ruled) measured(['raster'], 'Visible judicial signature ruling', judicialRule === null ? null : Boolean(judicialRule),
+      'Visible blank rule between the court heading and judge designation.', page);
     if (marks && filingInk(bytes, layout, positioned[index], box, judicialRule, marks[index]) === false) badInk.push(page);
     if (!footers[index] || ink?.footerVisible === false) badFooters.push(page);
   }
@@ -91,6 +97,7 @@ function pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines
     bad.length ? failure + bad.join(', ') + '.' : null,
     unreadable.length ? 'Raster evidence unavailable for page(s) ' + unreadable.join(', ') + '.' : null,
   ].filter(Boolean).join(' ') || success;
+  const add = forEvidence(['raster']);
   add('Page-number footer', status(badFooters), detail(badFooters, 'Expected visible footer missing or misplaced on page(s) ',
     'Each page has one visible ' + layout.footer.position + ' footer with its page number and total.'));
   add('Visible filing ink', marks ? status(badInk) : 'not_checked', marks ?
@@ -101,14 +108,22 @@ function pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines
     'Visible ink is within the profile margins, allowing 1.5 pt for print rounding and excluding the matched footer words.'));
 }
 
-export function validate({ pdf, caption, profile, limitOptions, prepared, replay = false, parseUnavailable = false, validationDate = new Date() }, inspect) {
+export function validate({
+  pdf, caption, profile, limitOptions, prepared, replay = false, parseUnavailable = false,
+  inspectionDetail = () => '', validationDate = new Date(),
+}, inspect) {
   validateProfile(profile);
   validateCaption(caption, profile, 'caption', replay);
   let limits = resolveLimits(profile, caption, limitOptions);
   const { bodySha256, bodyWords } = prepared;
   const title = titleChecks(profile, caption);
   const checks = [...title];
-  const add = (label, status, detail, counts) => checks.push(counts ? { label, status, detail, counts } : { label, status, detail });
+  const forEvidence = (kinds, page) => (label, status, detail, counts) => {
+    const reason = status === 'not_checked' || status === 'fail' ? inspectionDetail(kinds, page) : '';
+    const check = { label, status, detail: reason ? detail + ' ' + reason : detail };
+    checks.push(counts ? { ...check, counts } : check);
+  };
+  const add = forEvidence([]);
   const order = limits.order;
   if (order) {
     for (const [unit, ceiling] of Object.entries(order.aboveProfile)) {
@@ -124,7 +139,7 @@ export function validate({ pdf, caption, profile, limitOptions, prepared, replay
   const text = extracted.trim() || null;
   const positionedBytes = info && info.count <= MAX_PDF_PAGES ? inspect('positioned-text', pdf) : null;
   const positioned = positionedBytes && readTextLines(positionedBytes, info.count);
-  add('PDF parses', parseUnavailable ? 'not_checked' : resultOf(Boolean(info && text)),
+  forEvidence(['page-info', 'text'])('PDF parses', parseUnavailable ? 'not_checked' : resultOf(Boolean(info && text)),
     parseUnavailable ? 'A required Poppler program is unavailable. See unavailable.' :
       info && text ? info.count + ' page(s) with extractable text.' :
         info?.count > MAX_PDF_PAGES ? 'PDF exceeds the ' + MAX_PDF_PAGES + '-page inspection ceiling.' : 'No readable PDF text or page count.');
@@ -132,7 +147,7 @@ export function validate({ pdf, caption, profile, limitOptions, prepared, replay
     limits.choice === 'explicit-maxima' && documentType(profile, caption).length_mode === 'alternatives' &&
     limits.pages !== null && limits.words !== null;
   if (!alternatives && limits.pages !== null) {
-    add('Within page limit (' + limits.pages + (order?.pages ? ', set by order)' : ')'),
+    forEvidence(['page-info'])('Within page limit (' + limits.pages + (order?.pages ? ', set by order)' : ')'),
       info ? resultOf(info.count <= limits.pages) : 'not_checked',
       info ? info.count + ' total PDF page(s), including any parts the rule exempts.' : 'PDF page count is unavailable.');
   }
@@ -140,8 +155,9 @@ export function validate({ pdf, caption, profile, limitOptions, prepared, replay
     add('No length preset for profile document type', 'pass', 'This type has no length preset in the profile.');
   }
   const certificateYear = caption.certificate_year ?? validationDate.getFullYear();
+  const textEvidence = forEvidence(['page-info', 'text', 'positioned-text']);
   const { pdfBodyWords, bodyLines, repeated, spacingBound } = filingTextChecks({
-    caption, profile, extracted, info, prepared, add, positioned, certificateYear, replay,
+    caption, profile, extracted, info, prepared, add: textEvidence, positioned, certificateYear, replay,
   });
   if (alternatives) {
     const pageCount = info?.count ?? null;
@@ -155,7 +171,7 @@ export function validate({ pdf, caption, profile, limitOptions, prepared, replay
     const detail = count(pageCount) + ' PDF pages against ' + limits.pages + '; ' +
       count(bodyWords) + ' composed body words and ' + count(pdfBodyWords) + ' PDF body words against ' + limits.words + '. ' +
       (satisfiedBy.length ? 'Satisfied by: ' + satisfiedBy.join(' and ') + '.' : 'Neither alternative was established.');
-    add('Within a profile length alternative', satisfiedBy.length ? 'pass' :
+    textEvidence('Within a profile length alternative', satisfiedBy.length ? 'pass' :
       pageCount === null || wordCount === null ? 'not_checked' : 'fail', detail,
     { pageCount, bodyWords, pdfBodyWords });
     if (satisfiedBy.length === 1) {
@@ -166,11 +182,11 @@ export function validate({ pdf, caption, profile, limitOptions, prepared, replay
         add('Target exceeded (' + unit + ')', 'advisory',
           'The filing has ' + measured + ' ' + quantity + ' against a target of ' + target + '. ' +
           'Pass a ceiling set by an order or rule with --order-max-' + unit +
-          ' and --order-source. A personal target is not an order. On this type an order ceiling replaces both the page and the word alternative and is enforced on its own unit.');
+          ' and --order-source. For this custom type an order replaces the profile pair and is enforced on its own unit.');
       }
     }
   } else if (limits.words !== null) {
-    add('Within word limit (' + limits.words + (order?.words ? ', set by order)' : ')'),
+    textEvidence('Within word limit (' + limits.words + (order?.words ? ', set by order)' : ')'),
       pdfBodyWords === null || bodyWords === null ? 'not_checked' : resultOf(Math.max(pdfBodyWords, bodyWords) <= limits.words),
       pdfBodyWords === null || bodyWords === null ? 'The PDF body or composition word count is unavailable.' :
         pdfBodyWords + ' words in the rendered PDF body and ' + bodyWords + ' for the composed body. ' +
@@ -191,8 +207,8 @@ export function validate({ pdf, caption, profile, limitOptions, prepared, replay
   const spacingAction = failedSpacing.length ?
     ' The document type requires double spacing for ' + failedSpacing.join(', ') + ' under ' + profile.validation.double_spacing.citation + '.' :
     spacingStatus === 'advisory' ? ' Inspect these elements in the human preview.' : '';
-  add('Table, list and heading double spacing', spacingStatus, spacingDetail + spacingAction, spacing);
-  pdfLayoutChecks(add, profile, info, pdf, inspect, positioned, bodyLines, prepared, repeated);
+  textEvidence('Table, list and heading double spacing', spacingStatus, spacingDetail + spacingAction, spacing);
+  pdfLayoutChecks(forEvidence, profile, info, pdf, inspect, positioned, bodyLines, prepared, repeated);
   const ok = checks.every(check => ['pass', 'not_applicable', 'advisory'].includes(check.status));
   return { ok, result: ok ? (replay ? REPLAY_PASS : PASS) : FAIL, pages: info?.count ?? null, bodyWords, pdfBodyWords, bodySha256,
     documentType: caption.document_type, limits, checks, advisories: checks.filter(check => check.status === 'advisory') };

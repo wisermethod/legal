@@ -6,7 +6,7 @@ import {
   statSync, symlinkSync, writeFileSync,
 } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { delimiter, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
 import { Marked } from 'marked';
@@ -36,6 +36,20 @@ const resultOf = response => JSON.parse(response.status === 0 ? response.stdout 
 const run = (args, options = {}) => spawnSync(process.execPath, [cli, ...args], { encoding: 'utf8', ...options });
 const checksByName = output => Object.fromEntries(output.checks.map(({ label, status }) => [label, status]));
 const poppler = Object.values(JSON.parse(run(['check']).stdout).poppler).every(Boolean);
+
+function pairedProfile(type, lengthMode = 'alternatives') {
+  const custom = profile();
+  custom.jurisdiction_id = 'fixture-length-pair';
+  const id = 'fixture-' + type + '-words';
+  custom.validation.limits[id] = {
+    unit: 'words', maximum: type === 'reply' ? 2500 : 4000,
+    citation: 'Fictional rule for testing', verification: 'working-default',
+  };
+  const treatment = custom.document_types[type];
+  treatment.length_mode = lengthMode;
+  treatment.length_presets = [treatment.length_presets[0], id];
+  return custom;
+}
 
 function temp(t) {
   const path = mkdtempSync(join(tmpdir(), 'court-filing-test-'));
@@ -107,7 +121,7 @@ test('profile types own their title, blocks, packet and limit choices', () => {
   brokenEmail.service.recipients[0].emails = ['not an email'];
   assert.throws(() => validateCaption(brokenEmail, current), /caption\.service\.recipients\[0\]\.emails\[0\] must be an email address/);
   const limited = preset => resolveLimits(current, example(), preset);
-  assert.equal(limited().choice, 'profile-alternatives');
+  assert.deepEqual(limited(), { choice: 'profile-preset', pages: 15, words: null, preset: 'general-motion-pages' });
   assert.throws(() => limited({ noLimit: true }), /not allowed for this profile document type/);
   assert.throws(() => limited({ preset: 'general-reply-pages' }), /not listed for this profile document type/);
   assert.throws(() => compos({ caption: { ...example(), document_type: 'rule-12-or-56-motion' }, body: body(), profile: current }), /set caption.type_confirmed to the exact title and document_type/);
@@ -116,7 +130,7 @@ test('profile types own their title, blocks, packet and limit choices', () => {
   assert.deepEqual(limited({ preset: 'general-motion-pages' }), {
     choice: 'profile-preset', pages: 15, words: null, preset: 'general-motion-pages',
   });
-  assert.throws(() => limited({ preset: 'general-motion-words', pages: 10 }), /cannot be combined/);
+  assert.throws(() => limited({ preset: 'general-motion-pages', pages: 10 }), /cannot be combined/);
   assert.throws(() => limited({ pages: 1.5 }), /--max-pages must be a positive integer/);
 
   for (const [mutate, expected] of [
@@ -128,6 +142,27 @@ test('profile types own their title, blocks, packet and limit choices', () => {
     const broken = profile();
     mutate(broken);
     assert.throws(() => validateProfile(broken), expected);
+  }
+});
+
+test('shipped Colorado length presets are exclusively page limits', () => {
+  const shipped = profile();
+  assert.deepEqual(Object.fromEntries(Object.entries(shipped.validation.limits)
+    .map(([id, { unit, maximum }]) => [id, [unit, maximum]])), {
+    'general-motion-pages': ['pages', 15],
+    'general-reply-pages': ['pages', 10],
+    'rule-12-or-56-motion-pages': ['pages', 25],
+    'rule-12-or-56-reply-pages': ['pages', 15],
+  });
+  assert.ok(Object.values(shipped.document_types).every(type => type.length_mode !== 'alternatives'));
+  assert.equal(validateProfile(shipped), shipped);
+  for (const [type, pages] of Object.entries({
+    motion: 15, response: 15, reply: 10, brief: 15, 'other-paper': 15,
+    'rule-12-or-56-motion': 25, 'rule-12-or-56-response': 25, 'rule-12-or-56-reply': 15,
+  })) {
+    const length = resolveLimits(shipped, { ...example(), document_type: type });
+    assert.equal(length.pages, pages, type);
+    assert.equal(length.words, null, type);
   }
 });
 
@@ -240,7 +275,7 @@ test('CLI lists the full profile and publishes to a new path only', t => {
   const listed = JSON.parse(run(['profiles']).stdout).profiles;
   assert.deepEqual(listed, [profile()]);
   assert.equal(listed[0].filing_packets.new_case_complaint.required_at_filing[3].verification, 'verify');
-  assert.equal(listed[0].validation.limits['general-motion-words'].citation, 'C.R.C.P. 121 section 1-15(1)(a)');
+  assert.equal(listed[0].validation.limits['general-motion-pages'].citation, 'C.R.C.P. 121 section 1-15(1)(a)');
 });
 
 test('Colorado rejects the withdrawn certificate waiver and composes a blank-number complaint with service', t => {
@@ -433,8 +468,7 @@ function validateFile(path, options = {}) {
 const pdfTest = (name, fn) => test(name, { skip: poppler ? false : 'Poppler PDF inspection programs are unavailable' }, fn);
 
 pdfTest('browser-free PDF verifies both limits, caption, body, ink and footer and exposes unembedded fonts', async t => {
-  const current = profile();
-  current.document_types.motion.length_mode = 'all';
+  const current = pairedProfile('motion', 'all');
   const profileName = join(temp(t), 'all.json');
   writeFileSync(profileName, JSON.stringify(current));
   const { status, result } = validateFile(await fixture(t), { profileName, flags: ['--max-pages', '2', '--max-words', '5'] });
@@ -451,7 +485,9 @@ pdfTest('browser-free PDF verifies both limits, caption, body, ink and footer an
 
 pdfTest('PDF length and binding catch an expanded body that keeps the composition metadata', async t => {
   const path = await fixture(t, { bodyExtra: 'These words were inserted into the PDF after composition.' });
-  const { result } = validateFile(path, { flags: ['--max-pages', '1', '--max-words', '5'] });
+  const profileName = join(temp(t), 'paired.json');
+  writeFileSync(profileName, JSON.stringify(pairedProfile('motion')));
+  const { result } = validateFile(path, { profileName, flags: ['--max-pages', '1', '--max-words', '5'] });
   const checks = checksByName(result);
   assert.equal(result.bodyWords, 5);
   assert.equal(result.pdfBodyWords, 14);
@@ -606,6 +642,9 @@ pdfTest('malformed PDF sends one failed validation result to stderr', t => {
   assert.equal(checks['PDF parses'], 'fail');
   assert.equal(checks['Case number in caption'], 'not_checked');
   assert.equal(checks['Visible margin geometry'], 'not_checked');
+  for (const label of ['PDF parses', 'Case number in caption', 'Within page limit (15)', 'Visible margin geometry']) {
+    assert.match(value.result.checks.find(check => check.label === label).detail, /pdfinfo.*exit status/);
+  }
 });
 
 test('missing PDF system programs produce named unchecked results and presence commands on stderr', t => {
@@ -623,6 +662,8 @@ test('missing PDF system programs produce named unchecked results and presence c
   assert.equal(checksByName(result)['Page size'], 'not_checked');
   assert.deepEqual(result.unavailable.map(entry => entry.check),
     ['pdfinfo -v', 'pdftotext -v', 'pdffonts -v', 'pdftohtml -v', 'pdfimages -v', 'pdftoppm -v']);
+  assert.ok(result.unavailable.every(entry => entry.errorCode === 'ENOENT'));
+  assert.match(result.checks.find(check => check.label === 'PDF parses').detail, /pdfinfo.*ENOENT.*pdftotext.*ENOENT/);
 });
 
 test('unavailable inspection evidence cannot produce a successful gate', () => {
@@ -633,6 +674,20 @@ test('unavailable inspection evidence cannot produce a successful gate', () => {
   assert.equal(result.ok, false);
   assert.equal(result.result, 'VALIDATION FAILED');
   assert.equal(checksByName(result)['Page-number footer'], 'not_checked');
+});
+
+test('PDF inspection retries a spawn error once and keeps the final error code', async () => {
+  const { inspect } = await import('../scripts/court-filing.js');
+  const input = Buffer.from('fixture');
+  const error = { code: 'EAGAIN', message: 'Private diagnostic deliberately omitted' };
+  let attempts = 0;
+  const spawn = () => ++attempts === 1 ? { error, status: null, signal: null } :
+    { error: { ...error, code: 'ENOENT' }, status: null, signal: null };
+  const failed = inspect('fonts', input, undefined, spawn);
+  assert.equal(attempts, 2);
+  assert.deepEqual(failed, { bytes: null, issue: {
+    program: 'pdffonts', check: 'fonts', errorCode: 'ENOENT', status: null, signal: null, stderr: '',
+  } });
 });
 
 test('only the complaint type may use the new-case packet and blank docket', () => {
@@ -797,7 +852,7 @@ test('a looser off-pattern type requires fresh confirmation of the exact title a
   const types = current.document_types;
   const wider = { ...types.motion, title_pattern: 'Special paper' };
   types['word-extension'] = { ...wider, length_mode: 'alternatives' };
-  current.validation.limits['extra-words'] = { ...current.validation.limits['general-motion-words'], maximum: 5000 };
+  current.validation.limits['extra-words'] = { unit: 'words', maximum: 5000, citation: null, verification: 'working-default' };
   types['word-extension'].length_presets = ['general-motion-pages', 'extra-words'];
   assert.equal(titleChecks(current, { ...example(), document_type: 'word-extension' })[0].status, 'fail');
 });
@@ -931,11 +986,11 @@ test('type guard considers every other match and covers omitted filing blocks', 
   current.document_types['narrow-fictional-motion'] = { ...motion, exact_title: allowed.title };
   delete current.document_types['narrow-fictional-motion'].title_pattern;
   current.validation.limits['narrow-fictional-pages'] = { ...current.validation.limits['general-motion-pages'], maximum: 2 };
-  current.document_types['narrow-fictional-motion'].length_presets = ['narrow-fictional-pages', 'general-motion-words'];
+  current.document_types['narrow-fictional-motion'].length_presets = ['narrow-fictional-pages'];
   assert.throws(() => compos({ caption: allowed, body: fixtureBody, profile: current }), /motion, narrow-fictional-motion/);
 });
 
-test('other-paper is declared, requires both filer blocks, and has alternative ceilings', () => {
+test('other-paper is declared and requires both filer blocks and its page ceiling', () => {
   const current = validateProfile(profile());
   const caption = { ...example(), title: 'Notice of Entry of a Substituted Appearance', document_type: 'other-paper' };
   const { html } = compos({ caption, body: fixtureBody, profile: current });
@@ -948,20 +1003,20 @@ test('other-paper is declared, requires both filer blocks, and has alternative c
     assert.throws(() => validateCaption(incomplete, current), new RegExp(field + ' (?:is required|must be supplied)'));
   }
   assert.equal(titleChecks(current, { ...caption, title: example().title })[0].status, 'advisory');
-  assert.deepEqual(resolveLimits(current, caption), { choice: 'profile-alternatives', preset: null, pages: 15, words: 4000 });
+  assert.deepEqual(resolveLimits(current, caption), { choice: 'profile-preset', preset: 'general-motion-pages', pages: 15, words: null });
   assert.deepEqual(resolveLimits(current, caption, { preset: 'general-motion-pages' }), {
     choice: 'profile-preset', preset: 'general-motion-pages', pages: 15, words: null,
   });
-  assert.deepEqual(resolveLimits(current, caption, { preset: 'general-motion-words' }), {
-    choice: 'profile-preset', preset: 'general-motion-words', pages: null, words: 4000,
-  });
+  assert.throws(() => resolveLimits(current, caption, { preset: 'fixture-other-paper-words' }), /not listed/);
   assert.deepEqual(resolveLimits(current, caption, { pages: 12 }), {
-    choice: 'explicit-maxima', preset: null, pages: 12, words: 4000,
+    choice: 'explicit-maxima', preset: null, pages: 12, words: null,
   });
   assert.throws(() => resolveLimits(current, caption, { preset: 'rule-12-or-56-motion-pages' }), /not listed/);
   assert.throws(() => resolveLimits(current, caption, { noLimit: true }), /not allowed/);
   assert.throws(() => resolveLimits(current, caption, { pages: 16 }), /cannot exceed/);
-  assert.throws(() => resolveLimits(current, caption, { words: 4001 }), /cannot exceed/);
+  assert.deepEqual(resolveLimits(current, caption, { words: 100 }), {
+    choice: 'explicit-maxima', preset: null, pages: 15, words: 100,
+  });
 });
 
 test('word evidence reconciles a hyphenated line wrap without accepting different text', () => {
@@ -1120,6 +1175,101 @@ function renderFiling(scratch, name, caption, markdown, remake, flags = []) {
   return { pdf, cap, receipt, validateArgs };
 }
 
+pdfTest('Colorado general motion and fallback enforce the page cap on short text', async t => {
+  if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
+  const scratch = temp(t);
+  const markdown = paragraphs => Array(paragraphs).fill('The fictional record states this fact.').join('\n\n');
+  const check = (built, expected, flags = []) => {
+    const response = run([...built.validateArgs, ...flags]);
+    const result = resultOf(response);
+    assert.equal(result.pages > 15, expected === 'fail');
+    assert.ok(result.bodyWords < 4000 && result.pdfBodyWords < 4000);
+    assert.equal(response.status, expected === 'pass' ? 0 : 1);
+    assert.equal(checksByName(result)['Within page limit (15)'], expected);
+    assert.deepEqual(result.checks.filter(check => check.status === 'fail').map(check => check.label),
+      expected === 'pass' ? [] : ['Within page limit (15)']);
+    return result;
+  };
+  const motion = renderFiling(scratch, 'long-motion', example(), markdown(325));
+  await t.test('over 15 pages fails', () => check(motion, 'fail'));
+  await t.test('the shortened motion passes', () => {
+    check(renderFiling(scratch, 'shortened-motion', example(), markdown(265)), 'pass');
+  });
+  await t.test('a word-only order retains the page cap', () => {
+    const source = 'Fictional Order, 2099-04-05, docket entry 7 at page 2';
+    const ordered = check(motion, 'fail', ['--order-max-words', '4000', '--order-source', source]);
+    assert.equal(checksByName(ordered)['Within word limit (4000, set by order)'], 'pass');
+    assert.deepEqual(ordered.limits.order, { pages: null, words: 4000, source, aboveProfile: {} });
+  });
+  await t.test('fallback over 15 pages fails', () => {
+    const fallback = { ...example(), title: 'Notice of Filing', document_type: 'other-paper' };
+    check(renderFiling(scratch, 'long-notice', fallback, markdown(325)), 'fail');
+  });
+});
+
+pdfTest('validation reports unsuccessful Poppler inspections and retries a signal once', async t => {
+  if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
+  if (process.platform === 'win32') return t.skip('The stand-in uses a POSIX shell and signals.');
+  const scratch = temp(t);
+  const built = renderFiling(scratch, 'inspection', example(), fixtureBody);
+  const normal = run(built.validateArgs);
+  assert.equal(normal.status, 0, normal.stderr);
+  const utility = join(scratch, 'pdffonts');
+  const calls = utility + '.calls';
+  const warning = 'Synthetic warning: ' + 'x'.repeat(240);
+  writeFileSync(utility, `#!/bin/sh
+if [ "$1" = '-v' ]; then
+  printf 'pdffonts version fixture\\n' >&2
+  exit 0
+fi
+printf 'call\\n' >> "$0.calls"
+case "$COURT_FILING_FIXTURE_MODE" in
+  status) cat >/dev/null; exit 7 ;;
+  stderr) printf '%s' '${warning}' >&2 ;;
+  recover) if [ "$(wc -l < "$0.calls")" -eq 1 ]; then cat >/dev/null; kill -TERM "$$"; fi ;;
+  signal) cat >/dev/null; kill -TERM "$$" ;;
+esac
+PATH="$COURT_FILING_FIXTURE_PATH" exec pdffonts "$@"
+`, { mode: 0o700 });
+  const inspectFonts = mode => {
+    writeFileSync(calls, '');
+    const response = run(built.validateArgs, { env: {
+      ...process.env, PATH: scratch + delimiter + process.env.PATH,
+      COURT_FILING_FIXTURE_PATH: process.env.PATH, COURT_FILING_FIXTURE_MODE: mode,
+    } });
+    const result = resultOf(response);
+    return { response, result, calls: readFileSync(calls, 'utf8').trim().split('\n').length };
+  };
+  for (const [mode, status, signal, stderr, attempts] of [
+    ['status', 7, null, '', 1],
+    ['stderr', 0, null, warning.slice(0, 200), 1],
+    ['signal', null, 'SIGTERM', '', 2],
+  ]) {
+    await t.test(mode, () => {
+      const { response, result, calls } = inspectFonts(mode);
+      assert.equal(calls, attempts);
+      assert.equal(response.status, 1);
+      assert.equal(response.stdout, '');
+      assert.equal(result.ok, false);
+      const fontCheck = result.checks.find(check => check.label === 'Embedded profile fonts');
+      assert.equal(fontCheck.status, 'not_checked');
+      assert.match(fontCheck.detail, /pdffonts/);
+      if (status !== null) assert.match(fontCheck.detail, new RegExp('exit status ' + status));
+      if (signal) assert.ok(fontCheck.detail.includes(signal));
+      if (stderr) assert.ok(fontCheck.detail.includes(stderr) && !fontCheck.detail.includes(warning));
+      assert.deepEqual(result.unavailable, [{ program: 'pdffonts', check: 'fonts', errorCode: null, status, signal, stderr }]);
+      assert.ok(!response.stderr.includes(scratch));
+    });
+  }
+  await t.test('the retry can provide usable evidence', () => {
+    const { response, result, calls } = inspectFonts('recover');
+    assert.equal(calls, 2);
+    assert.equal(response.status, 0, response.stderr);
+    assert.equal(checksByName(result)['Embedded profile fonts'], 'pass');
+    assert.deepEqual(result.unavailable, []);
+  });
+});
+
 pdfTest('a mixed-case title prints in capitals in the caption and as typed in the certificate', t => {
   if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
   const caption = { ...example(), title: 'Motion for a Straße Conference' };
@@ -1189,7 +1339,9 @@ pdfTest('only exceeded explicit targets receive advisories when the other altern
   const caption = { ...example(), title: 'Reply in Support of the Motion to Compel', document_type: 'reply' };
   const markdown = Array(30).fill('A short fictional paragraph fills the page.').join('\n\n');
   const built = renderFiling(scratch, 'reply-with-targets', caption, markdown);
-  const check = (flags, expectedStatus = 0, selected = 'colorado-district') => {
+  const pairedPath = join(scratch, 'paired.json');
+  writeFileSync(pairedPath, JSON.stringify(pairedProfile('reply')));
+  const check = (flags, expectedStatus = 0, selected = pairedPath) => {
     const response = run([...built.validateArgs.map(arg => arg === 'colorado-district' ? selected : arg), ...flags]);
     assert.equal(response.status, expectedStatus, response.stderr);
     return resultOf(response);
@@ -1211,8 +1363,8 @@ pdfTest('only exceeded explicit targets receive advisories when the other altern
     assert.match(advisory.detail, /--order-source/);
     assert.match(advisory.detail, /enforced on its own unit/);
 
-    const custom = profile();
-    custom.validation.limits['general-reply-' + unit].maximum = 1;
+    const custom = pairedProfile('reply');
+    custom.validation.limits[unit === 'pages' ? 'general-reply-pages' : 'fixture-reply-words'].maximum = 1;
     const customPath = join(scratch, unit + '-profile.json');
     writeFileSync(customPath, JSON.stringify(custom));
     const otherTarget = alternative === 'pages' ? '5' : '250';
@@ -1273,21 +1425,24 @@ pdfTest('replay PDF filename, metadata and result cannot be used for production'
   assert.match(confirmed.stderr, /Replay requires a caption without type_confirmed/);
 });
 
-pdfTest('explicit maxima preserve motion alternatives and page-only caps', async t => {
+pdfTest('explicit maxima preserve custom alternatives and shipped page-only caps', async t => {
   if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
   const scratch = temp(t);
   const markdown = Array.from({ length: 230 }, (_, i) => 'record '.repeat(i < 160 ? 9 : 8).trim()).join('\n\n');
   const motion = renderFiling(scratch, 'motion', example(), markdown);
-  const successful = run([...motion.validateArgs, '--max-pages', '10', '--max-words', '3000']);
+  const profilePath = join(scratch, 'paired-motion.json');
+  writeFileSync(profilePath, JSON.stringify(pairedProfile('motion')));
+  const pairedArgs = motion.validateArgs.map(arg => arg === 'colorado-district' ? profilePath : arg);
+  const successful = run([...pairedArgs, '--max-pages', '10', '--max-words', '3000']);
   assert.equal(successful.status, 0, successful.stderr);
   const wordAlternative = resultOf(successful);
   assert.equal(wordAlternative.pages, 12);
   assert.equal(wordAlternative.bodyWords, 2000);
   assert.deepEqual(wordAlternative.limits.satisfiedBy, ['words']);
-  const pageAlternative = run([...motion.validateArgs, '--max-words', '100']);
+  const pageAlternative = run([...pairedArgs, '--max-words', '100']);
   assert.equal(pageAlternative.status, 0, pageAlternative.stderr);
   assert.deepEqual(resultOf(pageAlternative).limits.satisfiedBy, ['pages']);
-  const overflow = run([...motion.validateArgs, '--max-pages', '10', '--max-words', '100']);
+  const overflow = run([...pairedArgs, '--max-pages', '10', '--max-words', '100']);
   assert.equal(overflow.status, 1, overflow.stdout);
   assert.deepEqual(resultOf(overflow).limits.satisfiedBy, []);
 
@@ -1309,30 +1464,34 @@ pdfTest('explicit maxima preserve motion alternatives and page-only caps', async
   assert.equal(checksByName(overPages.result)['Within word limit (100)'], 'pass');
 });
 
-test('order limits retain an omitted profile ceiling unless the type offers page or word alternatives', () => {
+test('order limits retain an omitted page ceiling and replace the pair in custom alternatives', () => {
   const current = profile();
   const source = 'Fictional Order, 2099-04-05, docket entry 7 at page 2';
-  const limit = (type, flags) => resolveLimits(current, { ...example(), document_type: type }, { orderSource: source, ...flags });
+  const limit = (type, flags, selected = current) => resolveLimits(selected,
+    { ...example(), document_type: type }, { orderSource: source, ...flags });
   assert.equal(limit('motion', { orderPages: 10 }).words, null);
   assert.equal(limit('rule-12-or-56-motion', { orderWords: 100 }).pages, 25);
   assert.equal(limit('rule-12-or-56-response', { orderWords: 100 }).pages, 25);
   assert.equal(limit('rule-12-or-56-reply', { orderWords: 100 }).pages, 15);
   assert.equal(limit('rule-12-or-56-motion', { orderPages: 30 }).pages, 30);
-  assert.equal(limit('reply', { orderWords: 100 }).pages, null);
+  assert.equal(limit('reply', { orderWords: 100 }).pages, 10);
+  assert.equal(limit('other-paper', { orderWords: 100 }).pages, 15);
+  assert.equal(limit('other-paper', { orderPages: 16 }).words, null);
+  assert.equal(limit('reply', { orderWords: 100 }, pairedProfile('reply')).pages, null);
   const unverified = profile();
   unverified.validation.limits['rule-12-or-56-motion-pages'].verification = 'verify';
   assert.throws(() => resolveLimits(unverified, { ...example(), document_type: 'rule-12-or-56-motion' }, { orderSource: source, orderWords: 100 }),
     /still requires verification/);
   assert.equal(resolveLimits(unverified, { ...example(), document_type: 'rule-12-or-56-motion' }, { orderSource: source, orderPages: 20 }).pages, 20);
   assert.equal(limit('proposed-order', { orderPages: 10 }).choice, 'order-maxima');
-  current.document_types.motion.length_mode = 'all';
-  const resolved = limit('motion', { orderPages: 10 });
+  const both = pairedProfile('motion', 'all');
+  const resolved = limit('motion', { orderPages: 10 }, both);
   assert.equal(resolved.words, 4000);
   assert.equal(resolved.order.words, null);
   assert.equal(limit('motion', { orderWords: 100 }).pages, 15);
-  current.validation.limits['general-motion-words'].verification = 'verify';
-  assert.throws(() => limit('motion', { orderPages: 10 }), /requires both ceilings/);
-  assert.equal(limit('motion', { orderPages: 10, orderWords: 100 }).words, 100);
+  both.validation.limits['fixture-motion-words'].verification = 'verify';
+  assert.throws(() => limit('motion', { orderPages: 10 }, both), /requires both ceilings/);
+  assert.equal(limit('motion', { orderPages: 10, orderWords: 100 }, both).words, 100);
 });
 
 pdfTest('case-specific order ceilings are mandatory and preserve their source', t => {
@@ -1350,8 +1509,8 @@ pdfTest('case-specific order ceilings are mandatory and preserve their source', 
     assert.equal(response.status, status, response.stdout || response.stderr);
     return resultOf(response);
   };
-  const personal = check(over, ['--max-pages', '10'], 0);
-  assert.deepEqual(personal.limits.satisfiedBy, ['words']);
+  const personal = check(over, ['--max-pages', '10'], 1);
+  assert.equal(checksByName(personal)['Within page limit (10)'], 'fail');
   const lower = check(over, ['--order-max-pages', '10', ...orderSource], 1);
   assert.equal(lower.pages, 14);
   assert.ok(lower.bodyWords < 4000);
@@ -1384,7 +1543,8 @@ pdfTest('case-specific order ceilings are mandatory and preserve their source', 
     assert.equal(checksByName(result)['Within word limit (' + words + ', set by order)'], wordResult);
   }
   const wordOnly = check(exact, ['--order-max-words', '100', ...orderSource], 1);
-  assert.equal(wordOnly.limits.pages, null);
+  assert.equal(wordOnly.limits.pages, 15);
+  assert.equal(checksByName(wordOnly)['Within page limit (15)'], 'pass');
   assert.equal(checksByName(wordOnly)['Within word limit (100, set by order)'], 'fail');
 
   for (const [flags, error] of [
@@ -1402,15 +1562,17 @@ pdfTest('case-specific order ceilings are mandatory and preserve their source', 
   }
 });
 
-pdfTest('an oversized general reply fails both alternatives and cannot use the longer Rule 12 or 56 type', t => {
+pdfTest('an oversized general reply with few words fails the page cap and cannot use the longer Rule 12 or 56 type', t => {
   if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
   const caption = { ...example(), title: 'Reply in Support of the Motion to Compel', document_type: 'reply' };
-  const markdown = Array.from({ length: 265 }, () => 'a '.repeat(34).trim()).join('\n\n');
+  const markdown = Array(265).fill('The fictional record states this fact.').join('\n\n');
   const built = renderFiling(temp(t), 'reply', caption, markdown);
   const result = run(built.validateArgs);
   assert.equal(result.status, 1, result.stdout);
-  assert.equal(resultOf(result).pages, 14);
-  assert.deepEqual(resultOf(result).limits.satisfiedBy, []);
+  const reply = resultOf(result);
+  assert.ok(reply.pages > 10);
+  assert.ok(reply.bodyWords < 2500 && reply.pdfBodyWords < 2500);
+  assert.equal(checksByName(reply)['Within page limit (10)'], 'fail');
   writeFileSync(built.cap, JSON.stringify({ ...caption, document_type: 'rule-12-or-56-reply' }));
   const guarded = run(built.validateArgs);
   assert.equal(guarded.status, 1, guarded.stdout);
@@ -1539,18 +1701,19 @@ pdfTest('both quick starts reconcile the fictional draft before rendering and va
   }
 });
 
-pdfTest('named limits are alternatives unless the profile requires both', t => {
+pdfTest('custom fallback alternatives pass on either unit and can require both', t => {
   if (!process.env.COURT_FILING_RENDER) return t.skip('Set COURT_FILING_RENDER to an installed render.js and Chromium runtime.');
   const scratch = temp(t);
   const caption = { ...example(), title: 'Notice of Filing', document_type: 'other-paper' };
   const built = renderFiling(scratch, 'alternatives', caption, fixtureBody);
-  const short = profile();
+  const short = pairedProfile('other-paper');
   const limits = short.validation.limits;
   const check = (name, pages, words, mode, flags, accepted, satisfiedBy) => {
     const path = join(scratch, name + '.json');
     limits['general-motion-pages'].maximum = pages;
-    limits['general-motion-words'].maximum = words;
-    short.document_types['other-paper'].length_mode = mode;
+    limits['fixture-other-paper-words'].maximum = words;
+    if (mode) short.document_types['other-paper'].length_mode = mode;
+    else delete short.document_types['other-paper'].length_mode;
     writeFileSync(path, JSON.stringify(short));
     const result = run([...built.validateArgs.map(arg => arg === 'colorado-district' ? path : arg), ...flags]);
     assert.equal(result.status, accepted ? 0 : 1, result.stderr);
@@ -1565,8 +1728,10 @@ pdfTest('named limits are alternatives unless the profile requires both', t => {
   check('page-only', 15, 4, 'alternatives', [], true, ['pages']);
   check('word-only', 1, 4000, 'alternatives', [], true, ['words']);
   check('neither', 1, 4, 'alternatives', [], false, []);
-  check('pinned-words', 15, 4, 'alternatives', ['--limit', 'general-motion-words'], false);
+  check('pinned-words', 15, 4, 'alternatives', ['--limit', 'fixture-other-paper-words'], false);
   check('both-required', 15, 4, 'all', [], false);
+  const legacy = check('implicit-both', 15, 4, undefined, [], false);
+  assert.equal(legacy.limits.choice, 'profile-all');
   const retained = check('order-and-required-profile-words', 15, 4, 'all',
     ['--order-max-pages', '5', '--order-source', 'Fictional Order, 2099-04-05, docket entry 7 at page 2'], false);
   assert.equal(checksByName(retained)['Within page limit (5, set by order)'], 'pass');
@@ -1627,7 +1792,7 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
     ...Array.from({ length: 90 }, (_, index) => '| Sample ' + index + ' | A fictional table entry. |')]
     .join('\n');
   const cases = [
-    ['motion', example(), body(), ['--limit', 'general-motion-words']],
+    ['motion', example(), body(), motionLimit],
     ['initial', initial, fixtureBody, []],
     ['defendant', defendant, richBody, ['--limit', 'general-motion-pages']],
     ['exempt', exempt, fixtureBody, noLimit, exemptFile],
@@ -1672,10 +1837,9 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
     assert.equal(checksByName(result)['Certificate of service present'],
       ['exempt', 'proposed', 'supporting', 'ruled-order'].includes(name) ? 'not_applicable' : 'pass');
     if (name === 'fallback') {
-      assert.deepEqual(result.limits, { choice: 'profile-alternatives', preset: null, pages: 15, words: 4000,
-        satisfiedBy: ['pages', 'words'] });
+      assert.deepEqual(result.limits, { choice: 'profile-preset', preset: 'general-motion-pages', pages: 15, words: null });
       assert.equal(checksByName(result)['Signer in signature block'], 'pass');
-      assert.equal(checksByName(result)['Within a profile length alternative'], 'pass');
+      assert.equal(checksByName(result)['Within page limit (15)'], 'pass');
     }
     if (name === 'proposed') {
       assert.equal(checksByName(result)['Judicial signature block in proposed order'], 'pass');
@@ -1718,8 +1882,7 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
     }
     if (name === 'list-spacing') {
       assert.deepEqual([result.bodyWords, result.pdfBodyWords], [11, 11]);
-      const both = profile();
-      both.document_types.motion.length_mode = 'all';
+      const both = pairedProfile('motion', 'all');
       const bothPath = join(scratch, 'list-both-limits.json');
       writeFileSync(bothPath, JSON.stringify(both));
       const bothArgs = cliArgs.map(arg => arg === selected ? bothPath : arg);
@@ -1770,11 +1933,12 @@ pdfTest('real render chain validates ordinary and separate packet artifacts, inc
       assert.deepEqual([result.bodyWords, result.pdfBodyWords], [75, 75]);
       assert.equal(run([...cliArgs, '--max-words', '75']).status, 0);
       const limited = run([...cliArgs, '--max-words', '74']);
-      assert.equal(limited.status, 0, limited.stderr);
-      assert.deepEqual(resultOf(limited).limits.satisfiedBy, ['pages']);
+      assert.equal(limited.status, 1, limited.stdout);
+      assert.equal(checksByName(resultOf(limited))['Within word limit (74)'], 'fail');
+      assert.equal(checksByName(resultOf(limited))['Within page limit (15)'], 'pass');
       const defaults = run(cliArgs);
       assert.equal(defaults.status, 0, defaults.stderr);
-      assert.deepEqual(resultOf(defaults).limits.satisfiedBy, ['pages', 'words']);
+      assert.deepEqual(resultOf(defaults).limits, { choice: 'profile-preset', pages: 15, words: null, preset: 'general-motion-pages' });
       assert.match(run([...cliArgs, ...noLimit, '--max-pages', '2']).stderr, /cannot be combined/);
     }
     if (name === 'initial') {
