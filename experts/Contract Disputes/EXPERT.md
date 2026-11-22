@@ -3,7 +3,7 @@ name: Contract Disputes
 type: expert
 category: practice-area
 description: Assess contract formation, breach, defenses, and remedies against the writing and Colorado authority, returning supported issues, holds, and the next litigation skill
-version: 0.2.2
+version: 0.2.3
 gaps:
   - Verified accrual analysis for a particular contract claim
   - Verified Colorado authority for general reliance damages as an alternative contract measure
@@ -14,7 +14,7 @@ gaps:
 
 ## Context
 
-Use for an individual or business handling its own contract dispute involving formation, interpretation, performance, breach, defenses, or remedies. Load [Colorado contract authority](authority.md). Apply `legal/AGENTS.md` Standing constraint. End matter-specific assistance when asked to act for or advise someone else. Use the shared skill routes for procedure and filing.
+Use for an individual or business handling its own contract dispute involving formation, interpretation, performance, breach, defenses, or remedies. Which law governs this claim? Read the claim's `Law named` entry in `Governing law by claim` under `Forum and posture` in the matter's `AGENTS.md`. If the declaration is missing, say so and use the governing law established for that claim by Litigation Counsel's forum finding, the claims record's applicable jurisdiction, or the agreement's governing-law clause. Load and use [Colorado contract authority](authority.md) only if Colorado law governs the claim. For a claim governed by another law, hold its substantive findings and name that law's contract authority as the missing source. If the law is missing, `not stated`, `pending`, or subject to an exception whose reach is unresolved, hold that claim's substantive findings and name the clause or the person's answer that would settle the law. Keep work on the other claims moving. Apply `legal/AGENTS.md` Standing constraint. End matter-specific assistance when asked to act for or advise someone else. Use the shared skill routes for procedure and filing.
 
 This expert organizes the evidence and authority for the person's own assessment and owns no skill.
 
