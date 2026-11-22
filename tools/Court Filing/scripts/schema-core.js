@@ -337,6 +337,20 @@ const documentTypes = (value, at) => {
   }
 };
 
+export function compileCourtPattern(pattern) {
+  const { source } = new RegExp(pattern, 'i');
+  return new RegExp('^(?:' + source + ')$', 'i');
+}
+
+const courtMatch = list((pattern, at) => {
+  required(pattern, at, x => typeof x === 'string' && x.trim() !== '', 'a non-empty regular expression string');
+  try {
+    compileCourtPattern(pattern);
+  } catch {
+    throw new Error(at + ' must compile as a JavaScript regular expression.');
+  }
+}, 1);
+
 const profileShape = shape({
   jurisdiction_id: id,
   display_name: text,
@@ -348,6 +362,7 @@ const profileShape = shape({
   filing_packets: packets,
   document_types: documentTypes,
 }, {
+  court_match: courtMatch,
   fallback_document_type: id,
 });
 

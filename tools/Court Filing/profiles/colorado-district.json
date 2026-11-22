@@ -2,6 +2,10 @@
   "jurisdiction_id": "colorado-district",
   "display_name": "Colorado District Court",
   "renderer_profile": "colorado-two-column-boxed",
+  "court_match": [
+    "District Court, [^\\s,](?:[^,]*[^\\s,])? County, Colorado",
+    "District Court, City and County of [^\\s,](?:[^,]*[^\\s,])?, Colorado"
+  ],
   "layout": {
     "page_size": "Letter",
     "margins_inches": {

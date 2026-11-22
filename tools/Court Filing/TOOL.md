@@ -3,7 +3,7 @@ name: Court Filing
 type: tool
 category: documents
 description: Compose and check profiled court filings from Markdown and caption data, using profile-defined document types and filing blocks
-version: 0.9.0
+version: 0.10.0
 runs: local
 gaps:
   - "Current Colorado fees and fee-waiver form numbers need verification."
@@ -86,6 +86,8 @@ Run from the tool directory. All file arguments are absolute paths. `--profile` 
 
 Run `check` first if a dependency may be missing. Node 18 or newer is required. `compose` and `validate` share Marked 12.0.2. A missing package prompts through a refusal on the first unapproved run. Re-run with `--install` on consent, or set `WISER_ALLOW_INSTALL=1` for a preapproved unattended run. You'll only be asked once: your yes also covers anything else Wiser needs to download later, including after updates. npm installs the pinned package from `registry.npmjs.org` into this tool's `node_modules/`, uses its ordinary cache, and leaves the lockfile as shipped. A survey without `--install` writes nothing. The install records consent in the person config and matching plugin copy. A completed compose leaves its one HTML file at the caller's new path. Validation reports the SHA-256 of the exact PDF bytes it inspected.
 
+Compose checks the caption’s court against the renderer layout and any profile `court_match`, including during replay. The `colorado-two-column-boxed` layout requires the court name to end in `, Colorado` after trimming, ignoring case. A mismatch exits 1, names the court, profile ID and failed rule on stderr, and writes no HTML. Use a profile for that court or the unprofiled route in Produce Court Filing.
+
 ### Length treatment
 
 - The shipped Colorado length presets are page limits. `other-paper` uses the general motion page preset as its default. Confirm the applicable limit and exclusions against the current rule and any order before filing. The mechanical check counts every page in the PDF. Review the rule’s exclusions when checking the actual filing.
@@ -164,6 +166,7 @@ The command writes no files. It returns `label`, `note`, `reference` and `rebuil
 | Field | Type and use |
 |---|---|
 | `jurisdiction_id`, `display_name`, `renderer_profile` | Required lowercase hyphenated ID, display string and layout identifier. The layout identifier is `colorado-two-column-boxed`. |
+| `court_match` | Optional nonempty array of nonblank JavaScript regular expression strings. Compose matches each pattern against the entire trimmed `court`, ignoring case. At least one pattern must match and the layout rule must also pass. Profiles that omit this field use the layout rule alone. The shipped profile accepts `District Court, <name> County, Colorado` and `District Court, City and County of <name>, Colorado`. |
 | `layout.page_size` | Required `Letter`, `Legal` or `A4`. |
 | `layout.margins_inches` | Required object of numeric `top`, `right`, `bottom` and `left`, each 0.1 to 10 inches and together leaving a printable area and space for the footer. |
 | `layout.body_font`, `layout.body_font_size_pt`, `layout.body_line_height` | Required plain font name, number from 1 through 72 points and number from 1 through 5. |
