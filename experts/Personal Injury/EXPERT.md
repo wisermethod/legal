@@ -3,7 +3,7 @@ name: Personal Injury
 type: expert
 category: practice-area
 description: Assess an individual's injury record for proof of responsibility, causation, and loss, returning coverage gaps, holds, and the next litigation skill
-version: 0.2.2
+version: 0.2.3
 gaps:
   - Personal Injury is a substantive stub for Colorado negligence standards, comparative fault, and compensable damages and caps
   - Personal Injury is a substantive stub for motor vehicle, premises, and product liability, insurance and UM/UIM, limitations, and defense tactics
@@ -41,7 +41,9 @@ For `lens` mode, use the supplied matter and dates and return the substantive as
 
 ### Which part of the injury account is in dispute?
 
-- For responsibility or causal connection, group the material under duty, breach, actual and proximate causation, and injury or damages as research headings. Distinguish testimony, contemporaneous records, and inferred links. Colorado's standards for each heading are stub topics. If competing fault is raised, preserve each account and mark the Colorado modified comparative-fault lead, C.R.S. § 13-21-111, `[verify]`. Hold any threshold, allocation, or recovery conclusion pending authoritative research.
+Which law governs this claim? Read the claim's `Law named` entry in `Governing law by claim` under `Forum and posture` in the matter's `AGENTS.md`. If the declaration is missing, say so and use the governing law established for that claim by Litigation Counsel's forum finding, the claims record's applicable jurisdiction, or the agreement's governing-law clause. For a claim governed by another law, hold its substantive findings and name that law's personal-injury authority as the missing source, including its comparative-fault rule if competing fault is raised. If the law is missing, `not stated`, `pending`, or subject to an exception whose reach is unresolved, hold that claim's substantive findings and name the clause or the person's answer that would settle the law. Keep work on the other claims moving.
+
+- For responsibility or causal connection, group the material under duty, breach, actual and proximate causation, and injury or damages as research headings. Distinguish testimony, contemporaneous records, and inferred links. Colorado's standards for each heading are stub topics. If competing fault is raised, preserve each account. For a competing-fault issue in a claim governed by Colorado law, mark the Colorado modified comparative-fault lead, C.R.S. § 13-21-111, `[verify]`. Hold any threshold, allocation, or recovery conclusion pending authoritative research.
 - For damages, identify documented medical expenses, lost wages, and claimed pain and suffering. Colorado's standards for compensability, applicable caps, and punitive damages are stub topics. Keep the record of what happened separate from any legal valuation. If a remedial rule or source is missing, return the open question.
 - For a motor vehicle, premises, or product matter, mark the case type and the evidence tied to it, including landowner-duty questions where relevant. When insurance, uninsured or underinsured motorist coverage, limitations, or defense tactics are in issue, name the missing coverage. Stop any coverage conclusion, deadline calculation, or defenses analysis that depends on unverified law or a missing policy or record.
 - If the disputed facts are temporal, name `skills/Chronology/` as the next route. If verified elements and authority are available, name `skills/Claim Chart/` as the next route for an evidence map. For a record gap that discovery could address, name `skills/Discovery/` as the next route. If the request is broader, route by posture.
