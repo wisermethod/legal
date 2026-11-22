@@ -7,7 +7,7 @@ import { createHash, randomUUID } from 'node:crypto';
 import { homedir } from 'node:os';
 import { basename, dirname, extname, isAbsolute, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { compose, parseFilingMarkdown, prepareBody, REPLAY_PREFIX } from './compose-core.js';
+import { compose, parseFilingMarkdown, prepareBody, REPLAY_PREFIX, validateCourtMatch } from './compose-core.js';
 import { RASTER_DPI } from './pdf-evidence-core.js';
 import { documentType, resolveLimits, suggestTypes, validateCaption, validateProfile } from './schema-core.js';
 import { comparePdfs } from './compare-core.js';
@@ -473,6 +473,7 @@ async function main(args) {
     const caption = validateCaption(json(captionPath, '--caption'), profile, 'caption', replay);
     if (command === 'compose') {
       const out = screened('--out', flags.get('--out'), '.html', true);
+      validateCourtMatch(caption.court, profile);
       const parse = await markdownParser(explicitInstall);
       const composed = compose({ caption, body, profile, replay }, parse, digest);
       writeHtml(out, composed.html);

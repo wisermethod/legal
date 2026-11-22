@@ -1,5 +1,5 @@
 import { blockBindings, bodyMarks, judicialClosing, markdownWordCount, printedBodyText, tableHeaderBindings, wordCount } from './body-text-core.js';
-import { counselLabel, documentType, SIDES, titleChecks, validateCaption, validateProfile } from './schema-core.js';
+import { compileCourtPattern, counselLabel, documentType, SIDES, titleChecks, validateCaption, validateProfile } from './schema-core.js';
 
 function escapeHtml(s) {
   return String(s)
@@ -78,6 +78,25 @@ function captionTable(c) {
       <td colspan="2" class="doc-title">${escapeHtml(c.title)}</td>
     </tr>
   </table>`;
+}
+
+const layoutCourtRules = {
+  'colorado-two-column-boxed': {
+    pattern: /, Colorado$/i,
+    requirement: 'requires a court name ending in ", Colorado".',
+  },
+};
+
+export function validateCourtMatch(court, profile) {
+  const { renderer_profile: layout, jurisdiction_id: id, court_match: patterns } = profile;
+  const name = court.trim();
+  const refusal = detail => new Error('Caption court ' + JSON.stringify(court) + ' is outside profile "' + id + '". ' +
+    detail + ' A paper for that court needs a profile for that court or the unprofiled route in the Produce Court Filing skill.');
+  const rule = layoutCourtRules[layout];
+  if (!rule.pattern.test(name)) throw refusal('The ' + layout + ' layout ' + rule.requirement);
+  if (patterns && !patterns.some(pattern => compileCourtPattern(pattern).test(name))) {
+    throw refusal('The court name does not match the profile’s court_match rule.');
+  }
 }
 
 function signatureBlock(s) {
@@ -290,6 +309,7 @@ export function prepareBody(body, treatment, parseMarkdown, digest, presentation
 export function compose({ caption, body, profile, replay = false }, parseMarkdown, digest) {
   validateProfile(profile);
   validateCaption(caption, profile, 'caption', replay);
+  validateCourtMatch(caption.court, profile);
   const checks = titleChecks(profile, caption);
   const refusal = checks.find(check => check.status === 'fail');
   if (refusal) throw new Error(refusal.detail);
