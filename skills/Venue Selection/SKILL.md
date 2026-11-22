@@ -3,7 +3,7 @@ name: Venue Selection
 type: skill
 category: litigation-phase
 description: A sourced court and venue comparison with jurisdiction, threshold, timing, and procedural risk checks in the matter file
-version: 0.4.6
+version: 0.4.7
 gaps:
   - Local court variations and case-specific venue, fee, appeal, transfer and removal questions still need current sources.
 ---
@@ -66,7 +66,7 @@ For each court candidate, record supported, ruled out, or `[verify]` with the un
 
 ### What do the verified court options offer?
 
-Apply the matrix’s working thresholds and timing or cost estimates to the listed courts. Confirm against current rules and fee schedules before filing. Treat the intervals as planning estimates. Keep Pleadings’ current county and district fee checks open. If a court's verified rules impose no amount limit, state that with its source. If a threshold or component is unresolved, show the supported amount and the missing authority or inputs.
+Apply each matrix row, including its working thresholds and timing or cost estimates, only to the court it lists, when that court is the forum in the preflight finding, or a candidate while the forum is pending. Confirm against current rules and fee schedules before filing. Treat the intervals as planning estimates. Keep Pleadings’ current county and district fee checks open. If a court's verified rules impose no amount limit, state that with its source. If a threshold or component is unresolved, show the supported amount and the missing authority or inputs.
 
 | Court | Amount and scope to check | Procedure, remedy and practical factors to compare |
 |---|---|---|
@@ -94,11 +94,11 @@ For a court comparison, check and record the amount calculation, all state and f
 ## Pitfalls
 
 - Ambiguous matter, request, or conflicting objectives. Read the governing `AGENTS.md` and the confirmed matter's deadline record first where possible, then ask the smallest question that resolves the ambiguity.
-- A practice lead is mistaken for a jurisdictional fact, fixed formula, waived objection or current local fee. Apply the working matrix for planning. Identify the governing source needed for confirmation and hold reliance on any unresolved requirement.
+- A practice lead is mistaken for a jurisdictional fact, fixed formula, waived objection or current local fee. Apply a working matrix row for planning only to its listed court when that court is the forum in the preflight finding, or a candidate while the forum is pending. Identify the governing source needed for confirmation and hold reliance on any unresolved requirement.
 
 ## Success
 
 - Each court candidate has separate subject matter, personal jurisdiction and geographic venue checks, a threshold calculation or named missing input, and the comparison checklist. Each non-court candidate has its agreement or other forum grant, administrator, notice, rules, objections and applicable eligibility checks. Each check has a source, a stated basis for inapplicability, or a specific verification gap.
-- Each practice lead used in a conclusion has a dated authority. Unresolved points are visible and hold dependent conclusions.
+- Each practice lead used in a conclusion has a dated authority. Any matrix estimate is tied to its own listed forum or candidate. Unresolved points are visible and hold dependent conclusions.
 - Removal, remand or transfer is assessed where relevant, with any missed or imminent fatal deadline first and new dates recorded or supplied for entry.
 - The saved comparison explains risks and trade-offs and shows the person's forum choice or leaves the choice open.
