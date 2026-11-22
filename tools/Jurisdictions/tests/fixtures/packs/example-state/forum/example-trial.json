@@ -1,0 +1,17 @@
+{
+  "filing_profile": "example-trial",
+  "obtain": ["Local rules", "Assigned judge's practice standards"],
+  "statements": [
+    {
+      "id": "trial-docket-label",
+      "text": "The fictional court labels its docket with the case reference.",
+      "source": {
+        "citation": "Example Trial Court Fictional Rule 1",
+        "url": "https://example-state.invalid/court/rule-1"
+      },
+      "state": "Verified",
+      "last_read": "2025-07-01",
+      "excerpt": "excerpts/trial.txt"
+    }
+  ]
+}

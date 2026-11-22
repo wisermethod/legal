@@ -1,0 +1,15 @@
+{
+  "id": "example-arbitration",
+  "name": "Example Arbitration Association",
+  "kind": "arbitration-forum",
+  "law": [],
+  "forums": [
+    {
+      "id": "example-panel",
+      "name": "Example Arbitration Association Panel",
+      "tier": "arbitration forum",
+      "court_match": ["Example Arbitration Association(?: Panel)?"],
+      "file": "forum/example-panel.json"
+    }
+  ]
+}

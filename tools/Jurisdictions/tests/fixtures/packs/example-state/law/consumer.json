@@ -1,0 +1,15 @@
+{
+  "statements": [
+    {
+      "id": "consumer-copy",
+      "text": "The fictional code calls the receipt copy the buyer's record.",
+      "source": {
+        "citation": "Example State Fictional Code § 2",
+        "url": "https://example-state.invalid/code/2"
+      },
+      "state": "Verified",
+      "last_read": "2025-01-02",
+      "excerpt": "excerpts/consumer.txt"
+    }
+  ]
+}

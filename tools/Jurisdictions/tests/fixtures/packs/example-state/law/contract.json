@@ -1,0 +1,15 @@
+{
+  "statements": [
+    {
+      "id": "contract-notice",
+      "text": "The fictional code defines a notice record as a dated document.",
+      "source": {
+        "citation": "Example State Fictional Code § 1",
+        "url": "https://example-state.invalid/code/1"
+      },
+      "state": "Verified",
+      "last_read": "2025-01-01",
+      "excerpt": "excerpts/contract.txt"
+    }
+  ]
+}

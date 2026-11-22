@@ -1,0 +1,62 @@
+---
+name: Jurisdictions
+type: tool
+category: reference
+description: List and validate jurisdiction packs, match a matter's declared forum and governing law, and flag sources due for rereading
+version: 0.1.0
+runs: local
+gaps:
+  - No jurisdiction pack ships yet.
+---
+
+# Jurisdictions
+
+## Context
+
+Apply the legal plugin's [Standing constraint](../../AGENTS.md#standing-constraint). Use a pack for sourced rules. Leave the application of those rules to the matter's facts to the person. The matter's own records take precedence over any pack.
+
+No jurisdiction pack ships yet. A matter can still resolve its own rules path and see what the pack lookup found.
+
+Classifier seam: none.
+
+## Inputs
+
+For `resolve`, pass the absolute path to the matter's `AGENTS.md` and use the declaration written there. For `validate` and `stale`, the optional `--pack` takes a shipped ID or an absolute directory. Load the [pack format](schema/pack-format.md) before authoring or correcting a pack. The scripts follow `wiser/system/templates/Script Contract.md`.
+
+## Commands
+
+Run from the tool directory with Node. All commands run locally and need no package install.
+
+| Invocation | Result |
+|---|---|
+| `node scripts/jurisdictions.js help` or `--help` | Print usage. Each command also accepts `help` or `--help` by itself. |
+| `node scripts/jurisdictions.js list` | List the shipped packs and their coverage. An empty array is the expected result when none ships. |
+| `node scripts/jurisdictions.js validate [--pack <id-or-absolute-directory>]` | Check every selected pack and its referenced files. Omit `--pack` to check every shipped pack. |
+| `node scripts/jurisdictions.js resolve --matter <absolute-AGENTS.md>` | Resolve matter records, forum and governing law. Return age prompts for the half files selected in the result. |
+| `node scripts/jurisdictions.js stale [--pack <id-or-absolute-directory>] [--today YYYY-MM-DD] [--days N]` | List sources last read more than `N` days ago. Defaults are every shipped pack, the local calendar date and 180 days. |
+
+## Output
+
+Successful commands print one JSON value. `list` returns an array of packs with `id`, `name`, `kind`, a `law` array of practice areas, and a `forums` array with each forum's `id`, `name` and `tier`. `validate` returns `ok`, `packs` (the IDs checked), `failures` and `gaps`. Each finding names `pack`, `file` relative to the pack, statement `id` (null for a finding outside a named statement) and `reason`.
+
+### Resolve result
+
+| Field | Shape and use |
+|---|---|
+| `declaration` | Field names from the declaration table, each with `value` and `source_and_date`, or the string `"missing"`. When missing, use the parties record to establish the forum. |
+| `matter_records` | The declared rules location as `{path, exists}`, or an empty array. Use the matter records first. An entry with `exists: false` identifies the path the matter names and still needs to supply. |
+| `forum` | `pack`, `id`, `name`, absolute `file`, `tier`, `filing_profile` and `obtain`, or `{status: "none", reason}`. Use `obtain` to identify sources the matter needs to supply. |
+| `governing_law` | One result per claim-table row with `claim`, `law_named`, `clause_and_document` and `source_and_date`. A match adds `pack` and absolute `files`. An unmatched row adds `status: "none"` and `reason`. With `held: true`, keep the `exception` text and leave its effect for the person's decision. |
+| `stale` | Age prompts for returned half files, reported once per statement even when multiple claims match the same pack. |
+
+### Age prompts
+
+`stale` returns an array of prompts with `pack`, absolute `file`, statement `id` and `message` in the form `confirm: last read <date>`. Re-read the source when a prompt appears. Age alone leaves the exit code at 0.
+
+## What it writes
+
+Nothing. All commands are read-only.
+
+## Errors
+
+An invalid input exits 1 with stderr and empty stdout. For pack validation, use the JSON findings to locate and fix every reported failure. For overlapping matches, correct the patterns named in the error. For an escaping `Rules home`, record a path within the matter folder. If the intended command or input is unclear, confirm it before running.

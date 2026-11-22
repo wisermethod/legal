@@ -1,0 +1,19 @@
+{
+  "id": "example-state",
+  "name": "Example State",
+  "kind": "state",
+  "law_match": ["Example State", "State of Example"],
+  "law": [
+    { "area": "contract", "file": "law/contract.json" },
+    { "area": "consumer", "file": "law/consumer.json" }
+  ],
+  "forums": [
+    {
+      "id": "example-trial",
+      "name": "Example Trial Court",
+      "tier": "general-jurisdiction trial court",
+      "court_match": ["Example Trial Court, Sample County, Example State"],
+      "file": "forum/example-trial.json"
+    }
+  ]
+}

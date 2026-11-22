@@ -8,11 +8,18 @@ Deterministic operations that skills and experts call. `wiser/standards/primitiv
 |---|---|
 | `Court Filing/TOOL.md` | Compose and check profiled court filings from Markdown and caption data, using profile-defined document types and filing blocks |
 
+### Reference
+
+| Tool | Description |
+|---|---|
+| `Jurisdictions/TOOL.md` | List and validate jurisdiction packs, match a matter's declared forum and governing law, and flag sources due for rereading |
+
 ## Installing
 
 | Tool needing no install | Reason |
 |---|---|
 | `Court Filing` `help`, `profiles` and `check` without install | These commands use Node built-ins. |
+| `Jurisdictions` | All commands use Node built-ins. |
 
 `compose` and `validate` share Marked 12.0.2. Validation also uses `pdfinfo`, `pdftotext`, `pdffonts`, `pdftohtml`, `pdfimages` and `pdftoppm` from Poppler on PATH. The tool surveys Poppler programs without installing them. The first command needing Marked can install that package with the plugin's install consent. `check --install` can prepare Marked. The download comes from `registry.npmjs.org`. Chromium for `render pdf` and packages for `word-document` are covered by `wiser/tools/AGENTS.md`.
 

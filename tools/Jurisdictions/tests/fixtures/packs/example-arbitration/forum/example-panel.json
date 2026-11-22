@@ -1,0 +1,17 @@
+{
+  "filing_profile": null,
+  "obtain": ["Applicable association rules"],
+  "statements": [
+    {
+      "id": "panel-reference",
+      "text": "The fictional panel gives each submission a reference label.",
+      "source": {
+        "citation": "Example Arbitration Association Fictional Procedure 1",
+        "url": "https://example-arbitration.invalid/procedure/1"
+      },
+      "state": "Verified",
+      "last_read": "2025-07-01",
+      "excerpt": "excerpts/panel.txt"
+    }
+  ]
+}
