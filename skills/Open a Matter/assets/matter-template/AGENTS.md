@@ -17,7 +17,27 @@ Follow this order on every matter request, including on resume:
 
 ## Forum and posture
 
-[Name the forum, proceeding type, posture and primary record that identifies them. Point to governing rules and scheduling orders held in this matter.]
+| Field | Value | Source and date |
+|---|---|---|
+| Court or forum | pending | [Source, YYYY-MM-DD] |
+| Forum type | pending | [Source, YYYY-MM-DD] |
+| Governing law | pending | [Source, YYYY-MM-DD] |
+| Rules home | not yet obtained | [Source, YYYY-MM-DD] |
+| Filing profile | pending | [Source, YYYY-MM-DD] |
+
+For **Court or forum**, use the court's full name with its state and county or federal district, or the forum's name. Include any case or reference number. Use `court`, `arbitration`, `government agency`, `other` or `pending` for **Forum type**. Set **Governing law** to `see Governing law by claim` when the answers are recorded below, or to `pending` while the answer is unresolved. For **Rules home**, use a path inside the matter or `not yet obtained`. For **Filing profile**, use the confirmed Court Filing profile id, `none: papers follow the court's own rules` for a court without a profile, `not a court: submissions follow the forum's own rules` for a non-court forum, or `pending` if unresolved.
+
+### Governing law by claim
+
+| Claim or agreement | Law named | Clause and document | Source and date |
+|---|---|---|---|
+| [Claim or agreement] | [Law named, or not stated] | [Clause and document] | [Source, YYYY-MM-DD] |
+
+Use one row per claim or agreement. Record `not stated` when the source names no law. Record a law with any exception as written.
+
+**Posture** [Proceeding type, posture and the primary record that shows them.]
+
+A `pending` value holds only the work that needs that field.
 
 ## Authoritative paths
 

@@ -16,6 +16,8 @@ Use YYYY-MM-DD and include time and time zone if the source sets them. Write the
 
 Use these working periods when planning and seeding the deadline record. Check the current court rules, service circumstances, case-specific orders and calculation before confirming a deadline or filing.
 
+Keep only the row for the matter's declared forum and keep no rows where its forum has no matching row.
+
 | Court | Answer to complaint | Motion response | Discovery response |
 |---|---|---|---|
 | Colorado state | 21 days from service, or 35 days for out-of-state service in the Colorado district civil initiation procedure | 21 days after the motion is filed, or 14 days where it is filed 42 days or less before the trial date (C.R.C.P. 121 section 1-15(1)(b)); check orders and local rules | 30 days `[verify]` |
