@@ -16,7 +16,7 @@ Use YYYY-MM-DD and include time and time zone if the source sets them. Write the
 
 Use these working periods when planning and seeding the deadline record. Check the current court rules, service circumstances, case-specific orders and calculation before confirming a deadline or filing.
 
-Keep only the row for the matter's declared forum and keep no rows where its forum has no matching row.
+Keep only the row for the matter's forum, declared or, where the matter has no forum declaration, identified from its parties record. Keep no rows where the forum has no matching row.
 
 | Court | Answer to complaint | Motion response | Discovery response |
 |---|---|---|---|

@@ -14,7 +14,7 @@ gaps:
 
 ## Context
 
-Use for an individual or business handling its own contract dispute involving formation, interpretation, performance, breach, defenses, or remedies. Use [Colorado contract authority](authority.md) and every Colorado statement in the steps only for a claim the preflight forum finding reports as governed by Colorado law, and for any other claim apply the hold it names and keep work on other claims moving. Apply `legal/AGENTS.md` Standing constraint. End matter-specific assistance when asked to act for or advise someone else. Use the shared skill routes for procedure and filing.
+Use for an individual or business handling its own contract dispute involving formation, interpretation, performance, breach, defenses, or remedies. On a direct matter request, obtain [Litigation Counsel's forum finding](../Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern) for the matter's claims before the substance steps. Use [Colorado contract authority](authority.md) and every Colorado statement in the steps only for a claim whose outcome in the preflight forum finding begins `Colorado authority applies`. If the outcome ends `working assumption, confirm`, carry that flag on every Colorado statement used. For a `Hold`, apply it and keep work on other claims moving. Apply `legal/AGENTS.md` Standing constraint. End matter-specific assistance when asked to act for or advise someone else. Use the shared skill routes for procedure and filing.
 
 This expert organizes the evidence and authority for the person's own assessment and owns no skill.
 
