@@ -4,7 +4,7 @@ Capabilities a user invokes by name for their output. `wiser/standards/primitive
 
 ## Deadline routing
 
-Standalone deadline questions, including “What is due?” and “What is overdue?”, enter Maintain Matter File’s [Deadline review](Maintain%20Matter%20File/SKILL.md#deadline-review-read-only). On any matter request, give its alert first under Litigation Counsel’s entry preflight, including when resuming work.
+Standalone deadline questions, including “What is due?” and “What is overdue?”, enter [Litigation Counsel’s preflight](../experts/Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern), which runs Maintain Matter File’s [Deadline review](Maintain%20Matter%20File/SKILL.md#deadline-review-read-only), applies its working-period filter and reports a missing forum declaration before giving the answer. On any matter request, give its alert first under Litigation Counsel’s entry preflight, including when resuming work.
 
 ## Evidence labels
 
