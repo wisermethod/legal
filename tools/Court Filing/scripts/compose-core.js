@@ -92,7 +92,8 @@ export function validateCourtMatch(court, profile) {
   const name = court.trim();
   const refusal = detail => new Error('Caption court ' + JSON.stringify(court) + ' is outside profile "' + id + '". ' +
     detail + ' A paper for that court needs a profile for that court or the unprofiled route in the Produce Court Filing skill.');
-  const rule = layoutCourtRules[layout];
+  const rule = Object.hasOwn(layoutCourtRules, layout) ? layoutCourtRules[layout] : null;
+  if (!rule) throw refusal('The ' + layout + ' layout has no court rule, so no court can be checked against it.');
   if (!rule.pattern.test(name)) throw refusal('The ' + layout + ' layout ' + rule.requirement);
   if (patterns && !patterns.some(pattern => compileCourtPattern(pattern).test(name))) {
     throw refusal('The court name does not match the profile’s court_match rule.');

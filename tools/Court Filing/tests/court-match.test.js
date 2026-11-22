@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
-import { compose } from '../scripts/compose-core.js';
+import { compose, validateCourtMatch } from '../scripts/compose-core.js';
 import { validateProfile } from '../scripts/schema-core.js';
 
 const tool = fileURLToPath(new URL('..', import.meta.url));
@@ -93,7 +93,8 @@ test('court_match anchors both ends of a pattern with alternatives', t => {
   const customProfile = profile();
   customProfile.court_match = [example().court + '|' + county];
   assertComposed(composeCli(t, { caption: { ...example(), court: county }, customProfile }), county);
-  for (const court of ['Other ' + example().court, county + ' (copy), Colorado']) {
+  for (const court of ['Other ' + example().court, county + ' (copy), Colorado',
+    example().court + ' and more, Colorado', 'Prefix ' + county]) {
     assertRefused(composeCli(t, { caption: { ...example(), court }, customProfile }), profileRule, court);
   }
 });
@@ -111,6 +112,13 @@ test('compose requires a nonblank caption court even in replay', t => {
     ['   ', /caption\.court must be non-blank/],
   ]) {
     assertRefused(composeCli(t, { caption: { ...example(), court }, flags: ['--replay'] }), rule);
+  }
+});
+
+test('a layout with no court rule is refused by name, not with a TypeError', () => {
+  for (const layout of ['not-a-layout', 'toString', '__proto__']) {
+    assert.throws(() => validateCourtMatch(example().court, { ...profile(), renderer_profile: layout }),
+      error => !(error instanceof TypeError) && error.message.includes('layout has no court rule'));
   }
 });
 
