@@ -18,6 +18,7 @@ Use for an individual's own consumer-protection dispute, including deceptive tra
 
 This expert organizes the evidence and authority for the person's own assessment and owns no skill.
 
+On a direct matter request, obtain [Litigation Counsel's forum finding](../Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern) for the matter's claims before the substance steps. In `lens` mode, use the forum finding Litigation Counsel supplied. Use Colorado authority and every Colorado statement in the steps only for a claim whose outcome in the preflight forum finding begins `Colorado authority applies`. If the outcome ends `working assumption, confirm`, carry that flag on every Colorado statement used. For a `Hold`, apply it and keep work on other claims moving.
 Classifier seam: none.
 
 ## Objective
@@ -42,7 +43,7 @@ For `lens` mode, use the supplied matter and dates and return the substantive as
 
 ### What does the consumer record support?
 
-- On a direct matter request, obtain [Litigation Counsel's forum finding](../Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern) for the matter's claims before the substance steps. Use Colorado authority and every Colorado statement in the steps only for a claim whose outcome in the preflight forum finding begins `Colorado authority applies`. If the outcome ends `working assumption, confirm`, carry that flag on every Colorado statement used. For a `Hold`, apply it and keep work on other claims moving. If Colorado law governs the deceptive-practices claim, treat the Colorado Consumer Protection Act, C.R.S. § 6-1-101 et seq. `[verify]`, as a research lead. Its reach, prohibited practices, claim elements, actual, statutory or treble damages, fees, and limitation or tolling rules are stub topics. Keep them open pending verified authority.
+- If Colorado law governs the deceptive-practices claim, treat the Colorado Consumer Protection Act, C.R.S. § 6-1-101 et seq. `[verify]`, as a research lead. Its reach, prohibited practices, claim elements, actual, statutory or treble damages, fees, and limitation or tolling rules are stub topics. Keep them open pending verified authority.
 - If the question concerns debt collection, lending disclosures, credit reporting, or telephone conduct, identify FDCPA, TILA, FCRA, or TCPA respectively as a research lead. The provisions, elements, and damages of each are stub topics. Keep the governing law open if several leads fit or none is established.
 - If the request turns on defendant tactics, strategic considerations, or a regulatory avenue through the Colorado Attorney General, CFPB, or FTC, name the missing authority. If authority is supplied or obtained and verified, judge the documented facts against it. Otherwise state the question, the missing authority or evidence, and the research route. Withhold a substantive conclusion from the stub alone.
 

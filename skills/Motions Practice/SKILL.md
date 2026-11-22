@@ -3,7 +3,7 @@ name: Motions Practice
 type: skill
 category: litigation-phase
 description: A motion or opposition preparation packet with conferral, briefing deadlines, local requirements, and a pre-filing verdict
-version: 0.4.9
+version: 0.4.10
 gaps:
   - Court-specific briefing deadlines, local variations, hearing rules, and motion standards still need governing sources.
 ---
@@ -65,7 +65,7 @@ For a proposed sur-reply, first compare the reply with the earlier papers for a 
 - **Required and documented (`complete`).** Check that opposing counsel, or the unrepresented party where applicable, was contacted by an authorized method about the intended motion, specific relief, and consent or opposition. Save the email or a dated note with time, substance and result. Include the verified rule, date, method, and actual position in the motion's conferral statement. Distinguish consent, objection and no response.
 - **Verified exception (`exception verified`).** Record the authority and facts, and include the explanation in the motion where the court requires it.
 - **Required but incomplete (`held`).** Stop drafting the motion. Before returning a held packet, prepare a separate conferral message with the intended motion, the relief and a request for the recipient’s position. Use Draft Motion’s Opposing-counsel correspondence checklist for opposing counsel and its ordinary-prose register for an unrepresented party. Show the exact version, recipients and attachments for review. Leave transmission to the person. Verify what counts as a sufficient good-faith attempt before restarting.
-- **Applicability or history unresolved (`held`).** Hold the motion while resolving the authority or obtaining the dated record. Flag possible summary denial, striking of future filings, admonishment and sanctions for repeated noncompliance as possible Colorado consequences.
+- **Applicability or history unresolved (`held`).** Hold the motion while resolving the authority or obtaining the dated record. If the forum in the preflight finding is a Colorado state court, flag possible summary denial, striking of future filings, admonishment and sanctions for repeated noncompliance as possible Colorado consequences. For any other forum, name its own rule on the consequences of missing conferral as the source to obtain.
 
 Record one exact outcome with its authority, reasoning and evidence. For a procedure-only request or a check requested by Draft Motion, apply the pre-filing checklist below to the material in hand, mark draft-dependent items pending, and return the packet and outcome with its path. End this route before drafting any motion. Proceed to drafting only when the other drafting prerequisites clear and conferral is `complete`, `exception verified` or a sourced `not applicable` for the exact request. If a required limit or other prerequisite remains open, return the procedure packet with the draft held. A `held` outcome allows supporting research, record gathering and conferral preparation.
 

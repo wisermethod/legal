@@ -16,7 +16,7 @@ Set the summary `Governing law` to `see Governing law by claim` when any claim r
 
 > Where is this dispute being decided, or where do you plan to bring it? Give the court's full name, with the state and the county or federal district, or the name of the arbitration organization or other body handling it. If it already has a case or reference number, include that too.
 
-*Record the court's or forum's name and any case or reference number in `Court or forum`. For “not sure” or “not yet,” record `pending`.*
+*Record the court's or forum's name and any case or reference number in `Court or forum`. For “not sure” or “not yet,” record `pending`. If the person names a court or forum and is unsure of a part, record `pending` in `Court or forum` and put their exact words and the part still missing in that row's `Source and date`.*
 
 **2. What kind of forum** (field: forum type)
 
