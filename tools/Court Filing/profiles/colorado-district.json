@@ -129,6 +129,16 @@
       "notes": "Working page limits and exclusions are in validation. Confirm the current rule and any applicable court order before filing."
     },
     {
+      "citation": "C.R.C.P. 121 section 1-15(1)(b)",
+      "verification": "working-default",
+      "notes": "Working briefing period. A responsive brief is due 21 days after the motion is filed, or 14 days after it is filed where the motion is filed 42 days or less before the trial date, unless the court allows a lesser or greater time. Confirm the current rule and any applicable court order before relying on a date."
+    },
+    {
+      "citation": "C.R.C.P. 121 section 1-15(1)(c)",
+      "verification": "working-default",
+      "notes": "Working briefing period. A reply brief is due 7 days after the responsive brief is filed, or 14 days after it is filed for a motion under C.R.C.P. 56, unless the court allows a greater or lesser time. Confirm the current rule and any applicable court order before relying on a date."
+    },
+    {
       "citation": "C.R.C.P. 121 section 1-15(8)",
       "verification": "working-default",
       "notes": "Confirm the requirement for good-faith conferral with opposing counsel before filing most motions. State conferral in the body when required."

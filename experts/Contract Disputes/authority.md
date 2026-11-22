@@ -67,15 +67,7 @@ The 2026-05-23 re-verification used batch CourtListener opinion search for repor
 | *Huizar* | **Verified, opinion read 2026-05-23.** [CourtListener cluster 2519702](https://www.courtlistener.com/opinion/2519702/allstate-insurance-co-v-huizar/) |
 | *McDonald* | **Verified, opinion read 2026-05-23.** [CourtListener cluster 5344899](https://www.courtlistener.com/opinion/5344899/mcdonald-v-zions-first-national-bank-na/) |
 
-**Reporter numbers not to reuse.** The 2026-05-23 re-verification found these numbers attached to the cases below in an earlier version of this file. Each was wrong and was replaced by the citation this file now carries. Do not restore one from an older draft, note or search result, and treat a draft that carries one as unverified.
-
-| Case | Number not to reuse | Why |
-|------|---------------------|-----|
-| *Clark* | 67 P.3d 1191 | Resolved to a different case in the 2026-05-23 lookup |
-| *City of Littleton* | 495 P.2d 816 and 178 Colo. 812 | Replaced by the citation the 2026-05-23 lookup returned |
-| *Giampapa* | 71 P.3d 897 | Replaced by the citation the 2026-05-23 lookup returned |
-| *Ravenstar* | 399 P.3d 956 | Replaced by the citation the 2026-05-23 lookup returned |
-| *Huizar* | 54 P.3d 264 | Replaced by the citation the 2026-05-23 lookup returned |
+**Reporter numbers not to reuse.** These reporter numbers are not the citations this file carries for the cases named and are not verified here. Do not attach one to that case from an older draft, note or search result, and treat a draft that does as unverified until Verify Citations clears it: *Clark*, 67 P.3d 1191; *City of Littleton*, 495 P.2d 816 and 178 Colo. 812; *Giampapa*, 71 P.3d 897; *Ravenstar*, 399 P.3d 956; *Huizar*, 54 P.3d 264. The citation for each case is the one in the sections above.
 
 | Official Colorado General Assembly 2024 statute publication | Locators |
 |-------------------------------------------------------------|----------|

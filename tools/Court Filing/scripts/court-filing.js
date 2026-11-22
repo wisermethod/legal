@@ -359,7 +359,7 @@ export function inspect(kind, input, page, spawn = spawnSync) {
     maxBuffer: (kind === 'color-raster' ? 32 : 8) * 1024 * 1024,
   };
   let result = spawn(program, args[kind], options);
-  if ((result.error || result.signal) && !result.status && !result.stderr?.length) {
+  if ((result.error || result.signal) && !result.status && !result.stderr?.length && result.error?.code !== 'ETIMEDOUT') {
     result = spawn(program, args[kind], options);
   }
   if (!result.error && !result.signal && result.status === 0 && !result.stderr?.length && result.stdout?.length) {
