@@ -66,7 +66,7 @@ For each court candidate, record supported, ruled out, or `[verify]` with the un
 
 ### What do the verified court options offer?
 
-Apply each matrix row, including its working thresholds and timing or cost estimates, only to the court it lists, when that court is the forum in the preflight finding, or a candidate while the forum is pending. Confirm against current rules and fee schedules before filing. Treat the intervals as planning estimates. Keep Pleadings’ current county and district fee checks open. If a court's verified rules impose no amount limit, state that with its source. If a threshold or component is unresolved, show the supported amount and the missing authority or inputs.
+Apply each matrix row, including its working thresholds and timing or cost estimates, only to the court it lists, when that court is the forum in the preflight finding or a court being weighed as a candidate. Confirm against current rules and fee schedules before filing. Treat the intervals as planning estimates. Keep Pleadings’ current county and district fee checks open. If a court's verified rules impose no amount limit, state that with its source. If a threshold or component is unresolved, show the supported amount and the missing authority or inputs.
 
 | Court | Amount and scope to check | Procedure, remedy and practical factors to compare |
 |---|---|---|
@@ -94,7 +94,7 @@ For a court comparison, check and record the amount calculation, all state and f
 ## Pitfalls
 
 - Ambiguous matter, request, or conflicting objectives. Read the governing `AGENTS.md` and the confirmed matter's deadline record first where possible, then ask the smallest question that resolves the ambiguity.
-- A practice lead is mistaken for a jurisdictional fact, fixed formula, waived objection or current local fee. Apply a working matrix row for planning only to its listed court when that court is the forum in the preflight finding, or a candidate while the forum is pending. Identify the governing source needed for confirmation and hold reliance on any unresolved requirement.
+- A practice lead is mistaken for a jurisdictional fact, fixed formula, waived objection or current local fee. Apply a working matrix row for planning only to its listed court when that court is the forum in the preflight finding or a court being weighed as a candidate. Identify the governing source needed for confirmation and hold reliance on any unresolved requirement.
 
 ## Success
 
