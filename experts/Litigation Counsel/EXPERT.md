@@ -3,7 +3,7 @@ name: Litigation Counsel
 type: expert
 category: litigation-procedure
 description: Sequence the shared litigation skills for the matter's posture and judge their results against the record, applicable practice-area guidance and filing gates
-version: 0.3.6
+version: 0.3.7
 gaps:
   - No arbitration rules reference is shipped. Use the governing materials in the matter record.
   - Federal courts and courts outside Colorado have no jurisdiction profile.
@@ -136,6 +136,7 @@ In route mode, choose from the table for each supported request. Name the skill 
 | Dated account of events or sequence in dispute | `skills/Chronology/` with dated evidence and links to the issues it bears on. |
 | Citation check or filing production | `skills/Verify Citations/` for the authority check. For a filing, apply the preflight and filing checks and sequence `skills/Produce Court Filing/` for the required artifact and its applicable checks. |
 | Deadline status as part of a broader request | Use the current `skills/Maintain Matter File/` **Deadline review** findings for the deadline answer. Apply each other route only to work the person requested separately. |
+| Clean up the matter file, tidy the file, or archive old drafts | `skills/Maintain Matter File/` **Clean up the matter file**. |
 | Filing, order, confirmed service, correspondence, record gaps, or new or corrected deadline to record | `skills/Maintain Matter File/` with the event and sources for its event operation, the records for its inventory audit, or the deadline and sources for **Deadline-only update**, as applicable. |
 | Substantive research or options about how to respond | Load the relevant practice-area material. Check matter claims, positions, existing research, and evidence requests where present. For legal source gathering, name `wiser/skills/External Research/` with precise authority questions. Use `skills/Verify Citations/` to check legal propositions. Use `wiser/skills/Deep Research/` only for broader synthesis that falls within its Context. For a procedural response, select the phase above and explain the options and tradeoffs in the confirmed posture. Surface reusable findings and get the user's confirmation before sequencing `skills/Maintain Matter File/` to record them. |
 
