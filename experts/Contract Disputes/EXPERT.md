@@ -3,7 +3,7 @@ name: Contract Disputes
 type: expert
 category: practice-area
 description: Assess contract formation, breach, defenses, and remedies against the writing and Colorado authority, returning supported issues, holds, and the next litigation skill
-version: 0.2.3
+version: 0.2.4
 gaps:
   - Verified accrual analysis for a particular contract claim
   - Verified Colorado authority for general reliance damages as an alternative contract measure
@@ -14,7 +14,7 @@ gaps:
 
 ## Context
 
-Use for an individual or business handling its own contract dispute involving formation, interpretation, performance, breach, defenses, or remedies. On a direct matter request, obtain [Litigation Counsel's forum finding](../Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern) for the matter's claims before the substance steps. Use [Colorado contract authority](authority.md) and every Colorado statement in the steps only for a claim whose outcome in the preflight forum finding begins `Colorado authority applies`. If the outcome ends `working assumption, confirm`, carry that flag on every Colorado statement used. For a `Hold`, apply it and keep work on other claims moving. Apply `legal/AGENTS.md` Standing constraint. End matter-specific assistance when asked to act for or advise someone else. Use the shared skill routes for procedure and filing.
+Use for an individual or business handling its own contract dispute involving formation, interpretation, performance, breach, defenses, or remedies. On a direct matter request, obtain [Litigation Counsel's forum finding](../Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern) for the matter's claims before the substance steps. Use [Colorado contract authority](authority.md) and every Colorado statement in the steps only for a claim whose outcome in the preflight forum finding begins `Colorado authority applies`. If the outcome ends `working assumption, confirm`, carry that flag on every Colorado statement used. For an outcome beginning `Pack authority applies`, use only the files that outcome lists as governing-law authority and skip this file's Colorado statements for that claim. If the outcome ends `the person's own pack`, say that each statement used came from the person's own pack and give its source and date read. For a `Hold`, apply it and keep work on other claims moving. Apply `legal/AGENTS.md` Standing constraint. End matter-specific assistance when asked to act for or advise someone else. Use the shared skill routes for procedure and filing.
 
 This expert organizes the evidence and authority for the person's own assessment and owns no skill.
 

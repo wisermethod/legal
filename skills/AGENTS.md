@@ -6,6 +6,10 @@ Capabilities a user invokes by name for their output. `wiser/standards/primitive
 
 Standalone deadline questions, including “What is due?” and “What is overdue?”, enter [Litigation Counsel’s preflight](../experts/Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern), which runs Maintain Matter File’s [Deadline review](Maintain%20Matter%20File/SKILL.md#deadline-review-read-only), applies its working-period filter and reports a missing forum declaration before giving the answer. On any matter request, give its alert first under Litigation Counsel’s entry preflight, including when resuming work.
 
+## Forum procedure
+
+When the preflight forum finding names a forum pack file, read it after the matter's own records as a source for that forum's procedure. For each rule used from the person's own pack, say that it came from the person's own pack and give its source and date read.
+
 ## Evidence labels
 
 In working records, `[verify]` means `Unverified: requires confirmation`. State that label where the claim or figure appears and preserve it when carrying the claim forward. Use the other labels as applicable under `wiser/standards/conventions.md` Evidence Labels.

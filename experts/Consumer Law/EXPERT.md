@@ -3,7 +3,7 @@ name: Consumer Law
 type: expert
 category: practice-area
 description: Assess consumer-protection disputes for governing authority, conduct and loss, returning evidence gaps, holds, and the next skill
-version: 0.2.3
+version: 0.2.4
 gaps:
   - Consumer Law is a substantive stub for the Colorado Consumer Protection Act, including scope, deceptive practices, elements, damages, and limitations
   - Consumer Law is a substantive stub for federal FDCPA, TILA, FCRA, and TCPA provisions, elements, and damages
@@ -18,7 +18,7 @@ Use for an individual's own consumer-protection dispute, including deceptive tra
 
 This expert organizes the evidence and authority for the person's own assessment and owns no skill.
 
-On a direct matter request, obtain [Litigation Counsel's forum finding](../Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern) for the matter's claims before the substance steps. In `lens` mode, use the forum finding Litigation Counsel supplied. Use Colorado authority and every Colorado statement in the steps only for a claim whose outcome in the preflight forum finding begins `Colorado authority applies`. If the outcome ends `working assumption, confirm`, carry that flag on every Colorado statement used. For a `Hold`, apply it and keep work on other claims moving.
+On a direct matter request, obtain [Litigation Counsel's forum finding](../Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern) for the matter's claims before the substance steps. In `lens` mode, use the forum finding Litigation Counsel supplied. Use Colorado authority and every Colorado statement in the steps only for a claim whose outcome in the preflight forum finding begins `Colorado authority applies`. If the outcome ends `working assumption, confirm`, carry that flag on every Colorado statement used. For an outcome beginning `Pack authority applies`, use only the files that outcome lists as governing-law authority and skip this file's Colorado statements for that claim. If the outcome ends `the person's own pack`, say that each statement used came from the person's own pack and give its source and date read. For a `Hold`, apply it and keep work on other claims moving.
 Classifier seam: none.
 
 ## Objective
