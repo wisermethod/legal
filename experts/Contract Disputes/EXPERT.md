@@ -3,11 +3,12 @@ name: Contract Disputes
 type: expert
 category: practice-area
 description: Assess contract formation, breach, defenses, and remedies against the writing and the claim’s governing-law files, returning supported issues, holds, and the next litigation skill
-version: 0.2.4
+version: 0.2.5
 gaps:
   - Verified accrual analysis for a particular contract claim
   - Verified authority for general reliance damages as an alternative contract measure
   - Verified authority on whether the governing jurisdiction has adopted Hadley v. Baxendale by name
+  - New York authority for general contract formation, interpretation, extrinsic evidence, breach accrual and additional damages doctrines beyond the pack’s selected statements remains open.
 ---
 
 # Contract Disputes
@@ -41,6 +42,8 @@ Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message w
 For `lens` mode, use the supplied matter and dates and return the substantive assessment, counsel triggers and ordering prerequisites. For a direct request, identify the matter and surface missed dates and due dates within 14 days from its history and deadline record, or from supplied sources while the files are missing. Then assess the substance and give the assessment to `experts/Litigation Counsel/` for preflight before routing. In either mode, end matter-specific work outside the Standing constraint or hold dependent findings if the record cannot establish whose matter this is. If the matter is new or undeclared, use intake dates first and route record setup through Open a Matter or Take Over a Matter as appropriate. If the matter, scope or jurisdiction is unclear, ask and hold the dependent finding. For general research, name the law and its jurisdiction. For a review of an existing output, assess its substantive claims only.
 
 ### Which right, defense, or remedy has support?
+
+Check coverage for each proposition under the law selected for that claim. If the claim uses the shipped New York pack, report the relevant limits from its [governing-law coverage](../../tools/Jurisdictions/packs/new-york/README.md#governing-law-limits). If the claim’s file covers the topic, use the applicable statements under Context and state their scope. For an uncovered topic, name the missing authority and hold that proposition pending verification under the same law. Continue supported findings and independent work. Treat the file’s remedies as limited to the propositions it supports.
 
 - If formation or interpretation is disputed, identify the operative writing or alleged agreement, assent, consideration, and any ambiguity or writing requirement. Distinguish a communication that transmits or clarifies a document from a proposed new offer. Identify evidence of assent to any proposed new term. If the record supports a sale of goods, use the claim’s law file for sale-of-goods formation and interpretation. If it supports a different contract, use that file for the applicable non-goods topics. If classification is unresolved, keep the two frameworks provisional and name the fact or authority needed to settle it.
 - If breach is disputed, compare the alleged term and performance record against the claim’s law file on breach, substantial performance and justification for nonperformance. Name `skills/Claim Chart/` as the next route for an element-by-element mapping and `skills/Chronology/` when notice, performance, or sequence is contested.
