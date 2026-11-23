@@ -7,7 +7,7 @@ const FIELDS = ['Court or forum', 'Forum type', 'Governing law', 'Rules home', '
 const CLAIM_HEADERS = ['Claim or agreement', 'Law named', 'Clause and document', 'Source and date'];
 const DEFAULT_DAYS = 180;
 const DAY = 86_400_000;
-const CASE_REFERENCE = /(?:\s*,\s*|\s+)(?:(?:case(?:\s+no\.)?|no\.|docket(?:\s+no\.)?|civil\s+action(?:\s+no\.)?|index\s+no\.|reference(?:\s+no\.)?)\s*:?\s*#?(?=[\w:/.-]*\d)[a-z0-9][\w:/.-]*|\d+(?::\d+)?(?:-[a-z0-9]+)*-\d+[a-z0-9]*)$/i;
+const CASE_REFERENCE = /(?:\s*,\s*|\s+)(?:(?:case|docket|civil\s+action|index|reference)\b(?:\s+no\.)?\s*:?\s*#?(?=[\w:/.-]*\d)[a-z0-9][\w:/.-]*|no\.\s*:?\s*#?(?=[\w:/.-]*\d)[a-z0-9][\w.]*[-:/][\w:/.-]+|\d+(?::\d+)?(?:-[a-z0-9]+)*-\d+[a-z0-9]*)$/i;
 
 function nonblank(value) {
   return typeof value === 'string' && value.trim() !== '';
@@ -81,33 +81,45 @@ function array(value, label, issue, minimum = 0) {
 function unsafeRepetition(source) {
   // The native compiler checks syntax first. Ignore escapes, character classes and group prefixes here.
   const tokens = /\\[\s\S]|\[(?:\\[\s\S]|[^\]\\])*\]|\(\?(?:[:=!]|<[=!]|<[^>]+>|[ims-]+:)|[()|]|(?:[?*+]|\{\d+(?:,\d*)?\})\??/g;
-  const groups = [{ quantified: false, alternation: false }];
+  const groups = [{ unbounded: false, alternation: false }];
   let closed;
   for (const match of source.matchAll(tokens)) {
     const [token] = match;
     const group = groups.at(-1);
     if (token.startsWith('(')) {
-      groups.push({ quantified: false, alternation: false });
+      groups.push({ unbounded: false, alternation: false });
     } else if (token === ')') {
       const inner = groups.pop();
       const parent = groups.at(-1);
-      parent.quantified ||= inner.quantified;
+      parent.unbounded ||= inner.unbounded;
       parent.alternation ||= inner.alternation;
       closed = { ...inner, end: match.index + 1 };
       continue;
     } else if (token === '|') {
       group.alternation = true;
-    } else if (/^[?*+{]/.test(token)) {
+    } else if (/^(?:[*+]|\{\d+,\})/.test(token)) {
       if (closed?.end === match.index) {
-        if (closed.quantified) return 'nested quantifiers';
-        const atMostOnce = /^\?(?:\?)?$|^\{[01](?:,[01])?\}\??$/.test(token);
-        if (closed.alternation && !atMostOnce) return 'repeated alternation';
+        if (closed.unbounded) return 'nested quantifiers';
+        if (closed.alternation) return 'repeated alternation';
       }
-      group.quantified = true;
+      group.unbounded = true;
     }
     closed = undefined;
   }
   return null;
+}
+
+function patternSource(pattern) {
+  try {
+    return new RegExp(pattern, 'i').source;
+  } catch {
+    // Keep native JavaScript patterns intact. Accept a literal first ] in a class
+    // when escaping it produces a well-formed pattern.
+    const classes = /\\[\s\S]|\[(\^?)\]((?:\\[\s\S]|[^\]\\[])*)\]|\[(?:\\[\s\S]|[^\]\\])*\]/g;
+    const escaped = pattern.replace(classes, (token, prefix, rest) =>
+      prefix === undefined ? token : '[' + prefix + '\\]' + rest + ']');
+    return new RegExp(escaped, 'i').source;
+  }
 }
 
 function patterns(value, label, issue) {
@@ -118,7 +130,7 @@ function patterns(value, label, issue) {
     }
     let compiled;
     try {
-      const { source } = new RegExp(pattern, 'i');
+      const source = patternSource(pattern);
       compiled = new RegExp('^(?:' + source + ')$', 'i');
     } catch {
       issue(label + '[' + index + '] must compile as a JavaScript regular expression.');
@@ -407,18 +419,28 @@ function table(markdown, headers, claimOffset) {
     throw new Error('Use the template table separator below ' + headers[0] + '.');
   }
   const rows = [];
+  const claimTable = claimOffset !== undefined;
+  const outerPipe = /^\s*\||(?<!\\)\|\s*$/;
+  const bareHeader = !outerPipe.test(markdown[start]);
   let ended = false;
+  let inProse = false;
   for (let index = start + 2; index < markdown.length; index++) {
     const line = markdown[index];
-    if (!line.includes('|')) {
-      if (claimOffset === undefined) break;
-      ended = true;
-      continue;
-    }
+    const hasPipe = /(?<!\\)\|/.test(line);
+    if (!claimTable && !line.includes('|')) break;
     const row = cells(line);
-    if (claimOffset !== undefined && (ended || isHeader(row))) {
-      throw new Error('Use one continuous Governing law by claim table. Unexpected table row at line ' +
-        (claimOffset + index + 1) + '.');
+    if (claimTable) {
+      // After a blank, a row still in the table uses its header's pipe style.
+      const looksLikeRow = outerPipe.test(line) || (bareHeader && row.length === headers.length);
+      if (isHeader(row) || (ended && !inProse && looksLikeRow)) {
+        throw new Error('Use one continuous Governing law by claim table. Unexpected table row at line ' +
+          (claimOffset + index + 1) + '.');
+      }
+      ended ||= !hasPipe;
+      if (ended) {
+        inProse ||= Boolean(line.trim());
+        continue;
+      }
     }
     if (row.length !== headers.length) throw new Error('Correct the number of cells in the ' + headers[0] + ' table.');
     rows.push(row);
@@ -522,16 +544,33 @@ function resolvePacks(directories, read, courts, laws) {
     if (!failuresByPack.has(finding.pack)) failuresByPack.set(finding.pack, []);
     failuresByPack.get(finding.pack).push(finding);
   }
+  const usable = new Map(packs.map(pack => [pack.directory, pack]));
   const invalid = directories.filter(directory => failuresByPack.has(directory.id)).map(directory => {
-    const pack = packs.find(candidate => candidate.directory === directory);
-    const forums = pack ? matchingForums(courts, [pack]) : [];
-    const claims = pack ? laws.flatMap((names, index) => matchingLaws(names, [pack]).length ? [index] : []) : [];
+    const pack = usable.get(directory);
     const failures = failuresByPack.get(directory.id);
     const diagnostic = { pack: directory.id, ...provenance(directory), failures };
+    const files = new Set(failures.map(failure => failure.file));
+    const badManifest = files.has('pack.json');
+    const badForums = pack?.forums.filter(entry => badManifest || files.has(entry.file)) ?? [];
+    const badLaw = pack?.law.some(entry => badManifest || files.has(entry.file));
+    const forums = matchingForums(courts, [{ forums: badForums }]);
+    const claims = badLaw ? laws.flatMap((names, index) => matchingLaws(names, [pack]).length ? [index] : []) : [];
     if (forums.length || claims.length) diagnostic.matches = { forum: forums.length > 0, governing_law: claims };
-    return { diagnostic, forums, claims, pack };
+    if (badManifest) usable.delete(directory);
+    else if (pack) {
+      usable.set(directory, {
+        ...pack,
+        forums: pack.forums.filter(entry => !files.has(entry.file)),
+        law: badLaw ? [] : pack.law,
+        lawMatch: badLaw ? [] : pack.lawMatch,
+      });
+    }
+    const matchedFiles = new Set(forums.map(entry => entry.file));
+    if (claims.length) for (const entry of pack.law) matchedFiles.add(entry.file);
+    const matchingFailures = failures.filter(failure => matchedFiles.has(failure.file));
+    return { diagnostic, matchingFailures };
   });
-  return { packs: packs.filter(pack => !failuresByPack.has(pack.id)), loaded, gaps, invalid };
+  return { packs: [...usable.values()], loaded, gaps, invalid };
 }
 
 function resolveMatter(text, { rulesRecord, matterDirectories, shippedDirectories, read, age }) {
@@ -558,17 +597,11 @@ function resolveMatter(text, { rulesRecord, matterDirectories, shippedDirectorie
   const packs = { matter: matter.packs, shipped: shipped.packs };
   const { match: forumMatch, result, ...forumOverrides } = findForum(courts, packs);
   const lawMatches = claims.map((claim, index) => findLaw(claim.law_named, laws[index], packs));
-  requireValid(shipped.invalid.flatMap(({ diagnostic, forums, claims, pack }) => {
-    const requested = [
-      ...(forumMatch ? [] : forums),
-      ...(claims.some(index => !lawMatches[index].pack) ? pack.law : []),
-    ];
-    return diagnostic.failures.filter(failure => requested.some(entry => entry.file === failure.file));
-  }));
   const entries = new Set([
     ...(forumMatch ? [forumMatch] : []),
     ...lawMatches.flatMap(selection => selection.pack?.law ?? []),
   ]);
+  if (!entries.size) requireValid(shipped.invalid.flatMap(entry => entry.matchingFailures));
   const loaded = new Map([...entries].map(entry => [entry, matter.loaded.get(entry) ?? shipped.loaded.get(entry)]));
   const gaps = [];
   for (const [entry, { path }] of loaded) {

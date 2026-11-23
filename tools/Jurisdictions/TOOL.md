@@ -55,9 +55,9 @@ Successful work commands print one JSON object. `list` returns `packs`, an array
 | `governing_law` | One result per claim-table row with `claim`, `law_named`, `clause_and_document` and `source_and_date`. A match adds `pack` and absolute `files`. An unmatched row adds `status: "none"` and `reason`. With `held: true`, keep the `matched_law` and `exception` text and leave its effect for the person's decision. |
 | `stale` | Age prompts for returned half files, reported once per statement even when multiple claims match the same pack. |
 | `gaps` | `[verify]` findings for returned half files, once per statement, with `pack`, absolute `file`, statement `id` and `reason`. |
-| `invalid_packs` | Validation failures for skipped matter or shipped packs. Each entry gives `pack`, `own_pack` and `failures`. Matter entries also give the absolute `pack_directory`. When the manifest's usable patterns match the declaration, `matches` gives a `forum` boolean and a `governing_law` array of zero-based claim row indexes. |
+| `invalid_packs` | Validation failures for skipped matter or shipped packs. Each entry gives `pack`, `own_pack` and `failures`. Matter entries also give the absolute `pack_directory`. When the manifest's usable patterns identify affected matches, `matches` gives a `forum` boolean and a `governing_law` array of zero-based claim row indexes. |
 
-Resolution continues with valid matches. If a needed shipped half fails validation and no valid match is available for that court or law, resolution exits 1 with the half's failures. Two valid overlapping matches in the group used to resolve a court or law still fail.
+A half-file failure leaves the valid forum or law matches available, including the other half of the same pack. If a matching shipped half fails validation and no valid forum or governing-law match remains, resolution exits 1 with the matching half's failures. Two valid overlapping matches in the group used to resolve a court or law still fail.
 
 Forum and law matches and their age prompts and gaps carry `own_pack: true` and the absolute `pack_directory` for a matter pack. Shipped results carry `own_pack: false`. When a matter match takes precedence, that forum or law result includes `set_aside`, an array of shipped pack IDs.
 
