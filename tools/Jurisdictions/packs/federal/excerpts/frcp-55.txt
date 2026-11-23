@@ -1,0 +1,43 @@
+https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf
+2026-11-23
+
+Federal Rules of Civil Procedure, as amended to December 1, 2025.
+PDF extraction retains running page headers.
+
+Rule 55. Default; Default Judgment
+  (a) ENTERING A DEFAULT. When a party against whom a judg-
+ment for affirmative relief is sought has failed to plead or other-
+wise defend, and that failure is shown by affidavit or otherwise,
+the clerk must enter the party’s default.
+  (b) ENTERING A DEFAULT JUDGMENT.
+      (1) By the Clerk. If the plaintiff’s claim is for a sum certain
+    or a sum that can be made certain by computation, the clerk—
+    on the plaintiff’s request, with an affidavit showing the
+    amount due—must enter judgment for that amount and costs
+    against a defendant who has been defaulted for not appearing
+    and who is neither a minor nor an incompetent person.
+      (2) By the Court. In all other cases, the party must apply to
+    the court for a default judgment. A default judgment may be
+    entered against a minor or incompetent person only if rep-
+    resented by a general guardian, conservator, or other like fi-
+    duciary who has appeared. If the party against whom a default
+    judgment is sought has appeared personally or by a represent-
+    ative, that party or its representative must be served with
+    written notice of the application at least 7 days before the
+    hearing. The court may conduct hearings or make referrals—
+    preserving any federal statutory right to a jury trial—when,
+    to enter or effectuate judgment, it needs to:
+Rule 56            FEDERAL RULES OF CIVIL PROCEDURE                       82
+          (A) conduct an accounting;
+          (B) determine the amount of damages;
+          (C) establish the truth of any allegation by evidence; or
+          (D) investigate any other matter.
+  (c) SETTING ASIDE A DEFAULT OR A DEFAULT JUDGMENT. The
+court may set aside an entry of default for good cause, and it may
+set aside a final default judgment under Rule 60(b).
+  (d) JUDGMENT AGAINST THE UNITED STATES. A default judgment
+may be entered against the United States, its officers, or its agen-
+cies only if the claimant establishes a claim or right to relief by
+evidence that satisfies the court.
+(As amended Mar. 2, 1987, eff. Aug. 1, 1987; Apr. 30, 2007, eff. Dec.
+1, 2007; Mar. 26, 2009, eff. Dec. 1, 2009; Apr. 29, 2015, eff. Dec. 1, 2015.)

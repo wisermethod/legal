@@ -1,0 +1,36 @@
+https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf
+2026-11-23
+
+Federal Rules of Civil Procedure, as amended to December 1, 2025.
+PDF extraction retains running page headers.
+
+Rule 7.1. Disclosure Statement
+  (a) WHO MUST FILE; CONTENTS.
+      (1) Nongovernmental Corporations. A nongovernmental cor-
+    porate party or a nongovernmental corporation that seeks to
+    intervene must file a statement that:
+          (A) identifies any parent corporation and any publicly
+        held corporation owning 10% or more of its stock; or
+          (B) states that there is no such corporation.
+15               FEDERAL RULES OF CIVIL PROCEDURE               Rule 8
+
+       (2) Parties or Intervenors in a Diversity Case. In an action in
+    which jurisdiction is based on diversity under 28 U.S.C.
+    § 1332(a), a party or intervenor must, unless the court orders
+    otherwise, file a disclosure statement. The statement must
+    name—and identify the citizenship of—every individual or en-
+    tity whose citizenship is attributed to that party or interve-
+    nor:
+           (A) when the action is filed in or removed to federal
+         court, and
+           (B) when any later event occurs that could affect the
+         court’s jurisdiction under § 1332(a).
+  (b) TIME TO FILE; SUPPLEMENTAL FILING. A party, intervenor, or
+proposed intervenor must:
+       (1) file the disclosure statement with its first appearance,
+    pleading, petition, motion, response, or other request ad-
+    dressed to the court; and
+       (2) promptly file a supplemental statement if any required
+    information changes.
+(As added Apr. 29, 2002, eff. Dec. 1, 2002; amended Apr. 30, 2007, eff.
+Dec. 1, 2007; Apr. 11, 2022, eff. Dec. 1, 2022.)

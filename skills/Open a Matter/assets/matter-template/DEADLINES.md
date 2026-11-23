@@ -16,8 +16,7 @@ Use YYYY-MM-DD and include time and time zone if the source sets them. Write the
 
 Take the working response periods from the forum pack file named in the forum finding. Write them here as rows with each statement's source and state.
 
-Keep an existing row only for a forum whose file gives no working response periods. Keep the `Federal court in Colorado` row only for the federal district court for Colorado.
+Keep an existing row only for a forum whose file gives no working response periods.
 
 | Court | Answer to complaint | Motion response | Discovery response |
 |---|---|---|---|
-| Federal court in Colorado | 21 days from actual service as a working period. If service was waived, verify the longer period and its trigger before calculating. | 21 days, check local rules | 30 days |

@@ -1,0 +1,56 @@
+https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf
+2026-11-23
+
+Federal Rules of Civil Procedure, as amended to December 1, 2025.
+PDF extraction retains running page headers.
+
+Rule 13. Counterclaim and Crossclaim
+  (a) COMPULSORY COUNTERCLAIM.
+      (1) In General. A pleading must state as a counterclaim any
+    claim that—at the time of its service—the pleader has against
+    an opposing party if the claim:
+           (A) arises out of the transaction or occurrence that is
+        the subject matter of the opposing party’s claim; and
+           (B) does not require adding another party over whom the
+        court cannot acquire jurisdiction.
+      (2) Exceptions. The pleader need not state the claim if:
+Rule 14           FEDERAL RULES OF CIVIL PROCEDURE                      22
+          (A) when the action was commenced, the claim was the
+        subject of another pending action; or
+          (B) the opposing party sued on its claim by attachment
+        or other process that did not establish personal jurisdic-
+        tion over the pleader on that claim, and the pleader does
+        not assert any counterclaim under this rule.
+  (b) PERMISSIVE COUNTERCLAIM. A pleading may state as a coun-
+terclaim against an opposing party any claim that is not compul-
+sory.
+  (c) RELIEF SOUGHT IN A COUNTERCLAIM. A counterclaim need not
+diminish or defeat the recovery sought by the opposing party. It
+may request relief that exceeds in amount or differs in kind from
+the relief sought by the opposing party.
+  (d) COUNTERCLAIM AGAINST THE UNITED STATES. These rules do
+not expand the right to assert a counterclaim—or to claim a cred-
+it—against the United States or a United States officer or agency.
+  (e) COUNTERCLAIM MATURING OR ACQUIRED AFTER PLEADING. The
+court may permit a party to file a supplemental pleading assert-
+ing a counterclaim that matured or was acquired by the party
+after serving an earlier pleading.
+  (f) [ABROGATED.]
+  (g) CROSSCLAIM AGAINST A COPARTY. A pleading may state as a
+crossclaim any claim by one party against a coparty if the claim
+arises out of the transaction or occurrence that is the subject
+matter of the original action or of a counterclaim, or if the claim
+relates to any property that is the subject matter of the original
+action. The crossclaim may include a claim that the coparty is or
+may be liable to the crossclaimant for all or part of a claim as-
+serted in the action against the crossclaimant.
+  (h) JOINING ADDITIONAL PARTIES. Rules 19 and 20 govern the addi-
+tion of a person as a party to a counterclaim or crossclaim.
+  (i) SEPARATE TRIALS; SEPARATE JUDGMENTS. If the court orders
+separate trials under Rule 42(b), it may enter judgment on a coun-
+terclaim or crossclaim under Rule 54(b) when it has jurisdiction to
+do so, even if the opposing party’s claims have been dismissed or
+otherwise resolved.
+(As amended Dec. 27, 1946, eff. Mar. 19, 1948; Jan. 21, 1963, eff. July
+1, 1963; Feb. 28, 1966, eff. July 1, 1966; Mar. 2, 1987, eff. Aug. 1, 1987;
+Apr. 30, 2007, eff. Dec. 1, 2007; Mar. 26, 2009, eff. Dec. 1, 2009.)

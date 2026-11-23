@@ -1,0 +1,485 @@
+{
+  "filing_profile": null,
+  "obtain": [
+    "The named district’s current local civil rules and amendments, including briefing deadlines and page, word, font and other format limits",
+    "The assigned judge’s individual practice standards, applicable standing orders and case-specific orders",
+    "The named district’s current filing and e-service instructions, eligibility and registration requirements, and applicable forms",
+    "The named district’s current fee schedule and any applicable fee-waiver forms and instructions",
+    "Applicable statutory amendments or effective-date changes after Public Law 119-142 (November 10, 2026)"
+  ],
+  "statements": [
+    {
+      "id": "scope",
+      "text": "The Federal Rules of Civil Procedure govern civil actions and proceedings in United States district courts subject to Rule 81. The court and parties are to use them to secure a just, speedy, and inexpensive determination.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 1",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-1.txt"
+    },
+    {
+      "id": "civil-action",
+      "text": "The rules recognize a single form of action, the civil action.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 2",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-2.txt"
+    },
+    {
+      "id": "commencement",
+      "text": "A civil action commences when the complaint is filed with the court.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 3",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-3.txt"
+    },
+    {
+      "id": "summons-service-and-waiver",
+      "text": "The summons names the court and parties, is directed to the defendant, gives the plaintiff’s or counsel’s name and address and the time to appear and defend, warns of default judgment, and bears the clerk’s signature and court seal. Present it on or after filing and obtain issuance for each defendant to be served. The plaintiff supplies the copies and is responsible for timely service of both summons and complaint, generally by a nonparty aged 18 or older. Service within a U.S. judicial district on a covered individual may follow the forum or service state’s general-jurisdiction procedure, or proceed by personal delivery, suitable resident at the dwelling or usual abode, or authorized agent as specified. For entities, foreign service, minors, incompetent persons and government defendants, use the applicable provisions in (f) through (j), including any required additional recipient or mailing. Subdivision (k) sets territorial limits for personal jurisdiction and its statutory and other specified alternatives. A waiver request to an eligible defendant is written and dated, names the court, includes the complaint and required notice, two waiver forms and prepaid return, and is sent by first-class mail or another reliable means. It allows at least 30 days from sending for return, or at least 60 days if sent outside any U.S. judicial district. A filed waiver dispenses with proof and is treated as service on filing, with venue and personal jurisdiction objections preserved. A domestic defendant who fails without good cause to return a qualifying domestic plaintiff’s request must pay the specified service and collection expenses. Proof ordinarily uses the server’s affidavit unless waived or served by a U.S. marshal or deputy, with separate proof requirements abroad. If service is incomplete 90 days after filing the complaint, the court after notice must dismiss without prejudice as to that defendant or specify time for service, and must extend for good cause. The 90-day limit excludes the foreign service and condemnation notice specified in (m).",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 4",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-4.txt"
+    },
+    {
+      "id": "later-service-and-filing",
+      "text": "Serve the papers identified in Rule 5(a) on every party unless an exception or order applies. A party in default for failing to appear ordinarily requires service only for a pleading asserting a new claim for relief, which uses Rule 4. Serve counsel for a represented party unless the court orders otherwise. Rule 5 permits delivery, mail, leaving a paper with the clerk when the address is unknown, and the specified electronic or consented delivery methods. Electronic service through the court system on a registered user or by a means consented to in writing completes on filing or sending, but is ineffective if the filer or sender learns it failed to reach the recipient. File covered later papers within a reasonable time after service, subject to the specified discovery materials held until used in the proceeding or ordered filed. Service through court-system filing requires no certificate. For service by other means, file the certificate with the filed paper or within a reasonable time after service, and for an unfiled paper only when ordered or locally required. A represented person generally files electronically, subject to the good-cause and local-rule exceptions. An unrepresented person may file electronically when a local rule or order allows it and may be required to do so by order or by a local rule with reasonable exceptions. An authorized account filing with that person’s name in the signature block constitutes their signature. Deliver a nonelectronic filing to the clerk or a judge who agrees to accept it.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 5",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-5.txt"
+    },
+    {
+      "id": "privacy-redaction",
+      "text": "Unless the court orders otherwise or an exemption applies, paper and electronic filings may show only the last four digits of covered Social Security, taxpayer identification and financial account numbers, the year of birth, and a known minor’s initials. Rule 5.2 specifies exempt filings and remote-access limits for covered Social Security and immigration matters. It allows additional protective orders, sealed filings, and a sealed reference list. A person waives the rule’s protection of their own identifiers by filing them unredacted and unsealed.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 5.2",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-5-2.txt"
+    },
+    {
+      "id": "computing-time-and-hearing-papers",
+      "text": "When computing a period set by these rules, a local rule, an order, or a statute with no computation method of its own, apply Rule 6(a). For day-based periods, exclude the trigger, count intermediate weekends and legal holidays, and move a weekend or legal-holiday endpoint to the next eligible day in the direction of counting. For hour-based periods, begin immediately and count every hour, moving an ineligible endpoint to the same time on the next eligible day. Check the rule’s legal holidays, clerk inaccessibility and any governing exception. Absent a different cutoff set by statute, local rule or order, electronic filing ends at midnight in the court’s time zone and other filing at scheduled clerk closing. Extensions for good cause may be obtained before expiration, or on motion after expiration for excusable neglect, except for the listed nonextendable periods. Serve a written motion and hearing notice at least 14 days before the hearing unless the motion may be heard ex parte or a national rule or court order sets another time. Serve a supporting affidavit with the motion and an opposing affidavit at least 7 days before the hearing unless the court permits a different time or Rule 59(c) applies. Under Rule 6(d), add 3 days after the Rule 6(a) period otherwise expires only for acts timed from service under Rule 5(b)(2)(C), (D) or (F), covering mail, leaving it with the clerk, or the specified other consented delivery.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 6",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-6.txt"
+    },
+    {
+      "id": "allowed-pleadings-and-motion-form",
+      "text": "The permitted pleadings are a complaint, an answer to a complaint, answers to designated counterclaims and crossclaims, a third-party complaint and answer, and a reply to an answer when ordered. A request for an order is a motion in writing unless made during a hearing or trial. It states the grounds with particularity and the relief sought. Pleading caption and form rules also apply to motions and other papers.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 7",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-7.txt"
+    },
+    {
+      "id": "disclosure-statement",
+      "text": "A nongovernmental corporation that is a party or seeks to intervene identifies its parent and any publicly held corporation owning at least 10 percent of its stock, or states there is none. In a case under 28 U.S.C. § 1332(a), a party or intervenor, unless ordered otherwise, identifies every person or entity whose citizenship is attributed to it and their citizenship at filing or removal and on any later event that could affect diversity jurisdiction. File the required statement with the first appearance, pleading, petition, motion, response or other court request and supplement promptly when required information changes.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 7.1",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-7-1.txt"
+    },
+    {
+      "id": "claims-and-responsive-pleadings",
+      "text": "A claim for relief states jurisdiction briefly unless already established and no new support is needed, states the claim showing entitlement to relief, and demands relief, which may be alternative. In a response state defenses concisely, admit or deny allegations fairly, admit the true part of a partially denied allegation, and state any genuine lack of sufficient knowledge or information, which operates as a denial. A required response admits an undenied allegation except as to the amount of damages. Affirmatively state applicable avoidances and affirmative defenses. Keep allegations simple and direct. Alternative, hypothetical and inconsistent claims or defenses are permitted.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 8",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-8.txt"
+    },
+    {
+      "id": "special-pleading-matters",
+      "text": "Plead the circumstances of fraud or mistake with particularity. Conditions of mind may be alleged generally. Conditions precedent may be alleged generally but must be denied with particularity. Itemize special damages if claimed. Capacity, representative authority and legal existence ordinarily need not be alleged unless needed for jurisdiction, and challenges require specific denial and supporting facts peculiarly within the challenger’s knowledge. Rule 9 also addresses official acts, judgments, time and place, and admiralty or maritime designation.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 9",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-9.txt"
+    },
+    {
+      "id": "caption-and-pleading-form",
+      "text": "A pleading caption gives the court’s name, title, file number, and the Rule 7(a) designation. The complaint title names all parties. Later pleadings may name the first party on each side and refer generally to the others. Use numbered paragraphs limited as far as practicable to a single set of circumstances, and separate counts for claims arising from separate transactions or occurrences and separate defenses other than denials when that promotes clarity. Statements may be adopted by reference, and an attached copy of a written instrument is part of the pleading.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 10",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-10.txt"
+    },
+    {
+      "id": "signing-and-certifications",
+      "text": "An attorney of record in their own name, or the unrepresented party personally, signs pleadings, written motions and other papers and states address, email and phone. Verification or an affidavit is needed when specifically required by a rule or statute. The court strikes an unsigned paper unless promptly corrected when called to the signer’s attention. Presenting or later advocating a paper certifies reasonable inquiry, proper purpose, support or a nonfrivolous position for legal contentions, and the specified factual support for assertions and denials. A sanctions motion is separate, specifies the conduct, and is served but withheld from filing or presentation if corrected or withdrawn within 21 days after service or another time the court sets. This rule excludes disclosures and discovery papers under Rules 26 through 37.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 11",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-11.txt"
+    },
+    {
+      "id": "answer-waiver-and-pre-answer-motion",
+      "text": "Unless a federal statute specifies another time, serve an answer to the complaint within 21 days after service of both summons and complaint. On timely waiver of service before process is served, the answer is due within 60 days after sending the waiver request or 90 days after sending it to a defendant outside any U.S. judicial district. Answers to counterclaims and crossclaims are due within 21 days after service of the pleading. A court-ordered reply to an answer is due within 21 days after service of the order unless the order provides otherwise. The United States, its agencies and officers or employees sued only in official capacity have 60 days from service on the U.S. attorney. A U.S. officer or employee sued individually for conduct connected with federal duties has 60 days from service on the individual or U.S. attorney, whichever is later. Unless the court sets a different time, serving a Rule 12 motion makes the responsive pleading due within 14 days after notice that the court denied the motion or deferred disposition until trial, or within 14 days after service of a more definite statement if the motion for one was granted. A Rule 12(b) motion must precede the responsive pleading when one is allowed. Check consolidation and preservation under (g) and (h), including waiver of the defenses in (b)(2) through (5) after specified omissions and the continuing obligation to dismiss for lack of subject matter jurisdiction under (h)(3), with removed cases governed by their remand authority.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 12",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-12.txt"
+    },
+    {
+      "id": "counterclaims-and-crossclaims",
+      "text": "A counterclaim against an opposing party held at service of the pleading is compulsory if it arises from the same transaction or occurrence and does not require adding a party beyond the court’s jurisdiction. Exceptions cover a claim already pending when the action began and specified proceedings commenced without personal jurisdiction when the pleader asserts no counterclaim. Other counterclaims may be pleaded. A crossclaim against a coparty may arise from the transaction or occurrence in the original action or a counterclaim, or concern property at issue. The court may permit a supplemental pleading for a counterclaim matured or acquired after the earlier pleading was served.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 13",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-13.txt"
+    },
+    {
+      "id": "amendment-and-response",
+      "text": "A party may amend once as a matter of course no later than 21 days after service of the pleading or, for a pleading requiring a response, 21 days after service of a responsive pleading or of a Rule 12(b), (e) or (f) motion, whichever of those two response events is earlier. Otherwise amendment before trial requires the other party’s written consent or leave of court, which should be freely given when justice requires. Unless ordered otherwise, a required response to an amendment is due at the later of the remaining original response period or 14 days after service of the amended pleading. Relation back can follow the applicable limitations law or the same conduct, transaction or occurrence. A change of defendant also requires, within the Rule 4(m) period, notice without prejudice in defending and knowledge that a mistake in identity kept the defendant from being named, with a special notice rule for the United States and its officers or agencies. The rule also addresses amendments at or after trial and supplements by motion and reasonable notice for later events.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 15",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-15.txt"
+    },
+    {
+      "id": "scheduling-and-pretrial-orders",
+      "text": "A judge must issue a scheduling order after the discovery report or after consulting parties or counsel, except in case categories exempted by local rule. Issue it as soon as practicable and, absent good cause for delay, by the earlier of 90 days after any defendant is served with the complaint or 60 days after any defendant appears. It sets deadlines to join parties, amend pleadings, finish discovery and file motions, and may address the method and timing of privilege claims, disclosure timing and other listed case-management issues. A schedule changes only for good cause and with the judge’s consent. A pretrial order controls unless modified by the court, and an order after a final pretrial conference changes only to prevent manifest injustice.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 16",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-16.txt"
+    },
+    {
+      "id": "disclosures-and-discovery-planning",
+      "text": "Discovery ordinarily covers relevant, proportional and nonprivileged matter, subject to court limits and the rule’s protection for privileged and trial-preparation material. Absent an exemption, different stipulation or order, or an objection raised at the conference and stated in the discovery plan for the court to decide, initial disclosures are due at or within 14 days after the Rule 26(f) conference. A party first served or joined later has 30 days from service or joinder unless stipulated or ordered otherwise. Initial disclosures cover specified witnesses, supporting materials, damages computations and potentially applicable insurance. Expert disclosures identify the witness with a signed report or a subject and summary as the rule requires, on the ordered schedule or, absent stipulation or order, at least 90 days before trial or trial readiness or, for solely rebuttal evidence on the same subject, within 30 days of the other disclosure. Pretrial disclosures of witnesses, deposition testimony and exhibits ordinarily are due at least 30 days before trial and the specified objections within 14 days after disclosure, subject to the rule’s waiver exceptions and any order. Rule 26(a) disclosures are written, signed and served unless ordered otherwise. Discovery usually begins after the conference, subject to exempt cases and rule, stipulation or order exceptions. A Rule 34 request may be delivered early under Rule 26(d)(2) more than 21 days after service of summons and complaint on the applicable party. Except for exempt proceedings or a contrary order, the parties confer at least 21 days before the scheduling conference or the due date of the scheduling order and submit the written discovery plan report within 14 days after conferring. Check expedited local variations and include preservation, ESI and proposed timing and method for asserting privilege or work-product protection. Rule 26 also requires timely supplementation of materially incomplete or incorrect disclosures and responses when the information has not otherwise been made known, and discovery signatures and certifications under (g).",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 26",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-26.txt"
+    },
+    {
+      "id": "interrogatory-responses",
+      "text": "Serve answers and objections to interrogatories within 30 days after service unless a Rule 29 stipulation or order changes the period. Answer each unobjectionable part separately, fully, in writing and under oath. State specific objection grounds, which are waived if untimely unless excused for good cause. The person answering signs the answers and counsel signs objections made by counsel. The default cap is 25 interrogatories per other party, including discrete subparts, subject to stipulation, order or leave. The business-records option requires substantially equal burden, identification sufficient to locate the records, and a reasonable opportunity to examine and copy them.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 33",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-33.txt"
+    },
+    {
+      "id": "production-request-responses",
+      "text": "Production or inspection requests describe items with reasonable particularity and specify reasonable time, place and manner. Respond in writing within 30 days of service or, for early delivery under Rule 26(d)(2), within 30 days after the first Rule 26(f) conference, subject to a Rule 29 stipulation or court order. Respond to each item, state objections and reasons specifically and say whether material is withheld. Permit inspection of any unobjectionable part. If producing copies instead, complete production by the proposed inspection time or another reasonable time specified in the response. Follow the rule’s organization and ESI form requirements.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 34",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-34.txt"
+    },
+    {
+      "id": "admission-request-responses",
+      "text": "State each matter separately in a written request for admission and supply a copy of a document whose genuineness is at issue unless already supplied or available for inspection and copying. The matter is admitted unless a signed written answer or objection is served within 30 days after service, subject to a Rule 29 stipulation or court order. Specify reasons for an objection or for inability to admit or deny after reasonable inquiry, admit the true part and qualify or deny the rest. An admission is conclusive for the pending action unless withdrawn or amended by court permission under the rule’s conditions.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 36",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-36.txt"
+    },
+    {
+      "id": "jury-demand",
+      "text": "For an issue triable by jury as of right, serve a written demand no later than 14 days after service of the last pleading directed to that issue and file it under Rule 5(d). A pleading may include the demand. A demand without specified issues reaches all issues triable of right by jury. After service of a demand limited to specified issues, another party has 14 days, or less if ordered, to demand other jury-triable factual issues. A jury trial is waived unless the demand is properly served and filed. Withdrawal of a proper demand requires the parties’ consent. Rule 38 creates no jury right for Rule 9(h) admiralty or maritime claims.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 38",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-38.txt"
+    },
+    {
+      "id": "judgment-costs-and-attorney-fees",
+      "text": "In a case involving multiple claims or parties, final judgment on fewer than all requires an express determination of no just reason for delay. Default judgment is limited to the kind and amount demanded. Costs other than attorney’s fees ordinarily go to the prevailing party unless a federal statute, rule or order provides otherwise, and may be imposed on the United States, its officers or agencies only as allowed by law. The clerk may tax costs on 14 days’ notice, with a motion for review served within the next 7 days. A fee and nontaxable-expense claim generally requires a motion unless substantive law requires proof at trial as damages or the sanctions exception applies. Subject to a different statute or order, file it within 14 days after judgment entry, identifying the judgment, authority and amount or fair estimate, and disclosing fee terms when ordered.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 54",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-54.txt"
+    },
+    {
+      "id": "entry-of-default-and-default-judgment",
+      "text": "The clerk enters default when failure to plead or otherwise defend is shown by affidavit or otherwise. For a sum certain or computable sum, the clerk enters judgment on request and an affidavit of the amount due against a defendant defaulted for nonappearance who is neither a minor nor incompetent. Otherwise apply to the court, subject to the rule’s protections for minors and incompetent persons and its proof requirement against the United States, its officers or agencies. If the target has appeared, serve written notice of the application at least 7 days before the hearing. The court may set aside an entry of default for good cause and a final default judgment under Rule 60(b).",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 55",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-55.txt"
+    },
+    {
+      "id": "summary-judgment",
+      "text": "A summary-judgment motion identifies the claims, defenses or parts at issue and requires no genuine dispute of material fact and entitlement to judgment as a matter of law. Unless a local rule or order sets a different time, it can be filed through 30 days after all discovery closes. Support factual positions with specific record citations or the showing allowed by Rule 56(c)(1)(B). Affidavits or declarations require personal knowledge, admissible facts and a competent witness. A nonmovant may show by affidavit or declaration specified reasons essential facts are unavailable, which can support deferral, denial, time for discovery or another appropriate order. Independent grounds or an award to a nonmovant require notice and a reasonable time to respond.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 56",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-56.txt"
+    },
+    {
+      "id": "entry-of-judgment",
+      "text": "Judgments and amended judgments ordinarily require a separate document. Rule 58(a) excepts orders disposing of the specified Rule 50(b), 52(b), 54, 59 and 60 motions. If no separate document is required, entry occurs when recorded on the civil docket. If required, entry occurs when docketed and the earlier of a separate judgment document or 150 days from docketing occurs. The clerk enters some judgments promptly without a direction, subject to Rule 54(b) and contrary order, while the court approves the form in the other circumstances specified in Rule 58(b). Taxing costs or awarding fees ordinarily does not delay entry or extend appeal time, subject to a Rule 58(e) order on a timely fee motion before a notice of appeal has been filed and become effective.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 58",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-58.txt"
+    },
+    {
+      "id": "new-trial-or-judgment-amendment",
+      "text": "File a motion for a new trial or to alter or amend judgment no later than 28 days after entry. If a new-trial motion relies on affidavits, file them with the motion. The opposing party has 14 days after service to file opposing affidavits, and the court may permit replies. The court may order a new trial on its own within 28 days after entry, or grant a timely motion on a ground not stated in it after notice and opportunity to be heard, stating its reasons in either case.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 59",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-59.txt"
+    },
+    {
+      "id": "relief-from-judgment-or-order",
+      "text": "The court may correct clerical mistakes or oversight in the record, with appellate leave required while a docketed appeal is pending. A motion for relief from a final judgment, order or proceeding under Rule 60(b) must be made within a reasonable time. For mistake, inadvertence, surprise or excusable neglect, qualifying newly discovered evidence, or an opposing party’s fraud, misrepresentation or misconduct, it also must be made within one year of entry or the date of the proceeding. The motion leaves the judgment final and operative. Rule 60 preserves the specified independent or extraordinary relief.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 60",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-60.txt"
+    },
+    {
+      "id": "injunctions-and-restraining-orders",
+      "text": "A preliminary injunction requires notice to the adverse party. A temporary restraining order without notice requires specific facts in an affidavit or verified complaint clearly showing immediate and irreparable harm before opposition can be heard, and the movant’s attorney’s written certification of notice efforts and why notice should not be required. The no-notice order must specify date and hour, injury, irreparability and reasons for proceeding without notice, and be promptly filed and entered. It expires at the set time within 14 days of entry unless, before expiration, the court extends it for a like period for good cause or the adverse party consents to a longer extension. The reasons for an extension are entered in the record. Set the preliminary-injunction hearing at the earliest possible time, subject to the rule’s priority, and the adverse party may move to dissolve or modify on 2 days’ notice or shorter notice set by the court. Security is required as the court considers proper, with the stated exception for the United States, its officers and agencies. Injunctions and restraining orders must state reasons and specific terms, describe in reasonable detail the acts restrained or required without incorporation by reference, and bind only the listed persons with actual notice. Rule 65(e) preserves the specified statutory procedures.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 65",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-65.txt"
+    },
+    {
+      "id": "clerk-notice-of-entry",
+      "text": "Immediately after entry of an order or judgment, the clerk serves notice under Rule 5(b) on parties other than those in default for failure to appear and records service on the docket. A party may also serve notice. Lack of notice of entry ordinarily leaves the appeal time in place, subject to Federal Rule of Appellate Procedure 4(a).",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 77",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-77.txt"
+    },
+    {
+      "id": "removed-actions-and-scope-exceptions",
+      "text": "These rules apply after removal from state court and repleading is unnecessary unless ordered. A defendant who had not answered must answer or present other defenses or objections within the longest of 21 days after receiving the initial pleading, 21 days after service of summons for an initial pleading then on file, or 7 days after the notice of removal is filed. A valid state-law jury demand need not be renewed. If state law required no express demand, an order requiring a demand sets its time, and failure to comply waives jury trial. Where all necessary pleadings were served by removal, a party entitled to trial by jury under Rule 38 may serve a demand within 14 days after filing its own notice of removal or being served with another party’s notice. Rule 81(a) states separate limits on application in special proceedings and (d) defines state law, State and federal statute for the stated purposes.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 81",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-81.txt"
+    },
+    {
+      "id": "local-rules-and-judge-directives",
+      "text": "District courts may adopt or amend local rules by majority of the district judges after public notice and opportunity to comment. Local rules must be consistent with federal statutes and applicable national rules and avoid duplicating them. They and their amendments must be publicly available and a local form rule cannot forfeit a right for nonwillful noncompliance. A judge may regulate practice where controlling law leaves room, consistent with federal law, national rules and local rules. A requirement outside those authorities can support sanctions or disadvantage only after actual notice in the particular case.",
+      "source": {
+        "citation": "Federal Rules of Civil Procedure, as amended to December 1, 2025, Rule 83",
+        "url": "https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/frcp-83.txt"
+    },
+    {
+      "id": "colorado-district-and-statutory-sittings",
+      "text": "Colorado constitutes one federal judicial district. Section 85 names Boulder, Colorado Springs, Denver, Durango, Grand Junction, Montrose, Pueblo and Sterling as places for holding court.",
+      "source": {
+        "citation": "28 U.S.C. § 85, laws in effect through Public Law 119-142 (November 10, 2026)",
+        "url": "https://uscode.house.gov/us/usc/t28/s85/"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/usc-28-85.txt"
+    },
+    {
+      "id": "federal-question-jurisdiction",
+      "text": "District courts have original jurisdiction over civil actions arising under the Constitution, laws or treaties of the United States. Section 1331 itself imposes no amount-in-controversy minimum.",
+      "source": {
+        "citation": "28 U.S.C. § 1331, laws in effect through Public Law 119-142 (November 10, 2026)",
+        "url": "https://uscode.house.gov/us/usc/t28/s1331/"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/usc-28-1331.txt"
+    },
+    {
+      "id": "diversity-amount-and-citizenship",
+      "text": "For original jurisdiction under subsection (a), the matter in controversy must exceed $75,000 exclusive of interest and costs and the parties must meet a listed citizenship configuration. The statute covers citizens of different States, eligible combinations with foreign citizens or subjects, and a foreign state as plaintiff against citizens of a State or different States. Subsection (a)(2) excludes the specified same-state domicile of a foreign citizen or subject lawfully admitted for permanent residence. Subsection (c) assigns corporate citizenship in every State or foreign state of incorporation and the principal place of business, with added insured citizenship in qualifying direct actions, and assigns specified legal representatives the represented person’s citizenship only. Subsection (b) permits costs consequences for below-threshold recovery in an action originally filed in federal court, subject to the statutory exceptions and calculation. Subsection (d) separately governs qualifying class and mass actions, including an amount exceeding $5 million exclusive of interest and costs based on aggregated class claims and the distinct citizenship alternatives in (d)(2). Check the discretionary and mandatory grounds to decline jurisdiction, the exclusions for certain government defendants, classes under 100, and certain securities or corporate-governance claims, and the separate mass-action requirements. The definition of States includes territories, D.C. and Puerto Rico.",
+      "source": {
+        "citation": "28 U.S.C. § 1332, laws in effect through Public Law 119-142 (November 10, 2026)",
+        "url": "https://uscode.house.gov/us/usc/t28/s1332/"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/usc-28-1332.txt"
+    },
+    {
+      "id": "supplemental-jurisdiction",
+      "text": "Subject to statutory exceptions, district courts with original jurisdiction have supplemental jurisdiction over other claims forming part of the same Article III case or controversy, including claims involving joinder or intervention. In cases founded solely on diversity, subsection (b) bars plaintiffs’ claims against parties added under Rules 14, 19, 20 or 24 and claims by proposed Rule 19 plaintiffs or Rule 24 plaintiff intervenors when jurisdiction would be inconsistent with § 1332. A court may decline under subsection (c) for novel or complex state law, substantial predominance, dismissal of all original-jurisdiction claims or other compelling reasons in exceptional circumstances. Limitations on supplemental claims asserted and other claims in the same action voluntarily dismissed at the same time as or after dismissal of a supplemental claim are tolled while pending and for 30 days after dismissal unless state law allows longer.",
+      "source": {
+        "citation": "28 U.S.C. § 1367, laws in effect through Public Law 119-142 (November 10, 2026)",
+        "url": "https://uscode.house.gov/us/usc/t28/s1367/"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/usc-28-1367.txt"
+    },
+    {
+      "id": "geographic-venue",
+      "text": "Except as otherwise provided by law, venue lies in a district where a defendant resides if all defendants reside in the district’s state, or where a substantial part of the events or omissions giving rise to the claim occurred or a substantial part of the property at issue is situated. If no district is otherwise available under this section, venue lies in a district with personal jurisdiction over any defendant for the action. An individual resides where domiciled. An entity with capacity to sue and be sued in its own name resides, as defendant, where it is subject to personal jurisdiction for the case or, as plaintiff, only at its principal place of business. A defendant not resident in the United States may be sued in any district and is disregarded for venue as to other defendants. In a state with multiple districts where a corporate defendant is subject to personal jurisdiction at commencement, assess district contacts as if each district were a separate state, falling back to the district of most significant contacts if none would qualify. Subsections (e) through (g) set distinct venue rules for specified U.S. defendants, foreign states, and multiparty, multiforum litigation.",
+      "source": {
+        "citation": "28 U.S.C. § 1391, laws in effect through Public Law 119-142 (November 10, 2026)",
+        "url": "https://uscode.house.gov/us/usc/t28/s1391/"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/usc-28-1391.txt"
+    },
+    {
+      "id": "transfer-for-convenience",
+      "text": "For convenience of parties and witnesses and in the interest of justice, a district court may transfer a civil action to a district or division where it could have been brought or one to which all parties consent. Subsection (b) permits discretionary transfer within a district on the specified motion, consent or stipulation, with a distinct consent exception for qualifying U.S. in rem proceedings. Subsection (c) allows trial elsewhere in the same division. Subsection (d) bars transfer under this section from a U.S. district court to the listed territorial district courts.",
+      "source": {
+        "citation": "28 U.S.C. § 1404, laws in effect through Public Law 119-142 (November 10, 2026)",
+        "url": "https://uscode.house.gov/us/usc/t28/s1404/"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/usc-28-1404.txt"
+    },
+    {
+      "id": "improper-venue-cure",
+      "text": "For a case filed in the wrong district or division, the district court must dismiss or, in the interest of justice, transfer to a district or division where the case could have been brought. The venue chapter leaves jurisdiction intact over a matter involving a party that fails to object to venue timely and sufficiently. The section’s definitions include the listed territorial district courts.",
+      "source": {
+        "citation": "28 U.S.C. § 1406, laws in effect through Public Law 119-142 (November 10, 2026)",
+        "url": "https://uscode.house.gov/us/usc/t28/s1406/"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/usc-28-1406.txt"
+    },
+    {
+      "id": "removal-eligibility-and-destination",
+      "text": "Unless Congress expressly provides otherwise, defendants may remove a state civil action within original federal district court jurisdiction to the federal district and division embracing the pending state action. For § 1332(a) removal disregard fictitiously named defendants’ citizenship. Removal based solely on § 1332(a) is barred if a properly joined and served defendant is a citizen of the filing state. Under subsection (c), a qualifying federal-question case otherwise removable may be removed with claims outside original or supplemental jurisdiction or made nonremovable by statute. The district court must sever and remand those claims and only defendants facing the qualifying federal claim must join or consent. A foreign state defendant may remove under (d), with trial to the court and enlargement of the removal period for cause. Subsection (e) adds eligibility for certain § 1369-linked proceedings, an additional pretrial filing window and separate remand provisions. Under subsection (f), lack of jurisdiction in the originating state court alone does not bar the federal court from hearing a claim removed under this section.",
+      "source": {
+        "citation": "28 U.S.C. § 1441, laws in effect through Public Law 119-142 (November 10, 2026)",
+        "url": "https://uscode.house.gov/us/usc/t28/s1441/"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/usc-28-1441.txt"
+    },
+    {
+      "id": "removal-notice-periods-and-consent",
+      "text": "A notice of removal signed under Rule 11 states the grounds briefly and includes copies of all process, pleadings and orders served on the removing defendants. Subsection (b)(1) sets the earlier applicable deadline, measured 30 days after receipt of the initial pleading through service or otherwise, or 30 days after service of summons if the pleading has been filed and need not be served. Check the operative service and receipt events before selecting the trigger. Each defendant has its own period, and an earlier-served defendant may consent to a later-served defendant’s notice. If removal is solely under § 1441(a), each properly joined and served defendant must join or consent. If the initial pleading did not state a removable case, subsection (b)(3) permits notice within 30 days after receipt of the qualifying amended pleading, motion, order or other paper, subject to subsection (c). Later-ascertained diversity removal under (b)(3) has a one-year outer limit from commencement unless the court finds plaintiff bad faith to prevent removal. For § 1332(a) removal, use a good-faith demand in the initial pleading. A notice may assert the amount for nonmonetary relief or when state practice bars a specific demand or permits recovery above it, subject to a court finding by a preponderance that the statutory amount is exceeded. Where only the amount precluded removal, qualifying state record or discovery information can be other paper. Deliberate nondisclosure of the actual amount to prevent removal is bad faith under the specified conditions. Prompt written notice to adverse parties and filing a copy with the state clerk are required after federal filing. Filing the copy effects removal. Subsections (e) and (g) address special counterclaim and testimony or document proceedings.",
+      "source": {
+        "citation": "28 U.S.C. § 1446, laws in effect through Public Law 119-142 (November 10, 2026)",
+        "url": "https://uscode.house.gov/us/usc/t28/s1446/"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/usc-28-1446.txt"
+    },
+    {
+      "id": "remand-periods-and-effects",
+      "text": "Move to remand for a defect other than lack of subject matter jurisdiction within 30 days after filing the notice of removal under § 1446(a). If lack of subject matter jurisdiction appears before final judgment, the district court must remand. A remand order may award just costs and actual expenses including attorney’s fees from removal, and the state court may proceed upon the clerk’s mailing of a certified copy to the state clerk. Subsection (d) generally bars review of a remand to the originating state court and expressly permits it for removal under §§ 1442 or 1443. If post-removal joinder of additional defendants would destroy subject matter jurisdiction, the court may deny joinder or permit it and remand. Subsections (a) and (b) address securing proper parties and the state record.",
+      "source": {
+        "citation": "28 U.S.C. § 1447, laws in effect through Public Law 119-142 (November 10, 2026)",
+        "url": "https://uscode.house.gov/us/usc/t28/s1447/"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/usc-28-1447.txt"
+    },
+    {
+      "id": "complete-diversity",
+      "text": "For general diversity jurisdiction between citizens of different States under § 1332(a), each plaintiff’s citizenship must be diverse from each defendant’s citizenship.",
+      "source": {
+        "citation": "Caterpillar Inc. v. Lewis, 519 U.S. 61, 68 (1996)",
+        "url": "https://www.govinfo.gov/content/pkg/USREPORTS-519/pdf/USREPORTS-519-61.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/caterpillar-complete-diversity.txt"
+    }
+  ]
+}

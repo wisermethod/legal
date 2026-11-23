@@ -152,6 +152,8 @@ test('list on the shipped tree returns an object with no packs', () => {
       { id: 'county-court', name: 'Colorado county court', tier: 'limited-jurisdiction trial court' },
       { id: 'small-claims', name: 'Colorado county court, small claims', tier: 'small claims division of the county court' },
     ] },
+    { id: 'federal', name: 'Federal', kind: 'federal', law: [],
+      forums: [{ id: 'district-court', name: 'United States district court', tier: 'federal district court' }] },
     { id: 'jams', name: 'JAMS', kind: 'arbitration-forum', law: [],
       forums: [{ id: 'employment', name: 'JAMS employment arbitration', tier: 'arbitration forum' }] },
   ] });
@@ -174,7 +176,7 @@ test('validate accepts a good pack by absolute directory', () => {
 });
 
 test('validate selects all shipped packs by default or one by id', () => {
-  assert.deepEqual(success(['validate']).packs, ['colorado', 'jams']);
+  assert.deepEqual(success(['validate']).packs, ['colorado', 'federal', 'jams']);
   assert.deepEqual(success(['validate'], PACKS).packs, ['example-arbitration', 'example-state']);
   assert.deepEqual(success(['validate', '--pack', 'example-arbitration'], PACKS).packs, ['example-arbitration']);
 });
