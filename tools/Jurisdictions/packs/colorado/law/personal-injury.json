@@ -1,1 +1,59 @@
-{ "statements": [] }
+{
+  "statements": [
+    {
+      "id": "personal-injury-comparative-negligence",
+      "text": "In a negligence action for death or injury to a person or property, the injured person's negligence reduces recoverable damages by the percentage attributable to that person. If the injured person's negligence is equal to or greater than the negligence of the person against whom recovery is sought, judgment is for the defendant. The factfinder states unreduced damages and the parties' percentages of negligence.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-21-111(1) to (3)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/personal-injury-comparative-negligence.txt"
+    },
+    {
+      "id": "personal-injury-noneconomic-loss",
+      "text": "Noneconomic loss is the directly injured person's nonpecuniary harm, including pain and suffering, inconvenience, emotional stress and impaired quality of life. Derivative noneconomic loss is nonpecuniary harm or emotional stress to someone other than the directly injured person.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-21-102.5(2)(a) to (b)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/personal-injury-noneconomic-loss.txt"
+    },
+    {
+      "id": "personal-injury-noneconomic-caps",
+      "text": "For covered actions filed before January 1, 2025, the 2024 statute sets a $250,000 base noneconomic limit, or up to $500,000 on clear and convincing justification, with statutory inflation adjustments. For covered actions filed during 2025 or claims accruing on or after January 1, 2025, the statute sets a $1.5 million limit on direct or derivative noneconomic damages, subject to inflation adjustments starting January 1, 2028 and every two years after. The latter limit excludes health-care tort and wrongful-death claims, which have separate statutory provisions. Derivative noneconomic damages require clear and convincing justification.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-21-102.5(3)(a) to (c)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/personal-injury-noneconomic-caps.txt"
+    },
+    {
+      "id": "personal-injury-physical-impairment",
+      "text": "The noneconomic loss statute does not limit compensatory damages for physical impairment or disfigurement.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-21-102.5(5)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/personal-injury-physical-impairment.txt"
+    },
+    {
+      "id": "personal-injury-exemplary-damages",
+      "text": "When a jury assesses actual damages for harm to a person or property attended by fraud, malice or willful and wanton conduct, it may award exemplary damages up to the actual award. The court has statutory discretion to reduce or disallow the award and may raise it to at most three times actual damages for specified willful and wanton conduct during the case.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-21-102(1) to (3)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/personal-injury-exemplary-damages.txt"
+    }
+  ]
+}

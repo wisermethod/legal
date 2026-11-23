@@ -1,0 +1,20 @@
+https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf
+2026-11-23
+13-21-111. Negligence cases - comparative negligence as measure of damages. (1)
+Contributory negligence shall not bar recovery in any action by any person or his legal
+representative to recover damages for negligence resulting in death or in injury to person or
+property, if such negligence was not as great as the negligence of the person against whom
+recovery is sought, but any damages allowed shall be diminished in proportion to the amount of
+negligence attributable to the person for whose injury, damage, or death recovery is made.
+         (2) In any action to which subsection (1) of this section applies, the court, in a nonjury
+trial, shall make findings of fact or, in a jury trial, the jury shall return a special verdict which
+shall state:
+         (a) The amount of the damages which would have been recoverable if there had been no
+contributory negligence; and
+         (b) The degree of negligence of each party, expressed as a percentage.
+         (3) Upon the making of the finding of fact or the return of a special verdict, as is
+required by subsection (2) of this section, the court shall reduce the amount of the verdict in
+proportion to the amount of negligence attributable to the person for whose injury, damage, or
+death recovery is made; but, if the said proportion is equal to or greater than the negligence of
+the person against whom recovery is sought, then, in such event, the court shall enter a judgment
+for the defendant.

@@ -1,0 +1,9 @@
+https://research.coloradojudicial.gov/en/vid/893224649
+2026-11-23
+The law recognizes impossibility of performance as a defense to an action for breach of contract. In his brief, the contractor suggests that we adopt the Restatement § 454 definition of impossibility. According to the Restatement, impossibility means not only strict impossibility but impracticability because of extreme and unreasonable difficulty, expense, injury or loss involved. As elaborated in the comment, 'impossible' must be given a practical rather than a scientifically exact meaning. Impracticability rather than absolute impossibility is enough. Restatement § 454, and comment a thereunder.
+
+Commenting on the Restatement § 454, Williston has stated that:
+
+'(t)he true distinction is not between difficulty and impossibility. A man may contract to do what is impossible * * *. The important question is whether an unanticipated circumstance has made performance of the promise vitally different from what should reasonably have been within the contemplation of both parties when they entered into the contract. If so, the risk should not fairly be thrown upon the promisor.' 6 Williston, Contracts § 1931 (Rev. ed.) See 6 Corbin, Contracts § 1325.
+
+Other jurisdictions have begun to adopt the Restatement  definition. See 84 A.L.R.2d 12, and cases therein cited. After reviewing the authorities which have subscribed to the Restatement definition of impossibility, we hereby adopt the definition of impossibility contained in the Restatement § 454 as interpreted by Williston. See commentary on this section contained in Storke, Colorado Annotations to Restatement of the Law of Contracts.

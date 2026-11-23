@@ -1,1 +1,431 @@
-{ "statements": [] }
+{
+  "statements": [
+    {
+      "id": "contract-limitations-three-years",
+      "text": "The 2024 statute gives contract actions, including personal contracts and Uniform Commercial Code actions, three years from accrual, except as provided in § 13-80-103.5.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-80-101(1)(a)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-limitations-three-years.txt"
+    },
+    {
+      "id": "contract-limitations-debt-and-instruments",
+      "text": "The 2024 statute gives six years from accrual for recovery of liquidated debt or a determinable amount of money due, enforcement of rights in an instrument securing payment or evidencing debt, and recovery by replevin of personal property encumbered by a debt security instrument. Actions under § 38-35-124.5(3) have one year.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-80-103.5(1)(a)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-limitations-debt-and-instruments.txt"
+    },
+    {
+      "id": "contract-accrual",
+      "text": "Under the 2024 statute, a claim for debt, an obligation, money owed or performance accrues when it becomes due. An open-account claim for goods or services accrues at the time of the last item proved in the account. A claim for breach of an express or implied contract, agreement, warranty or trust accrues when the breach is discovered or would have been discovered with reasonable diligence.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-80-108(4) to (6)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-accrual.txt"
+    },
+    {
+      "id": "contract-breach-and-substantial-performance",
+      "text": "Breach of contract requires a contract, the plaintiff's substantial performance or justification for nonperformance, the defendant's failure to perform, and resulting damages to the plaintiff. Minor deviations can amount to substantial performance when they do not materially diminish the expected benefit and the defendant receives substantially that benefit.",
+      "source": {
+        "citation": "Western Distributing Co. v. Diodosio, 841 P.2d 1053, 1058 (Colo. 1992)",
+        "url": "https://research.coloradojudicial.gov/en/vid/887979759"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-breach-and-substantial-performance.txt"
+    },
+    {
+      "id": "contract-goods-offer-and-acceptance",
+      "text": "For a sale of goods an offer invites acceptance in any manner or medium reasonable in the circumstances unless the language or circumstances unambiguously indicate otherwise. Where beginning the requested performance is a reasonable mode of acceptance, the offeror may treat the offer as lapsed before acceptance if the offeror receives no notice of acceptance within a reasonable time.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 4-2-206(1)(a), (2)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-04.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-goods-offer-and-acceptance.txt"
+    },
+    {
+      "id": "contract-agreement-and-nonperformance",
+      "text": "A claim for breach requires an existing contract and failure by the other party to perform a term.",
+      "source": {
+        "citation": "Coors v. Security Life of Denver Ins. Co., 91 P.3d 393 (Colo. App. 2003), Part III.A",
+        "url": "https://research.coloradojudicial.gov/en/vid/890343868"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-agreement-and-nonperformance.txt"
+    },
+    {
+      "id": "contract-intent-to-make-offer",
+      "text": "A communication made without intent to enter into a contract is insufficient to constitute an offer.",
+      "source": {
+        "citation": "Coors v. Security Life of Denver Ins. Co., 91 P.3d 393, 402 (Colo. App. 2003), Part III.C",
+        "url": "https://research.coloradojudicial.gov/en/vid/890343868"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-intent-to-make-offer.txt"
+    },
+    {
+      "id": "contract-real-estate-sale-formation",
+      "text": "A binding contract to buy and sell real estate forms when both parties agree to the terms and undertake obligations under them.",
+      "source": {
+        "citation": "Clark v. Scena, 83 P.3d 1191, 1194 (Colo. App. 2003), Part I.A.2",
+        "url": "https://research.coloradojudicial.gov/en/vid/893206060"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-real-estate-sale-formation.txt"
+    },
+    {
+      "id": "contract-essentials",
+      "text": "A contract creates an obligation. Its essentials are competent parties, subject matter, legal consideration, mutual agreement and mutual obligations.",
+      "source": {
+        "citation": "Denver Truck Exchange v. Perryman, 307 P.2d 805, 810, 134 Colo. 586, 592 (Colo. 1957)",
+        "url": "https://research.coloradojudicial.gov/en/vid/888868147"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-essentials.txt"
+    },
+    {
+      "id": "contract-ucc-good-faith",
+      "text": "Every contract or duty within Colorado's Uniform Commercial Code carries an obligation of good faith in performance and enforcement.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 4-1-304",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-04.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-ucc-good-faith.txt"
+    },
+    {
+      "id": "contract-non-goods-writing",
+      "text": "An agreement that by its terms cannot be performed within one year of making, a special promise to answer for another's debt, default or miscarriage, and a promise made in consideration of marriage other than mutual promises to marry are void unless the agreement or a note or memorandum is in writing and signed by the party charged. Sales and leases governed by §§ 4-2-201 and 4-2.5-201 are excepted.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 38-10-112(1)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-38.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-non-goods-writing.txt"
+    },
+    {
+      "id": "contract-goods-writing",
+      "text": "A sale of goods for $500 or more ordinarily requires a record indicating a sale and signed by the party against whom enforcement is sought or that party's authorized agent or broker. The record's quantity limits enforcement under the general rule. Between merchants a timely sufficient confirmation can satisfy the rule against a recipient who has reason to know its contents and does not object in a record within ten days of receipt. Exceptions also apply to qualifying specially manufactured goods, the quantity admitted in court, and goods for which payment was made and accepted or which were received and accepted.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 4-2-201(1) to (3)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-04.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-goods-writing.txt"
+    },
+    {
+      "id": "contract-goods-extrinsic-evidence",
+      "text": "For sales of goods, terms on which confirmation records agree or that are set out in an intended final record cannot be contradicted by evidence of an earlier agreement or a contemporaneous oral agreement. Course of dealing, trade usage and course of performance may explain or supplement those terms. Consistent additional terms may also do so unless the court finds the record was intended as a complete and exclusive statement.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 4-2-202",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-04.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-goods-extrinsic-evidence.txt"
+    },
+    {
+      "id": "contract-agent-ambiguity",
+      "text": "Extrinsic evidence may explain ambiguity about a purported agent's personal liability. The court reads the whole contract alongside the signature.",
+      "source": {
+        "citation": "Fink v. Montgomery Elevator Co. of Colo., 421 P.2d 735, 737, 161 Colo. 342, 347 (Colo. 1966)",
+        "url": "https://research.coloradojudicial.gov/en/vid/893368396"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-agent-ambiguity.txt"
+    },
+    {
+      "id": "contract-ambiguous-written-authorization",
+      "text": "In the cited decision, the trial court admitted extrinsic evidence of the parties' intent to clarify an uncertain term in a written authorization. The clarified term supported a prima facie contract claim.",
+      "source": {
+        "citation": "Taylor v. Colorado State Bank of Denver, 440 P.2d 772, 773 to 774, 165 Colo. 576, 578 to 581 (Colo. 1968)",
+        "url": "https://research.coloradojudicial.gov/en/vid/890762798"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-ambiguous-written-authorization.txt"
+    },
+    {
+      "id": "contract-impracticability",
+      "text": "Impossibility is a defense to breach of contract and includes impracticability due to extreme and unreasonable difficulty, expense, injury or loss. An unanticipated circumstance can make performance materially different from what the parties could reasonably have contemplated.",
+      "source": {
+        "citation": "City of Littleton v. Employers Fire Ins. Co., 453 P.2d 810, 813, 169 Colo. 104, 107 (Colo. 1969), Part I",
+        "url": "https://research.coloradojudicial.gov/en/vid/893224649"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-impracticability.txt"
+    },
+    {
+      "id": "contract-impossibility-assumed-risk",
+      "text": "The impossibility defense is unavailable when the contract, read in light of the circumstances and usages, shows that the promisor clearly assumed the risk of impossibility.",
+      "source": {
+        "citation": "City of Littleton v. Employers Fire Ins. Co., 453 P.2d 810, 818, 169 Colo. 104, 111 (Colo. 1969), Part IV",
+        "url": "https://research.coloradojudicial.gov/en/vid/893224649"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-impossibility-assumed-risk.txt"
+    },
+    {
+      "id": "contract-ucc-discharge-after-breach",
+      "text": "A claim or right arising from an alleged Uniform Commercial Code breach may be discharged in whole or part without consideration by the aggrieved party's agreement in a signed record.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 4-1-306",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-04.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-ucc-discharge-after-breach.txt"
+    },
+    {
+      "id": "contract-promissory-estoppel",
+      "text": "A promise can bind the promisor when the promisor could reasonably expect it to induce action or forbearance, it does induce that response, and enforcement is the only way to avoid injustice. The remedy may be limited as justice requires.",
+      "source": {
+        "citation": "Kiely v. St. Germain, 670 P.2d 764, 767 to 768 (Colo. 1983), Restatement § 90(1) discussion",
+        "url": "https://research.coloradojudicial.gov/en/vid/891995774"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-promissory-estoppel.txt"
+    },
+    {
+      "id": "contract-estoppel-and-statute-of-frauds",
+      "text": "Equitable estoppel, part performance and promissory estoppel can prevent misuse of the statute of frauds. In applying the former Uniform Commercial Code securities writing requirement, the court used Restatement (Second) of Contracts § 139 to assess whether enforcement of an oral promise that induced reasonably foreseeable reliance was the only way to avoid injustice. Relevant factors include other available remedies, substantiality of the reliance, proof of the promise and terms, and the reasonableness and foreseeability of the reliance.",
+      "source": {
+        "citation": "Kiely v. St. Germain, 670 P.2d 764, 768 to 770 (Colo. 1983), Restatement § 139 discussion",
+        "url": "https://research.coloradojudicial.gov/en/vid/891995774"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-estoppel-and-statute-of-frauds.txt"
+    },
+    {
+      "id": "contract-expectation-damages",
+      "text": "Contract compensatory damages aim to place the injured party in the position it would have occupied had the contract been performed.",
+      "source": {
+        "citation": "Taylor v. Colorado State Bank of Denver, 440 P.2d 772, 774, 165 Colo. 576, 581 (Colo. 1968)",
+        "url": "https://research.coloradojudicial.gov/en/vid/890762798"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-expectation-damages.txt"
+    },
+    {
+      "id": "contract-ucc-expectation-remedies",
+      "text": "Uniform Commercial Code remedies are administered liberally to give the aggrieved party the position it would have occupied after full performance.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 4-1-305(a)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-04.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-ucc-expectation-remedies.txt"
+    },
+    {
+      "id": "contract-general-reliance-damages",
+      "text": "An option to recover general reliance or out-of-pocket damages as an alternative measure for breach of a contract outside UCC Article 2 remains unverified.",
+      "source": {
+        "citation": "Colorado authority on reliance damages outside UCC Article 2"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-general-reliance-damages.txt"
+    },
+    {
+      "id": "contract-goods-buyer-restitution",
+      "text": "When the seller justifiably withholds goods because the buyer breached, the buyer can recover payments exceeding valid liquidated damages, or absent such a term, exceeding the lesser of 20% of the value of the buyer's total promised performance and $500. Offsets apply to the extent the seller establishes other recoverable damages and the value of contract benefits the buyer received.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 4-2-718(2) to (3)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-04.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-goods-buyer-restitution.txt"
+    },
+    {
+      "id": "contract-unjust-enrichment",
+      "text": "Unjust enrichment is a quasi-contract remedy, also called contract implied in law. It requires a benefit received by the defendant at the plaintiff's expense under circumstances that make retention without payment unjust.",
+      "source": {
+        "citation": "Salzman v. Bachrach, 996 P.2d 1263, 1265 to 1266 (Colo. 2000), Part II",
+        "url": "https://research.coloradojudicial.gov/en/vid/891823844"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-unjust-enrichment.txt"
+    },
+    {
+      "id": "contract-goods-consequential-damages",
+      "text": "A buyer's consequential damages for the seller's breach can include losses from needs or requirements the seller had reason to know about at contracting that the buyer could not reasonably prevent by cover or otherwise. They can also include injury to a person or property proximately caused by a breach of warranty.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 4-2-715(2)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-04.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-goods-consequential-damages.txt"
+    },
+    {
+      "id": "contract-ucc-consequential-damages-limit",
+      "text": "Consequential, special or penal damages under the Uniform Commercial Code are available only when the Code or another rule of law specifically authorizes them.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 4-1-305(a)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-04.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-ucc-consequential-damages-limit.txt"
+    },
+    {
+      "id": "contract-general-and-special-damages",
+      "text": "General damages flow naturally from a contract breach. Special or consequential damages are other foreseeable losses within the parties' reasonable contemplation when they made the contract.",
+      "source": {
+        "citation": "Giampapa v. American Family Mut. Ins. Co., 64 P.3d 230 (Colo. 2003), majority opinion n. 3",
+        "url": "https://research.coloradojudicial.gov/en/vid/893596932"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-general-and-special-damages.txt"
+    },
+    {
+      "id": "contract-insurer-noneconomic-damages",
+      "text": "The court required that noneconomic damages under its willful-and-wanton insurance-contract rule be foreseeable at contracting, proved with reasonable certainty, and a natural and probable result of the willful and wanton breach.",
+      "source": {
+        "citation": "Giampapa v. American Family Mut. Ins. Co., 64 P.3d 230 (Colo. 2003), Part II.C.2",
+        "url": "https://research.coloradojudicial.gov/en/vid/893596932"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-insurer-noneconomic-damages.txt"
+    },
+    {
+      "id": "contract-noneconomic-damages-statutory-limits",
+      "text": "Under the 2024 statute, noneconomic and derivative noneconomic loss on a contract claim is recoverable only when the contract specifically authorizes it or, in a first-party insurance contract claim, clear and convincing evidence shows an intended breach without reasonable justification and the contract clearly indicates that the parties contemplated or expected such damages.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-21-102.5(6)(a)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-noneconomic-damages-statutory-limits.txt"
+    },
+    {
+      "id": "contract-hadley-adoption",
+      "text": "Colorado's adoption of Hadley v. Baxendale by name remains unverified.",
+      "source": {
+        "citation": "Colorado authority adopting Hadley v. Baxendale by name"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-hadley-adoption.txt"
+    },
+    {
+      "id": "contract-goods-liquidated-damages",
+      "text": "A goods contract may set damages at an amount reasonable in light of the anticipated or actual harm, the difficulty of proving loss and the inconvenience or impracticability of obtaining another adequate remedy. An unreasonably large amount is void as a penalty.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 4-2-718(1)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-04.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-goods-liquidated-damages.txt"
+    },
+    {
+      "id": "contract-liquidated-damages-test",
+      "text": "A liquidated damages clause requires intent to liquidate damages, a reasonable estimate of the expected actual loss at the time of contracting, and difficulty at that time in determining the amount of actual loss. If any element is missing, the clause is an invalid penalty.",
+      "source": {
+        "citation": "Ravenstar, LLC v. One Ski Hill Place, LLC, 2017 CO 83, ¶ 10, 401 P.3d 552, 555 (Colo. 2017)",
+        "url": "https://research.coloradojudicial.gov/en/vid/886746570"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-liquidated-damages-test.txt"
+    },
+    {
+      "id": "contract-liquidated-damages-election",
+      "text": "A contract may give the nonbreaching party a choice between actual and liquidated damages. An election permits pursuit of only one of the two remedies.",
+      "source": {
+        "citation": "Ravenstar, LLC v. One Ski Hill Place, LLC, 2017 CO 83, ¶¶ 15 to 16, 401 P.3d 552 (Colo. 2017)",
+        "url": "https://research.coloradojudicial.gov/en/vid/886746570"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-liquidated-damages-election.txt"
+    },
+    {
+      "id": "contract-goods-specific-performance",
+      "text": "Specific performance may be decreed for unique goods or in other proper circumstances. The decree may set just terms for payment, damages or other relief.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 4-2-716(1) to (2)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-04.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-goods-specific-performance.txt"
+    },
+    {
+      "id": "contract-specific-performance-equity",
+      "text": "Specific performance is an equitable remedy. It requires the claimant to do equity, come with clean hands and be free of the first substantial breach.",
+      "source": {
+        "citation": "Clark v. Scena, 83 P.3d 1191, 1193 (Colo. App. 2003), Part I.A",
+        "url": "https://research.coloradojudicial.gov/en/vid/893206060"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-specific-performance-equity.txt"
+    },
+    {
+      "id": "contract-real-estate-specific-performance",
+      "text": "A real-estate buyer seeking specific performance of a binding purchase and sale agreement must show willingness and ability to close. Tender at closing is evidence of that ability, and failure to tender is not dispositive by itself. A time-is-of-the-essence clause fixes the time at which willingness and ability are measured.",
+      "source": {
+        "citation": "Clark v. Scena, 83 P.3d 1191, 1194 to 1195 (Colo. App. 2003), Part I.A.2 to I.C",
+        "url": "https://research.coloradojudicial.gov/en/vid/893206060"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-real-estate-specific-performance.txt"
+    },
+    {
+      "id": "contract-american-rule-fees",
+      "text": "Parties in contract and tort actions generally bear their own attorney fees unless an express statute, court rule or private contract provides otherwise.",
+      "source": {
+        "citation": "Allstate Ins. Co. v. Huizar, 52 P.3d 816, 818 to 819 (Colo. 2002), Part II",
+        "url": "https://research.coloradojudicial.gov/en/vid/891004424"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-american-rule-fees.txt"
+    },
+    {
+      "id": "contract-statutory-attorney-fees",
+      "text": "Subject to the statute's limits, courts of record in Colorado may award reasonable attorney fees as part of a civil judgment. The statute requires fees against an attorney or party for bringing or defending a civil action or part of it without substantial justification.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-17-102(1) to (2)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/contract-statutory-attorney-fees.txt"
+    }
+  ]
+}

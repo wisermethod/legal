@@ -1,1 +1,70 @@
-{ "statements": [] }
+{
+  "statements": [
+    {
+      "id": "consumer-deceptive-trade-practices",
+      "text": "The 2024 Colorado Consumer Protection Act lists deceptive practices in the course of business, vocation or occupation. Examples include knowingly or recklessly passing off goods, services or property as another's, making false representations about source, sponsorship, approval, certification, affiliation or characteristics, and making deceptive representations about geographic origin.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 6-1-105(1)(a) to (e)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-06.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/consumer-deceptive-trade-practices.txt"
+    },
+    {
+      "id": "consumer-private-action-eligibility",
+      "text": "A private action for a listed deceptive trade practice may be brought against a person who engaged in it or caused another to engage in it. Eligible claimants include actual or potential consumers injured by the practice, residential subscribers who receive unlawful telephone solicitation as defined by statute, successors in interest to an actual purchaser, and persons injured by the practice in their business or occupation.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 6-1-113(1)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-06.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/consumer-private-action-eligibility.txt"
+    },
+    {
+      "id": "consumer-private-action-elements",
+      "text": "The court's private Colorado Consumer Protection Act test required an unfair or deceptive trade practice in the defendant's business, vocation or occupation, significant public impact on actual or potential consumers, injury in fact to a legally protected interest, and causation.",
+      "source": {
+        "citation": "Coors v. Security Life of Denver Ins. Co., 91 P.3d 393 (Colo. App. 2003), Part I",
+        "url": "https://research.coloradojudicial.gov/en/vid/890343868"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/consumer-private-action-elements.txt"
+    },
+    {
+      "id": "consumer-private-action-damages-and-fees",
+      "text": "Subject to the statute's exceptions, a successful individual private action can recover the greatest of actual damages with prejudgment interest, $500, or triple actual damages if clear and convincing evidence establishes bad faith, plus costs and reasonable attorney fees. Interest on actual damages runs from accrual at the greater of 8% annually or the rate in § 13-21-101. Bad faith is fraudulent, willful, knowing or intentional conduct causing injury.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 6-1-113(2) to (2.3)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-06.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/consumer-private-action-damages-and-fees.txt"
+    },
+    {
+      "id": "consumer-class-action-relief",
+      "text": "In a certified Colorado Consumer Protection Act class action, a successful plaintiff may recover actual damages, injunctive relief allowed by law, and reasonable attorney fees and costs.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 6-1-113(2.9)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-06.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/consumer-class-action-relief.txt"
+    },
+    {
+      "id": "consumer-deceptive-practices-limitations",
+      "text": "The period is three years from the deceptive act, the last in a series of such acts, or actual discovery or when reasonable diligence would have uncovered the act. A one-year extension is available if the plaintiff proves that conduct calculated to induce postponement or forbearance caused the late filing.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 6-1-115",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-06.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/consumer-deceptive-practices-limitations.txt"
+    }
+  ]
+}

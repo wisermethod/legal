@@ -1,1 +1,515 @@
-{ "statements": [] }
+{
+  "statements": [
+    {
+      "id": "employment-wage-act-employee",
+      "text": "Under the 2024 Colorado Wage Act, an employee performs labor or services for an employer's benefit. Relevant factors include the employer's actual or possible control and how much of the work is the employer's primary work. The definition excludes a person primarily free from control and direction under the contract and in fact who customarily engages in an independent trade, occupation, profession or business related to the service.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-4-101(5)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-wage-act-employee.txt"
+    },
+    {
+      "id": "employment-wage-act-employer",
+      "text": "The 2024 Colorado Wage Act incorporates the federal employer definition in 29 U.S.C. § 203(d) and includes foreign labor contractors, migratory field labor contractors and crew leaders. Article 4 excludes the listed public entities and Colorado irrigation, reservoir or drainage conservation companies or districts.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-4-101(6)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-wage-act-employer.txt"
+    },
+    {
+      "id": "employment-owner-liability-2025",
+      "text": "CDLE reports that for violations on or after August 6, 2025, HB 25-1001 treats individuals who own or control at least 25% of the employer as employers. CDLE describes owners at 50% or more as employers regardless of operational control and owners from 25% to under 50% as employers unless they demonstrate full delegation of day-to-day authority. The enacted text remains unverified.",
+      "source": {
+        "citation": "Colorado Department of Labor and Employment, INFO #11A, Individual Liability under the Colorado Wage Act and Healthy Families & Workplaces Act (2025-08-07), pp. 2 to 3, reporting HB 25-1001's amendment to § 8-4-101(6)",
+        "url": "https://cdle.colorado.gov/sites/cdle/files/info_%2311a_individual_liability_under_the_cwa_and_hfwa_08.07.25.pdf"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-owner-liability-2025.txt"
+    },
+    {
+      "id": "employment-wages-earned-and-payable",
+      "text": "Under the 2024 statute, payment for labor or services personally performed is wages or compensation once earned, vested and determinable. Wages include bonuses and commissions earned for services under the agreement. An employer that offers paid vacation owes all earned and determinable vacation pay at separation. Severance pay is excluded.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-4-101(14)(a)(I) to (III), (b)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-wages-earned-and-payable.txt"
+    },
+    {
+      "id": "employment-final-pay-timing",
+      "text": "Earned, vested, determinable and unpaid compensation is due immediately on employer-initiated discharge. If the payroll unit is not scheduled to be operating, the deadline is six hours after its next regular workday starts, or 24 hours if it is off-site. On resignation the next regular payday governs. The separation rule does not accelerate compensation not yet fully earned or eliminate authorized offsets.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-4-109(1) to (2)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-final-pay-timing.txt"
+    },
+    {
+      "id": "employment-final-pay-penalty",
+      "text": "An employer that fails to pay all earned, vested and determinable compensation within 14 days after a written demand is sent or a civil action or administrative claim is sent to or served on the employer owes the unpaid amount plus the greater of double the unpaid amount or $1,000. If the employee shows willfulness, the greater of triple the unpaid amount or $3,000 applies. In a dispute, timely full legal tender of wages demanded in good faith prevents a penalty unless the employee recovers more than the tender.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-4-109(3)(a.5) to (b)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-final-pay-penalty.txt"
+    },
+    {
+      "id": "employment-wage-dispute-fees",
+      "text": "A court may award the employer reasonable costs and attorney fees in a civil wage action if the employer tenders in full all amounts demanded in good faith within 14 days after a written demand is sent or the action is served and the employees recover no more than that tender. If the employee recovers more than the tender, the court may award the employee reasonable costs and fees. In an administrative wage claim, the division may award costs if recovery exceeds tender and may also award fees if the employee recovers more than $5,000 in unpaid wages. An untimely or absent tender counts as zero. The section excludes claimants found to be independent contractors.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-4-110(1) to (1.5)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-wage-dispute-fees.txt"
+    },
+    {
+      "id": "employment-wage-suit-without-exhaustion",
+      "text": "A person alleging a Colorado Wage Act violation or violation of a regulation under the act may sue in a court with jurisdiction over the parties without exhausting administrative remedies.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-4-110(2)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-wage-suit-without-exhaustion.txt"
+    },
+    {
+      "id": "employment-wage-administrative-cap-2024",
+      "text": "The 2024 statute authorizes administrative adjudication of nonpayment claims of $7,500 or less and directs the division to investigate a qualifying wage complaint claiming $7,500 or less per employee, exclusive of penalties and fines.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-4-111(1)(a)(II), (2)(a)(I)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-wage-administrative-cap-2024.txt"
+    },
+    {
+      "id": "employment-wage-administrative-cap-2026",
+      "text": "The prior authority reports that HB 25-1001 was expected to raise the Colorado Department of Labor and Employment wage-claim limit toward $13,000 on July 1, 2026. The operative limit, effective date and any adjustment remain unverified.",
+      "source": {
+        "citation": "Colorado House Bill 25-1001 (2025), reported change to § 8-4-111 and administrative limit effective 2026-07-01"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-wage-administrative-cap-2026.txt"
+    },
+    {
+      "id": "employment-wage-retaliation-protection",
+      "text": "The 2024 printout prohibits intimidation, threats, restraint, coercion, blacklisting, discharge, discrimination and retaliation for protected complaints or proceedings under wage or hours laws, or for giving or potentially giving evidence about those protections. It includes a provision enacted in 2024 covering complaints and proceedings concerning employment of minors from January 1, 2025. A violation is a class 2 misdemeanor under the printed text.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-4-120(1) to (2)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-wage-retaliation-protection.txt"
+    },
+    {
+      "id": "employment-wage-retaliation-remedies-2024",
+      "text": "Available relief under the 2024 text includes back pay, reinstatement or front pay if reinstatement is infeasible, withheld wages, 12% annual interest from when wages were first due, a $50 penalty per affected employee per day of violation, liquidated damages equal to the greater of double unpaid wages or $2,000, and injunctive relief. Courts award reasonable attorney fees and costs to prevailing employees, and the division may order the listed relief after investigation.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-4-120(3) to (4)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-wage-retaliation-remedies-2024.txt"
+    },
+    {
+      "id": "employment-wage-retaliation-remedies-2025",
+      "text": "The prior authority reports that a 2025 statutory compilation lists compensatory damages and a 90-day timing inference for wage retaliation, possibly from HB 25-1001. These additions and their scope remain unverified against the enacted text.",
+      "source": {
+        "citation": "Colorado House Bill 25-1001 (2025), reported amendment to § 8-4-120"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-wage-retaliation-remedies-2025.txt"
+    },
+    {
+      "id": "employment-wage-rights-nonwaiver",
+      "text": "A written or oral agreement purporting to waive or modify an employee's rights in violation of the Colorado Wage Act is void.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-4-121",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-wage-rights-nonwaiver.txt"
+    },
+    {
+      "id": "employment-wage-limitations",
+      "text": "An action under the Colorado Wage Act has a two-year period from accrual, or three years from accrual for a willful violation.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-4-122",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-wage-limitations.txt"
+    },
+    {
+      "id": "employment-vacation-pay-nonforfeiture",
+      "text": "The Colorado Wage Claim Act leaves employers free to decide whether to offer vacation pay. If offered, earned and determinable vacation pay is payable at separation, and any agreement term forfeiting earned vacation pay is void.",
+      "source": {
+        "citation": "Nieto v. Clark's Mkt., Inc., 2021 CO 48, ¶ 3, 488 P.3d 1140 (Colo. 2021)",
+        "url": "https://research.coloradojudicial.gov/en/vid/887098151"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-vacation-pay-nonforfeiture.txt"
+    },
+    {
+      "id": "employment-bonuses-earned-under-agreement",
+      "text": "Bonuses and commissions qualify as wages or compensation when earned for labor or services in accordance with the employer-employee agreement.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-4-101(14)(a)(II)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-bonuses-earned-under-agreement.txt"
+    },
+    {
+      "id": "employment-contract-breach",
+      "text": "An employment-contract plaintiff bears the burden by a preponderance of evidence to prove a contract, substantial performance or justification for nonperformance, the defendant's failure to perform, and resulting damages.",
+      "source": {
+        "citation": "Western Distributing Co. v. Diodosio, 841 P.2d 1053, 1058 to 1059 (Colo. 1992), Part II",
+        "url": "https://research.coloradojudicial.gov/en/vid/887979759"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-contract-breach.txt"
+    },
+    {
+      "id": "employment-contract-limitations-three-years",
+      "text": "The 2024 statute gives contract claims, including employment-contract claims, three years from accrual except where § 13-80-103.5 provides otherwise.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-80-101(1)(a)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-contract-limitations-three-years.txt"
+    },
+    {
+      "id": "employment-contract-limitations-determinable-amount",
+      "text": "The 2024 statute gives six years from accrual for recovery of a liquidated debt or an unliquidated, determinable amount of money due, subject to the one-year exception for actions under § 38-35-124.5(3).",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-80-103.5(1)(a)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-contract-limitations-determinable-amount.txt"
+    },
+    {
+      "id": "employment-at-will-default",
+      "text": "Employment for an indefinite period, absent an agreement limiting discharge or special consideration, is generally at will. Either side may end it without notice or cause, and an at-will termination by itself does not establish breach of contract.",
+      "source": {
+        "citation": "Colorado Civil Jury Instructions, Civil, ch. 31, Instruction 31:5 and Source and Authority notes 2 and 4",
+        "url": "https://www.coloradojudicial.gov/sites/default/files/2024-04/Chapter%2031.docx"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-at-will-default.txt"
+    },
+    {
+      "id": "employment-severance-classification",
+      "text": "Under the Colorado Wage Claim Act, severance pay is compensation beyond wages that depends on termination of the employment relationship. Statutory severance is excluded even if earned, vested and determinable, and the placement or description of a term in an agreement does not by itself turn severance into wages.",
+      "source": {
+        "citation": "Sommers v. Marketplace Realty, LLC, 2025 COA 97, ¶¶ 13 to 20, 585 P.3d 271 (Colo. App. 2025)",
+        "url": "https://research.coloradojudicial.gov/en/vid/1120600809"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-severance-classification.txt"
+    },
+    {
+      "id": "employment-public-policy-discharge",
+      "text": "An at-will employee establishes a prima facie public-policy wrongful-discharge claim by showing the employer directed an unlawful job-related act or forbade a public duty or important job-related right or privilege, the directive would violate a specific public health, safety or welfare statute or undermine a clearly expressed civic or worker policy, the refusal led to discharge, and the employer knew or reasonably could have known the employee refused based on a reasonable belief that the directive was unlawful or violated the protected duty or right.",
+      "source": {
+        "citation": "Martin Marietta Corp. v. Lorenz, 823 P.2d 100, 109 (Colo. 1992), Part II.C",
+        "url": "https://research.coloradojudicial.gov/en/vid/888689735"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-public-policy-discharge.txt"
+    },
+    {
+      "id": "employment-public-policy-self-defense",
+      "text": "Colorado recognizes a public-policy exception to at-will employment for discharge because an employee lawfully exercised the right of self-defense in response to an unprovoked attack at work.",
+      "source": {
+        "citation": "Moreno v. Circle K Stores, Inc., 2026 CO 46, ¶¶ 4 to 5 (Colo. 2026), No. 25SA134",
+        "url": "https://research.coloradojudicial.gov/en/vid/1122008654"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-public-policy-self-defense.txt"
+    },
+    {
+      "id": "employment-handbook-termination-procedures",
+      "text": "Handbook termination procedures may bind under ordinary contract principles if the employer communicated them as an offer and initial or continued employment supplied acceptance and consideration. Promissory estoppel may enforce them if the employer could reasonably expect an employee to treat them as a commitment, the employee reasonably relied on them to their detriment, and enforcement is the only way to avoid injustice.",
+      "source": {
+        "citation": "Continental Air Lines, Inc. v. Keenan, 731 P.2d 708, 711 to 712 (Colo. 1987), Part III",
+        "url": "https://research.coloradojudicial.gov/en/vid/886632486"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-handbook-termination-procedures.txt"
+    },
+    {
+      "id": "employment-handbook-scope-and-disclaimers",
+      "text": "A handbook grievance procedure does not supply an implied contract for a category of at-will employees the policy expressly excludes from that procedure.",
+      "source": {
+        "citation": "Collins v. Colorado Mountain College, 56 P.3d 1132 (Colo. App. 2002), Part II",
+        "url": "https://research.coloradojudicial.gov/en/vid/889978988"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-handbook-scope-and-disclaimers.txt"
+    },
+    {
+      "id": "employment-handbook-read-as-a-whole",
+      "text": "An employee relying on a handbook or other written policy for implied contract or promissory estoppel is bound by the policy as a whole, including provisions that limit its coverage.",
+      "source": {
+        "citation": "Colorado Civil Jury Instructions, Civil, ch. 31, Instruction 31:4, Source and Authority note 12",
+        "url": "https://www.coloradojudicial.gov/sites/default/files/2024-04/Chapter%2031.docx"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-handbook-read-as-a-whole.txt"
+    },
+    {
+      "id": "employment-after-acquired-resume-fraud",
+      "text": "After-acquired application or résumé fraud is a complete defense to implied-contract and promissory-estoppel claims when the employer proves the fraud was material and a reasonable, objective employer would have declined to hire the employee had it known the truth at the outset.",
+      "source": {
+        "citation": "Crawford Rehabilitation Services, Inc. v. Weissman, 938 P.2d 540, 548 to 549 (Colo. 1997), Part III.A",
+        "url": "https://research.coloradojudicial.gov/en/vid/889731443"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-after-acquired-resume-fraud.txt"
+    },
+    {
+      "id": "employment-promissory-estoppel",
+      "text": "A promise can bind when the promisor reasonably could expect it to induce action or forbearance, it actually induces that response, and enforcement is the only way to avoid injustice. Relief can be limited as justice requires.",
+      "source": {
+        "citation": "Kiely v. St. Germain, 670 P.2d 764, 767 to 768 (Colo. 1983), Restatement § 90(1) discussion",
+        "url": "https://research.coloradojudicial.gov/en/vid/891995774"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-promissory-estoppel.txt"
+    },
+    {
+      "id": "employment-constructive-discharge",
+      "text": "Constructive discharge requires deliberate employer action that makes or allows working conditions to become so intolerable that a reasonable person in the employee's circumstances would have no choice but to resign.",
+      "source": {
+        "citation": "Montemayor v. Jacor Communications, Inc., 64 P.3d 916, 921 to 922 (Colo. App. 2002), constructive discharge analysis",
+        "url": "https://research.coloradojudicial.gov/en/vid/893459871"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-constructive-discharge.txt"
+    },
+    {
+      "id": "employment-constructive-discharge-resignation-request",
+      "text": "A request for resignation alone is insufficient for constructive discharge without harassment, coercion or other employer conduct that makes conditions intolerable.",
+      "source": {
+        "citation": "Christie v. San Miguel County School Dist. R-2(J), 759 P.2d 779, 783 (Colo. App. 1988), constructive discharge analysis",
+        "url": "https://research.coloradojudicial.gov/en/vid/886681097"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-constructive-discharge-resignation-request.txt"
+    },
+    {
+      "id": "employment-good-faith-express-covenant",
+      "text": "A claim for breach of an express employment covenant of good faith and fair dealing sounds in contract. Colorado recognizes no independent tort for breach of that express covenant.",
+      "source": {
+        "citation": "Decker v. Browning-Ferris Industries of Colorado, Inc., 931 P.2d 436 (Colo. 1997), Parts II and III",
+        "url": "https://research.coloradojudicial.gov/en/vid/887936663"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-good-faith-express-covenant.txt"
+    },
+    {
+      "id": "employment-good-faith-implied-covenant",
+      "text": "The proposed rule that an implied good-faith covenant does not convert otherwise at-will employment into for-cause employment remains unverified from a directly read Colorado decision deciding that issue.",
+      "source": {
+        "citation": "Decker v. Browning-Ferris Industries of Colorado, Inc., 931 P.2d 436 (Colo. 1997), Part II and n. 5"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-good-faith-implied-covenant.txt"
+    },
+    {
+      "id": "employment-prevention-of-condition",
+      "text": "A Colorado employment rule excusing failure of a compensation condition when the other party's conduct prevented fulfillment remains unverified.",
+      "source": {
+        "citation": "Restatement (Second) of Contracts § 245, reported prevention doctrine in employment"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-prevention-of-condition.txt"
+    },
+    {
+      "id": "employment-noncompete-and-nonsolicit",
+      "text": "Under the 2024 text, a covenant restricting the right to receive compensation for labor is generally void. The trade-secret noncompete exception requires annualized cash compensation at or above the highly compensated threshold both when entered and when enforced. The customer nonsolicitation exception requires at least 60% of that threshold at both times. The threshold is the greater of the division's amount on August 10, 2022 or at execution. Either restraint must be no broader than reasonably necessary to protect the employer's legitimate trade-secret interest.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-2-113(2)(a) to (d)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-noncompete-and-nonsolicit.txt"
+    },
+    {
+      "id": "employment-restrictive-covenant-confidentiality",
+      "text": "The 2024 statute permits a reasonable confidentiality clause relevant to the employer's business that preserves disclosure of general training, knowledge, skills or experience, readily ascertainable public information and legally protected disclosures.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-2-113(3)(b)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-restrictive-covenant-confidentiality.txt"
+    },
+    {
+      "id": "employment-noncompete-notice",
+      "text": "An otherwise permissible noncompete is void without notice and terms before a prospective worker accepts the offer. For a current worker, notice is due at least 14 days before the earlier effective date of the covenant or the compensation or employment change given for it. Notice must be separate, clear and conspicuous, in the performance-communication language, and signed by the worker. The statute calls for a copy of the agreement, identification of the agreement and its restriction, and directions to the relevant provisions.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-2-113(4)(a), (b), (d)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-noncompete-notice.txt"
+    },
+    {
+      "id": "employment-noncompete-adjudication-and-law",
+      "text": "A noncompete cannot require adjudication of enforceability outside Colorado if the worker primarily resided or worked in Colorado at termination. Colorado law governs enforceability despite a contrary contract term if the worker primarily resided and worked in Colorado at termination.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-2-113(6)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-noncompete-adjudication-and-law.txt"
+    },
+    {
+      "id": "employment-void-covenant-remedies",
+      "text": "An employer may not enter into, present as an employment term or try to enforce a covenant void under this section. The employer can be liable for actual damages and $5,000 per worker or prospective worker harmed. The attorney general or a harmed worker or prospective worker may seek injunctive relief and penalties. Private recovery can also include reasonable costs and attorney fees. Good faith and reasonable grounds allow the court to reduce or waive the penalty.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-2-113(8)(a) to (c)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-void-covenant-remedies.txt"
+    },
+    {
+      "id": "employment-long-arm-business-transaction",
+      "text": "Colorado's long-arm statute reaches a resident or nonresident who transacts business in Colorado directly or through an agent, for a claim arising from that transaction.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-1-124(1)(a)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-long-arm-business-transaction.txt"
+    },
+    {
+      "id": "employment-nonwaiver-choice-of-law",
+      "text": "The Colorado Wage Act voids any employee agreement to waive or modify rights in violation of Article 4. The statutory rule addresses the rights conferred by that article.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-4-121",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-nonwaiver-choice-of-law.txt"
+    },
+    {
+      "id": "employment-noncompete-choice-of-law-scope",
+      "text": "The statutory Colorado choice-of-law provision for a worker who primarily resided and worked in Colorado at termination governs the enforceability of a covenant not to compete.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 8-2-113(6)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-noncompete-choice-of-law-scope.txt"
+    },
+    {
+      "id": "employment-federal-arbitration-written-agreements",
+      "text": "A written arbitration provision in a maritime transaction or contract involving commerce, or a written agreement to arbitrate an existing controversy arising from such a transaction or contract, is valid, irrevocable and enforceable subject to grounds at law or in equity for revoking any contract and the exception in chapter 4.",
+      "source": {
+        "citation": "United States Code, 2024 edition, 9 U.S.C. § 2",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title9/html/USCODE-2024-title9-chap1-sec2.htm"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-federal-arbitration-written-agreements.txt"
+    },
+    {
+      "id": "employment-epic-systems-class-waivers",
+      "text": "Enforcement under the FAA of individualized employment arbitration terms and class or collective action waivers under Epic Systems remains unverified.",
+      "source": {
+        "citation": "Epic Systems Corp. v. Lewis, U.S. Supreme Court"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-epic-systems-class-waivers.txt"
+    },
+    {
+      "id": "employment-federal-age-waiver",
+      "text": "Waiver of a federal Age Discrimination in Employment Act right or claim must be knowing and voluntary. An ordinary waiver requires an understandable writing specifically referring to those rights, no waiver of future claims, value beyond existing entitlements, and written advice to consult counsel. The worker must receive at least 21 days to review, or at least 45 days with prescribed disclosures for a group exit incentive or other group termination program. It also requires at least seven days after execution to revoke, during which the agreement is unenforceable. For settlement of a filed age-discrimination charge or action covered by subsection (f)(2), the first five requirements and a reasonable review period apply. The party asserting validity bears the burden.",
+      "source": {
+        "citation": "United States Code, 2024 edition, 29 U.S.C. § 626(f)",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title29/html/USCODE-2024-title29-chap14-sec626.htm"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-federal-age-waiver.txt"
+    },
+    {
+      "id": "employment-discharge-damages-mitigation",
+      "text": "An employee who was wrongfully discharged must make reasonable attempts to obtain alternative employment to mitigate damages.",
+      "source": {
+        "citation": "Decker v. Browning-Ferris Industries of Colorado, Inc., 931 P.2d 436 (Colo. 1997), Part II",
+        "url": "https://research.coloradojudicial.gov/en/vid/887936663"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-discharge-damages-mitigation.txt"
+    },
+    {
+      "id": "employment-fixed-severance-mitigation",
+      "text": "Whether mitigation limits recovery of a fixed lump-sum contractual severance payment remains unverified.",
+      "source": {
+        "citation": "Colorado authority on mitigation of fixed contractual severance"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/employment-fixed-severance-mitigation.txt"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+https://research.coloradojudicial.gov/en/vid/891995774
+2026-11-23
+However laudable the goals of such legislation might be, courts concerned about the inequitable results invariably produced in some circumstances by strict application of statute of frauds provisions almost immediately began to develop such doctrines as equitable estoppel and part performance to prevent the defense from becoming itself a means to perpetrate fraud. See Summers, The Doctrine of Estoppel Applied to the Statute of Frauds, 79 U.Pa.L.Rev. 440 (1931); Note, Statute of Frauds--The Doctrine of Equitable Estoppel and the Statute of Frauds, 66 Mich.L.Rev. 170 (1967). The doctrine of promissory estoppel is but one of the principles developed by the courts to prevent parties from employing the statute of frauds to defeat just claims. Note, Promissory Estoppel as a Means of Defeating the Statute of Frauds, 44 Fordham L.Rev. 114 (1975).
+
+Although the doctrine of promissory estoppel is based in part upon the premise that statute of frauds provisions need not defeat meritorious claims for enforcement of oral promises, the results are far from uniform in cases wherein a claim based on promissory estoppel is challenged by a defense based squarely on the provisions of a particular statute of frauds. Some jurisdictions suggest that in such circumstances the absence of compliance with statute of frauds requirements invariably will result in the defeat of the promissory estoppel claim. See Ivey's Plumbing & Electric Co., Inc. v. Petrochem Maintenance, Inc., 463 F.Supp. 543 (N.D.Miss.1978) (applying Mississippi law); Tanenbaum v. Biscayne Osteopathic Hospital, Inc., 190 So.2d 777 (Fla.1966); Dooley v. Lachut, 103 R.I. 21, 234 A.2d 366 (1967). Other jurisdictions have permitted recovery on the promissory estoppel claim when the evidence establishes that the defendant relying on the statute of frauds defense orally agreed to reduce the operative promise to writing. Tiffany Inc. v. W.M.K. Transit Mix, Inc., 16 Ariz.App. 415, 493 P.2d 1220 (1972); Chapman v. Bomann, 381 A.2d 1123 (Me.1978); Vogel v. Shaw, 42 Wyo. 333, 294 P. 687 (1930). See Restatement of Contracts § 178 comment f (1932). 5
+
+The majority of jurisdictions faced with resolving a confrontation between promissory estoppel claims and statute of frauds defenses have adopted a more flexible, albeit a more complex, approach. The courts in those jurisdictions are required to examine the policies furthered by the doctrine of promissory estoppel and by the particular statute of frauds in the total context of the case and to render a decision which is basically fair to all the parties. See Janke Construction Co., Inc. v. Vulcan Materials Co., 386 F.Supp. 687 (W.D.Wis.1974), aff'd, 527 F.2d 772 (7th Cir.1976) (applying Wisconsin law); Crail v. Blakely, 8 Cal.3d 744, 505 P.2d 1027, 106 Cal.Rptr. 187 (1973); McIntosh v. Murphy, 52 Hawaii 29, 469 P.2d 177 (1970); Walker v. Ireton, 221 Kan. 314,  559 P.2d 340 (1977); Babey v. Lowman, 7 Ohio App.2d 38, 218 N.E.2d 626 (1966); Remilong v. Crolla, 576 P.2d 461 (Wyo.1978). The effort to compare the strengths of the doctrine and of the statute in particular cases gives maximum recognition to the central policy furthered by each--preventing unjust results when parties deal with each other by means of oral rather than written communication.
+
+In response to judicial development of the doctrine of promissory estoppel, the American Law Institute in 1979 adopted a new section articulating principles directly applicable to the promissory estoppel claim/statute of frauds defense quagmire. Section 139 of the Restatement (Second) of Contracts states as follows:
+
+" § 139 Enforcement by Virtue of Action in Reliance
+
+(1) A promise which the promisor should reasonably expect to induce action or forbearance on the part of the promisee or a third person and which does induce the action or forbearance is enforceable notwithstanding the Statute of Frauds if injustice can be avoided only by enforcement of the promise. The remedy granted for breach is to be limited as justice requires.
+
+(2) In determining whether injustice can be avoided only by enforcement of the promise, the following circumstances are significant:
+
+(a) the availability and adequacy of other remedies, particularly cancellation and restitution;
+
+(b) the definite and substantial character of the action or forbearance in relation to the remedy sought;
+
+(c) the extent to which the action or forbearance corroborates evidence of the making and terms of the promise, or the making and terms are otherwise established by clear and convincing evidence;
+
+(d) the reasonableness of the action or forbearance;
+
+(e) the extent to which the action or forbearance was foreseeable by the promisor."
+
+In essence, section 139 provides the equitable balancing test utilized by the majority of jurisdictions. This court has previously recognized that a plaintiff's full or partial performance of an oral agreement, when done in reasonably justifiable reliance thereon, is sufficient to overcome a statute of frauds defense. Sackett v. Rodeck, 75 Colo. 425, 226 P. 295 (1924). See also In re Estate of Doerfer, 100 Colo. 304, 67 P.2d 492 (1937) (court recognizes "that the statute of frauds shall not be permitted to be an instrument of fraud"). Thus, the principle embodied in section 139 of the Restatement (Second) of Contracts that detrimental action performed in justifiable reliance upon oral promises may be sufficient to compel full or partial performance of the promise in spite of the applicability of a statute of frauds defense is but a slight extension of the principles well settled in Colorado. Thus, we conclude that the Court of Appeals correctly concluded that section 139 of the Restatement (Second) of Contracts is applicable to this case.
+
+The statute of frauds relied on by defendants, section 4-8-319, C.R.S.1973, states in pertinent part as follows:
+
+"A contract for the sale of securities is not enforceable ... unless: (a) There is some writing signed by the party against whom enforcement is sought or by his authorized agent or broker sufficient to indicate that a contract has been made for sale of a stated quantity of described securities at a defined or stated price...."
+
+The statute, a part of the Uniform Commercial Code (the Code), is designed to ensure certainty in the sale and purchase of securities. It prohibits the sale of or purchase of this type of asset in the absence of a complete written agreement concerning the essential terms of such transaction. However, section 4-1-103, C.R.S.1973, contains the following provision concerning construction of other provisions of the Code:
+
+"Unless displaced by the particular provisions of this title, the principles of law and equity, including ... the law relative  to ... estoppel ... shall supplement its provisions."
+
+This recognition that general principles of estoppel should be considered in applying the provisions of the Code indicates a strong legislative concern that the statute not be utilized to perpetrate a fraud or to achieve inequitable results in particular cases. Section 4-8-319 contains no indication that transactions involving the sale of securities are exempt from the general caveat of section 4-1-103. Thus, this particular statute of frauds may be "supplemented" by the doctrine of promissory estoppel--a virtual requirement that courts utilize a balancing test to prevent use of the statute to effect inequitable results.
+
+The trial court has not had an opportunity to analyze the merits of St. Germain's claim for "lost profits" under the principles enunciated in section 139 of the Restatement (Second) of Contracts. It must be permitted to do so in light of the evidence adduced at trial or in light of any additional evidence it might in its discretion permit to be presented on the matter.
