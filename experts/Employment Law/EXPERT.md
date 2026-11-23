@@ -3,13 +3,13 @@ name: Employment Law
 type: expert
 category: practice-area
 description: Assess an employment dispute against the agreement, wage record, and governing-law files, returning supported claim distinctions, holds, and the next litigation skill
-version: 0.3.5
+version: 0.3.6
 gaps:
-  - Official confirmation of the wage amendments on owner liability and retaliation, the current administrative wage-claim limit, and current court venue, forms and fees remains open.
+  - Official confirmation of Colorado’s wage amendments on owner liability and retaliation, the current administrative wage-claim limit, and current court venue, forms and fees remains open.
   - Verified employment authority remains open for contractual notice and cure, prevention of a compensation condition, remote-worker jurisdiction, and unsigned arbitration or incorporation by reference.
-  - Other states’ at-will, Cause and severance rules and the elements of protected-class claims under the Colorado Anti-Discrimination Act and the Protecting Opportunities and Workers’ Rights Act remain unverified.
+  - The New York pack supplies selected employment authority, including its qualified at-will default. At-will rules outside the covered statements, out-of-state Cause and severance rules, and the elements of protected-class claims under the Colorado Anti-Discrimination Act and the Protecting Opportunities and Workers’ Rights Act remain unverified.
   - Authority on implied good faith, mitigation of fixed severance, federal class waivers in employment arbitration and the age coverage of federal waiver protections remains open.
-  - Employment guidance for unemployment-insurance hearings, workers' compensation, union labor law, discrimination, FMLA, and disability
+  - Employment guidance for unemployment-insurance hearings, workers' compensation, union labor law, FMLA, and discrimination and disability issues beyond the covered statements remains open.
 ---
 
 # Employment Law

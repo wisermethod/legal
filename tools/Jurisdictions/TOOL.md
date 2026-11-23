@@ -3,7 +3,7 @@ name: Jurisdictions
 type: tool
 category: reference
 description: List and validate jurisdiction packs, match courts and governing law by declaration or name, and flag sources due for rereading
-version: 0.3.1
+version: 0.3.2
 runs: local
 gaps:
   - Colorado district court [verify] topics include the scope of civil monetary jurisdiction, geographic venue and transfer, complaint pleading, cover sheet and summons, current docket fee, waiver forms and submission, electronic filing eligibility and mandates, process service interval and methods, proof of service, answer periods and the effect of a pre-answer motion, amendment as of right, the timing of the case management order, settlement evidence, discovery response periods, and declaratory relief procedure.
@@ -19,6 +19,13 @@ gaps:
   - The applicable 2025 and 2026 changes to Colorado court rules and fee statutes still need confirmation against official text. The enacted 2025 wage changes and the operative 2026 cap and its effective date remain unconfirmed.
   - Colorado consumer and personal injury law is covered only by the statements the pack holds. Any other issue in those areas still requires authority.
   - The shipped catalog returns no forum for the District Court of Guam, the District Court for the Northern Mariana Islands, or the District Court of the Virgin Islands. Obtain the selected court’s applicable rules and statutory extensions.
+  - New York contract and consumer authority is still needed for general contract formation, interpretation, accrual and damages, CPLR 213-a and 214-i limitations, UCC Article 2, General Business Law Article 36-B, and General Business Law 350-a and current controlling decisions on private deception and false advertising after the 2026 amendment to section 349.
+  - New York wage authority is still needed for Labor Law 193 regulations, Banking Law 14-a rate materials, Labor Law 198-c wage supplements, contested private pay-frequency remedies, minimum wage, overtime, leave and industry-specific rules. The wage-statement defense cross-reference from Labor Law 198(1-d)(ii) to 195(1)(e) remains unresolved. The current summaries also omit Labor Law 198(4)’s judgment-increase remedy.
+  - New York State Human Rights Law coverage is selective. Obtain authority for additional accommodation, nonemployee, intern and specialized hiring protections, and claim-specific agency or court requirements.
+  - Historical New York events may require the transition acts and applicable decisions for General Business Law 349, Executive Law 296 and 297, Labor Law 198 and CPLR 5004. A displayed revision or the pack’s read date cannot establish historical applicability.
+  - New York personal injury, local law including New York City law, and federal employment law require separate authorities. The New York forum match covers explicit state Supreme Court county designations. Other court tiers and ambiguous designations need the court’s own sources.
+  - New York Supreme Court cases still need applicable county, part and judge rules and case orders, NYSCEF authorization and instructions, signature and redaction rules, original forms, fees and waiver requirements.
+  - The New York forum supplies selected civil procedure. Obtain applicable subject-matter and personal jurisdiction authorities, special process and service methods, venue exceptions, special-proceeding rules, additional pleading, disclosure and default requirements, and specialized-track rules such as the separate Commercial Division rules.
 ---
 
 # Jurisdictions
@@ -27,7 +34,9 @@ gaps:
 
 Apply the legal plugin's [Standing constraint](../../AGENTS.md#standing-constraint). Use a pack for sourced rules. Leave the application of those rules to the matter's facts to the person. The matter's own records take precedence over any pack.
 
-The shipped Colorado pack identifies district court, county court and small claims forums and four areas of state law. The JAMS pack supplies employment arbitration procedure, and the federal pack supplies national district court civil procedure. Those two packs have no governing-law half and suggest no filing profile. Each file holds sourced statements with their state and date read, and `validate` lists every `[verify]` statement as a gap.
+The shipped Colorado pack identifies district court, county court and small claims forums and four areas of state law. The [New York pack](packs/new-york/README.md) supplies selected New York state contract, employment and consumer references and civil trial procedure for New York State Supreme Court. The JAMS pack supplies employment arbitration procedure, and the federal pack supplies national district court civil procedure. Those two packs have no governing-law half and suggest no filing profile. A federal forum can coexist with New York governing law by claim. Each file holds sourced statements with their state and date read, and `validate` lists every `[verify]` statement as a gap.
+
+A match identifies available references for the declared name. For an uncovered jurisdiction, paper or issue, obtain official originals or other verified sources, hold only the dependent judgment or step, and continue independent work. See the New York pack’s coverage and obtain list for the limits of its law and forum references. For filing production, the New York State Supreme Court profile covers eligible counsel-filed, computer-prepared memoranda, replies and notices for ordinary assigned civil cases submitted through NYSCEF. A profiled memorandum above the 4,500-word bookmark threshold stays held for sourced unprofiled production and independent bookmark verification. For covered memoranda the tool prepares a separate final unsigned word-count and compliance page for filing counsel. Self-represented certification still needs authority. Verify signing, filing and service from the applicable sources and record. [Court Filing’s New York profile](../Court%20Filing/TOOL.md#select-the-new-york-supreme-court-profile)
 
 A matter's own packs live at `<matter folder>/jurisdictions/<pack-id>/`, in the shipped pack format. The matter folder holds the `AGENTS.md` passed to `--matter`. `resolve` returns the matter's records first, then looks for matches in the matter's packs, then in the shipped packs. A matter pack takes precedence over a shipped match for the forum or governing law.
 

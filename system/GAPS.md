@@ -7,7 +7,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 ### [Litigation Counsel](../experts/Litigation%20Counsel/EXPERT.md)
 
 - Arbitration rule sets other than the shipped JAMS employment rules still need governing sources from the matter record.
-- Courts without a compatible Colorado district or supported Southern District of New York profile need the unprofiled requirements check.
+- Papers outside the compatible Colorado district, supported Southern District of New York and eligible New York State Supreme Court profiles need the unprofiled requirements check unless a compatible custom profile applies.
 
 ### [Cease and Desist](../experts/Cease%20and%20Desist/EXPERT.md)
 
@@ -23,15 +23,16 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 ### [Contract Disputes](../experts/Contract%20Disputes/EXPERT.md)
 
 - Verified accrual analysis for a particular contract claim
-- Verified Colorado authority for general reliance damages as an alternative contract measure
-- Verified authority for Colorado adopting Hadley v. Baxendale by name
+- Verified authority for general reliance damages as an alternative contract measure
+- Verified authority on whether the governing jurisdiction has adopted Hadley v. Baxendale by name
 
 ### [Employment Law](../experts/Employment%20Law/EXPERT.md)
 
-- Employment coverage is working and lacks official confirmation of the 2025 wage amendments, the current CDLE cap, and a current filing forms and venue check
-- Employment briefing lacks complete opinion reads for the flagged cases and verified Colorado authority for notice and cure, prevention of a bonus condition, remote-worker jurisdiction, and unsigned arbitration
-- Employment coverage lacks verified out-of-state Cause and severance analysis and CADA or POWER Act elements for protected-class claims
-- Employment guidance for unemployment-insurance hearings, workers' compensation, union labor law, discrimination, FMLA, and disability
+- Official confirmation of Colorado’s wage amendments on owner liability and retaliation, the current administrative wage-claim limit, and current court venue, forms and fees remains open.
+- Verified employment authority remains open for contractual notice and cure, prevention of a compensation condition, remote-worker jurisdiction, and unsigned arbitration or incorporation by reference.
+- The New York pack supplies selected employment authority, including its qualified at-will default. At-will rules outside the covered statements, out-of-state Cause and severance rules, and the elements of protected-class claims under the Colorado Anti-Discrimination Act and the Protecting Opportunities and Workers’ Rights Act remain unverified.
+- Authority on implied good faith, mitigation of fixed severance, federal class waivers in employment arbitration and the age coverage of federal waiver protections remains open.
+- Employment guidance for unemployment-insurance hearings, workers' compensation, union labor law, FMLA, and discrimination and disability issues beyond the covered statements remains open.
 
 ### [Personal Injury](../experts/Personal%20Injury/EXPERT.md)
 
@@ -65,7 +66,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Produce Court Filing](../skills/Produce%20Court%20Filing/SKILL.md)
 
-- Mechanical jurisdiction-profile validation covers Colorado district papers, supported Southern District of New York civil papers and compatible custom profiles.
+- Mechanical jurisdiction-profile validation covers Colorado district papers, supported Southern District of New York civil papers, eligible New York State Supreme Court civil motion papers and compatible custom profiles.
 - Prescribed forms outside the supported types need the forum’s own form and requirements gate. Court Filing cannot validate those artifacts.
 - Court Filing measures profile geometry and printed content. Current forum acceptance, signature and service still need verification.
 
@@ -92,6 +93,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 - Caption layouts ship for Colorado district courts and supported civil papers in the Southern District of New York. A paper without a compatible profile follows the unprofiled route.
 - The S.D.N.Y. word-count check includes any index, table of contents or table of authorities supplied in the body. A brief that fits only after the rule’s exclusions needs a separately checked count and certificate on the sourced unprofiled route.
+- The New York Supreme Court profile covers the ordinary civil motion papers described below that can be verified with the available PDF evidence. Electronic memoranda over 4,500 words require independently verified bookmarks on the sourced unprofiled route.
 
 ### [Jurisdictions](../tools/Jurisdictions/TOOL.md)
 
@@ -108,3 +110,10 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 - The applicable 2025 and 2026 changes to Colorado court rules and fee statutes still need confirmation against official text. The enacted 2025 wage changes and the operative 2026 cap and its effective date remain unconfirmed.
 - Colorado consumer and personal injury law is covered only by the statements the pack holds. Any other issue in those areas still requires authority.
 - The shipped catalog returns no forum for the District Court of Guam, the District Court for the Northern Mariana Islands, or the District Court of the Virgin Islands. Obtain the selected court’s applicable rules and statutory extensions.
+- New York contract and consumer authority is still needed for general contract formation, interpretation, accrual and damages, CPLR 213-a and 214-i limitations, UCC Article 2, General Business Law Article 36-B, and General Business Law 350-a and current controlling decisions on private deception and false advertising after the 2026 amendment to section 349.
+- New York wage authority is still needed for Labor Law 193 regulations, Banking Law 14-a rate materials, Labor Law 198-c wage supplements, contested private pay-frequency remedies, minimum wage, overtime, leave and industry-specific rules. The wage-statement defense cross-reference from Labor Law 198(1-d)(ii) to 195(1)(e) remains unresolved. The current summaries also omit Labor Law 198(4)’s judgment-increase remedy.
+- New York State Human Rights Law coverage is selective. Obtain authority for additional accommodation, nonemployee, intern and specialized hiring protections, and claim-specific agency or court requirements.
+- Historical New York events may require the transition acts and applicable decisions for General Business Law 349, Executive Law 296 and 297, Labor Law 198 and CPLR 5004. A displayed revision or the pack’s read date cannot establish historical applicability.
+- New York personal injury, local law including New York City law, and federal employment law require separate authorities. The New York forum match covers explicit state Supreme Court county designations. Other court tiers and ambiguous designations need the court’s own sources.
+- New York Supreme Court cases still need applicable county, part and judge rules and case orders, NYSCEF authorization and instructions, signature and redaction rules, original forms, fees and waiver requirements.
+- The New York forum supplies selected civil procedure. Obtain applicable subject-matter and personal jurisdiction authorities, special process and service methods, venue exceptions, special-proceeding rules, additional pleading, disclosure and default requirements, and specialized-track rules such as the separate Commercial Division rules.
