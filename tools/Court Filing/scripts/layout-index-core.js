@@ -1,6 +1,7 @@
 const layouts = new Map(await Promise.all([
   ['colorado-two-column-boxed', import('./colorado-layout-core.js')],
   ['federal-district-ruled', import('./federal-layout-core.js')],
+  ['new-york-supreme-ruled', import('./new-york-layout-core.js')],
 ].map(async ([name, module]) => [name, (await module).default])));
 
 // Preserve the original closing treatment for callers of prepareBody without a layout.

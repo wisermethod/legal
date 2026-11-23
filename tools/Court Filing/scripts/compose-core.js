@@ -129,10 +129,12 @@ export function compose({ caption, body, profile, replay = false }, parseMarkdow
       paperSize: layout.page_size,
       margin: SIDES.map(side => cssInches(layout.margins_inches[side])).join(' '),
       printBackground: true,
-      footerFormat: layout.footer.format,
-      footerPosition: layout.footer.position,
-      footerFontSize: layout.footer.size_pt,
-      footerSkipFirst: false,
+      ...(renderer.cssFooter ? {} : {
+        footerFormat: layout.footer.format,
+        footerPosition: layout.footer.position,
+        footerFontSize: layout.footer.size_pt,
+        footerSkipFirst: false,
+      }),
     },
     footerFont: layout.footer.font,
   };

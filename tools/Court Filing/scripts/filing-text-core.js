@@ -134,7 +134,7 @@ export function filingTextChecks({ caption, profile, extracted, info, prepared, 
   const metadataSuffix = title.slice(digestTitle.length);
   const digestTitleMatches = markedReplay === replay && title.startsWith(digestTitle) &&
     (metadataSuffix === '' || renderer.matchesMetadataSuffix?.(metadataSuffix, treatment));
-  let remaining = renderer.closing({ caption, prepared, treatment, remainder, extracted, check, add, validationDate });
+  let remaining = renderer.closing({ caption, prepared, treatment, remainder, bodyPages, extracted, check, add, validationDate });
   const bodyLines = titleEnd > 0 ? bodyPages.map(lines => {
     const part = lines.slice(0, Math.max(0, remaining));
     remaining -= part.length;

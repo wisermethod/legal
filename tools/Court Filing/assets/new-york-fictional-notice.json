@@ -1,0 +1,59 @@
+{
+  "court": "Supreme Court of the State of New York, New York County",
+  "county": "New York",
+  "index_number": "123456/2099",
+  "assigned_judge": "Hon. Avery Example",
+  "title": "Notice of Motion",
+  "document_type": "notice-of-motion",
+  "parties": [
+    {
+      "name": "Jane Example",
+      "role": "Plaintiff"
+    },
+    {
+      "name": "Fictional Widgets, Inc.",
+      "role": "Defendant"
+    }
+  ],
+  "signer": {
+    "name": "Morgan Sample",
+    "represents": "Fictional Widgets, Inc.",
+    "address": [
+      "100 Sample Plaza, Suite 200",
+      "Example City, NY 00000"
+    ],
+    "telephone": "(212) 555-0101",
+    "email": "morgan@example.invalid"
+  },
+  "motion": {
+    "posture": "principal-motion",
+    "procedure": "ordinary",
+    "source": "Fictional case record, motion and assigned part instructions"
+  },
+  "service": {
+    "method": "nyscef",
+    "source": "Fictional NYSCEF participation record, Jane Example appears electronically",
+    "recipients": [
+      {
+        "name": "Jane Example",
+        "party": "Jane Example",
+        "appearance": "self-represented",
+        "address": [
+          "200 Fiction Lane, Unit 4",
+          "Example City, NY 00000"
+        ],
+        "telephone": "(212) 555-0102",
+        "email": "jane@example.invalid"
+      }
+    ]
+  },
+  "notice": {
+    "supporting_affiant": "Robin Sample",
+    "supporting_papers": [
+      "the accompanying Memorandum of Law in Support of Motion"
+    ],
+    "action_nature": "a contract dispute concerning sample widget packaging",
+    "oral_argument_requested": false,
+    "seven_day_demand": false
+  }
+}

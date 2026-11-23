@@ -1,0 +1,196 @@
+{
+  "jurisdiction_id": "new-york-supreme-court",
+  "display_name": "New York State Supreme Court, ordinary civil motions",
+  "renderer_profile": "new-york-supreme-ruled",
+  "court_match": [
+    "(?:Supreme Court of the State of New York|New York State Supreme Court|Supreme Court, State of New York)(?:, *(?:County of [A-Za-z .]+|[A-Za-z .]+ County))?"
+  ],
+  "layout": {
+    "page_size": "Letter",
+    "margins_inches": {
+      "top": 1,
+      "right": 1,
+      "bottom": 1.375,
+      "left": 1
+    },
+    "body_font": "Times New Roman",
+    "body_font_size_pt": 12,
+    "body_line_height": 2,
+    "footer": {
+      "format": "{page} / {pages}",
+      "font": "Times New Roman",
+      "size_pt": 12,
+      "position": "center"
+    },
+    "caption_style": "Left court and county, dashed rules with x, parties at left and title, index and judge at right",
+    "pdf_font_names": [
+      "TimesNewRomanPSMT",
+      "TimesNewRomanPS-BoldMT",
+      "TimesNewRomanPS-ItalicMT",
+      "TimesNewRomanPS-BoldItalicMT"
+    ]
+  },
+  "caption_defaults": {
+    "court": "Supreme Court of the State of New York, New York County",
+    "county": "New York",
+    "index_number": "123456/2099",
+    "assigned_judge": "Hon. Avery Example",
+    "title": "Memorandum of Law in Support of Motion",
+    "document_type": "memorandum-of-law",
+    "parties": [
+      {
+        "name": "Jane Example",
+        "role": "Plaintiff"
+      },
+      {
+        "name": "Fictional Widgets, Inc.",
+        "role": "Defendant"
+      }
+    ],
+    "signer": {
+      "name": "Morgan Sample",
+      "represents": "Fictional Widgets, Inc.",
+      "address": [
+        "100 Sample Plaza, Suite 200",
+        "Example City, NY 00000"
+      ],
+      "telephone": "(212) 555-0101",
+      "email": "morgan@example.invalid"
+    },
+    "motion": {
+      "posture": "principal-motion",
+      "procedure": "ordinary",
+      "source": "Fictional case record, motion and assigned part instructions"
+    },
+    "service": {
+      "method": "nyscef",
+      "source": "Fictional NYSCEF participation record, Jane Example appears electronically",
+      "recipients": [
+        {
+          "name": "Jane Example",
+          "party": "Jane Example",
+          "appearance": "self-represented",
+          "address": [
+            "200 Fiction Lane, Unit 4",
+            "Example City, NY 00000"
+          ],
+          "telephone": "(212) 555-0102",
+          "email": "jane@example.invalid"
+        }
+      ]
+    }
+  },
+  "validation": {
+    "limits": {
+      "memorandum-words": {
+        "unit": "words",
+        "maximum": 7000,
+        "citation": "22 NYCRR § 202.8-b(a), (e)–(f)",
+        "verification": "recorded-in-source"
+      },
+      "reply-words": {
+        "unit": "words",
+        "maximum": 4200,
+        "citation": "22 NYCRR § 202.8-b(a), (e)–(f)",
+        "verification": "recorded-in-source"
+      }
+    },
+    "exclusions": [
+      "caption",
+      "table of contents",
+      "table of authorities",
+      "signature block"
+    ],
+    "notes": [
+      "The mechanical word check includes all supplied Markdown, including tables of contents and authorities. Generated caption, signature and certification text are outside the body count.",
+      "This profile covers counsel-filed computer-prepared ordinary assigned civil motion papers submitted through NYSCEF. Review the assigned part and record for eligibility. Separate service proof or a required good-faith affirmation holds this profile.",
+      "The renderer does not generate navigation bookmarks. Above 4,500 words, the available PDF inspection can read outline titles and destination pages but cannot establish exact internal destinations. Hold for sourced unprofiled production and independent PDF verification."
+    ],
+    "double_spacing": {
+      "citation": "22 NYCRR § 202.5(a)(1)",
+      "verification": "recorded-in-source"
+    }
+  },
+  "rules": [
+    {
+      "citation": "CPLR 2101(a), (c), (d), (g)",
+      "verification": "recorded-in-source",
+      "notes": "Legible black type, caption and paper identification, printed name below signature and filer contact information. Electronic copies must be reproducible in the prescribed format."
+    },
+    {
+      "citation": "22 NYCRR § 202.5(a)",
+      "verification": "recorded-in-source",
+      "notes": "Place the index and assigned judge to the right on the first page. The profile uses Letter, 12-point type and double-spaced body text with a footer inside the one-inch boundary. Verify appropriate proof of service and applicable electronic bookmarks."
+    },
+    {
+      "citation": "22 NYCRR § 202.5-b(f)(2) and § 202.5-bb(c)",
+      "verification": "recorded-in-source",
+      "notes": "The NYSCEF notification records proof of service for participating recipients when effective. Other service requires its own proof as applicable."
+    },
+    {
+      "citation": "CPLR 2214; 22 NYCRR §§ 202.7, 202.8, 202.8-a and 202.8-f",
+      "verification": "recorded-in-source",
+      "notes": "Ordinary notice form, applicable supporting papers and grounds, place and time, relief, recipients, conferral and part-specific procedures."
+    },
+    {
+      "citation": "22 NYCRR § 202.8-b",
+      "verification": "recorded-in-source",
+      "notes": "Covered computer-prepared opening papers use 7,000 words and replies use 4,200. Check cross-motion posture, court permission, separate counsel certification and the distinct treatment for evidentiary and handwritten or typewritten papers."
+    }
+  ],
+  "filing_packets": {},
+  "document_types": {
+    "reply-memorandum": {
+      "title_pattern": "(?:(?:Plaintiffs?|Defendants?)(?:[\\x27’]s|s?[\\x27’]) )?(?:Reply(?: (?:Memorandum(?: of Law)?|Brief))?(?: in (?:further )?support(?: of .+)?| (?:to|on) .+)?|(?:Memorandum(?: of Law)?|Brief)(?: in Reply(?: (?:to|on|in) .+)?| in Further Support(?: of .+)?))",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": [
+        "reply-words"
+      ],
+      "word_count_certificate": true,
+      "double_spacing": [
+        "heading",
+        "table",
+        "list"
+      ]
+    },
+    "memorandum-of-law": {
+      "title_pattern": "(?:(?:Plaintiffs?|Defendants?)(?:[\\x27’]s|s?[\\x27’]) )?(?:(?:Memorandum(?: of Law)?|Brief)(?: (?:in (?:Support|Opposition|Response)(?: (?:of|to) .+)?|Opposing .+|Supporting .+|(?:for|on) .+))?|(?:Opposition|Response) to .+|(?:Memorandum(?: of Law)?|Brief) in Support of Cross[- ]Motion and in Opposition to .+)",
+      "filer_signature": true,
+      "certificate": true,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": [
+        "memorandum-words"
+      ],
+      "word_count_certificate": true,
+      "double_spacing": [
+        "heading",
+        "table",
+        "list"
+      ]
+    },
+    "notice-of-motion": {
+      "exact_title": "Notice of Motion",
+      "filer_signature": true,
+      "certificate": false,
+      "judicial_closing": false,
+      "blank_case_number": false,
+      "allow_blank_division": false,
+      "filing_packet": null,
+      "length_presets": null,
+      "word_count_certificate": false,
+      "double_spacing": [
+        "heading",
+        "table",
+        "list"
+      ]
+    }
+  }
+}

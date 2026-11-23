@@ -392,9 +392,11 @@ function renderArgs(pdf) {
     '--paper-size', pdf.paperSize,
     '--margin', pdf.margin,
     '--print-background', String(pdf.printBackground),
-    '--footer-format', pdf.footerFormat,
-    '--footer-position', pdf.footerPosition,
-    '--footer-font-size', String(pdf.footerFontSize),
+    ...(pdf.footerFormat === undefined ? [] : [
+      '--footer-format', pdf.footerFormat,
+      '--footer-position', pdf.footerPosition,
+      '--footer-font-size', String(pdf.footerFontSize),
+    ]),
   ];
 }
 

@@ -273,7 +273,9 @@ test('CLI lists the full profile and publishes to a new path only', t => {
   assert.ok(readFileSync(output, 'utf8').includes('____ day of __________, ' + new Date().getFullYear() + ','));
   assert.match(run(args).stderr, /already exists/);
   const listed = JSON.parse(run(['profiles']).stdout).profiles;
-  assert.deepEqual(listed, [profile()]);
+  assert.deepEqual(listed.map(({ jurisdiction_id }) => jurisdiction_id), ['colorado-district', 'new-york-supreme-court']);
+  assert.deepEqual(listed[0], profile());
+  assert.deepEqual(listed[1], readJson(join(tool, 'profiles', 'new-york-supreme-court.json')));
   const packet = listed[0].filing_packets.new_case_complaint;
   assert.deepEqual(packet.required_at_filing.map(({ item }) => item), ['Complaint']);
   assert.equal(listed[0].validation.limits['general-motion-pages'].citation, 'C.R.C.P. 121 section 1-15(1)(a)');
@@ -357,7 +359,8 @@ test('install survey, refusal and consented offline install in a fresh copy', t 
   env.npm_config_cache ??= join(process.env.HOME ?? process.env.USERPROFILE, '.npm');
   const copyRun = args => spawnSync(process.execPath, [join(copy, 'scripts', 'court-filing.js'), ...args], { env, encoding: 'utf8' });
   assert.match(copyRun(['help']).stdout, /authorizes the package install/);
-  assert.equal(JSON.parse(copyRun(['profiles']).stdout).profiles.length, 1);
+  assert.deepEqual(JSON.parse(copyRun(['profiles']).stdout).profiles.map(({ jurisdiction_id }) => jurisdiction_id),
+    ['colorado-district', 'new-york-supreme-court']);
   assert.equal(JSON.parse(copyRun(['check']).stdout).marked, 'absent');
   assert.equal(existsSync(join(root, '.wiser-consent')), false);
   mkdirSync(join(copy, 'node_modules', 'marked'), { recursive: true });

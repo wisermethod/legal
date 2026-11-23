@@ -49,7 +49,8 @@ function pdfLayoutChecks(forEvidence, profile, info, pdf, inspect, positioned, b
         [...new Set(fonts.map(font => font.name))].join(', '));
 
   const tableText = tableTypography(prepared, bodyLines, repeated, layout);
-  const typography = readTypography(inspect('typography', pdf), info.count, layout, tableText);
+  const typographyBytes = inspect('typography', pdf);
+  const typography = readTypography(typographyBytes, info.count, layout, tableText);
   const spacing = paragraphSpacing(positioned, bodyLines, prepared.paragraphs, layout);
   const noImages = imagesAbsent(inspect('images', pdf));
   measured(['typography', 'text', 'positioned-text'], 'Profile type size', typography,
@@ -70,7 +71,7 @@ function pdfLayoutChecks(forEvidence, profile, info, pdf, inspect, positioned, b
     add('Page-number footer', 'not_checked', reason);
     add('Visible margin geometry', 'not_checked', reason);
     add('Visible filing ink', 'not_checked', reason);
-    return;
+    return typographyBytes;
   }
 
   const unreadable = [];
@@ -110,6 +111,7 @@ function pdfLayoutChecks(forEvidence, profile, info, pdf, inspect, positioned, b
     'Could not locate a composed list marker or rule against the positioned PDF text.');
   add('Visible margin geometry', status(badMargins), detail(badMargins, 'Ink outside profile margins on page(s) ',
     'Visible ink is within the profile margins, allowing 1.5 pt for print rounding and excluding the matched footer words.'));
+  return typographyBytes;
 }
 
 export function validate({
@@ -198,7 +200,8 @@ export function validate({
         'Composition uses the higher of the printed-text count and the Markdown token count.');
   }
   const spacingScope = documentType(profile, caption).double_spacing ?? [];
-  const spacingLayout = getLayout(profile.renderer_profile).spacing(profile.layout);
+  const renderer = getLayout(profile.renderer_profile);
+  const spacingLayout = renderer.spacing(profile.layout);
   const spacing = spacingBound && positioned && !info.active ?
     bodySpacing(positioned, bodyLines, repeated, prepared.bodyHtml, profile.layout, spacingLayout) : null;
   const failedSpacing = spacingScope.filter(kind => spacing?.[kind] > 0);
@@ -213,7 +216,9 @@ export function validate({
     ' The document type requires double spacing for ' + failedSpacing.join(', ') + ' under ' + profile.validation.double_spacing.citation + '.' :
     spacingStatus === 'advisory' ? ' Inspect these elements in the human preview.' : '';
   textEvidence('Table, list and heading double spacing', spacingStatus, spacingDetail + spacingAction, spacing);
-  pdfLayoutChecks(forEvidence, profile, info, pdf, inspect, positioned, bodyLines, prepared, repeated);
+  const typography = pdfLayoutChecks(forEvidence, profile, info, pdf, inspect, positioned, bodyLines, prepared, repeated);
+  renderer.pdfEvidence?.({ caption, profile, info, positioned, prepared, spacingBound, bodyLines, repeated,
+    typography, add: forEvidence(['typography', 'page-info', 'text', 'positioned-text']) });
   const ok = checks.every(check => ['pass', 'not_applicable', 'advisory'].includes(check.status));
   return { ok, result: ok ? (replay ? REPLAY_PASS : PASS) : FAIL, pages: info?.count ?? null, bodyWords, pdfBodyWords, bodySha256,
     documentType: caption.document_type, limits, checks, advisories: checks.filter(check => check.status === 'advisory') };
