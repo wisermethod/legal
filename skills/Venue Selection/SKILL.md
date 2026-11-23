@@ -3,7 +3,7 @@ name: Venue Selection
 type: skill
 category: litigation-phase
 description: A sourced court and venue comparison with jurisdiction, threshold, timing, and procedural risk checks in the matter file
-version: 0.4.9
+version: 0.4.10
 gaps:
   - Local court variations and case-specific venue, fee, appeal, transfer and removal questions still need current sources.
 ---
@@ -63,7 +63,7 @@ A court is a candidate only when the person or the record names it as one. A que
 1. **Subject matter.** Check state general jurisdiction and exceptions. For each federal candidate, use its forum file's statements on federal question, diversity and amount in controversy, and supplemental jurisdiction. If a statement is missing, name the applicable jurisdiction authority as the source to obtain and hold that check. Does a statute supply a separate grant or make jurisdiction exclusive for a claim, including one involving bankruptcy, a federal criminal matter, patent, copyright, antitrust or securities? If a grant or exclusivity matters and its authority is missing, name the claim-specific authority as the source to obtain and hold that check. Verify exceptions and concurrent jurisdiction before using any category as an exclusion. For federal or state consumer claims, check the applicable FDCPA, FCRA or TILA grant where relevant.
 2. **Personal jurisdiction.** Verify general jurisdiction leads for an individual's domicile and an entity's incorporation or principal place of business. Verify specific jurisdiction leads for purposeful forum contacts, a claim arising from those activities, and reasonableness. Check preservation at the first response and possible waiver. Resolve each defendant's relationship to the proposed forum.
 3. **Geographic venue.** Is the court in the preflight finding or under consideration as a candidate? If so, use the applicable branch below.
-   - **Federal court.** Use the selected court's forum statements for geographic venue, including any applicable district boundaries, venue grounds and exceptions. If the file or an applicable statement is missing, name that court's applicable venue or district authority as the source to obtain and hold that finding.
+   - **Federal court.** Use the selected court's forum statements for geographic venue, including any applicable district boundaries, venue grounds and exceptions. Use § 85 for district composition and places for holding court only when the selected court is the District of Colorado. For any other district, obtain that district’s own composition and sittings authority. If the file or an applicable statement is missing, name that court's applicable venue or district authority as the source to obtain and hold that finding.
    - **Any other court.** Use the court's forum-file statement on geographic venue claim by claim. Check the grounds and exceptions it identifies against the facts, including actual addresses where a town straddles counties and the contacts of each defendant where relevant. If the file or statement is missing, identify that court's venue rule as the source to obtain and hold the geographic finding.
 
    Confirm the venue rules against the current rule before filing. Apply the actual statutory definitions, exceptions and claim-specific rules.

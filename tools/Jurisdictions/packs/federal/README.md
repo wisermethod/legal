@@ -1,6 +1,6 @@
 # Federal district court forum
 
-This pack supplies national civil procedure for the United States district courts. Jurisdictions recognizes the full court name and supported conventional district abbreviations. The matter's governing law by claim remains a separate declaration. The pack suggests no filing profile.
+This pack supplies national civil procedure for the federal district courts it matches. Jurisdictions recognizes full names and supported conventional district abbreviations for covered courts, including the District of Puerto Rico. The shipped catalog returns no forum for the District Court of Guam, the District Court for the Northern Mariana Islands, or the District Court of the Virgin Islands. Obtain the selected court’s applicable rules and statutory extensions. The matter's governing law by claim remains a separate declaration. The pack suggests no filing profile.
 
 ## Sources and dates
 

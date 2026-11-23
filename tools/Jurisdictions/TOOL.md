@@ -3,7 +3,7 @@ name: Jurisdictions
 type: tool
 category: reference
 description: List and validate jurisdiction packs, match courts and governing law by declaration or name, and flag sources due for rereading
-version: 0.3.0
+version: 0.3.1
 runs: local
 gaps:
   - Colorado district court [verify] topics include the scope of civil monetary jurisdiction, geographic venue and transfer, complaint pleading, cover sheet and summons, current docket fee, waiver forms and submission, electronic filing eligibility and mandates, process service interval and methods, proof of service, answer periods and the effect of a pre-answer motion, amendment as of right, the timing of the case management order, settlement evidence, discovery response periods, and declaratory relief procedure.
@@ -18,6 +18,7 @@ gaps:
   - Colorado employment law [verify] topics include owner liability and retaliation remedies under the 2025 wage amendments, the wage-claim administrative cap effective in 2026, the implied good-faith covenant in at-will employment, prevention of a compensation condition, individual arbitration and class or collective waivers, and mitigation of fixed severance.
   - The applicable 2025 and 2026 changes to Colorado court rules and fee statutes still need confirmation against official text. The enacted 2025 wage changes and the operative 2026 cap and its effective date remain unconfirmed.
   - Colorado consumer and personal injury law is covered only by the statements the pack holds. Any other issue in those areas still requires authority.
+  - The shipped catalog returns no forum for the District Court of Guam, the District Court for the Northern Mariana Islands, or the District Court of the Virgin Islands. Obtain the selected court’s applicable rules and statutory extensions.
 ---
 
 # Jurisdictions
