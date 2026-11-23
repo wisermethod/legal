@@ -77,12 +77,20 @@ export function validNoticeBody(prepared) {
 }
 
 export function noticeProcedureIssue(caption, prepared) {
-  const outside = /\b(?:child support|interim maintenance|temporary restraining orders?|tros?|ex parte|orders? to show cause|commercial division)\b/iu;
+  const outside = /\b(?:child support|interim maintenance|temporary restraining orders?|ex parte|orders? to show cause|commercial division)\b/iu;
+  // After normalization, punctuation and spacing within an abbreviation become single spaces.
+  const abbreviation = /(?<!\S)(?:o ?t ?s ?cs?|t ?r ?os?)(?!\S)/iu;
   const conferral = /\b(?:disclosures?|bills? of particulars)\b/iu;
-  const text = normalize((caption.title + ' ' + prepared.bodyText).replace(/[\p{P}\p{S}]+/gu, ' '));
-  const trigger = outside.exec(text) ?? (caption.motion.procedure === 'ordinary' ? conferral.exec(text) : null);
-  return trigger && 'The New York notice contains “' + trigger[0] +
-    '”, which conflicts with the profile or declared procedure. Use the sourced unprofiled route with the applicable form and proof.';
+  const { action_nature, supporting_papers, supporting_affiant } = caption.notice;
+  const fields = [caption.title, prepared.bodyText, action_nature, ...supporting_papers, supporting_affiant ?? ''];
+  for (const field of fields) {
+    const text = normalize(field.replace(/[\p{P}\p{S}]+/gu, ' '));
+    const trigger = outside.exec(text) ?? abbreviation.exec(text) ??
+      (caption.motion.procedure === 'ordinary' ? conferral.exec(text) : null);
+    if (trigger) return 'The New York notice contains “' + trigger[0] +
+      '”, which conflicts with the profile or declared procedure. Use the sourced unprofiled route with the applicable form and proof.';
+  }
+  return null;
 }
 
 function css(layout, replay) {

@@ -274,8 +274,12 @@ pdfTest('New York reply and notice render by absolute profile path from outside 
   const separate = check({ ...form, service: { ...form.service, method: 'separate-proof-required' } }, ny.load());
   assert.equal(separate.ok, false);
   assertChecks(separate, ['Service proof treatment'], 'not_checked');
-  const disclosure = check({ ...form, motion: { ...form.motion, procedure: 'disclosure-or-bill-of-particulars' } }, ny.load());
+  const disclosed = ny.build(cwd, 'notice-disclosure', {
+    ...form, motion: { ...form.motion, procedure: 'disclosure-or-bill-of-particulars' },
+  }, noticeBody);
+  const disclosure = disclosed.check(disclosed.renderPdf('approved'), 1);
   assert.equal(disclosure.ok, false);
+  assertChecks(disclosure, ['Printed PDF body matches composition', 'Notice relief, grounds and conditional fields'], 'pass');
   assertChecks(disclosure, ['Good-faith affirmation'], 'not_checked');
 });
 
@@ -302,7 +306,8 @@ pdfTest('New York notice refuses known specialist text before writing and fails 
   }
   const out = join(cwd, 'must-stay-unwritten.html');
   for (const trigger of ['child **support**', 'INTERIM MAINTENANCE', 'disclosure', 'a bill of particulars',
-    'temporary restraining order', 'ex parte', 'a TRO', 'ex‑parte']) {
+    'temporary restraining order', 'ex parte', 'a TRO', 'ex‑parte', 'an order to show cause', 'Commercial Division',
+    'an OTSC', 'a T.R.O.', 't r o', 'T‑R‑O', 'O.T.S.C.', 'o t s c', 'O. T.-S. C.']) {
     for (const label of ['Relief requested:', 'Grounds:']) {
       const body = neutral.replace(label, label + ' The motion concerns ' + trigger + '.');
       assert.throws(() => ny.composeMock(notice(), ny.load(), body), /sourced unprofiled route/iu, trigger);
@@ -313,6 +318,48 @@ pdfTest('New York notice refuses known specialist text before writing and fails 
       assert.equal(existsSync(out), false);
     }
   }
+});
+
+pdfTest('New York notice applies the same procedure guard to printed fields and abbreviations in an existing PDF', t => {
+  const cwd = temp(t);
+  const neutral = 'Relief requested: A schedule.\n\nGrounds: The parties need a date.';
+  const form = notice();
+  const profile = ny.load();
+  const filing = ny.build(cwd, 'ordinary-notice', form, neutral, id);
+  const [firstPaper] = form.notice.supporting_papers;
+  const captionPath = join(cwd, 'caption.json');
+  const bodyPath = join(cwd, 'body.md');
+  const out = join(cwd, 'must-stay-unwritten.html');
+  const args = ['--profile', id, '--caption', captionPath, '--body', bodyPath];
+  const conditional = 'Notice relief, grounds and conditional fields';
+  for (const [name, noticeChanges, before, after] of [
+    ['action-nature', { action_nature: 'interim child support' }, form.notice.action_nature, 'interim child support'],
+    ['supporting-papers', { supporting_papers: [firstPaper, 'a demand for disclosure'] }, firstPaper, firstPaper + '; a demand for disclosure'],
+    ['supporting-affiant', { supporting_affiant: 'Interim Maintenance Example' }, form.notice.supporting_affiant, 'Interim Maintenance Example'],
+    ['otsc', {}, 'A schedule.', 'An OTSC.'],
+    ['dotted-tro', {}, 'A schedule.', 'A T.R.O.'],
+  ]) {
+    const caption = { ...form, notice: { ...form.notice, ...noticeChanges } };
+    const source = neutral.replace(before, after);
+    const pdf = filing.renderPdf(name, html => html.replace(before, after).replace(sha256(neutral), sha256(source)));
+    writeFileSync(captionPath, JSON.stringify(caption));
+    writeFileSync(bodyPath, source);
+    const cli = invokeCli(['validate', ...args, '--pdf', pdf, '--body-sha256', sha256(source)], cwd);
+    assert.equal(cli.status, 1, name);
+    for (const receipt of [JSON.parse(cli.stderr), validatePrintedFixture(pdf, source)(caption, profile)]) {
+      assert.equal(receipt.ok, false, name);
+      assertChecks(receipt, ['Printed PDF body matches composition', 'Notice supporting papers and return fields'], 'pass', name);
+      assertChecks(receipt, [conditional], 'fail', name);
+    }
+    assert.throws(() => ny.composeMock(caption, profile, source), /sourced unprofiled route/iu, name);
+    const rejected = invokeCli(['compose', ...args, '--out', out], cwd);
+    assert.equal(rejected.status, 1, name);
+    assert.match(rejected.stderr, /sourced unprofiled route/iu);
+    assert.equal(existsSync(out), false);
+  }
+  delete form.notice.supporting_affiant;
+  assert.doesNotThrow(() => ny.composeMock(form, profile,
+    neutral.replace('A schedule.', 'A schedule for C.D. and the XTRO and OTSC123 exhibits.')));
 });
 
 const sha256 = text => createHash('sha256').update(text).digest('hex');
