@@ -36,7 +36,7 @@ Set the summary `Governing law` to `see Governing law by claim` when any claim r
 
 > Do you have the rules this court or forum uses for your case, such as its local rules, the judge's standing orders or practice standards, or the arbitration organization's rules? Tell me where they are in your files, or say you don't have them yet.
 
-*Recorded as a path in the matter, or "not yet obtained". Until the plugin ships a rules set for that forum, nothing is filled from the plugin.*
+*Record `Rules home` as a path to the matter's own rules files, or "not yet obtained". A shipped pack does not fill `Rules home`.*
 
 **5. Which paper format** (field: filing profile). This confirms; it does not ask the person to choose.
 

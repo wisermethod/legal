@@ -16,7 +16,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Consumer Law](../experts/Consumer%20Law/EXPERT.md)
 
-- Consumer Law is a substantive stub for the Colorado Consumer Protection Act, including scope, deceptive practices, elements, damages, and limitations
+- Consumer-protection scope, practices, elements, remedies and time limits beyond the available statements remain open.
 - Consumer Law is a substantive stub for federal FDCPA, TILA, FCRA, and TCPA provisions, elements, and damages
 - Consumer Law has no verified reference on defense tactics, strategic considerations, or Colorado Attorney General, CFPB, and FTC resources
 
@@ -35,7 +35,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Personal Injury](../experts/Personal%20Injury/EXPERT.md)
 
-- Personal Injury is a substantive stub for Colorado negligence standards, comparative fault, and compensable damages and caps
+- General negligence elements, economic-loss standards, certified historical inflation adjustments, later changes and claim-specific damages limits beyond the available statements remain open.
 - Personal Injury is a substantive stub for motor vehicle, premises, and product liability, insurance and UM/UIM, limitations, and defense tactics
 
 ## Skills
