@@ -1,0 +1,19 @@
+{
+  "id": "jams",
+  "name": "JAMS",
+  "kind": "arbitration-forum",
+  "law": [],
+  "forums": [
+    {
+      "id": "employment",
+      "name": "JAMS employment arbitration",
+      "tier": "arbitration forum",
+      "court_match": [
+        "JAMS",
+        "JAMS(?:\\s+|\\s*[-,]\\s*)Employment(?:\\s+Arbitration)?(?:\\s+Rules(?:\\s+and\\s+Procedures)?|\\s+Forum)?",
+        "JAMS\\s*\\(Employment(?:\\s+Arbitration)?(?:\\s+Rules(?:\\s+and\\s+Procedures)?|\\s+Forum)?\\)"
+      ],
+      "file": "forum/employment.json"
+    }
+  ]
+}
