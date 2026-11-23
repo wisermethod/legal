@@ -11,6 +11,7 @@ const TOOL = realpathSync(join(__dirname, '..'));
 const PACK_ID = 'new-york';
 const READ_DATE = '2026-11-23';
 const KINGS = 'Supreme Court of the State of New York, County of Kings';
+const COMMERCIAL = ', Commercial Division';
 const FEDERAL = 'United States District Court for the Southern District of New York';
 const COUNTIES = [
   'Albany', 'Allegany', 'Bronx', 'Broome', 'Cattaraugus', 'Cayuga', 'Chautauqua', 'Chemung',
@@ -25,14 +26,15 @@ const COUNTIES = [
 const COUNTY = '(?:' + COUNTIES.join('|') + ')';
 const DESIGNATION = '(?:County of ' + COUNTY + '|' + COUNTY + ' County)';
 const COMMA = '[ \\t]*,[ \\t]*';
+const OPTIONAL_COMMERCIAL = '(?:' + COMMA + 'Commercial Division)?';
 const FORUM = {
   id: 'supreme-court',
   name: 'Supreme Court of the State of New York',
   tier: 'New York state civil general-jurisdiction trial court',
   court_match: [
-    'Supreme Court of the State of New York' + COMMA + DESIGNATION,
-    'Supreme Court' + COMMA + DESIGNATION + COMMA + '(?:State of )?New York',
-    'New York State Supreme Court' + COMMA + DESIGNATION,
+    'Supreme Court of the State of New York' + COMMA + DESIGNATION + OPTIONAL_COMMERCIAL,
+    'Supreme Court' + COMMA + DESIGNATION + COMMA + '(?:State of )?New York' + OPTIONAL_COMMERCIAL,
+    'New York State Supreme Court' + COMMA + DESIGNATION + OPTIONAL_COMMERCIAL,
   ],
   file: 'forum/supreme-court.json',
 };
@@ -55,11 +57,7 @@ function fixture(t) {
   const pack = join(tool, 'packs', PACK_ID);
   const manifestFile = join(pack, 'pack.json');
   const manifest = jsonFile(manifestFile);
-  // While the two halves are being assembled, exercise the proposed list in this copy.
-  // Once registered, the shipped list must be exactly the one used for the proof.
-  if (manifest.forums.length !== 0) assert.deepEqual(manifest.forums, [FORUM]);
-  manifest.forums = [FORUM];
-  writeFileSync(manifestFile, JSON.stringify(manifest) + '\n');
+  assert.deepEqual(manifest.forums, [FORUM]);
   return { tool, pack };
 }
 
@@ -109,7 +107,10 @@ test('the New York forum validates against the closed schema and has a dated off
       assert.match(body, /^Viewing most recent revision \(from \d{4}-\d{2}-\d{2}\)\n\n(?:§|Rule) \d/m, excerpt);
     } else {
       assert.equal(url, 'https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court');
-      assert.match(body, /^## Section 202\.[\w.-]+ .+\n[\s\S]*\S/, excerpt);
+      const heading = excerpt === 'excerpts/forum-consumer-credit-default-notice.txt'
+        ? /^Section 202\.27-b .+\n[\s\S]*\S/
+        : /^## Section 202\.[\w.-]+ .+\n[\s\S]*\S/;
+      assert.match(body, heading, excerpt);
     }
   }
 });
@@ -137,6 +138,7 @@ test('county trial court names and supported index references select only the ci
     KINGS,
     'Supreme Court, New York County, New York',
     'Supreme Court, County of St. Lawrence, State of New York',
+    'New York State Supreme Court, St Lawrence County',
     'New York State Supreme Court, Yates County',
     'Supreme Court of the State of New York, Suffolk County',
     '  supreme court of the state of new york, county of queens  ',
@@ -153,28 +155,57 @@ test('county trial court names and supported index references select only the ci
   }
 });
 
+for (const court of [
+  KINGS + COMMERCIAL,
+  'Supreme Court, New York County, New York' + COMMERCIAL,
+  'New York State Supreme Court, St. Lawrence County' + COMMERCIAL,
+  KINGS + COMMERCIAL + ', Index No. 123456/2026',
+]) {
+  test('Commercial Division lookup: ' + court, () => {
+    const file = join(TOOL, 'packs', PACK_ID, FORUM.file);
+    const half = jsonFile(file);
+    const result = command(TOOL, 'lookup', '--court', court);
+    assert.deepEqual(result.forum, {
+      pack: PACK_ID, id: FORUM.id, name: FORUM.name, file, tier: FORUM.tier,
+      own_pack: false, filing_profile: null, obtain: half.obtain,
+    });
+    assert.ok(result.forum.obtain.some(item => item.includes('Commercial Division') && item.includes('Rule 17')));
+    assert.equal(Object.hasOwn(result, 'governing_law'), false);
+    assert.deepEqual(result.invalid_packs, []);
+  });
+}
+
 test('other court systems and a missing or ambiguous county court declaration never select this forum', () => {
   const { tool } = catalog;
   for (const court of [FEDERAL, 'SDNY']) {
-    assert.equal(command(tool, 'lookup', '--court', court).forum.pack, 'federal', court);
+    const result = command(tool, 'lookup', '--court', court);
+    assert.equal(result.forum.pack, 'federal', court);
+    assert.equal(Object.hasOwn(result, 'governing_law'), false, court);
   }
   for (const court of [
     'Supreme Court of the United States',
     'Supreme Court of the State of New York, Appellate Division, Second Department',
     KINGS + ', Appellate Division',
+    KINGS + ', Commercial',
+    KINGS + ' Commercial Division',
+    KINGS + COMMERCIAL + ', Extra text',
     'Supreme Court of the State of California, County of Kings',
     'Supreme Court, Kings County, California',
     'Civil Court of the City of New York, County of Kings',
     'County Court, Erie County, New York',
     'Supreme Court, Imaginary County, New York',
+    'Supreme Court, Imaginary County, New York' + COMMERCIAL,
     'Supreme Court, Kings County',
+    'Kings County Supreme Court',
+    'Kings County Supreme Court' + COMMERCIAL,
     'Supreme Court of the State of New York',
     KINGS + ' No. 2',
     'pending',
   ]) {
-    const { forum } = command(tool, 'lookup', '--court', court);
-    assert.equal(forum.status, 'none', court);
-    assert.equal(Object.hasOwn(forum, 'filing_profile'), false, court);
+    const result = command(tool, 'lookup', '--court', court);
+    assert.equal(result.forum.status, 'none', court);
+    assert.equal(Object.hasOwn(result.forum, 'filing_profile'), false, court);
+    assert.equal(Object.hasOwn(result, 'governing_law'), false, court);
   }
 });
 
@@ -192,6 +223,13 @@ test('explicit New York governing law resolves independently of New York, federa
   const result = command(tool, 'lookup', '--court', KINGS, '--law', 'New York City law');
   assert.equal(result.forum.pack, PACK_ID);
   assert.equal(result.governing_law[0].status, 'none');
+
+  const qualifiedLaw = 'New York law, except for the separately named claims';
+  const qualified = command(tool, 'lookup', '--court', KINGS, '--law', qualifiedLaw);
+  assert.equal(qualified.forum.pack, PACK_ID);
+  assert.equal(qualified.governing_law[0].pack, PACK_ID);
+  assert.equal(qualified.governing_law[0].held, true);
+  assert.equal(qualified.governing_law[0].exception, qualifiedLaw);
 });
 
 test('a fictional New York matter retains claim law, its Rules home and an unresolved filing profile', t => {
