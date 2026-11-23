@@ -68,9 +68,8 @@ function validateCaptionTreatment(caption, _treatment, at) {
     entry.title_pattern && new RegExp('^(?:' + entry.title_pattern + ')$', 'iu').test(title));
   const joinedPaper = /(?:;|,? and | & )(?:(?:a|an|the) )?(?:affidavit|affirmation|declaration|notice|proposed order)\b/iu;
   const specialized = /\b(?:sur[- ]reply|order to show cause|ex parte|temporary restraining order|interim maintenance|child support|commercial division)\b/iu;
-  const replySignal = /\b(?:in reply|in further support)\b/iu;
   if (matches.length !== 1 || matches[0][0] !== caption.document_type || titleScope(title) !== 'single' ||
-      joinedPaper.test(title) || specialized.test(title) || caption.document_type !== replyType && replySignal.test(title)) {
+      joinedPaper.test(title) || specialized.test(title)) {
     throw new Error(at + '.title and document_type must identify one supported New York motion paper.' + unprofiled);
   }
   const isNotice = caption.document_type === noticeType;

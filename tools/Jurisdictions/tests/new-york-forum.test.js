@@ -89,7 +89,7 @@ test('the New York forum validates against the closed schema and has a dated off
   assert.deepEqual(validation.gaps.filter(({ file }) => file === FORUM.file), []);
 
   const half = jsonFile(join(pack, FORUM.file));
-  assert.equal(half.filing_profile, null);
+  assert.equal(half.filing_profile, 'new-york-supreme-court');
   assert.ok(half.obtain.some(item => item.includes('Rules home')));
   assert.ok(half.obtain.some(item => item.includes('Commercial Division')));
   const names = readdirSync(join(pack, 'excerpts')).filter(name => name.startsWith('forum-')).sort();
@@ -148,7 +148,7 @@ test('county trial court names and supported index references select only the ci
     const result = command(tool, 'lookup', '--court', court);
     assert.deepEqual(result.forum, {
       pack: PACK_ID, id: FORUM.id, name: FORUM.name, file: join(pack, FORUM.file), tier: FORUM.tier,
-      own_pack: false, filing_profile: null, obtain: half.obtain,
+      own_pack: false, filing_profile: 'new-york-supreme-court', obtain: half.obtain,
     }, court);
     assert.equal(Object.hasOwn(result, 'governing_law'), false, court);
     assert.deepEqual(result.invalid_packs, [], court);
@@ -167,7 +167,7 @@ for (const court of [
     const result = command(TOOL, 'lookup', '--court', court);
     assert.deepEqual(result.forum, {
       pack: PACK_ID, id: FORUM.id, name: FORUM.name, file, tier: FORUM.tier,
-      own_pack: false, filing_profile: null, obtain: half.obtain,
+      own_pack: false, filing_profile: 'new-york-supreme-court', obtain: half.obtain,
     });
     assert.ok(result.forum.obtain.some(item => item.includes('Commercial Division') && item.includes('Rule 17')));
     assert.equal(Object.hasOwn(result, 'governing_law'), false);
@@ -261,7 +261,7 @@ test('a fictional New York matter retains claim law, its Rules home and an unres
   ].join('\n'));
   const result = command(tool, 'resolve', '--matter', matter);
   assert.equal(result.forum.pack, PACK_ID);
-  assert.equal(result.forum.filing_profile, null);
+  assert.equal(result.forum.filing_profile, 'new-york-supreme-court');
   assert.equal(result.declaration['Filing profile'].value, 'pending');
   assert.deepEqual(result.matter_records, [{ path: rules, exists: true }]);
   assert.equal(result.governing_law[0].pack, 'colorado');

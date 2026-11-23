@@ -104,7 +104,7 @@
     "notes": [
       "The mechanical word check includes all supplied Markdown, including tables of contents and authorities. Generated caption, signature and certification text are outside the body count.",
       "This profile covers counsel-filed computer-prepared ordinary assigned civil motion papers submitted through NYSCEF. Review the assigned part and record for eligibility. Separate service proof or a required good-faith affirmation holds this profile.",
-      "The renderer does not generate navigation bookmarks. Above 4,500 words, the available PDF inspection can read outline titles and destination pages but cannot establish exact internal destinations. Hold for sourced unprofiled production and independent PDF verification."
+      "The renderer does not generate navigation bookmarks. Above 4,500 measured whole-paper words, the available PDF inspection can read outline titles and destination pages but cannot establish exact internal destinations. Hold for sourced unprofiled production and independent PDF verification."
     ],
     "double_spacing": {
       "citation": "22 NYCRR § 202.5(a)(1)",
@@ -141,7 +141,7 @@
   "filing_packets": {},
   "document_types": {
     "reply-memorandum": {
-      "title_pattern": "(?:(?:Plaintiffs?|Defendants?)(?:[\\x27’]s|s?[\\x27’]) )?(?:Reply(?: (?:Memorandum(?: of Law)?|Brief))?(?: in (?:further )?support(?: of .+)?| (?:to|on) .+)?|(?:Memorandum(?: of Law)?|Brief)(?: in Reply(?: (?:to|on|in) .+)?| in Further Support(?: of .+)?))",
+      "title_pattern": "(?:(?:Plaintiffs?|Defendants?)(?:[\\x27’]s|s?[\\x27’]) )?(?:Reply(?: (?:Memorandum(?: of Law)?|Brief))?(?: in (?:further )?support(?: of (?!.*(?<![\\p{L}\\p{N}])(?:sur)?repl(?:y|ies)(?![\\p{L}\\p{N}])).+)?| (?:to|on) (?!.*(?<![\\p{L}\\p{N}])(?:sur)?repl(?:y|ies)(?![\\p{L}\\p{N}])).+)?|(?:Memorandum(?: of Law)?|Brief)(?: in Reply(?: (?:to|on|in) (?!.*(?<![\\p{L}\\p{N}])(?:sur)?repl(?:y|ies)(?![\\p{L}\\p{N}])).+)?| in Further Support(?: of (?!.*(?<![\\p{L}\\p{N}])(?:sur)?repl(?:y|ies)(?![\\p{L}\\p{N}])).+)?))",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,
@@ -159,7 +159,7 @@
       ]
     },
     "memorandum-of-law": {
-      "title_pattern": "(?:(?:Plaintiffs?|Defendants?)(?:[\\x27’]s|s?[\\x27’]) )?(?:(?:Memorandum(?: of Law)?|Brief)(?: (?:in (?:Support|Opposition|Response)(?: (?:of|to) .+)?|Opposing .+|Supporting .+|(?:for|on) .+))?|(?:Opposition|Response) to .+|(?:Memorandum(?: of Law)?|Brief) in Support of Cross[- ]Motion and in Opposition to .+)",
+      "title_pattern": "(?!.*(?<![\\p{L}\\p{N}])(?:(?:sur)?repl(?:y|ies)|in\\s+further\\s+support)(?![\\p{L}\\p{N}]))(?:(?:Plaintiffs?|Defendants?)(?:[\\x27’]s|s?[\\x27’]) )?(?:(?:Memorandum(?: of Law)?|Brief)(?: (?:in (?:Support|Opposition|Response)(?: (?:of|to) .+)?|Opposing .+|Supporting .+|(?:for|on) .+))?|(?:Opposition|Response) to .+|(?:Memorandum(?: of Law)?|Brief) in Support of Cross[- ]Motion and in Opposition to .+)",
       "filer_signature": true,
       "certificate": true,
       "judicial_closing": false,

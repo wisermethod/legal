@@ -1,6 +1,6 @@
-import { canonicalBody, normalize, printedBodyText } from './body-text-core.js';
+import { canonicalBody, normalize, printedBodyText, wordCount } from './body-text-core.js';
 import {
-  against, certificateHeading, certificateLines, columnGap, indexLabel, judgeLabel, noticeIntro, noticeOptions,
+  against, certificateHeading, certificateLines, columnGap, indexLabel, judgeLabel, noticeIntro, noticeOptions, noticeProcedureIssue,
   oralArgument, partyName, partyRole, partyWidth, recipientLines, roleInset, signerLines, validNoticeBody,
 } from './new-york-compose-core.js';
 import { courtLines, noticeType } from './new-york-schema-core.js';
@@ -113,11 +113,12 @@ export function newYorkClosing({ caption, prepared, treatment, remainder, bodyPa
       certificateAt === remainder.length - finalPage.length && finalPage[0] === certificateHeading &&
       blockEnd(finalPage, 0, expected) === finalPage.length, 'The matching certificate occupies the final PDF page by itself.');
   } else {
+    const issue = noticeProcedureIssue(caption, prepared);
     const options = noticeOptions(caption);
     const optionsAt = remainder.findLastIndex(line => line.startsWith('The above-entitled action is for '));
-    check('Notice relief, grounds and conditional fields', validNoticeBody(prepared) && optionsAt >= 0 &&
+    check('Notice relief, grounds and conditional fields', !issue && validNoticeBody(prepared) && optionsAt >= 0 &&
       blockEnd(remainder, optionsAt, options) === signerAt,
-    'Relief and grounds in the bound body, followed by the action description and applicable notice fields.');
+    issue ?? 'Relief and grounds in the bound body, followed by the action description and applicable notice fields.');
     const recipients = caption.service.recipients.flatMap(entry => recipientLines(caption, entry));
     check('Notice recipients', signerEnd > 0 && blockEnd(remainder, signerEnd, recipients) === remainder.length,
       'Exact notice recipient names, roles and contact details following the filer.');
@@ -177,25 +178,31 @@ function bookmarkTargets(prepared, bodyLines) {
   });
 }
 
-function checkBookmarks({ prepared, caption, info, typography, spacingBound, bodyLines, add }) {
+function checkBookmarks({ prepared, caption, info, positioned, spacingBound, bodyLines, add }, xml) {
   const label = 'Electronic navigational bookmarks';
-  if (isNotice(caption) || prepared.bodyWords <= 4500 && !spacingBound) {
-    add(label, isNotice(caption) ? 'not_applicable' : 'not_checked', isNotice(caption) ?
-      'Section 202.5(a)(2) does not list a notice of motion.' : 'The printed body must match before applying the 4,500-word threshold.');
+  if (isNotice(caption)) {
+    add(label, 'not_applicable', 'Section 202.5(a)(2) does not list a notice of motion.');
     return;
   }
-  if (prepared.bodyWords <= 4500) {
-    add(label, 'not_applicable', 'The bound electronic memorandum has no more than 4,500 words in the supplied body.');
+  // Count every positioned page, including caption, closing blocks and running text.
+  const pages = positioned?.map(page => normalize(page.lines.map(lineText).join(' ')));
+  const wholePaperWords = pages?.reduce((count, page) => count + wordCount(page), 0);
+  if (!spacingBound || !info || info.active || !pages?.length || pages.length !== info.count ||
+      pages.some(page => !page || page.includes('\uFFFD')) || wholePaperWords <= wordCount(prepared.bodyText) ||
+      !/<\/pdf2xml>\s*$/u.test(xml ?? '')) {
+    add(label, 'not_checked', 'The 4,500-word threshold needs a matching printed body and usable whole-paper PDF text and typography.');
     return;
   }
-  const xml = typography && new TextDecoder().decode(typography);
-  if (!spacingBound || !info || info.active || !/<\/pdf2xml>\s*$/u.test(xml ?? '')) {
-    add(label, 'not_checked', 'A bound electronic memorandum over 4,500 words needs usable outline evidence from the submitted PDF.');
+  const report = (status, detail) => add(label, status,
+    wholePaperWords + ' whole-paper words measured in the submitted PDF, including caption, closing blocks and running text. ' + detail,
+    { wholePaperWords });
+  if (wholePaperWords <= 4500) {
+    report('not_applicable', 'The paper does not exceed 4,500 words.');
     return;
   }
   const outline = /<outline>([\s\S]*)<\/outline>/u.exec(xml)?.[1];
   if (!outline?.includes('<item')) {
-    add(label, 'fail', 'No navigational outline items in the submitted electronic memorandum over 4,500 words.');
+    report('fail', 'No navigational outline items in the submitted electronic memorandum over 4,500 words.');
     return;
   }
   const targets = bookmarkTargets(prepared, bodyLines);
@@ -204,10 +211,10 @@ function checkBookmarks({ prepared, caption, info, typography, spacingBound, bod
       targets.some(({ title, page }) => !items.some(([, destination, item]) =>
         Number(destination) === page && normalize(printedBodyText(item)) === title)) ||
       items.some(([, destination]) => !destination || Number(destination) < 1 || Number(destination) > info.count)) {
-    add(label, 'fail', 'The PDF outline must resolve to the pages containing the memorandum section titles.');
+    report('fail', 'The PDF outline must resolve to the pages containing the memorandum section titles.');
     return;
   }
-  add(label, 'not_checked', 'Poppler reports outline titles and page numbers only. It cannot prove the submitted PDF’s internal action and destination geometry. Use the sourced unprofiled route with independently verified bookmarks.');
+  report('not_checked', 'Poppler reports outline titles and page numbers only. It cannot prove the submitted PDF’s internal action and destination geometry. Use the sourced unprofiled route with independently verified bookmarks.');
 }
 
 export function newYorkPdfEvidence(context) {
@@ -218,7 +225,8 @@ export function newYorkPdfEvidence(context) {
     near(bounds.y, positioned[index].bounds.bottom - 88, 3) && bounds.bottom <= positioned[index].bounds.bottom - 72));
   add('Footer inside one-inch page boundary', !known ? 'not_checked' : withinBoundary ? 'pass' : 'fail',
     'The positioned footer is at the top of the bottom margin box and inside the one-inch page boundary.');
-  const colors = typography && [...new TextDecoder().decode(typography).matchAll(/<fontspec\b[^>]* color="(#[0-9a-f]+)"/gu)];
+  const xml = typography && new TextDecoder().decode(typography);
+  const colors = xml && [...xml.matchAll(/<fontspec\b[^>]* color="(#[0-9a-f]+)"/gu)];
   add('Black filing type', !colors?.length ? 'not_checked' : colors.every(([, color]) => color === '#000000') ? 'pass' : 'fail',
     'The measured PDF type is black under CPLR 2101(a).');
   add('Service proof treatment', caption.service.method === 'nyscef' ? 'advisory' : 'not_checked',
@@ -230,5 +238,5 @@ export function newYorkPdfEvidence(context) {
       'Section 202.7 requires an applicable good-faith affirmation. This profile cannot inspect or annex it.');
   }
   add('Counsel completion', 'advisory', 'The composed signature and date lines are blank for filing counsel. Confirm the actual signing, dates and any count certification before release.');
-  checkBookmarks(context);
+  checkBookmarks(context, xml);
 }

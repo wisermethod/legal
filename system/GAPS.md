@@ -91,9 +91,9 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Court Filing](../tools/Court%20Filing/TOOL.md)
 
-- Caption layouts ship for Colorado district courts and supported civil papers in the Southern District of New York. A paper without a compatible profile follows the unprofiled route.
+- Caption layouts ship for Colorado district courts, supported civil papers in the Southern District of New York, and eligible New York State Supreme Court motion papers. A paper without a compatible profile follows the unprofiled route.
 - The S.D.N.Y. word-count check includes any index, table of contents or table of authorities supplied in the body. A brief that fits only after the rule’s exclusions needs a separately checked count and certificate on the sourced unprofiled route.
-- The New York Supreme Court profile covers the ordinary civil motion papers described below that can be verified with the available PDF evidence. Electronic memoranda over 4,500 words require independently verified bookmarks on the sourced unprofiled route.
+- The New York Supreme Court profile covers the ordinary civil motion papers described below that can be verified with the available PDF evidence. Electronic memoranda over 4,500 whole-paper words require independently verified bookmarks on the sourced unprofiled route, subject to the court’s direction.
 
 ### [Jurisdictions](../tools/Jurisdictions/TOOL.md)
 

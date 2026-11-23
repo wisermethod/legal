@@ -76,6 +76,15 @@ export function validNoticeBody(prepared) {
     });
 }
 
+export function noticeProcedureIssue(caption, prepared) {
+  const outside = /\b(?:child support|interim maintenance|temporary restraining orders?|tros?|ex parte|orders? to show cause|commercial division)\b/iu;
+  const conferral = /\b(?:disclosures?|bills? of particulars)\b/iu;
+  const text = normalize((caption.title + ' ' + prepared.bodyText).replace(/[\p{P}\p{S}]+/gu, ' '));
+  const trigger = outside.exec(text) ?? (caption.motion.procedure === 'ordinary' ? conferral.exec(text) : null);
+  return trigger && 'The New York notice contains “' + trigger[0] +
+    '”, which conflicts with the profile or declared procedure. Use the sourced unprofiled route with the applicable form and proof.';
+}
+
 function css(layout, replay) {
   return `
   @page {
@@ -121,8 +130,12 @@ function css(layout, replay) {
 const paragraphs = lines => lines.map(line => '<p>' + esc(line) + '</p>').join('\n');
 export function newYorkHtml({ caption, layout, prepared, treatment, presentation, replay }) {
   const isNotice = caption.document_type === noticeType;
-  if (isNotice && !validNoticeBody(prepared)) {
-    throw new Error('New York notice Markdown must contain two paragraphs beginning “Relief requested:” and “Grounds:”.');
+  if (isNotice) {
+    if (!validNoticeBody(prepared)) {
+      throw new Error('New York notice Markdown must contain two paragraphs beginning “Relief requested:” and “Grounds:”.');
+    }
+    const issue = noticeProcedureIssue(caption, prepared);
+    if (issue) throw new Error(issue);
   }
   const split = caption.parties.findIndex(party => party.role === 'Defendant');
   const parties = caption.parties.map((party, i) => (i === split ? '<p>' + against + '</p>' : '') +

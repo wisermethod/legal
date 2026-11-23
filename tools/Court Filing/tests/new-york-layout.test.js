@@ -1,12 +1,17 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
+import { Marked } from 'marked';
 import { PDFDocument, PDFHexString, PDFName } from 'pdf-lib';
+import { parseFilingMarkdown, prepareBody } from '../scripts/compose-core.js';
 import { inspect } from '../scripts/court-filing.js';
+import { getLayout } from '../scripts/layout-index-core.js';
 import { resolveLimits, suggestTypes, validateCaption, validateProfile } from '../scripts/schema-core.js';
+import { validate } from '../scripts/validate-core.js';
 import {
   assertChecks, expectFailedMutations, invokeCli, layoutFixture, pdfTest, statuses, temp, validatePrintedFixture,
 } from './layout-fixtures.mjs';
@@ -110,6 +115,56 @@ test('New York only classifies covered motion papers and retains stricter word t
   assert.equal(resolveLimits(profile, cross).words, 4200);
   cross.title = 'Reply in Further Support of Defendant’s Cross-Motion';
   assert.throws(() => validateCaption(cross, profile), /motion\.posture/);
+});
+
+pdfTest('New York refuses ambiguous or sur-reply titles in classification, compose and independent validation', t => {
+  const cwd = temp(t);
+  const source = wordFixture(4201);
+  const allowed = ny.caption();
+  const filing = ny.build(cwd, 'old-memorandum', allowed, source, id);
+  const title = 'Memorandum of Law in Support of Reply';
+  const pdf = filing.renderPdf('ambiguous-title', html => html.replace(allowed.title, title));
+  const captionPath = join(cwd, 'old-memorandum.json');
+  writeFileSync(captionPath, JSON.stringify(ny.caption({ title })));
+  const args = ['--profile', id, '--caption', captionPath, '--body', join(cwd, 'old-memorandum.md')];
+  const old = invokeCli(['validate', ...args, '--pdf', pdf, '--body-sha256', sha256(source)], cwd);
+  assert.equal(old.status, 1, 'An existing 4,201-word PDF with a reply-shaped title must be refused');
+  assert.match(old.stderr, /sourced unprofiled route/iu);
+  assert.throws(() => validatePrintedFixture(pdf, source)(ny.caption({ title }), ny.load()), /sourced unprofiled route/iu);
+
+  const profilePath = fileURLToPath(new URL('../profiles/' + file, import.meta.url));
+  const copyPath = join(cwd, 'profile-copy.json');
+  writeFileSync(copyPath, readFileSync(profilePath));
+  const out = join(cwd, 'must-stay-unwritten.html');
+  for (const [candidate, type] of [
+    [title, 'memorandum-of-law'], ["Response to Plaintiff's Reply", 'memorandum-of-law'],
+    ['RESPONSE to Plaintiff’s “REPLY.”', 'memorandum-of-law'],
+    ['Response to Plaintiff’s _Reply_', 'memorandum-of-law'],
+    ['Brief in Support of Sur‑Reply', 'memorandum-of-law'],
+    ['Reply to Plaintiff’s Reply', 'reply-memorandum'],
+    ['Memorandum of Law in Reply to a Surreply', 'reply-memorandum'],
+  ]) {
+    const caption = ny.caption({ title: candidate, document_type: type });
+    const confirmed = { ...caption, type_confirmed: { title: candidate, document_type: type } };
+    assert.deepEqual(suggestTypes(ny.load(), candidate), [], candidate);
+    assert.throws(() => ny.composeMock(confirmed), /sourced unprofiled route/iu, candidate);
+    const classify = invokeCli(['classify', '--profile', copyPath, '--title', candidate], cwd);
+    assert.equal(classify.status, 0, classify.stderr);
+    assert.deepEqual(JSON.parse(classify.stdout).suggestions, [], candidate);
+    for (const [input, flags] of [[confirmed, []], [caption, ['--replay']]]) {
+      writeFileSync(captionPath, JSON.stringify(input));
+      const compose = invokeCli(['compose', '--profile', copyPath, ...args.slice(2), '--out', out, ...flags], cwd);
+      assert.equal(compose.status, 1, compose.stderr);
+      assert.match(compose.stderr, /sourced unprofiled route/iu);
+      assert.equal(existsSync(out), false);
+    }
+  }
+  const widened = ny.load();
+  widened.document_types['memorandum-of-law'].title_pattern = '.+';
+  writeFileSync(copyPath, JSON.stringify(widened));
+  const classify = invokeCli(['classify', '--profile', copyPath, '--title', title], cwd);
+  assert.equal(classify.status, 1);
+  assert.match(classify.stderr, /approved New York layout treatment/);
 });
 
 test('New York source-bearing fields and layout rules are closed against waivers', () => {
@@ -224,6 +279,44 @@ pdfTest('New York reply and notice render by absolute profile path from outside 
   assertChecks(disclosure, ['Good-faith affirmation'], 'not_checked');
 });
 
+pdfTest('New York notice refuses known specialist text before writing and fails an existing PDF with ordinary options', t => {
+  const cwd = temp(t);
+  const neutral = 'Relief requested: A schedule.\n\nGrounds: The parties need a date.';
+  const specialized = 'Relief requested: An order of interim child support.\n\n' +
+    'Grounds: The motion seeks disclosure and a temporary restraining order.';
+  const filing = ny.build(cwd, 'old-notice', notice(), neutral, id);
+  const pdf = filing.renderPdf('specialized', html => html
+    .replace(sha256(neutral), sha256(specialized))
+    .replace('A schedule.', 'An order of interim child support.')
+    .replace('The parties need a date.', 'The motion seeks disclosure and a temporary restraining order.'));
+  const bodyPath = join(cwd, 'old-notice.md');
+  const args = ['--profile', id, '--caption', join(cwd, 'old-notice.json'), '--body', bodyPath];
+  writeFileSync(bodyPath, specialized);
+  const cli = invokeCli(['validate', ...args, '--pdf', pdf, '--body-sha256', sha256(specialized)], cwd);
+  assert.equal(cli.status, 1, 'An old PDF with contradictory text and ordinary form treatment must fail');
+  const direct = validatePrintedFixture(pdf, specialized)(notice(), ny.load());
+  for (const receipt of [JSON.parse(cli.stderr), direct]) {
+    assert.equal(receipt.ok, false);
+    assertChecks(receipt, ['Printed PDF body matches composition'], 'pass');
+    assertChecks(receipt, ['Notice relief, grounds and conditional fields'], 'fail');
+  }
+  const out = join(cwd, 'must-stay-unwritten.html');
+  for (const trigger of ['child **support**', 'INTERIM MAINTENANCE', 'disclosure', 'a bill of particulars',
+    'temporary restraining order', 'ex parte', 'a TRO', 'ex‑parte']) {
+    for (const label of ['Relief requested:', 'Grounds:']) {
+      const body = neutral.replace(label, label + ' The motion concerns ' + trigger + '.');
+      assert.throws(() => ny.composeMock(notice(), ny.load(), body), /sourced unprofiled route/iu, trigger);
+      writeFileSync(bodyPath, body);
+      const run = invokeCli(['compose', ...args, '--out', out], cwd);
+      assert.equal(run.status, 1, trigger);
+      assert.match(run.stderr, /sourced unprofiled route/iu);
+      assert.equal(existsSync(out), false);
+    }
+  }
+});
+
+const sha256 = text => createHash('sha256').update(text).digest('hex');
+
 function wordFixture(count) {
   const numbered = Array.from({ length: count - 4 }, (_, i) => 'record' + (i + 1));
   const paragraphs = words => Array.from({ length: Math.ceil(words.length / 60) }, (_, i) =>
@@ -251,13 +344,49 @@ async function addOutline(pdf, output, { headingPage, target = 'correct' }) {
   writeFileSync(output, await doc.save());
 }
 
-pdfTest('New York bookmark rule holds actual electronic PDFs at 4,501 words, with a real outline control', async t => {
+pdfTest('New York bookmark rule measures the whole bound PDF and holds above the actual 4,500-word boundary', async t => {
   const cwd = temp(t);
   const cap = ny.caption();
-  const boundary = ny.build(cwd, 'exact', cap, wordFixture(4500), id);
-  const at = boundary.check(boundary.renderPdf('pdf'));
-  assert.equal(at.pdfBodyWords, 4500);
-  assertChecks(at, ['Electronic navigational bookmarks'], 'not_applicable');
+  const label = 'Electronic navigational bookmarks';
+  const bookmark = receipt => receipt.checks.find(check => check.label === label);
+  const log = (fixture, receipt) => t.diagnostic(JSON.stringify({
+    fixture, pdfSha256: receipt.pdfSha256, pdfBodyWords: receipt.pdfBodyWords, bookmark: bookmark(receipt),
+  }));
+  const bound = ny.build(cwd, 'body-4500', cap, wordFixture(4500), id);
+  const boundPdf = bound.renderPdf('pdf');
+  const boundReceipt = bound.check(boundPdf, 1);
+  assert.equal(boundReceipt.pdfBodyWords, 4500);
+  assertChecks(boundReceipt, [label], 'fail');
+  log('4500 body', boundReceipt);
+  const positionedTokens = pdf => inspect('positioned-text', readFileSync(pdf)).bytes.toString().split('\n')
+    .filter(row => row.startsWith('5\t')).reduce((count, row) => count + row.split('\t').at(-1).trim().split(/\s+/u).length, 0);
+  const pilotBodyWords = 4500 - (positionedTokens(boundPdf) - 4500);
+  const pilot = ny.build(cwd, 'pilot', cap, wordFixture(pilotBodyWords), id);
+  // Measure at the boundary too, since shortening the body can remove a running footer.
+  const overhead = positionedTokens(pilot.renderPdf('pdf')) - pilotBodyWords;
+  assert.ok(overhead > 0);
+  for (const count of [4499, 4500, 4501]) {
+    const source = wordFixture(count - overhead);
+    const edge = ny.build(cwd, 'whole-' + count, cap, source, id);
+    const pdf = edge.renderPdf('pdf');
+    assert.equal(positionedTokens(pdf), count, 'Fixture must hit the actual whole PDF boundary');
+    const receipt = edge.check(pdf, count > 4500 ? 1 : 0);
+    assertChecks(receipt, [label], count > 4500 ? 'fail' : 'not_applicable');
+    assert.equal(bookmark(receipt).counts.wholePaperWords, count);
+    log(count + ' whole paper', receipt);
+    if (count === 4500) {
+      const profile = ny.load();
+      const marked = new Marked({ gfm: true });
+      const prepared = prepareBody(source, profile.document_types[cap.document_type],
+        body => parseFilingMarkdown(marked, body), sha256, undefined, getLayout(profile.renderer_profile));
+      for (const missing of ['positioned-text', 'typography']) {
+        const held = validate({ pdf: readFileSync(pdf), caption: cap, profile, prepared },
+          (kind, bytes, page) => kind === missing ? null : inspect(kind, bytes, page).bytes);
+        assert.equal(held.ok, false);
+        assertChecks(held, [label], 'not_checked', missing);
+      }
+    }
+  }
 
   const above = ny.build(cwd, 'above', cap, wordFixture(4501), id);
   const pdf = above.renderPdf('pdf');
@@ -265,6 +394,7 @@ pdfTest('New York bookmark rule holds actual electronic PDFs at 4,501 words, wit
   assert.equal(absent.pdfBodyWords, 4501);
   assertChecks(absent, ['Within word limit (7000)', 'Word-count certificate present'], 'pass');
   assertChecks(absent, ['Electronic navigational bookmarks'], 'fail');
+  log('4501 body', absent);
   const raw = inspect('text', readFileSync(pdf)).bytes.toString();
   const headingPage = raw.split('\f').findIndex(page => page.includes('Proposed Schedule')) + 1;
   assert.ok(headingPage > 1);
@@ -275,6 +405,7 @@ pdfTest('New York bookmark rule holds actual electronic PDFs at 4,501 words, wit
     const receipt = above.check(outlined, 1);
     assertChecks(receipt, ['Printed PDF body matches composition', 'Word-count certificate present'], 'pass');
     assertChecks(receipt, ['Electronic navigational bookmarks'], ['correct', 'off-page'].includes(target) ? 'not_checked' : 'fail');
+    log(target, receipt);
     evidence[target] = inspect('typography', readFileSync(outlined)).bytes.toString().match(/<outline>[\s\S]+<\/outline>/u)?.[0];
   }
   assert.match(evidence.correct, /Proposed Schedule/);
