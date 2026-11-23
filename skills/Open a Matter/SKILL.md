@@ -3,7 +3,7 @@ name: Open a Matter
 type: skill
 category: procedure
 description: Set up a matter's project record and prepare a new civil case packet through filing, service and deadline seeding for courts covered by the skill's initiation route
-version: 0.4.12
+version: 0.4.13
 gaps:
   - The full civil initiation route currently has pack coverage for Colorado district court.
   - Current forms, fees and payment or waiver requirements need confirmation from the court when the forum file leaves them open.

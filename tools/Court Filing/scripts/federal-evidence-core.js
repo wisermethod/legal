@@ -100,8 +100,8 @@ export function federalClosing({ caption, prepared, treatment, remainder, extrac
     if (end > 0) cursor = end;
   }
   if (caption.service.method === 'electronic-filing') {
-    check('Certificate of service absent', !/(?:^|\n)\s*CERTIFICATE\s*OF\s*SERVICE\s*(?:\n|$)/iu.test(extracted),
-      'Service is through the court’s electronic-filing system.');
+    check('Certificate of service absent', !/^[ \t]*CERTIFICATE\s+OF\s+SERVICE[ \t]*(?:[.:](?=[ \t]|$)|$)/imu.test(extracted),
+      'The profile omits a service certificate for service through the court’s electronic-filing system.');
   } else {
     let at = skip(cursor, serviceHeading);
     for (const recipient of caption.service.recipients) {

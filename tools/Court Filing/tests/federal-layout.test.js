@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import { existsSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { test } from 'node:test';
-import { resolveLimits, validateProfile } from '../scripts/schema-core.js';
+import { resolveLimits, suggestTypes, validateProfile } from '../scripts/schema-core.js';
 import { getLayout } from '../scripts/layout-index-core.js';
 import {
   assertChecks, expectFailedMutations, invokeCli, layoutFixture, markdown, pdfTest, replaceField,
@@ -10,6 +11,7 @@ import {
 } from './layout-fixtures.mjs';
 
 const { load, caption: fictionalCaption, composeMock, build } = layoutFixture('federal-district-sdny.json');
+const longBrief = Array(90).fill(Array(100).fill('record').join(' ')).join('\n\n');
 
 test('federal schema admits a sourced word-only fallback and leaves Colorado page treatment in place', () => {
   const profile = load();
@@ -55,11 +57,132 @@ pdfTest('federal memorandum validates from outside the tool with an absolute pro
   assert.doesNotMatch(filed.html, /COURT USE ONLY|Division:|Case No:|a true and correct copy of the foregoing/i);
 });
 
+pdfTest('the printed compliance certificate counts the full body including front matter', t => {
+  const body = '## Index\n\nExample entries\n\n## Table of Contents\n\nArgument appears below\n\n' +
+    '## Table of Authorities\n\nExample v. Sample, 1 Fictional 2.\n\n## Argument\n\n' +
+    'The fictional record supports the requested relief.';
+  const filed = build(temp(t), 'front-matter', fictionalCaption(), body);
+  const pdf = filed.renderPdf('inclusive');
+  const checked = filed.check(pdf);
+  assert.equal(checked.bodyWords, 26);
+  assert.equal(checked.pdfBodyWords, 26);
+  assertChecks(checked, [
+    'Composed body SHA-256', 'Printed PDF body matches composition',
+    'Within word limit (8750)', 'Word-count certificate present',
+  ], 'pass');
+  const printed = execFileSync('pdftotext', ['-raw', pdf, '-'], { encoding: 'utf8' }).replace(/\s+/gu, ' ');
+  assert.match(printed, /I certify that this brief complies with the applicable word-count limit under Local Civil Rule 7\.1\(c\) and that its body contains 26 words, including any index, table of contents or table of authorities in the body\./u);
+});
+
+pdfTest('9,000-word support and opposition briefs retain the cap and certificate', t => {
+  const directory = temp(t);
+  const profile = join(directory, 'sdny.json');
+  writeFileSync(profile, JSON.stringify(load()));
+  const memorandum = 'memorandum-of-law';
+  const titles = ["Brief in Support of Defendant's Motion to Dismiss", 'Memorandum in Opposition to the Motion'];
+  for (const [index, title] of titles.entries()) {
+    const name = 'brief-' + index;
+    const caption = fictionalCaption({ title, document_type: memorandum, service: { method: 'electronic-filing' } });
+    const filed = build(directory, name, caption, longBrief, profile);
+    const pdf = filed.renderPdf('over-limit');
+    const checked = filed.check(pdf, 1);
+    assert.equal(checked.bodyWords, 9000);
+    assert.equal(checked.pdfBodyWords, 9000);
+    assert.equal(checked.limits.preset, 'memorandum-words');
+    assertChecks(checked, ['Word-count certificate present', 'Printed PDF body matches composition'], 'pass');
+    assertChecks(checked, ['Within word limit (8750)'], 'fail');
+
+    const classify = invokeCli(['classify', '--profile', profile, '--title', title], directory);
+    assert.equal(classify.status, 0, classify.stderr);
+    assert.equal(JSON.parse(classify.stdout).suggestions[0], memorandum);
+    for (const document_type of ['other-paper', 'notice-of-motion']) {
+      const stem = join(directory, name + '-' + document_type);
+      for (const confirmed of [false, true]) {
+        const candidate = { ...caption, document_type };
+        if (confirmed) candidate.type_confirmed = { title, document_type };
+        writeFileSync(stem + '.json', JSON.stringify(candidate));
+        const result = invokeCli(['compose', '--profile', profile, '--caption', stem + '.json',
+          '--body', join(directory, name + '.md'), '--out', stem + '.html'], directory);
+        assert.equal(result.status, 1, result.stdout);
+        assert.match(result.stderr, /matching type\(s\) memorandum-of-law.*matching federal type/u);
+        assert.equal(existsSync(stem + '.html'), false);
+      }
+    }
+
+    const document_type = index === 0 ? 'other-paper' : 'notice-of-motion';
+    const formerlyUncapped = filed.renderPdf('without-certificate', html =>
+      html.replace(/<section class="cert compliance">[\s\S]*?<\/section>/u, ''));
+    const result = invokeCli(['validate', '--profile', profile,
+      '--caption', join(directory, name + '-' + document_type + '.json'),
+      '--body', join(directory, name + '.md'), '--body-sha256', checked.bodySha256, '--pdf', formerlyUncapped], directory);
+    assert.equal(result.status, 1, result.stdout);
+    const refused = JSON.parse(result.stderr);
+    assert.equal(refused.pdfBodyWords, 9000);
+    assertChecks(refused, ['Printed PDF body matches composition'], 'pass');
+    assertChecks(refused, ['Document type confirmation'], 'fail');
+  }
+});
+
+test('support and response title variants resolve to the memorandum while replies keep their own type', () => {
+  const profile = load();
+  for (const title of [
+    'Brief in Opposition to the Motion', 'Memorandum in Support of the Motion',
+    'Brief in Response to the Motion', 'Memorandum in Response to the Motion',
+  ]) {
+    assert.deepEqual(suggestTypes(profile, title), ['memorandum-of-law', 'other-paper'], title);
+  }
+  for (const title of ['Reply Brief in Support of the Motion', 'Brief in Reply on the Motion', 'Memorandum in Reply']) {
+    assert.deepEqual(suggestTypes(profile, title), ['reply-memorandum', 'other-paper'], title);
+  }
+});
+
+pdfTest('a reconsideration brief retains the default cap and records a sourced order ceiling', t => {
+  const source = 'Fictional order dated 2099-01-05, docket entry 12';
+  const caption = fictionalCaption({ title: 'Memorandum in Support of the Motion for Reconsideration' });
+  const frontMatter = Array(260).fill('entry').join(' ');
+  const argument = longBrief.split(/\s+/u).slice(0, 8736).join(' ');
+  const body = '## Table of Authorities\n\n' + frontMatter + '\n\n## Argument\n\n' + argument;
+  const filed = build(temp(t), 'reconsideration', caption, body);
+  const pdf = filed.renderPdf('long');
+  const held = filed.check(pdf, 1);
+  assert.equal(held.pdfBodyWords, 9000);
+  assert.equal(held.bodyWords, 9000);
+  assert.equal(held.limits.words, 8750);
+  assertChecks(held, ['Within word limit (8750)'], 'fail');
+  assertChecks(held, ['Word-count certificate present', 'Printed PDF body matches composition'], 'pass');
+  assert.throws(() => resolveLimits(load(), caption, { noLimit: true }), /not allowed/u);
+  assert.throws(() => resolveLimits(load(), caption, { orderWords: 9100 }), /--order-source/u);
+  const checked = filed.check(pdf, 0, ['--order-max-words', '9100', '--order-source', source]);
+  assert.equal(checked.limits.choice, 'order-maxima');
+  assert.deepEqual(checked.limits.order, { pages: null, words: 9100, source, aboveProfile: { words: 8750 } });
+  assertChecks(checked, ['Within word limit (9100, set by order)', 'Word-count certificate present'], 'pass');
+  assertChecks(checked, ['Order ceiling above profile (words)'], 'advisory');
+  assert.ok(checked.checks.find(({ label }) => label === 'Order ceiling above profile (words)').detail.includes(source));
+});
+
+pdfTest('electronic-filing validation detects punctuated service headings and allows inline discussion', t => {
+  const directory = temp(t);
+  const caption = fictionalCaption({ service: { method: 'electronic-filing' } });
+  const body = 'The fictional record supports the requested relief.\n\n';
+  const cases = [
+    ['period', 'CERTIFICATE OF SERVICE.', 'fail'],
+    ['colon', '## Certificate of Service:', 'fail'],
+    ['statement', 'CERTIFICATE OF SERVICE: served by email.', 'fail'],
+    ['inline', 'Rule 5 discusses a certificate of service: its treatment depends on the method.', 'pass'],
+  ];
+  for (const [name, text, status] of cases) {
+    const filed = build(directory, name, caption, body + text);
+    const checked = filed.check(filed.renderPdf('efile'), status === 'pass' ? 0 : 1);
+    assertChecks(checked, ['Certificate of service absent'], status);
+    assertChecks(checked, ['Printed PDF body matches composition', 'Federal closing ends the filing'], 'pass');
+  }
+});
+
 pdfTest('reply, notice, and general paper apply their own word limits and certificate treatment', t => {
   const directory = temp(t);
   const sample = fictionalCaption();
   const efile = { ...sample, service: { method: 'electronic-filing' } };
-  const reply = { ...efile, title: 'Reply Memorandum of Law', document_type: 'reply-memorandum' };
+  const reply = { ...efile, title: 'Reply Brief in Support of the Motion', document_type: 'reply-memorandum' };
   const overlyLong = Array(50).fill(Array(71).fill('record').join(' ')).join('\n\n');
   const builtReply = build(directory, 'reply', reply, overlyLong);
   const replyChecks = statuses(builtReply.check(builtReply.renderPdf('long'), 1));

@@ -91,6 +91,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 ### [Court Filing](../tools/Court%20Filing/TOOL.md)
 
 - Caption layouts ship for Colorado district courts and supported civil papers in the Southern District of New York. A paper without a compatible profile follows the unprofiled route.
+- The S.D.N.Y. word-count check includes any index, table of contents or table of authorities supplied in the body. A brief that fits only after the rule’s exclusions needs a separately checked count and certificate on the sourced unprofiled route.
 
 ### [Jurisdictions](../tools/Jurisdictions/TOOL.md)
 

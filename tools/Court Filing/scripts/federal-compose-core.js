@@ -17,9 +17,9 @@ export const partyName = party => party.name.toUpperCase().replace(/,$/u, '') + 
 export const partyRole = (party, defense) => party.role.replace(/[,.]$/u, '') + (defense ? '.' : ',');
 export const signerName = signer => signer.name + (signer.role ? ', ' + signer.role : '');
 export const contacts = signer => [...signer.address, signer.email, signer.telephone];
-export const complianceStatement = words => 'I certify that this memorandum of law contains ' + words +
-  ' words, not counting the caption, any index, table of contents, table of authorities, signature blocks or required certificates, ' +
-  'as counted by the word-processing program used to prepare it, and that it complies with the word-count limit of Local Civil Rule 7.1(c).';
+export const complianceStatement = words =>
+  'I certify that this brief complies with the applicable word-count limit under Local Civil Rule 7.1(c) and that its body contains ' +
+  words + ' words, including any index, table of contents or table of authorities in the body.';
 
 export function serviceStatement(caption, recipient, date = blankDate) {
   const { method } = caption.service;
