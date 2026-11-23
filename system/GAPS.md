@@ -25,7 +25,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 - Verified accrual analysis for a particular contract claim
 - Verified authority for general reliance damages as an alternative contract measure
 - Verified authority on whether the governing jurisdiction has adopted Hadley v. Baxendale by name
-- New York authority for general contract formation, interpretation, extrinsic evidence, breach accrual and additional damages doctrines beyond the pack’s selected statements remains open.
+- New York authority for general contract formation, interpretation, extrinsic evidence, breach accrual and additional damages doctrines beyond the pack’s selected statements remains open. Obtain the applicable text for CPLR 213-a and 214-i, UCC Article 2 and General Business Law Article 36-B before relying on the cited exceptions. Choices outside the covered commercial choice-of-law provision need their own authority.
 
 ### [Employment Law](../experts/Employment%20Law/EXPERT.md)
 

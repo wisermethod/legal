@@ -3,12 +3,12 @@ name: Contract Disputes
 type: expert
 category: practice-area
 description: Assess contract formation, breach, defenses, and remedies against the writing and the claim’s governing-law files, returning supported issues, holds, and the next litigation skill
-version: 0.2.5
+version: 0.2.6
 gaps:
   - Verified accrual analysis for a particular contract claim
   - Verified authority for general reliance damages as an alternative contract measure
   - Verified authority on whether the governing jurisdiction has adopted Hadley v. Baxendale by name
-  - New York authority for general contract formation, interpretation, extrinsic evidence, breach accrual and additional damages doctrines beyond the pack’s selected statements remains open.
+  - New York authority for general contract formation, interpretation, extrinsic evidence, breach accrual and additional damages doctrines beyond the pack’s selected statements remains open. Obtain the applicable text for CPLR 213-a and 214-i, UCC Article 2 and General Business Law Article 36-B before relying on the cited exceptions. Choices outside the covered commercial choice-of-law provision need their own authority.
 ---
 
 # Contract Disputes
