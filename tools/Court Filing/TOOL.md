@@ -6,7 +6,7 @@ description: Compose and check profiled court filings from Markdown and caption 
 version: 0.10.1
 runs: local
 gaps:
-  - "Current Colorado fees and fee-waiver form numbers need verification."
+  - "One caption layout ships, for Colorado district courts. A paper for any other court follows the unprofiled route."
 ---
 
 # Court Filing

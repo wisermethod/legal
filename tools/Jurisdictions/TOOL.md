@@ -13,7 +13,7 @@ gaps:
   - Colorado contract law [verify] topics include general reliance damages outside the sales code and whether Colorado adopted Hadley v. Baxendale by name.
   - Colorado employment law [verify] topics include owner liability and retaliation remedies under the 2025 wage amendments, the wage-claim administrative cap effective in 2026, the implied good-faith covenant in at-will employment, prevention of a compensation condition, individual arbitration and class or collective waivers, and mitigation of fixed severance.
   - The applicable 2025 and 2026 changes to Colorado court rules and fee statutes still need confirmation against official text. The enacted 2025 wage changes and the operative 2026 cap and its effective date remain unconfirmed.
-  - Colorado consumer and personal injury statements have no [verify] entries in the pack. Issues outside their sourced statements still require authority.
+  - Colorado consumer and personal injury law is covered only by the statements the pack holds. Any other issue in those areas still requires authority.
 ---
 
 # Jurisdictions
@@ -22,7 +22,7 @@ gaps:
 
 Apply the legal plugin's [Standing constraint](../../AGENTS.md#standing-constraint). Use a pack for sourced rules. Leave the application of those rules to the matter's facts to the person. The matter's own records take precedence over any pack.
 
-The shipped Colorado pack identifies district court, county court and small claims forums and four areas of state law. Its files contain no sourced statements yet.
+The shipped Colorado pack identifies district court, county court and small claims forums and four areas of state law. Each file holds sourced statements with their state and date read, and `validate` lists every `[verify]` statement as a gap.
 
 A matter's own packs live at `<matter folder>/jurisdictions/<pack-id>/`, in the shipped pack format. The matter folder holds the `AGENTS.md` passed to `--matter`. `resolve` returns the matter's records first, then looks for matches in the matter's packs, then in the shipped packs. A matter pack takes precedence over a shipped match for the forum or governing law.
 

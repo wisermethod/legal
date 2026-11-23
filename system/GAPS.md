@@ -90,7 +90,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Court Filing](../tools/Court%20Filing/TOOL.md)
 
-- Current Colorado fees and fee-waiver form numbers need verification.
+- One caption layout ships, for Colorado district courts. A paper for any other court follows the unprofiled route.
 
 ### [Jurisdictions](../tools/Jurisdictions/TOOL.md)
 
@@ -101,4 +101,4 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 - Colorado contract law [verify] topics include general reliance damages outside the sales code and whether Colorado adopted Hadley v. Baxendale by name.
 - Colorado employment law [verify] topics include owner liability and retaliation remedies under the 2025 wage amendments, the wage-claim administrative cap effective in 2026, the implied good-faith covenant in at-will employment, prevention of a compensation condition, individual arbitration and class or collective waivers, and mitigation of fixed severance.
 - The applicable 2025 and 2026 changes to Colorado court rules and fee statutes still need confirmation against official text. The enacted 2025 wage changes and the operative 2026 cap and its effective date remain unconfirmed.
-- Colorado consumer and personal injury statements have no [verify] entries in the pack. Issues outside their sourced statements still require authority.
+- Colorado consumer and personal injury law is covered only by the statements the pack holds. Any other issue in those areas still requires authority.
