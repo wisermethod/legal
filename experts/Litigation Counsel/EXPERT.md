@@ -3,10 +3,10 @@ name: Litigation Counsel
 type: expert
 category: litigation-procedure
 description: Sequence the shared litigation skills for the matter's posture and judge their results against the record, applicable practice-area guidance and filing gates
-version: 0.3.7
+version: 0.3.9
 gaps:
-  - No arbitration rules reference is shipped. Use the governing materials in the matter record.
-  - Federal courts and courts outside Colorado have no jurisdiction profile.
+  - Arbitration rule sets other than the shipped JAMS employment rules still need governing sources from the matter record.
+  - Courts without a compatible Colorado district or supported Southern District of New York profile need the unprofiled requirements check.
 ---
 
 # Litigation Counsel
@@ -92,7 +92,7 @@ For every `unset` hold, name the clause or the person's answer that would settle
 
 ### Which work can proceed using the record alone?
 
-Separate records-only and mechanical work from substantive and procedural judgments. On a records-only request, return `proceed` for the records-only scope with its sources and any local-only limitation. In preflight return to the calling skill. In route or review mode go directly to that mode’s steps, before any lens selection. For a mixed request, return that disposition separately and proceed to lens selection only for the dependent part. A records conflict holds the record-dependent assertion or change, and a missing rule holds only the step requiring that rule. Use the operative rules, agreements as applicable, notices and orders in the matter record. For arbitration, the plugin ships no rules reference. Keep the verified schedule, source inventory, chronology, correspondence and other independent work moving.
+Separate records-only and mechanical work from substantive and procedural judgments. On a records-only request, return `proceed` for the records-only scope with its sources and any local-only limitation. In preflight return to the calling skill. In route or review mode go directly to that mode’s steps, before any lens selection. For a mixed request, return that disposition separately and proceed to lens selection only for the dependent part. A records conflict holds the record-dependent assertion or change, and a missing rule holds only the step requiring that rule. Use the operative rules, agreements as applicable, notices and orders in the matter record. For an arbitration forum with no matching pack, the plugin ships no rules reference. Keep the verified schedule, source inventory, chronology, correspondence and other independent work moving.
 
 ### Which body of law controls the requested work?
 

@@ -3,7 +3,7 @@ name: Open a Matter
 type: skill
 category: procedure
 description: Set up a matter's project record and prepare a new civil case packet through filing, service and deadline seeding for courts covered by the skill's initiation route
-version: 0.4.11
+version: 0.4.14
 gaps:
   - The full civil initiation route currently has pack coverage for Colorado district court.
   - Current forms, fees and payment or waiver requirements need confirmation from the court when the forum file leaves them open.
@@ -62,7 +62,7 @@ Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Coun
 
 What court does the declaration name? For a new or changed declaration, ask Litigation Counsel for a current preflight finding based on that declaration before seeding. When planning a transfer, provide the proposed declaration as intake for the finding used in the plan. If `Court or forum` is missing, pending or conflicts with the controlling record, omit `## Working response periods` from a new copy and carry the gap or hold forward.
 
-Does the finding for the declared court name a forum file with answer, motion-response or discovery-response statements? If yes, use the template's `## Working response periods` table. Write one row for the declared court, using its name in the `Court` cell and each applicable statement in its subject cell. With each statement record its citation, URL when supplied, state and date read under [Forum procedure](../AGENTS.md#forum-procedure). Enter `pending` in a cell with no statement, name the court's own rule on that topic as the source to obtain, and keep the dependent date pending. When no working response statement is available, keep the template's `Federal court in Colorado` row verbatim only for the federal district court for Colorado. For every other court with no working response statements, omit the section and report the court's own response-period rules as the sources to obtain. A working row records sourced periods and their state. Put a due date in the deadline register only when the verified calculation and trigger support it.
+Does the finding for the declared court name a forum file with answer, motion-response or discovery-response statements? If yes, use the template's `## Working response periods` table. Write or update one row for the declared court, using its name in the `Court` cell. Keep each existing cell for that court when an applicable matter rule or order controls it; use the forum file's applicable statement for a cell the matter's rules and orders leave open. With each statement record its citation, URL when supplied, state and date read under [Forum procedure](../AGENTS.md#forum-procedure). If the file states no period for a cell, preserve its existing applicable sourced value for that same court. Where neither source supplies the period, enter `pending`, name the court's own rule on that topic as the source to obtain, and keep the dependent date pending. When no working response statement is available, preserve an existing applicable sourced row for the confirmed court; omit the section from a new copy and report the court's own response-period rules as the sources to obtain. Never carry a different court's periods into the declared court's row. A working row records sourced periods and their state. Put a due date in the deadline register only when the verified calculation and trigger support it.
 
 ### How does a matter keep its own rules set?
 

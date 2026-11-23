@@ -1,0 +1,105 @@
+{
+  "jurisdiction_id": "federal-district-sdny",
+  "display_name": "United States District Court, Southern District of New York",
+  "renderer_profile": "federal-district-ruled",
+  "availability": "explicit-path",
+  "court_match": ["^United States District Court(?: for the |, +)Southern District of New York$"],
+  "layout": {
+    "page_size": "Letter",
+    "page_size_verification": "working-default",
+    "margins_inches": { "top": 1, "right": 1, "bottom": 1, "left": 1 },
+    "body_font": "Times New Roman",
+    "body_font_size_pt": 12,
+    "body_line_height": 2,
+    "heading_line_height": 1,
+    "table_line_height": 2,
+    "footer": { "format": "{page}", "font": "Times New Roman", "size_pt": 12, "position": "center" },
+    "caption_style": "Centered two-line court name, dashed party rules ending in x, colon column and case number at right",
+    "caption_style_verification": "working-default",
+    "pdf_font_names": [
+      "TimesNewRomanPSMT",
+      "TimesNewRomanPS-BoldMT",
+      "TimesNewRomanPS-ItalicMT",
+      "TimesNewRomanPS-BoldItalicMT"
+    ]
+  },
+  "caption_defaults": {
+    "court": "United States District Court for the Southern District of New York",
+    "parties": [
+      { "role": "Plaintiff", "name": "Jane Example" },
+      { "role": "Defendant", "name": "Fictional Widgets, Inc." }
+    ],
+    "case_number": "1:99-cv-00000 (XYZ)",
+    "title": "Memorandum of Law in Support of Plaintiff's Motion to Compel",
+    "document_type": "memorandum-of-law",
+    "dated_at": "New York, New York",
+    "signer": {
+      "name": "Jane Example",
+      "role": "Plaintiff, pro se",
+      "address": ["100 Example Street, Apt. 1", "Example City, NY 10000"],
+      "email": "jane@example.invalid",
+      "telephone": "(555) 010-0000"
+    },
+    "service": {
+      "method": "email",
+      "recipients": [{
+        "counsel_for": "Fictional Widgets, Inc.",
+        "name": "Sam Counsel",
+        "emails": ["sam@example.invalid"]
+      }]
+    }
+  },
+  "validation": {
+    "limits": {
+      "memorandum-words": {
+        "unit": "words", "maximum": 8750,
+        "citation": "S.D.N.Y./E.D.N.Y. Local Civil Rule 7.1(c)", "verification": "recorded-in-source"
+      },
+      "reply-words": {
+        "unit": "words", "maximum": 3500,
+        "citation": "S.D.N.Y./E.D.N.Y. Local Civil Rule 7.1(c)", "verification": "recorded-in-source"
+      }
+    },
+    "exclusions": ["caption", "index", "table of contents", "table of authorities", "signature blocks", "required certificates"],
+    "notes": [
+      "The cited rules do not prescribe the paper size or caption drawing. Letter and the customary dashed caption are working defaults.",
+      "Times New Roman and the centered page number are layout choices. Local Civil Rule 7.1(b) sets a minimum type size and does not name a typeface.",
+      "This S.D.N.Y. formatting profile covers computer-prepared civil motion memoranda and replies, notices of motion, and other papers compatible with its caption and filing blocks. Rule 7.1(c) excepts reconsideration motions from the support and response limit and gives unrepresented handwritten or typewritten briefs a separate page treatment. Check applicable individual judge practices and orders.",
+      "The full Markdown body count includes any index, table of contents or table of authorities supplied in it. Rule 7.1(c) includes footnotes and endnotes. The caption and generated closing blocks are outside the body count. If the inclusive count exceeds the limit but the brief may fit after the rule’s exclusions, use the sourced unprofiled route with a separately checked count and certificate."
+    ],
+    "double_spacing": { "citation": "S.D.N.Y./E.D.N.Y. Local Civil Rule 7.1(b)", "verification": "recorded-in-source" }
+  },
+  "rules": [
+    { "citation": "Fed. R. Civ. P. 10(a) and 7(b)(2)", "verification": "recorded-in-source", "notes": "Supply the court name, title, file number and applicable designation." },
+    { "citation": "Fed. R. Civ. P. 11(a)", "verification": "recorded-in-source", "notes": "Supply the signer's address, e-mail address and telephone number." },
+    { "citation": "Fed. R. Civ. P. 5(d)(1)(B)", "verification": "recorded-in-source", "notes": "The rule makes the service certificate optional for service by the court's electronic-filing system. The profile omits it and checks that it is absent. For other service methods, Rule 5(d)(1)(B) permits the certificate to be filed with the paper or within a reasonable time after service. The tool composes it with the paper." },
+    { "citation": "S.D.N.Y./E.D.N.Y. Local Civil Rule 7.1(a), (b), (c)", "verification": "recorded-in-source", "notes": "The format calls for at least 12-point type and one-inch margins and double spacing. Headings, footnotes and block quotations may be single-spaced. Computer-prepared memoranda carry a word-count certificate." }
+  ],
+  "filing_packets": {},
+  "document_types": {
+    "reply-memorandum": {
+      "title_pattern": ".*\\b(?:reply (?:memorandum|brief|in (?:further )?support of|to)|(?:brief|memorandum(?: of law)?) in reply)\\b.*",
+      "filer_signature": true, "certificate": true, "judicial_closing": false,
+      "blank_case_number": false, "allow_blank_division": true, "filing_packet": null,
+      "length_presets": ["reply-words"], "word_count_certificate": true, "double_spacing": ["table", "list"]
+    },
+    "memorandum-of-law": {
+      "title_pattern": "(?!.*\\b(?:reply (?:memorandum|brief|in (?:further )?support of|to)|(?:brief|memorandum(?: of law)?) in reply)\\b).*\\b(?:memorandum of law|(?:brief|memorandum) in (?:(?:further )?support|opposition|response))\\b.*",
+      "filer_signature": true, "certificate": true, "judicial_closing": false,
+      "blank_case_number": false, "allow_blank_division": true, "filing_packet": null,
+      "length_presets": ["memorandum-words"], "word_count_certificate": true, "double_spacing": ["table", "list"]
+    },
+    "notice-of-motion": {
+      "title_pattern": ".*\\bnotice of motion\\b.*",
+      "filer_signature": true, "certificate": true, "judicial_closing": false,
+      "blank_case_number": false, "allow_blank_division": true, "filing_packet": null,
+      "length_presets": null, "word_count_certificate": false, "double_spacing": ["table", "list"]
+    },
+    "other-paper": {
+      "filer_signature": true, "certificate": true, "judicial_closing": false,
+      "blank_case_number": false, "allow_blank_division": true, "filing_packet": null,
+      "length_presets": null, "word_count_certificate": false, "double_spacing": ["table", "list"]
+    }
+  },
+  "fallback_document_type": "other-paper"
+}

@@ -1,0 +1,387 @@
+{
+  "filing_profile": null,
+  "obtain": [
+    "Arbitration agreement and any written party-agreed procedures",
+    "JAMS Commencement Letter and applicable edition of the JAMS Employment Arbitration Rules and Procedures",
+    "Case scheduling orders and JAMS or arbitrator directions, including submission format and length directions",
+    "Applicable JAMS policies, including the Employment Arbitration Minimum Standards of Procedural Fairness",
+    "Applicable JAMS fee schedule",
+    "JAMS Optional Arbitration Appeal Procedure and written agreement invoking it, if applicable"
+  ],
+  "statements": [
+    {
+      "id": "rule-01",
+      "text": "These rules govern binding JAMS-administered arbitrations when the parties agree to use them or, absent such agreement, when the dispute or claims are employment-related unless other rules are prescribed. The rules are deemed part of an agreement providing for JAMS employment arbitration or for JAMS arbitration without specified rules when the Rule 1(a) criteria are met. The JAMS National Arbitration Committee, the office of JAMS General Counsel or their designees perform JAMS's duties under the agreement and rules. JAMS may assign administration to any of its Resolution Centers. Party includes counsel and representatives. E-filing transmits documents to JAMS over the Internet for filing. E-service transmits documents electronically to a party, attorney or representative under the rules.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 1 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-1"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-01.txt"
+    },
+    {
+      "id": "rule-02",
+      "text": "Parties may agree to procedures that supplement or replace these rules if consistent with applicable law and JAMS policies, including the JAMS Policy on Employment Arbitration Minimum Standards of Procedural Fairness and Rules 15(i), 30 and 31. They must promptly notify JAMS and confirm the procedures in writing. The agreed procedures are enforceable as part of the rules. Parties may also modify an agreement providing for non-administered arbitration, another administrator or other rules to provide for JAMS administration, JAMS rules or both.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 2 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-2"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-02.txt"
+    },
+    {
+      "id": "rule-03",
+      "text": "JAMS may amend the rules without notice. The version in effect on commencement under Rule 5 applies unless the parties agreed to a different version.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 3 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-3"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-03.txt"
+    },
+    {
+      "id": "rule-04",
+      "text": "If a rule or party-agreed modification is determined to conflict with applicable law, that law controls the conflicting provision and the other rules continue to apply.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 4 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-4"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-04.txt"
+    },
+    {
+      "id": "rule-05",
+      "text": "Arbitration commences under these rules when JAMS issues its Commencement Letter. The letter must rest on one of five grounds. These are a post-dispute agreement fully executed by all parties specifying JAMS administration or use of any JAMS rules, a pre-dispute written provision requiring arbitration of the employment dispute or claim that specifies JAMS administration or JAMS rules, or under which the parties agree to JAMS administration, written confirmation of all parties' oral agreement to JAMS administration or use of JAMS rules, the respondent's failure to object timely to JAMS administration when the arbitration agreement specifies neither JAMS administration nor JAMS rules, or a copy of a court order compelling arbitration at JAMS. The letter confirms that commencement requirements are met, that JAMS received the payments required by the applicable fee schedule and that the claimant supplied all parties' contact information and evidence of service of the demand on all parties. If an obligated party fails to agree to participate, JAMS confirms in writing the failure to respond or participate and the arbitrator, once appointed, schedules and gives appropriate notice of a hearing or other opportunity for the party demanding arbitration to demonstrate its entitlement to relief under Rule 19. The letter date is for operation of the rules only. Rule 5 disclaims its use for legal requirements such as statutes of limitations, contractual limitations periods or claim-notice requirements.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 5 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-5"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-05.txt"
+    },
+    {
+      "id": "rule-06",
+      "text": "JAMS may convene, and parties may request, administrative conferences about procedure. Before appointment and absent agreement, JAMS may set the hearing location on a party's request, subject to arbitrator review. It considers the dispute, convenience and relative resources, and the location must allow employee attendance. Unpaid fees or expenses may lead JAMS to suspend or terminate proceedings. JAMS may notify the parties so that one of them may advance the required payment. If a party advances the payment owed by the nonpaying party, the arbitration proceeds and the arbitrator may allocate the unpaid share under Rules 24(f) and 31(c). Administrative suspension tolls the other time limits in the rules or agreement. JAMS keeps no official record of filed documents. A request to return documents must be made to JAMS in writing within 30 calendar days of conclusion. Special file maintenance or retention arrangements require written agreement and may cost extra. JAMS retains e-filed documents for 30 calendar days after conclusion. Unless the agreement or applicable law provides otherwise, JAMS may consolidate arbitrations with common factual or legal issues when one party files multiple JAMS arbitrations or new demands name parties already involved in pending arbitrations under these rules or name parties who are not identical to those in the existing arbitrations. In the latter instances JAMS may refer the combined proceedings to an already appointed arbitrator or panel. JAMS considers all circumstances, including the links between the cases and progress made. When JAMS consolidates a proceeding into a pending arbitration, the parties to the consolidated cases are deemed to waive arbitrator designation and contractual site provisions unless applicable law provides otherwise. The arbitrator decides requests by or concerning a third party to join a pending arbitration based on circumstances the arbitrator considers relevant and applicable.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 6 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-6"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-06.txt"
+    },
+    {
+      "id": "rule-07",
+      "text": "One neutral arbitrator conducts the arbitration unless all parties agree otherwise. Arbitrator can mean the panel in a tripartite arbitration. For a panel, the parties agree on a chair or JAMS designates one. If the parties and arbitrators agree, one panel member may decide discovery and procedural matters, including advance hearings involving subpoenaed third parties. When the parties agree each will name one arbitrator, those appointees are neutral and independent of the appointing party unless the parties agree to non-neutral appointments.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 7 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-7"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-07.txt"
+    },
+    {
+      "id": "rule-08",
+      "text": "JAMS or the arbitrator may require electronic filing and service at any time, including through the JAMS Electronic Filing System. If required, parties must maintain and regularly monitor a working email address. Filing through the system is complete on transmission. An e-filing by 11:59 p.m. in the sender's time zone counts on that date. The system treats each filing as signed by the arbitrator, case manager, attorney or declarant who submits it. The filing must bear a signing attorney's typed name, address and telephone number. System e-service has the same legal effect as an original paper document, recipients access it through the system, and service is complete when the initiating party or JAMS completes transmission to the system. On good cause following a technical transmission failure, JAMS or the arbitrator may allow filing or service retroactive to the first attempted transmission. Absent extraordinary circumstances, a party is then entitled to an order extending time to respond or perform the affected act. For documents that are not filed electronically, a party provides one signed copy to each party and sends JAMS two copies for a sole arbitrator or four for a tripartite panel. Hand delivery, overnight delivery or U.S. mail is effective on deposit. Add three calendar days to a rules-based period measured from service on a party when that party was served only by U.S. mail. When the last day for a timed act required by the rules falls on a Saturday, Sunday or other legal holiday, the period extends through the next day that is not a holiday.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 8 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-8"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-08.txt"
+    },
+    {
+      "id": "rule-09",
+      "text": "Parties must give all other parties reasonable and timely notice of claims, affirmative defenses and counterclaims, with a short statement of factual basis. The arbitrator will consider an unnotified claim, remedy, counterclaim or affirmative defense only if the arbitrator determines that no party was unfairly prejudiced by the lack of formal notice or all parties agree to consideration. The claimant gives notice by a demand stating the remedies sought. It may attach and incorporate a previously filed court complaint, in which case it may also include a copy of any respondent's filed answer. Within 14 calendar days of service of the notice of claim, a respondent may submit to JAMS and serve on the other parties a response and a statement of any affirmative defenses, including jurisdictional challenges, or any counterclaims. JAMS may grant reasonable extensions for filing a response or counterclaim before arbitrator appointment. Within 14 calendar days of service of a counterclaim, a claimant may submit to JAMS and serve on the other parties a response and any affirmative defenses, including jurisdictional challenges. A claim or counterclaim is deemed denied if no response has been served. A Rule 11 jurisdictional challenge is waived unless raised in the response to a demand or counterclaim or promptly thereafter when circumstances first suggest an arbitrability issue.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 9 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-9"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-09.txt"
+    },
+    {
+      "id": "rule-10",
+      "text": "After a claim is filed and before the arbitrator is appointed, a party may make a new or different claim against a party or third party subject to arbitration in the proceeding. That claim must be written, filed with JAMS and served on the other parties. Any response is due within 14 calendar days after service. After appointment, a new or different claim requires the arbitrator's approval. A party may request a hearing on that issue. Each party has the right to respond to any new or amended claim under Rule 9(c) or (d).",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 10 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-10"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-10.txt"
+    },
+    {
+      "id": "rule-11",
+      "text": "Once appointed, the arbitrator makes final decisions on disputes over interpretation and applicability of the rules and conduct of the hearing. The arbitrator decides jurisdiction and arbitrability, including agreement formation, existence, validity, interpretation and scope and who the proper parties are. The arbitrator may decide these issues preliminarily unless relevant law requires otherwise. JAMS decides appointment disputes. When necessary to facilitate the arbitration, the arbitrator may extend a rules deadline on good cause shown or on the arbitrator's own initiative. Award timing may be altered only under Rule 22(i) or 24.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 11 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-11"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-11.txt"
+    },
+    {
+      "id": "rule-12",
+      "text": "Parties, including legal entities, may choose counsel or another representative who can act for them under the rules. Each party must promptly notify the case manager and other parties in writing of the representative's name, address, telephone number and email address. The same notice and contact details are required for a change, with the effective date and a statement that written consent was obtained from the former representative, if any, and the new one. The arbitrator may withhold approval of an intended change or addition of legal representatives that could compromise the arbitrator's ability to continue, a tripartite panel's composition or award finality. Rule 12(c) identifies the circumstances the arbitrator considers.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 12 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-12"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-12.txt"
+    },
+    {
+      "id": "rule-13",
+      "text": "After JAMS issues the Commencement Letter, withdrawal from or termination of the arbitration requires written agreement of all parties. A party may unilaterally withdraw its own claim or counterclaim without prejudice by serving written notice on the other parties and the arbitrator. Opposing parties may request conditions from the arbitrator within seven calendar days of the notice.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 13 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-13"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-13.txt"
+    },
+    {
+      "id": "rule-14",
+      "text": "Ex parte contact with a neutral arbitrator is prohibited except as Rule 14(b) provides. The arbitrator may authorize direct email or other written communication if copies go simultaneously to the JAMS case manager and the other parties. A party may contact its appointed neutral or non-neutral arbitrator ex parte as necessary to secure services and check for conflicts, and in connection with selecting the panel chair. Agreement, applicable law or ethics rules may permit more extensive ex parte contact with a non-neutral arbitrator.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 14 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-14"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-14.txt"
+    },
+    {
+      "id": "rule-15",
+      "text": "If the parties have not already selected an arbitrator, JAMS may help them agree. If they do not agree, JAMS sends a list of at least five candidates for a sole arbitrator or ten for a tripartite panel, with brief descriptions of background and experience. JAMS may add or replace names for reasonable cause before the parties submit their choices. Within seven calendar days of service of the list, each party may strike two names for a sole arbitrator or three for a panel and must rank those remaining. The highest composite ranking determines the appointment. JAMS may grant a reasonable extension without the other parties' consent. A party that fails to respond within seven calendar days after service or to follow JAMS instructions is deemed to accept all candidates. JAMS fills any vacancies if the process fails to produce an arbitrator or full panel, and treats entities or individuals whose interests are not adverse as a single party for selection. JAMS determines adversity, considering factors such as common representation and joint or separate positions. JAMS decides inability to serve with finality. A successor is selected by this rule, except that parties may agree to proceed with two members of a tripartite panel if a member becomes unable to serve after the hearing begins and before issuance of an award. Disclosures about the selected arbitrator are made as required by law or within ten calendar days of appointment. Electronic disclosure is allowed if JAMS provides a hard copy on request. The arbitrator, parties and representatives have continuing disclosure duties, including party and representative disclosure to JAMS of circumstances likely to give rise to justifiable doubt about impartiality or independence. A party may challenge continued service for cause at any time during arbitration on information unavailable at selection. The challenge must be written and exchanged with opposing parties, who may respond within seven calendar days of service. JAMS makes the final decision, considering materiality and prejudice. A non-neutral party appointee need not withdraw solely at the request of the nonappointing party.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 15 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-15"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-15.txt"
+    },
+    {
+      "id": "rule-16",
+      "text": "A party request or arbitrator direction requires a preliminary conference with the parties or their counsel or representatives. It may be by telephone and may resume as warranted. Subjects include information exchange, discovery, pleadings and narrowing issues, hearing and pre-hearing exchange schedules, witnesses, Rule 18 motions, premarked exhibits, joint exhibit lists, admissibility, award form and other matters suggested by the parties or arbitrator.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 16 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-16"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-16.txt"
+    },
+    {
+      "id": "rule-17",
+      "text": "Immediately after commencement, parties must cooperate in good faith in a voluntary and informal exchange of all relevant, nonprivileged documents and other information, including electronically stored information. Within 21 calendar days after all pleadings or notices of claims have been received, parties must complete an initial exchange of all relevant, nonprivileged documents. It includes copies of documents in their possession or control on which they rely, names of potential hearing witnesses and all potential testifying experts, and each expert's report, which may be introduced at the hearing. The arbitrator may modify these obligations at the preliminary conference. Each party may take at least one deposition of an opposing party or someone under its control. Parties must try to agree on number, time, location and duration. Absent agreement the arbitrator decides these matters, including additional depositions, based on the reasonable need for the requested information, the availability of other discovery and the burdensomeness of the request on the opposing parties and the witness. As they learn of new documents or information, parties must continue to provide relevant, nonprivileged documents, supplement witness and expert identifications, and honor informal exchange agreements or understandings. The arbitrator may not consider previously unexchanged documents or unidentified witnesses or experts at the hearing absent agreement or good cause. Parties must promptly notify JAMS of discovery disputes, which the arbitrator decides at a conference by telephone or in person. The arbitrator may appoint a special master to help with a dispute with all parties' written consent and under an agreed written procedure. Third-party discovery requires the arbitrator's approval.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 17 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-17"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-17.txt"
+    },
+    {
+      "id": "rule-18",
+      "text": "A motion for summary disposition of a particular claim or issue requires the arbitrator's permission. Permission may be sought by agreement of all interested parties or by one party, with reasonable notice for the other interested parties to respond to the motion. The arbitrator may grant the request only on a showing that the proposed motion is likely to succeed and dispose of or narrow the issues.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 18 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-18"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-18.txt"
+    },
+    {
+      "id": "rule-19",
+      "text": "The arbitrator sets the hearing date, time and place after consulting the parties that have appeared. The arbitrator and parties must try to schedule consecutive days if more than one is needed. If a party has failed to participate and the arbitrator reasonably believes it will also miss the hearing, the arbitrator may schedule without consulting it. The nonparticipating party must be served with a notice of hearing at least 30 calendar days before the scheduled date unless relevant law allows or the parties agree to shorter notice. The arbitrator may use another location to hear a third-party witness or for convenience. A JAMS Resolution Center may be designated as the hearing location for a third-party subpoena or subpoena duces tecum.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 19 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-19"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-19.txt"
+    },
+    {
+      "id": "rule-20",
+      "text": "Except as a scheduling order provides, at least 14 calendar days before the hearing the parties must file with JAMS, serve and exchange a list of intended witnesses including experts, a short description of each witness's expected testimony with an estimate of the length of direct testimony, and a list of all intended exhibits. Parties should exchange copies of exhibits not previously exchanged and premark the exhibits, and must try to resolve admissibility disputes before the hearing. The arbitrator may require a concise written statement of position that summarizes the facts and evidence to be presented, discusses applicable law, and states the basis for the requested award or denial of relief. A letter is permitted. If required, the statement must be filed with JAMS and served on the other parties at least seven calendar days before the hearing. The arbitrator may permit or require rebuttals or other written pre-hearing submissions.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 20 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-20"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-20.txt"
+    },
+    {
+      "id": "rule-21",
+      "text": "At a party's written request, other parties must produce specified witnesses in their employ or control for the hearing without a subpoena. The arbitrator may issue subpoenas for witnesses or documents before or at the hearing under this rule or Rule 19(c). Subpoenas must follow applicable law, and pre-issued subpoenas may be used where permitted. A party or subpoenaed person may file an objection with the arbitrator, who must rule promptly after weighing burden and need.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 21 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-21"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-21.txt"
+    },
+    {
+      "id": "rule-22",
+      "text": "The arbitrator ordinarily follows the hearing procedures in the rules, may vary them when reasonable and appropriate, and sets the order of proof, generally similar to a trial. Attendance is expected of the employee and other individual parties with information on a significant issue. Testimony under oath is mandatory on any party's request and otherwise discretionary. The arbitrator must apply privilege and work-product law and consider relevant, material evidence, may look to evidence rules for guidance and may limit immaterial or unduly repetitive testimony provided that all parties are afforded the opportunity to present material and relevant evidence. The arbitrator must consider relevant deposition transcripts or video provided that the other parties have had the opportunity to attend and cross-examine, and may weigh affidavits or other recorded testimony even without an opportunity to cross-examine. Settlement offers and statements or recommendations from mediators or others involved in resolution efforts are excluded except as applicable law permits. The arbitrator may conduct all or part of the hearing in person, remotely or in combination and set procedures for remote participation. The arbitrator declares closure when all relevant, material evidence and arguments have been presented and any interim or partial awards issued. The arbitrator may defer closure for post-hearing briefs, which may be letters, or closing argument. In that case closure is on the arbitrator's receipt of the briefs or conclusion of argument, whichever occurs later. Before rendering the award, the arbitrator may reopen the hearing on the arbitrator's own initiative or on a party's application for good cause. Award time then runs from declared closure of the reopened hearing. If a party fails to attend after Rule 19 notice, the arbitrator may proceed but must require evidence from the party seeking relief. Absence or default alone cannot support an award. If the arbitrator reasonably expects a party to be absent, the arbitrator may schedule a telephone hearing and receive necessary evidence by affidavit. The notice must specify whether the hearing is in person or by telephone. A party arranging a stenographic record must give advance notice to the others and bear its cost. Other recording requires party agreement or arbitrator direction. If all other parties agree to share the cost, the stenographic record must be made available to the arbitrator and may be used in the proceeding. Without cost sharing, it may be provided to the arbitrator or used only if the arranging party agrees to provide access at no charge or on terms acceptable to the parties and reporting service. The parties may agree whether the arbitrator allocates the cost in the award. If they agree to the optional appeal procedure, they must ensure a stenographic or other record if possible.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 22 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-22"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-22.txt"
+    },
+    {
+      "id": "rule-23",
+      "text": "The parties may agree to waive an oral hearing and submit the dispute for an award on written submissions and other evidence they agree on.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 23 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-23"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-23.txt"
+    },
+    {
+      "id": "rule-24",
+      "text": "The arbitrator must render a final or partial final award within 30 calendar days after closure under Rule 22(h) or (i), or, if the hearing was waived, within 30 calendar days after receiving all materials specified by the parties. Exceptions are party agreement, a good-cause extension or reopening under Rule 22(i). The arbitrator provides the award to JAMS for issuance. A panel's majority decision and award controls. The arbitrator is guided by the parties' agreed rules of law or, absent agreement, by the law or rules of law the arbitrator deems most appropriate. The arbitrator may grant just and equitable relief within the agreement's scope and may issue interim or partial rulings, orders and awards. Interim measures the arbitrator deems necessary may be made by interim or partial final award, with security for costs at the arbitrator's discretion. Seeking interim or provisional court relief is compatible with arbitration and does not waive it. The award may allocate arbitration fees and arbitrator compensation and expenses unless expressly prohibited by the agreement or applicable law. Such a prohibition may not limit the arbitrator's power to allocate those fees, compensation and expenses under Rule 31(c). Attorney fees, expenses and interest may be allocated if the agreement provides for it or law allows. The arbitrator may set the rate and start date for interest. In setting reasonable attorney fees when authorized, the arbitrator may consider delay or extra costs caused by a party's failure to cooperate reasonably in discovery or comply with discovery orders. The award must be written and signed by the arbitrator, give the disposition and any relief for each claim, and include concise written reasons with essential findings and conclusions. The parties may agree to another form unless the arbitration agreement is required as a condition of employment. After rendition and compliance with Rule 31, issuance is by service of copies on the parties, including by U.S. mail without certification or registration. Within seven calendar days after JAMS serves a final or partial final award, a party may file with JAMS and serve on the other parties a request to correct computational, typographical or similar errors, including fee reallocation under Rule 31 or because of the effect of an offer to allow judgment. The arbitrator may also propose a correction on the arbitrator's own initiative. An opposing party has seven calendar days thereafter to file and serve objections. The arbitrator may make necessary and appropriate corrections within 21 calendar days of receiving a request or 14 calendar days after proposing a correction, with extensions for good cause. A corrected award is served the same way as the award. For Rule 34 optional appeal or Rule 25 judicial enforcement, modification or vacatur, finality occurs 14 calendar days after service if there is no correction request, or on the effective date of service of a corrected award.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 24 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-24"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-24.txt"
+    },
+    {
+      "id": "rule-25",
+      "text": "The Federal Arbitration Act or applicable state law governs proceedings to enforce, confirm, modify or vacate an award. The parties are deemed to consent to entry of judgment on the award in any court with jurisdiction.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 25 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-25"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-25.txt"
+    },
+    {
+      "id": "rule-26",
+      "text": "JAMS and the arbitrator must keep the proceeding, including the hearing, and the award confidential except as necessary for a judicial challenge or enforcement or as required by law or judicial decision. The arbitrator may issue protective orders for proprietary information, trade secrets or other sensitive information. A directly interested person may attend subject to arbitrator discretion or party agreement, and the arbitrator may exclude a nonparty from any part of the hearing.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 26 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-26"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-26.txt"
+    },
+    {
+      "id": "rule-27",
+      "text": "A party aware of a rules violation waives the objection by failing to make a prompt written objection unless the arbitrator determines that waiver would cause substantial injustice or hardship. A party aware of information supporting a challenge for cause to continued service must promptly challenge in writing to the arbitrator or JAMS or waive the objection.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 27 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-27"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-27.txt"
+    },
+    {
+      "id": "rule-28",
+      "text": "Parties may agree at any stage to JAMS mediation. The JAMS mediator may serve as arbitrator or on the appeal panel only by party agreement under Rule 28(b). When parties agree in writing to seek the arbitrator's settlement assistance, the assistance does not disqualify the arbitrator from continuing if settlement fails. The parties may not argue that assistance to a reviewing court as a ground for vacating or modifying the award. If all parties agree to a settlement and request a consent award at any stage, the arbitrator must comply unless the arbitrator believes the terms are illegal or undermine the integrity of the process. If concerned about the proposed award's consequences, the arbitrator must inform the parties and may request specific additional information. The arbitrator may refuse to enter the proposed award and may withdraw.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 28 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-28"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-28.txt"
+    },
+    {
+      "id": "rule-29",
+      "text": "The arbitrator may order appropriate sanctions for failure to follow the rules or an arbitral order. Examples include assessing arbitration fees or arbitrator compensation and expenses, awarding costs caused by the conduct including reasonable attorney fees, excluding evidence, drawing adverse inferences, or in extreme cases deciding a submitted issue against the noncomplying party.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 29 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-29"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-29.txt"
+    },
+    {
+      "id": "rule-30",
+      "text": "Parties may not call the arbitrator, case manager or another JAMS employee or agent as a witness or expert in a pending or later proceeding involving the parties and concerning the dispute. Those individuals are incompetent to testify in such a proceeding. The parties must defend and/or pay the cost, including attorney fees, of defending the arbitrator, case manager and/or JAMS against outside-party subpoenas arising from the arbitration. Under this rule, the arbitrator, case manager and JAMS are not necessary parties to related proceedings, and they, including JAMS employees and agents, are not liable to a party for acts or omissions connected with an arbitration under these rules.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 30 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-30"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-30.txt"
+    },
+    {
+      "id": "rule-31",
+      "text": "Subject to Rule 31(c) and any agreed allocation, each party pays its pro rata share of fees and expenses under the JAMS fee schedule in effect at commencement. To the extent possible the allocation is kept from the arbitrator. JAMS contracts jointly with the party and its attorney or other representative. Nonpayment may cause suspension under Rule 6(c). JAMS requires deposits during proceedings and before the hearing, and the arbitrator may bar a party that has not deposited its pro rata or agreed share from offering evidence of an affirmative claim at the hearing. For an arbitration based on a clause or agreement required as a condition of employment, the only fee an employee may be required to pay is the initial JAMS case management fee. The employee may contribute to administrative and arbitrator fees and expenses. When arbitration is not based on a clause or agreement required as a condition of employment, the parties are jointly and severally liable for JAMS fees and arbitrator compensation and expenses. If a party overpays its share in that setting, the arbitrator may award against another party the amounts that party owes. JAMS treats entities or individuals whose interests are not adverse as a single party for fee assessment and determines adversity, considering factors such as common representation or joint or separate positions.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 31 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-31"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-31.txt"
+    },
+    {
+      "id": "rule-32",
+      "text": "At any time before issuance of the award, parties may agree in writing to minimum and maximum damages on each claim or all claims together. They must promptly notify JAMS and provide a copy specifying both amounts. JAMS may inform the arbitrator of the option or amounts only with party consent. The arbitrator renders the award under Rule 24. An award within the agreed bracket becomes final as rendered. A below-minimum or above-maximum award is corrected to the applicable agreed bound.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 32 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-32"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-32.txt"
+    },
+    {
+      "id": "rule-33",
+      "text": "If parties agree to final-offer arbitration, at least seven calendar days before the hearing they must exchange and give JAMS written proposals for the monetary damages they would offer or demand and believe appropriate under the Rule 24(c) standard. They may exchange revised written proposals before the hearing closes. Revisions supersede prior proposals and must be given to JAMS. JAMS promptly provides original and revised proposals to the arbitrator unless the parties agree otherwise. If informed of the proposals, the arbitrator selects the last proposal deemed most reasonable and appropriate under Rule 24(c) and issues the award without written reasons. If uninformed, the arbitrator renders under Rule 24 and the award is then corrected to the closest last proposal, which becomes the award. Rule 24 otherwise applies.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 33 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-33"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-33.txt"
+    },
+    {
+      "id": "rule-34",
+      "text": "Parties may agree to the JAMS Optional Arbitration Appeal Procedure at any time. It takes written agreement by all parties to be effective. Once a party agrees, it may leave the procedure unilaterally only by withdrawing from the arbitration under Rule 13.",
+      "source": {
+        "citation": "JAMS Employment Arbitration Rules and Procedures, Rule 34 (effective June 1, 2021)",
+        "url": "https://www.jamsadr.com/rules-employment-arbitration#rule-34"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/rule-34.txt"
+    }
+  ]
+}

@@ -152,6 +152,10 @@ test('list on the shipped tree returns an object with no packs', () => {
       { id: 'county-court', name: 'Colorado county court', tier: 'limited-jurisdiction trial court' },
       { id: 'small-claims', name: 'Colorado county court, small claims', tier: 'small claims division of the county court' },
     ] },
+    { id: 'federal', name: 'Federal', kind: 'federal', law: [],
+      forums: [{ id: 'district-court', name: 'United States district court', tier: 'federal district court' }] },
+    { id: 'jams', name: 'JAMS', kind: 'arbitration-forum', law: [],
+      forums: [{ id: 'employment', name: 'JAMS employment arbitration', tier: 'arbitration forum' }] },
   ] });
 });
 
@@ -172,7 +176,7 @@ test('validate accepts a good pack by absolute directory', () => {
 });
 
 test('validate selects all shipped packs by default or one by id', () => {
-  assert.deepEqual(success(['validate']).packs, ['colorado']);
+  assert.deepEqual(success(['validate']).packs, ['colorado', 'federal', 'jams']);
   assert.deepEqual(success(['validate'], PACKS).packs, ['example-arbitration', 'example-state']);
   assert.deepEqual(success(['validate', '--pack', 'example-arbitration'], PACKS).packs, ['example-arbitration']);
 });
@@ -181,13 +185,15 @@ test('the shipped Colorado pack validates, its gaps are its [verify] statements,
   const manifest = JSON.parse(readFileSync(join(COLORADO, 'pack.json'), 'utf8'));
   const files = [...manifest.law.map(entry => entry.file), ...manifest.forums.map(forum => forum.file)];
   const statements = files.flatMap(file => coloradoStatements(join(COLORADO, file)).map(statement => ({ file, statement })));
-  const { gaps, ...rest } = success(['validate']);
+  const { gaps, ...rest } = success(['validate', '--pack', 'colorado']);
   assert.deepEqual(rest, { ok: true, packs: ['colorado'], failures: [] });
   assert.deepEqual(byFileAndId(gaps), byFileAndId(statements.filter(({ statement }) => statement.state === '[verify]')
     .map(({ file, statement }) => ({ pack: 'colorado', file, id: statement.id, reason: 'Statement is marked [verify].' }))));
   const newest = statements.map(({ statement }) => statement.last_read).sort().at(-1);
   assert.deepEqual(success(['stale', '--pack', 'colorado', '--today', newest]), { prompts: [] });
-  assert.deepEqual(success(['stale', '--today', newest]), { prompts: [] });
+  assert.deepEqual(success(['stale', '--today', newest]), {
+    prompts: success(['list']).packs.flatMap(({ id }) => success(['stale', '--pack', id, '--today', newest]).prompts),
+  });
 });
 
 test('Colorado district court patterns equal the Court Filing profile patterns', () => {

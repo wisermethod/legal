@@ -3,7 +3,7 @@ name: Employment Law
 type: expert
 category: practice-area
 description: Assess an employment dispute against the agreement, wage record, and governing-law files, returning supported claim distinctions, holds, and the next litigation skill
-version: 0.3.4
+version: 0.3.5
 gaps:
   - Official confirmation of the wage amendments on owner liability and retaliation, the current administrative wage-claim limit, and current court venue, forms and fees remains open.
   - Verified employment authority remains open for contractual notice and cure, prevention of a compensation condition, remote-worker jurisdiction, and unsigned arbitration or incorporation by reference.
@@ -58,12 +58,12 @@ Does the record show a Cause, severance or arbitration-clause dispute against a 
 
 Which forum is identified or still being considered?
 
-For federal venue, forms and fees, the reference is the applicable federal material in the matter record.
+Use the applicable rules and controlling orders in the matter record before the returned forum file.
 
-For each court that is the forum or a candidate, does the record give its full name? If the record gives only an informal name, ask the person to confirm the full name and hold that court’s checks until confirmed. With the full name from the record or the person’s confirmation, use only the federal bullet for the federal district court for Colorado. For each other court, does the finding already hold that court’s file? If yes, use it. Otherwise run `node scripts/jurisdictions.js lookup --court "<full court name>" --matter <absolute-AGENTS.md>` from the [Jurisdictions tool](../../tools/Jurisdictions/TOOL.md#lookup-result) directory with that full name before the missing-source check below. Use that court's returned forum file. If the lookup does not return a file, record its reason or error and apply the missing-source check below. If the matter's `AGENTS.md` is absent, report the missing input and treat lookup as unavailable.
+For each court that is the forum or a candidate, does the record give its full name? If the record gives only an informal name, ask the person to confirm the full name and hold that court’s checks until confirmed. With the full name from the record or the person’s confirmation, does the finding already hold that court’s file? If yes, use it. Otherwise run `node scripts/jurisdictions.js lookup --court "<full court name>" --matter <absolute-AGENTS.md>` from the [Jurisdictions tool](../../tools/Jurisdictions/TOOL.md#lookup-result) directory with that full name before the missing-source check below. Use that court's returned forum file. If the lookup does not return a file, record its reason or error and apply the missing-source check below. If the matter's `AGENTS.md` is absent, report the missing input and treat lookup as unavailable.
 
-- For the federal district court for Colorado as the forum or candidate, apply the working over-$75,000 diversity threshold and any applicable federal venue, form and fee entries in that reference. Check the case-specific removal requirements.
-- Use each court's file from the finding or lookup for venue, concurrent or monetary jurisdiction, declaratory relief, forms and fees. For a geographic venue question, identify where work occurred or the claim arose and verify the actual county of any relevant home office. Give each statement used with its source, state and last-read date. Before a stale statement, say `confirm: last read <date>` as given for that file and statement. Attribute any rule used from the person's own forum pack with its source and date read. If the file or an applicable venue, form, fee or threshold statement is missing for a check the federal bullet does not supply, name that court's own rule as the missing source. Hold any check that depends on unverified venue subsections, forms or current fees. Confirm the rules and any applicable order before filing.
+- When diversity jurisdiction or removal is at issue, use the named court's own forum statements for the threshold and applicable removal requirements. If a needed statement is missing, name the applicable authority as the source to obtain and hold that check.
+- Use each court's file from the finding or lookup for venue, concurrent or monetary jurisdiction, declaratory relief, forms and fees. For a geographic venue question, identify where work occurred or the claim arose and verify the actual county of any relevant home office. Give each statement used with its source, state and last-read date. Before a stale statement, say `confirm: last read <date>` as given for that file and statement. Attribute any rule used from the person's own forum pack with its source and date read. If the file or an applicable venue, form, fee or threshold statement is missing, name that court's own rule as the missing source. Hold any check that depends on unverified venue subsections, forms or current fees. Confirm the rules and any applicable order before filing.
 - For an unresolved forum without an identified candidate, hold the checks that need the forum.
 
 ### What happens after the substantive assessment?

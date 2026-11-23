@@ -1,0 +1,53 @@
+https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf
+2026-11-23
+
+Federal Rules of Civil Procedure, as amended to December 1, 2025.
+PDF extraction retains running page headers.
+
+Rule 58. Entering Judgment
+ (a) SEPARATE DOCUMENT. Every judgment and amended judg-
+ment must be set out in a separate document, but a separate docu-
+ment is not required for an order disposing of a motion:
+     (1) for judgment under Rule 50(b);
+     (2) to amend or make additional findings under Rule 52(b);
+Rule 59           FEDERAL RULES OF CIVIL PROCEDURE                       84
+      (3) for attorney’s fees under Rule 54;
+      (4) for a new trial, or to alter or amend the judgment, under
+    Rule 59; or
+      (5) for relief under Rule 60.
+  (b) ENTERING JUDGMENT.
+      (1) Without the Court’s Direction. Subject to Rule 54(b) and un-
+    less the court orders otherwise, the clerk must, without await-
+    ing the court’s direction, promptly prepare, sign, and enter
+    the judgment when:
+           (A) the jury returns a general verdict;
+           (B) the court awards only costs or a sum certain; or
+           (C) the court denies all relief.
+      (2) Court’s Approval Required. Subject to Rule 54(b), the court
+    must promptly approve the form of the judgment, which the
+    clerk must promptly enter, when:
+           (A) the jury returns a special verdict or a general verdict
+         with answers to written questions; or
+           (B) the court grants other relief not described in this
+         subdivision (b).
+  (c) TIME OF ENTRY. For purposes of these rules, judgment is en-
+tered at the following times:
+      (1) if a separate document is not required, when the judg-
+    ment is entered in the civil docket under Rule 79(a); or
+      (2) if a separate document is required, when the judgment is
+    entered in the civil docket under Rule 79(a) and the earlier of
+    these events occurs:
+           (A) it is set out in a separate document; or
+           (B) 150 days have run from the entry in the civil docket.
+  (d) REQUEST FOR ENTRY. A party may request that judgment be
+set out in a separate document as required by Rule 58(a).
+  (e) COST OR FEE AWARDS. Ordinarily, the entry of judgment may
+not be delayed, nor the time for appeal extended, in order to tax
+costs or award fees. But if a timely motion for attorney’s fees is
+made under Rule 54(d)(2), the court may act before a notice of ap-
+peal has been filed and become effective to order that the motion
+have the same effect under Federal Rule of Appellate Procedure
+4(a)(4) as a timely motion under Rule 59.
+(As amended Dec. 27, 1946, eff. Mar. 19, 1948; Jan. 21, 1963, eff. July
+1, 1963; Apr. 22, 1993, eff. Dec. 1, 1993; Apr. 29, 2002, eff. Dec. 1, 2002;
+Apr. 30, 2007, eff. Dec. 1, 2007.)

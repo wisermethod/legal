@@ -25,7 +25,7 @@ Follow this order on every matter request, including on resume:
 | Rules home | not yet obtained | [Source, YYYY-MM-DD] |
 | Filing profile | pending | [Source, YYYY-MM-DD] |
 
-For **Court or forum**, use the court's full name with its state and county or federal district, or the forum's name. Include any case or reference number. Use `court`, `arbitration`, `government agency`, `other` or `pending` for **Forum type**. Set **Governing law** to `see Governing law by claim` when the answers are recorded below, or to `pending` while the answer is unresolved. For **Rules home**, use a path inside the matter or `not yet obtained`. For **Filing profile**, use the confirmed Court Filing profile id, `none: papers follow the court's own rules` for a court without a profile, `not a court: submissions follow the forum's own rules` for a non-court forum, or `pending` if unresolved.
+For **Court or forum**, use the court's full name with its state and county or federal district, or the forum's name. Include any case or reference number. Use `court`, `arbitration`, `government agency`, `other` or `pending` for **Forum type**. Set **Governing law** to `see Governing law by claim` when the answers are recorded below, or to `pending` while the answer is unresolved. For **Rules home**, use a path inside the matter or `not yet obtained`. For **Filing profile**, use the confirmed Court Filing profile id or the verified absolute JSON path for a profile marked `explicit-path`, `none: papers follow the court's own rules` for a court without a profile, `not a court: submissions follow the forum's own rules` for a non-court forum, or `pending` if unresolved.
 
 ### Governing law by claim
 

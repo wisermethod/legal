@@ -1,0 +1,59 @@
+https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf
+2026-11-23
+
+Federal Rules of Civil Procedure, as amended to December 1, 2025.
+PDF extraction retains running page headers.
+
+Rule 33. Interrogatories to Parties
+  (a) IN GENERAL.
+       (1) Number. Unless otherwise stipulated or ordered by the
+    court, a party may serve on any other party no more than 25
+    written interrogatories, including all discrete subparts. Leave
+    to serve additional interrogatories may be granted to the ex-
+    tent consistent with Rule 26(b)(1) and (2).
+       (2) Scope. An interrogatory may relate to any matter that
+    may be inquired into under Rule 26(b). An interrogatory is not
+    objectionable merely because it asks for an opinion or conten-
+    tion that relates to fact or the application of law to fact, but
+    the court may order that the interrogatory need not be an-
+    swered until designated discovery is complete, or until a pre-
+    trial conference or some other time.
+  (b) ANSWERS AND OBJECTIONS.
+       (1) Responding Party. The interrogatories must be answered:
+           (A) by the party to whom they are directed; or
+           (B) if that party is a public or private corporation, a
+         partnership, an association, or a governmental agency, by
+         any officer or agent, who must furnish the information
+         available to the party.
+       (2) Time to Respond. The responding party must serve its an-
+    swers and any objections within 30 days after being served
+    with the interrogatories. A shorter or longer time may be stip-
+    ulated to under Rule 29 or be ordered by the court.
+       (3) Answering Each Interrogatory. Each interrogatory must,
+    to the extent it is not objected to, be answered separately and
+    fully in writing under oath.
+       (4) Objections. The grounds for objecting to an interrogatory
+    must be stated with specificity. Any ground not stated in a
+    timely objection is waived unless the court, for good cause, ex-
+    cuses the failure.
+       (5) Signature. The person who makes the answers must sign
+    them, and the attorney who objects must sign any objections.
+  (c) USE. An answer to an interrogatory may be used to the ex-
+tent allowed by the Federal Rules of Evidence.
+Rule 34           FEDERAL RULES OF CIVIL PROCEDURE                       58
+  (d) OPTION TO PRODUCE BUSINESS RECORDS. If the answer to an
+interrogatory may be determined by examining, auditing, compil-
+ing, abstracting, or summarizing a party’s business records (in-
+cluding electronically stored information), and if the burden of de-
+riving or ascertaining the answer will be substantially the same
+for either party, the responding party may answer by:
+      (1) specifying the records that must be reviewed, in suffi-
+    cient detail to enable the interrogating party to locate and
+    identify them as readily as the responding party could; and
+      (2) giving the interrogating party a reasonable opportunity
+    to examine and audit the records and to make copies, compila-
+    tions, abstracts, or summaries.
+(As amended Dec. 27, 1946, eff. Mar. 19, 1948; Mar. 30, 1970, eff. July
+1, 1970; Apr. 29, 1980, eff. Aug. 1, 1980; Apr. 22, 1993, eff. Dec. 1, 1993;
+Apr. 12, 2006, eff. Dec. 1, 2006; Apr. 30, 2007, eff. Dec. 1, 2007; Apr.
+29, 2015, eff. Dec. 1, 2015.)

@@ -6,8 +6,8 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Litigation Counsel](../experts/Litigation%20Counsel/EXPERT.md)
 
-- No arbitration rules reference is shipped. Use the governing materials in the matter record.
-- Federal courts and courts outside Colorado have no jurisdiction profile.
+- Arbitration rule sets other than the shipped JAMS employment rules still need governing sources from the matter record.
+- Courts without a compatible Colorado district or supported Southern District of New York profile need the unprofiled requirements check.
 
 ### [Cease and Desist](../experts/Cease%20and%20Desist/EXPERT.md)
 
@@ -65,7 +65,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Produce Court Filing](../skills/Produce%20Court%20Filing/SKILL.md)
 
-- Mechanical jurisdiction-profile validation covers the shipped Colorado district layout and compatible custom profiles.
+- Mechanical jurisdiction-profile validation covers Colorado district papers, supported Southern District of New York civil papers and compatible custom profiles.
 - Prescribed forms outside the supported types need the forum’s own form and requirements gate. Court Filing cannot validate those artifacts.
 - Court Filing measures profile geometry and printed content. Current forum acceptance, signature and service still need verification.
 
@@ -90,7 +90,8 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Court Filing](../tools/Court%20Filing/TOOL.md)
 
-- One caption layout ships, for Colorado district courts. A paper for any other court follows the unprofiled route.
+- Caption layouts ship for Colorado district courts and supported civil papers in the Southern District of New York. A paper without a compatible profile follows the unprofiled route.
+- The S.D.N.Y. word-count check includes any index, table of contents or table of authorities supplied in the body. A brief that fits only after the rule’s exclusions needs a separately checked count and certificate on the sourced unprofiled route.
 
 ### [Jurisdictions](../tools/Jurisdictions/TOOL.md)
 
@@ -106,3 +107,4 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 - Colorado employment law [verify] topics include owner liability and retaliation remedies under the 2025 wage amendments, the wage-claim administrative cap effective in 2026, the implied good-faith covenant in at-will employment, prevention of a compensation condition, individual arbitration and class or collective waivers, and mitigation of fixed severance.
 - The applicable 2025 and 2026 changes to Colorado court rules and fee statutes still need confirmation against official text. The enacted 2025 wage changes and the operative 2026 cap and its effective date remain unconfirmed.
 - Colorado consumer and personal injury law is covered only by the statements the pack holds. Any other issue in those areas still requires authority.
+- The shipped catalog returns no forum for the District Court of Guam, the District Court for the Northern Mariana Islands, or the District Court of the Virgin Islands. Obtain the selected court’s applicable rules and statutory extensions.

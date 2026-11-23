@@ -1,10 +1,10 @@
 import { canonicalBody, printedBodyText, spacingBindings } from './body-text-core.js';
-import { PAGE_SIZES } from './schema-core.js';
+import { PAGE_SIZES } from './schema-fields-core.js';
 
 const DECODER = new TextDecoder();
 export const RASTER_DPI = 144;
-const POINTS_PER_INCH = 72;
-const PIXELS_PER_POINT = RASTER_DPI / POINTS_PER_INCH;
+export const POINTS_PER_INCH = 72;
+export const PIXELS_PER_POINT = RASTER_DPI / POINTS_PER_INCH;
 const MARGIN_TOLERANCE_PT = 1.5;
 const PAGE_TOLERANCE_PT = 1;
 
@@ -20,7 +20,7 @@ export function readPageInfo(bytes) {
   return { count, pages, title: /^Title:[ \t]+([^\r\n]+)$/m.exec(text)?.[1], active: /^JavaScript:\s+yes$|^Form:\s+(?!none$)\S+/im.test(text) };
 }
 
-const near = (actual, expected, tolerance) => Math.abs(actual - expected) <= tolerance;
+export const near = (actual, expected, tolerance) => Math.abs(actual - expected) <= tolerance;
 
 export function isExpectedPage(page, size) {
   const [width, height] = PAGE_SIZES[size];
@@ -83,7 +83,7 @@ export function footerCandidates(pages, count, layout) {
   });
 }
 
-function parseRaster(bytes, pageSize) {
+export function parseRaster(bytes, pageSize) {
   // Poppler writes a binary PGM with one byte per gray pixel.
   const header = /^P5\s+(\d+)\s+(\d+)\s+255\n/.exec(DECODER.decode(bytes.subarray(0, 64)));
   if (!header) return null;
@@ -241,8 +241,8 @@ export function paragraphSpacing(positioned, pages, paragraphs, layout) {
   return true;
 }
 
-export function bodySpacing(positioned, pages, repeated, html, layout) {
-  const bindings = spacingBindings(html, layout.body_line_height);
+export function bodySpacing(positioned, pages, repeated, html, layout, spacing) {
+  const bindings = spacingBindings(html, spacing);
   const double = layout.body_font_size_pt * 2;
   const counts = { totalLines: 0, underDoubleLines: 0, share: 0, estimatedLines: 0,
     table: 0, list: 0, heading: 0 };
@@ -319,67 +319,6 @@ function claimPosition(positions, text) {
   return null;
 }
 
-export function captionRuling(bytes, layout, page) {
-  const raster = bytes && parseRaster(bytes, layout.page_size);
-  if (!raster || !page) return null;
-  const { width, height, pixels } = raster;
-  const ratio = POINTS_PER_INCH * PIXELS_PER_POINT;
-  const { left, right, top } = layout.margins_inches;
-  const from = Math.round(left * ratio);
-  const to = width - Math.round(right * ratio);
-  const expectedTop = Math.round(top * ratio);
-  const dark = (x, y) => pixels[y * width + x] < 100;
-  const horizontal = (y, x0, x1) => {
-    let count = 0;
-    for (let x = x0; x < x1; x++) if (dark(x, y)) count++;
-    return count >= (x1 - x0) * 0.985;
-  };
-  const rules = [];
-  for (let y = Math.max(0, expectedTop - 3); y < height; y++) {
-    if (horizontal(y, from, to) && (rules.length === 0 || y - rules.at(-1).last > 1)) {
-      rules.push({ first: y, last: y });
-      if (rules.length === 4) break;
-    } else if (rules.length && horizontal(y, from, to)) {
-      rules.at(-1).last = y;
-    }
-  }
-  if (rules.length < 3 || !near(rules[0].first, expectedTop, 3)) return false;
-  const [upper, divider, lower] = rules;
-  const provesVertical = (target, tolerance, end) => {
-    for (let x = target - tolerance; x <= target + tolerance; x++) {
-      let count = 0;
-      for (let y = upper.first; y <= end; y++) if (dark(x, y)) count++;
-      if (count >= (end - upper.first) * 0.985) return true;
-    }
-    return false;
-  };
-  const boxed = provesVertical(from, 4, lower.first) && provesVertical(to, 4, lower.first) &&
-    provesVertical(Math.round(from + (to - from) * 0.62), 16, divider.first);
-  return boxed ? { bottom: lower.last / PIXELS_PER_POINT } : false;
-}
-
-
-export function judicialRuling(bytes, layout, page) {
-  const raster = bytes && parseRaster(bytes, layout.page_size);
-  if (!raster || !page) return null;
-  const text = line => line.words.map(word => word.text).join(' ');
-  const marker = page.lines.findLast(line => /^BY\s*THE\s*COURT:\s*$/iu.test(text(line)));
-  const judge = page.lines.findLast(line => /\bJUDGE\.?$/iu.test(text(line)));
-  if (!marker || !judge || judge.bounds.y <= marker.bounds.bottom) return false;
-  const { width, pixels } = raster;
-  const from = Math.ceil(layout.margins_inches.left * POINTS_PER_INCH * PIXELS_PER_POINT);
-  const to = width - Math.ceil(layout.margins_inches.right * POINTS_PER_INCH * PIXELS_PER_POINT);
-  const start = Math.floor(marker.bounds.bottom * PIXELS_PER_POINT);
-  const end = Math.ceil(judge.bounds.y * PIXELS_PER_POINT);
-  for (let y = start; y < end; y++) {
-    let dark = 0;
-    for (let x = from; x < to; x++) if (pixels[y * width + x] < 190) dark++;
-    if (dark >= (to - from) * 0.95) return { y: y / PIXELS_PER_POINT };
-  }
-  return false;
-}
-
-
 export function markPositions(positioned, pages, marks) {
   let offset = 0;
   const located = [];
@@ -415,7 +354,7 @@ export function markPositions(positioned, pages, marks) {
   return result;
 }
 
-export function filingInk(bytes, layout, page, captionBox, judicialRule, marks) {
+export function filingInk(bytes, layout, page, marks, rulingRegions) {
   const raster = bytes && parseRaster(bytes, layout.page_size);
   if (!raster || !page) return null;
   const { width, height, pixels } = raster;
@@ -480,7 +419,6 @@ export function filingInk(bytes, layout, page, captionBox, judicialRule, marks) 
       if (!found) return false;
     }
   }
-  if (captionBox) cover({ x, right, y: layout.margins_inches.top * POINTS_PER_INCH, bottom: captionBox.bottom }, 1.5);
-  if (judicialRule) cover({ x, right, y: judicialRule.y, bottom: judicialRule.y + 1 }, 1.5);
+  for (const region of rulingRegions) cover(region, 1.5);
   return !pixels.some((gray, index) => gray < 190 && !allowed[index]);
 }

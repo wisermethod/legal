@@ -1,0 +1,32 @@
+{
+  "id": "federal",
+  "name": "Federal",
+  "kind": "federal",
+  "law": [],
+  "forums": [
+    {
+      "id": "district-court",
+      "name": "United States district court",
+      "tier": "federal district court",
+      "court_match": [
+        "(?:United States|U\\.?\\s*S\\.?)\\s+District Court(?:\\s+for(?:\\s+the)?\\s+|\\s*,\\s*|\\s+)District of (?:Alaska|Arizona|Colorado|Connecticut|Delaware|Hawaii|Idaho|Kansas|Maine|Maryland|Massachusetts|Minnesota|Montana|Nebraska|Nevada|New Hampshire|New Jersey|New Mexico|North Dakota|Oregon|Puerto Rico|Rhode Island|South Carolina|South Dakota|Utah|Vermont|Wyoming|Columbia)",
+        "(?:United States|U\\.?\\s*S\\.?)\\s+District Court(?:\\s+for(?:\\s+the)?\\s+|\\s*,\\s*|\\s+)D\\.?\\s*C\\.?",
+        "(?:(?:(?:United States|U\\.?\\s*S\\.?)\\s+District Court|U\\.?\\s*S\\.?\\s*D\\.?\\s*C\\.?)(?:\\s+for(?:\\s+the)?\\s+|\\s*,\\s*|\\s+))?D\\.?\\s*(?:Alaska|Ariz(?:ona)?\\.?|Colo(?:rado)?\\.?|Conn(?:ecticut)?\\.?|Del(?:aware)?\\.?|Haw(?:aii)?\\.?|Idaho|Kan(?:sas)?\\.?|(?:Me\\.?|Maine)|(?:Md\\.?|Maryland)|Mass(?:achusetts)?\\.?|Minn(?:esota)?\\.?|Mont(?:ana)?\\.?|Neb(?:raska)?\\.?|Nev(?:ada)?\\.?|(?:N\\.?\\s*H\\.?|New Hampshire)|(?:N\\.?\\s*J\\.?|New Jersey)|(?:N\\.?\\s*M\\.?|New Mexico)|(?:N\\.?\\s*D\\.?|North Dakota)|Or(?:egon)?\\.?|(?:P\\.?\\s*R\\.?|Puerto Rico)|(?:R\\.?\\s*I\\.?|Rhode Island)|(?:S\\.?\\s*C\\.?|South Carolina)|(?:S\\.?\\s*D\\.?|South Dakota)|Utah|(?:Vt\\.?|Vermont)|Wyo(?:ming)?\\.?)",
+        "(?:(?:(?:United States|U\\.?\\s*S\\.?)\\s+District Court|U\\.?\\s*S\\.?\\s*D\\.?\\s*C\\.?)(?:\\s+for(?:\\s+the)?\\s+|\\s*,\\s*|\\s+))?D\\.?\\s*D\\.?\\s*C\\.?",
+        "(?:United States|U\\.?\\s*S\\.?)\\s+District Court(?:\\s+for(?:\\s+the)?\\s+|\\s*,\\s*|\\s+)Central District of (?:California|Illinois)",
+        "(?:(?:(?:United States|U\\.?\\s*S\\.?)\\s+District Court|U\\.?\\s*S\\.?\\s*D\\.?\\s*C\\.?)(?:\\s+for(?:\\s+the)?\\s+|\\s*,\\s*|\\s+))?C\\.?\\s*D\\.?\\s*(?:Cal(?:ifornia)?\\.?|Ill(?:inois)?\\.?)",
+        "(?:United States|U\\.?\\s*S\\.?)\\s+District Court(?:\\s+for(?:\\s+the)?\\s+|\\s*,\\s*|\\s+)Eastern District of (?:Arkansas|California|Kentucky|Louisiana|Michigan|Missouri|New York|North Carolina|Oklahoma|Pennsylvania|Tennessee|Texas|Virginia|Washington|Wisconsin)",
+        "(?:(?:(?:United States|U\\.?\\s*S\\.?)\\s+District Court|U\\.?\\s*S\\.?\\s*D\\.?\\s*C\\.?)(?:\\s+for(?:\\s+the)?\\s+|\\s*,\\s*|\\s+))?E\\.?\\s*D\\.?\\s*(?:Ark(?:ansas)?\\.?|Cal(?:ifornia)?\\.?|(?:Ky\\.?|Kentucky)|(?:La\\.?|Louisiana)|Mich(?:igan)?\\.?|(?:Mo\\.?|Missouri)|(?:N\\.?\\s*Y\\.?|New York)|(?:N\\.?\\s*C\\.?|North Carolina)|Okla(?:homa)?\\.?|(?:Pa\\.?|Pennsylvania)|Tenn(?:essee)?\\.?|Tex(?:as)?\\.?|(?:Va\\.?|Virginia)|Wash(?:ington)?\\.?|Wis(?:consin)?\\.?)",
+        "(?:United States|U\\.?\\s*S\\.?)\\s+District Court(?:\\s+for(?:\\s+the)?\\s+|\\s*,\\s*|\\s+)Middle District of (?:Alabama|Florida|Georgia|Louisiana|North Carolina|Pennsylvania|Tennessee)",
+        "(?:(?:(?:United States|U\\.?\\s*S\\.?)\\s+District Court|U\\.?\\s*S\\.?\\s*D\\.?\\s*C\\.?)(?:\\s+for(?:\\s+the)?\\s+|\\s*,\\s*|\\s+))?M\\.?\\s*D\\.?\\s*(?:Ala(?:bama)?\\.?|(?:Fla|Florida)\\.?|(?:Ga\\.?|Georgia)|(?:La\\.?|Louisiana)|(?:N\\.?\\s*C\\.?|North Carolina)|(?:Pa\\.?|Pennsylvania)|Tenn(?:essee)?\\.?)",
+        "(?:United States|U\\.?\\s*S\\.?)\\s+District Court(?:\\s+for(?:\\s+the)?\\s+|\\s*,\\s*|\\s+)Northern District of (?:Alabama|California|Florida|Georgia|Illinois|Indiana|Iowa|Mississippi|New York|Ohio|Oklahoma|Texas|West Virginia)",
+        "(?:(?:(?:United States|U\\.?\\s*S\\.?)\\s+District Court|U\\.?\\s*S\\.?\\s*D\\.?\\s*C\\.?)(?:\\s+for(?:\\s+the)?\\s+|\\s*,\\s*|\\s+))?N\\.?\\s*D\\.?\\s*(?:Ala(?:bama)?\\.?|Cal(?:ifornia)?\\.?|(?:Fla|Florida)\\.?|(?:Ga\\.?|Georgia)|Ill(?:inois)?\\.?|Ind(?:iana)?\\.?|Iowa|Miss(?:issippi)?\\.?|(?:N\\.?\\s*Y\\.?|New York)|Ohio|Okla(?:homa)?\\.?|Tex(?:as)?\\.?|(?:W\\.?\\s*Va\\.?|West Virginia))",
+        "(?:United States|U\\.?\\s*S\\.?)\\s+District Court(?:\\s+for(?:\\s+the)?\\s+|\\s*,\\s*|\\s+)Southern District of (?:Alabama|California|Florida|Georgia|Illinois|Indiana|Iowa|Mississippi|New York|Ohio|Texas|West Virginia)",
+        "(?:(?:(?:United States|U\\.?\\s*S\\.?)\\s+District Court|U\\.?\\s*S\\.?\\s*D\\.?\\s*C\\.?)(?:\\s+for(?:\\s+the)?\\s+|\\s*,\\s*|\\s+))?S\\.?\\s*D\\.?\\s*(?:Ala(?:bama)?\\.?|Cal(?:ifornia)?\\.?|(?:Fla|Florida)\\.?|(?:Ga\\.?|Georgia)|Ill(?:inois)?\\.?|Ind(?:iana)?\\.?|Iowa|Miss(?:issippi)?\\.?|(?:N\\.?\\s*Y\\.?|New York)|Ohio|Tex(?:as)?\\.?|(?:W\\.?\\s*Va\\.?|West Virginia))",
+        "(?:United States|U\\.?\\s*S\\.?)\\s+District Court(?:\\s+for(?:\\s+the)?\\s+|\\s*,\\s*|\\s+)Western District of (?:Arkansas|Kentucky|Louisiana|Michigan|Missouri|New York|North Carolina|Oklahoma|Pennsylvania|Tennessee|Texas|Virginia|Washington|Wisconsin)",
+        "(?:(?:(?:United States|U\\.?\\s*S\\.?)\\s+District Court|U\\.?\\s*S\\.?\\s*D\\.?\\s*C\\.?)(?:\\s+for(?:\\s+the)?\\s+|\\s*,\\s*|\\s+))?W\\.?\\s*D\\.?\\s*(?:Ark(?:ansas)?\\.?|(?:Ky\\.?|Kentucky)|(?:La\\.?|Louisiana)|Mich(?:igan)?\\.?|(?:Mo\\.?|Missouri)|(?:N\\.?\\s*Y\\.?|New York)|(?:N\\.?\\s*C\\.?|North Carolina)|Okla(?:homa)?\\.?|(?:Pa\\.?|Pennsylvania)|Tenn(?:essee)?\\.?|Tex(?:as)?\\.?|(?:Va\\.?|Virginia)|Wash(?:ington)?\\.?|Wis(?:consin)?\\.?)"
+      ],
+      "file": "forum/district-court.json"
+    }
+  ]
+}

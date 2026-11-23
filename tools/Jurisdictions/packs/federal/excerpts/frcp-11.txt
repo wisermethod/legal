@@ -1,0 +1,84 @@
+https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf
+2026-11-23
+
+Federal Rules of Civil Procedure, as amended to December 1, 2025.
+PDF extraction retains running page headers.
+
+Rule 11. Signing Pleadings, Motions, and Other Papers; Represen-
+   tations to the Court; Sanctions
+   (a) SIGNATURE. Every pleading, written motion, and other paper
+must be signed by at least one attorney of record in the attorney’s
+name—or by a party personally if the party is unrepresented. The
+paper must state the signer’s address, e-mail address, and tele-
+phone number. Unless a rule or statute specifically states other-
+wise, a pleading need not be verified or accompanied by an affida-
+vit. The court must strike an unsigned paper unless the omission
+is promptly corrected after being called to the attorney’s or par-
+ty’s attention.
+   (b) REPRESENTATIONS TO THE COURT. By presenting to the court
+a pleading, written motion, or other paper—whether by signing,
+filing, submitting, or later advocating it—an attorney or unrep-
+resented party certifies that to the best of the person’s knowledge,
+information, and belief, formed after an inquiry reasonable under
+the circumstances:
+       (1) it is not being presented for any improper purpose, such
+     as to harass, cause unnecessary delay, or needlessly increase
+     the cost of litigation;
+       (2) the claims, defenses, and other legal contentions are war-
+     ranted by existing law or by a nonfrivolous argument for ex-
+     tending, modifying, or reversing existing law or for establish-
+     ing new law;
+       (3) the factual contentions have evidentiary support or, if
+     specifically so identified, will likely have evidentiary support
+     after a reasonable opportunity for further investigation or dis-
+     covery; and
+       (4) the denials of factual contentions are warranted on the
+     evidence or, if specifically so identified, are reasonably based
+     on belief or a lack of information.
+   (c) SANCTIONS.
+       (1) In General. If, after notice and a reasonable opportunity
+     to respond, the court determines that Rule 11(b) has been vio-
+     lated, the court may impose an appropriate sanction on any
+     attorney, law firm, or party that violated the rule or is re-
+     sponsible for the violation. Absent exceptional circumstances,
+     a law firm must be held jointly responsible for a violation
+     committed by its partner, associate, or employee.
+       (2) Motion for Sanctions. A motion for sanctions must be
+     made separately from any other motion and must describe the
+     specific conduct that allegedly violates Rule 11(b). The motion
+     must be served under Rule 5, but it must not be filed or be pre-
+     sented to the court if the challenged paper, claim, defense,
+     contention, or denial is withdrawn or appropriately corrected
+     within 21 days after service or within another time the court
+     sets. If warranted, the court may award to the prevailing
+19                 FEDERAL RULES OF CIVIL PROCEDURE                 Rule 12
+
+    party the reasonable expenses, including attorney’s fees, in-
+    curred for the motion.
+      (3) On the Court’s Initiative. On its own, the court may order
+    an attorney, law firm, or party to show cause why conduct
+    specifically described in the order has not violated Rule 11(b).
+      (4) Nature of a Sanction. A sanction imposed under this rule
+    must be limited to what suffices to deter repetition of the con-
+    duct or comparable conduct by others similarly situated. The
+    sanction may include nonmonetary directives; an order to pay
+    a penalty into court; or, if imposed on motion and warranted
+    for effective deterrence, an order directing payment to the
+    movant of part or all of the reasonable attorney’s fees and
+    other expenses directly resulting from the violation.
+      (5) Limitations on Monetary Sanctions. The court must not im-
+    pose a monetary sanction:
+          (A) against a represented party for violating Rule
+        11(b)(2); or
+          (B) on its own, unless it issued the show-cause order
+        under Rule 11(c)(3) before voluntary dismissal or settle-
+        ment of the claims made by or against the party that is,
+        or whose attorneys are, to be sanctioned.
+      (6) Requirements for an Order. An order imposing a sanction
+    must describe the sanctioned conduct and explain the basis for
+    the sanction.
+  (d) INAPPLICABILITY TO DISCOVERY. This rule does not apply to
+disclosures and discovery requests, responses, objections, and mo-
+tions under Rules 26 through 37.
+(As amended Apr. 28, 1983, eff. Aug. 1, 1983; Mar. 2, 1987, eff. Aug.
+1, 1987; Apr. 22, 1993, eff. Dec. 1, 1993; Apr. 30, 2007, eff. Dec. 1, 2007.)

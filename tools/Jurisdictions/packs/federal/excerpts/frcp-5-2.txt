@@ -1,0 +1,70 @@
+https://www.uscourts.gov/sites/default/files/document/federal-rules-of-civil-procedure.pdf
+2026-11-23
+
+Federal Rules of Civil Procedure, as amended to December 1, 2025.
+PDF extraction retains running page headers.
+
+Rule 5.2. Privacy Protection For Filings Made with the Court
+  (a) REDACTED FILINGS. Unless the court orders otherwise, in an
+electronic or paper filing with the court that contains an individ-
+ual’s social-security number, taxpayer-identification number, or
+birth date, the name of an individual known to be a minor, or a
+financial-account number, a party or nonparty making the filing
+may include only:
+      (1) the last four digits of the social-security number and tax-
+    payer-identification number;
+      (2) the year of the individual’s birth;
+      (3) the minor’s initials; and
+      (4) the last four digits of the financial-account number.
+  (b) EXEMPTIONS FROM THE REDACTION REQUIREMENT. The redac-
+tion requirement does not apply to the following:
+      (1) a financial-account number that identifies the property
+    allegedly subject to forfeiture in a forfeiture proceeding;
+      (2) the record of an administrative or agency proceeding;
+      (3) the official record of a state-court proceeding;
+      (4) the record of a court or tribunal, if that record was not
+    subject to the redaction requirement when originally filed;
+      (5) a filing covered by Rule 5.2(c) or (d); and
+Rule 6            FEDERAL RULES OF CIVIL PROCEDURE                   12
+       (6) a pro se filing in an action brought under 28 U.S.C. §§ 2241,
+     2254, or 2255.
+  (c) LIMITATIONS ON REMOTE ACCESS TO ELECTRONIC FILES; SOCIAL-
+SECURITY APPEALS AND IMMIGRATION CASES. Unless the court or-
+ders otherwise, in an action for benefits under the Social Security
+Act, and in an action or proceeding relating to an order of re-
+moval, to relief from removal, or to immigration benefits or de-
+tention, access to an electronic file is authorized as follows:
+       (1) the parties and their attorneys may have remote elec-
+     tronic access to any part of the case file, including the admin-
+     istrative record;
+       (2) any other person may have electronic access to the full
+     record at the courthouse, but may have remote electronic ac-
+     cess only to:
+            (A) the docket maintained by the court; and
+            (B) an opinion, order, judgment, or other disposition of
+         the court, but not any other part of the case file or the ad-
+         ministrative record.
+  (d) FILINGS MADE UNDER SEAL. The court may order that a filing
+be made under seal without redaction. The court may later unseal
+the filing or order the person who made the filing to file a re-
+dacted version for the public record.
+  (e) PROTECTIVE ORDERS. For good cause, the court may by order
+in a case:
+       (1) require redaction of additional information; or
+       (2) limit or prohibit a nonparty’s remote electronic access to
+     a document filed with the court.
+  (f) OPTION FOR ADDITIONAL UNREDACTED FILING UNDER SEAL. A
+person making a redacted filing may also file an unredacted copy
+under seal. The court must retain the unredacted copy as part of
+the record.
+  (g) OPTION FOR FILING A REFERENCE LIST. A filing that contains
+redacted information may be filed together with a reference list
+that identifies each item of redacted information and specifies an
+appropriate identifier that uniquely corresponds to each item list-
+ed. The list must be filed under seal and may be amended as of
+right. Any reference in the case to a listed identifier will be con-
+strued to refer to the corresponding item of information.
+  (h) WAIVER OF PROTECTION OF IDENTIFIERS. A person waives the
+protection of Rule 5.2(a) as to the person’s own information by fil-
+ing it without redaction and not under seal.
+(As added Apr. 30, 2007, eff. Dec. 1, 2007.)

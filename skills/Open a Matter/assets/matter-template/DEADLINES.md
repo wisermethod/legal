@@ -14,10 +14,9 @@ Use YYYY-MM-DD and include time and time zone if the source sets them. Write the
 
 ## Working response periods
 
-Take the working response periods from the forum pack file named in the forum finding. Write them here as rows with each statement's source and state.
+When seeding or refreshing working periods, use the matter's applicable rules and orders before national defaults. Apply periods from the forum pack file named in the forum finding cell by cell, where an applicable matter rule or order leaves the period open. When the forum file states no period for a cell, keep the existing cell for that forum and its source. Record each period's source and state.
 
-Keep an existing row only for a forum whose file gives no working response periods. Keep the `Federal court in Colorado` row only for the federal district court for Colorado.
+Keep the verified local-rule or order deadline and its source in the Motion response cell. Federal Rule 6(c) governs the specified hearing papers and affidavits, and Federal Rule 12(a)(4) governs the responsive pleading after the specified motion events. Neither supplies a general opposition-brief deadline. If the applicable opposition rule or order is missing, name it as the source to obtain and hold that deadline.
 
 | Court | Answer to complaint | Motion response | Discovery response |
 |---|---|---|---|
-| Federal court in Colorado | 21 days from actual service as a working period. If service was waived, verify the longer period and its trigger before calculating. | 21 days, check local rules | 30 days |
