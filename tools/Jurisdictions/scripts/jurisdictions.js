@@ -9,18 +9,18 @@ const PACKS = join(__dirname, '..', 'packs');
 const HELP = 'node scripts/jurisdictions.js help';
 const COMMANDS = {
   list: [],
-  validate: ['--pack'],
+  validate: ['--pack', '--matter'],
   resolve: ['--matter'],
-  stale: ['--pack', '--today', '--days'],
+  stale: ['--pack', '--matter', '--today', '--days'],
 };
 
 function usage() {
   return [
     HELP + ' (or --help)',
     'node scripts/jurisdictions.js list',
-    'node scripts/jurisdictions.js validate [--pack <id-or-absolute-directory>]',
+    'node scripts/jurisdictions.js validate [--pack <id-or-absolute-directory> | --matter <absolute-AGENTS.md>]',
     'node scripts/jurisdictions.js resolve --matter <absolute-AGENTS.md>',
-    'node scripts/jurisdictions.js stale [--pack <id-or-absolute-directory>] [--today YYYY-MM-DD] [--days N]',
+    'node scripts/jurisdictions.js stale [--pack <id-or-absolute-directory> | --matter <absolute-AGENTS.md>] [--today YYYY-MM-DD] [--days N]',
     'stale defaults to the local calendar date and 180 days. All commands are read-only.',
     '',
   ].join('\n');
@@ -38,6 +38,9 @@ function flags(command, args) {
     values.set(option, value);
   }
   if (command === 'resolve' && !values.has('--matter')) throw new Error('--matter is required. Run ' + HELP + '.');
+  if (values.has('--matter') && values.has('--pack')) {
+    throw new Error('--matter and --pack cannot be used together. Run ' + HELP + '.');
+  }
   return values;
 }
 
@@ -90,13 +93,18 @@ function info(path, label) {
   }
 }
 
-function readText(path, label, extension) {
-  if (extname(path) !== extension) throw new Error(label + ' must resolve to a ' + extension + ' file.');
+function regularFile(path, label) {
   const entry = info(path, label);
-  if (entry === null) return null;
+  if (entry === null) return false;
   if (!entry.isFile() || entry.nlink !== 1) {
     throw new Error(label + ' must resolve to a readable regular file with one filesystem link.');
   }
+  return true;
+}
+
+function readText(path, label, extension) {
+  if (extname(path) !== extension) throw new Error(label + ' must resolve to a ' + extension + ' file.');
+  if (!regularFile(path, label)) return null;
   try {
     return { path, text: readFileSync(path, 'utf8') };
   } catch {
@@ -106,16 +114,27 @@ function readText(path, label, extension) {
 
 function readPackFile(directory, file) {
   const root = join(directory.path, dirname(file));
-  const path = screened('Pack file', join(directory.path, file), root, 'resolves outside its allowed pack directory.');
-  return readText(path, 'Pack file', extname(file));
+  const label = 'Pack file ' + JSON.stringify(file);
+  const path = screened(label, join(directory.path, file), root, 'resolves outside its allowed pack directory.');
+  return readText(path, label, extname(file));
 }
 
-function packDirectory(candidate, root) {
-  const path = screened('Pack directory', candidate, root);
-  if (!info(path, 'Pack directory')?.isDirectory()) throw new Error('Pass an existing pack directory.');
+function packDirectory(candidate, root, { ownPack = false } = {}) {
   const id = basename(candidate);
-  if (id !== basename(path) || !isId(id)) throw new Error('The pack directory must resolve to its lowercase hyphenated id.');
-  return { id, path };
+  const label = ownPack ? 'Matter pack directory ' + JSON.stringify(id) : 'Pack directory';
+  const path = screened(label, candidate, root, ownPack ? 'resolves outside the matter folder.' : undefined);
+  let failure;
+  if (!info(path, label)?.isDirectory()) failure = 'Pass an existing pack directory.';
+  else if (id !== basename(path) || !isId(id)) failure = 'The pack directory must resolve to its lowercase hyphenated id.';
+  if (failure && !ownPack) throw new Error(failure);
+  return { id, path, ownPack, ...(failure ? { failure } : {}) };
+}
+
+function packNames(root, { includeAllLinks = false } = {}) {
+  return readdirSync(root, { withFileTypes: true })
+    .filter(entry => entry.isDirectory() || (entry.isSymbolicLink() && (includeAllLinks || isId(entry.name))))
+    .map(entry => entry.name)
+    .sort();
 }
 
 function shippedPacks(directory, selection) {
@@ -130,11 +149,24 @@ function shippedPacks(directory, selection) {
     return [packDirectory(candidate, root)];
   }
   if (!info(root, 'Shipped packs directory')) return [];
-  return readdirSync(root, { withFileTypes: true })
-    .filter(entry => entry.isDirectory() || (entry.isSymbolicLink() && isId(entry.name)))
-    .map(entry => entry.name)
-    .sort()
-    .map(name => packDirectory(join(root, name), root));
+  return packNames(root).map(name => packDirectory(join(root, name), root));
+}
+
+function matterPath(candidate) {
+  const path = screened('--matter', candidate);
+  if (basename(path) !== 'AGENTS.md') throw new Error('--matter must resolve to the matter’s AGENTS.md.');
+  if (!regularFile(path, '--matter')) throw new Error('--matter file does not exist. Supply the matter’s AGENTS.md.');
+  return path;
+}
+
+function matterPacks(matterRoot) {
+  const label = 'Matter jurisdictions directory';
+  const path = screened(label, join(matterRoot, 'jurisdictions'), matterRoot, 'resolves outside the matter folder.');
+  const entry = info(path, label);
+  if (entry === null) return [];
+  if (!entry.isDirectory()) throw new Error(label + ' must be a directory.');
+  return packNames(path, { includeAllLinks: true })
+    .map(name => packDirectory(join(path, name), matterRoot, { ownPack: true }));
 }
 
 function rulesRecord(root, value) {
@@ -158,7 +190,10 @@ function main(args, { packsDirectory = PACKS } = {}) {
   }
   try {
     const values = flags(command, rest);
-    const directories = () => shippedPacks(packsDirectory, values.get('--pack'));
+    const shippedDirectories = () => shippedPacks(packsDirectory, values.get('--pack'));
+    const directories = () => values.has('--matter')
+      ? matterPacks(dirname(matterPath(values.get('--matter'))))
+      : shippedDirectories();
     let result;
     switch (command) {
       case 'list':
@@ -169,13 +204,14 @@ function main(args, { packsDirectory = PACKS } = {}) {
         if (!result.ok) result.message = 'Correct the pack failures and rerun validate.';
         break;
       case 'resolve': {
-        const path = screened('--matter', values.get('--matter'));
-        if (basename(path) !== 'AGENTS.md') throw new Error('--matter must resolve to the matter’s AGENTS.md.');
+        const path = matterPath(values.get('--matter'));
         const matter = readText(path, '--matter', '.md');
         if (!matter) throw new Error('--matter file does not exist. Supply the matter’s AGENTS.md.');
+        const root = dirname(path);
         result = resolveMatter(matter.text, {
-          rulesRecord: value => rulesRecord(dirname(path), value),
-          directories, read: readPackFile, age: ageOptions(localToday()),
+          rulesRecord: value => rulesRecord(root, value),
+          matterDirectories: () => matterPacks(root),
+          shippedDirectories, read: readPackFile, age: ageOptions(localToday()),
         });
         break;
       }

@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const { spawnSync } = require('node:child_process');
 const { cpSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync } = require('node:fs');
 const { tmpdir } = require('node:os');
-const { dirname, join } = require('node:path');
+const { basename, dirname, join } = require('node:path');
 const { test } = require('node:test');
 
 const CLI = join(__dirname, '..', 'scripts', 'jurisdictions.js');
@@ -64,6 +64,15 @@ function editJson(dir, file, edit) {
   const data = JSON.parse(readFileSync(path, 'utf8'));
   edit(data);
   writeFileSync(path, JSON.stringify(data) + '\n');
+}
+
+function copyMatterPack(matterFile, fixture = STATE, id = basename(fixture)) {
+  const root = join(dirname(matterFile), 'jurisdictions');
+  mkdirSync(root, { recursive: true });
+  const pack = join(root, id);
+  cpSync(fixture, pack, { recursive: true });
+  if (id !== basename(fixture)) editJson(pack, 'pack.json', data => { data.id = id; });
+  return pack;
 }
 
 function replaceRequired(text, before, after) {
@@ -222,17 +231,18 @@ test('resolve returns both halves, matter records first and prompts only for ret
   assert.deepEqual(result.forum, {
     pack: 'example-state', id: 'example-trial', name: 'Example Trial Court', file: join(STATE, FORUM),
     tier: 'general-jurisdiction trial court', filing_profile: 'example-trial',
-    obtain: ['Local rules', "Assigned judge's practice standards"],
+    obtain: ['Local rules', "Assigned judge's practice standards"], own_pack: false,
   });
   const files = [join(STATE, CONTRACT), join(STATE, CONSUMER)];
   assert.deepEqual(result.governing_law, [
     { claim: 'Agreement 1', law_named: LAW, clause_and_document: '§ 1 of the agreement', source_and_date: SOURCE,
-      pack: 'example-state', files },
+      pack: 'example-state', files, own_pack: false },
     { claim: 'Agreement 2', law_named: 'State of Example', clause_and_document: '§ 1 of the agreement', source_and_date: SOURCE,
-      pack: 'example-state', files },
+      pack: 'example-state', files, own_pack: false },
   ]);
   const selected = new Set([result.forum.file, ...files]);
-  const expected = success(['stale'], PACKS).filter(entry => selected.has(entry.file));
+  const expected = success(['stale'], PACKS).filter(entry => selected.has(entry.file))
+    .map(entry => ({ ...entry, own_pack: false }));
   const byId = (a, b) => a.id.localeCompare(b.id);
   assert.deepEqual(result.stale.sort(byId), expected.sort(byId));
 });
@@ -353,4 +363,164 @@ test('help works without packs and the command rejects unknown flags and relativ
   assert.match(failure(['resolve', '--matter', 'AGENTS.md']), /--matter must be an absolute path/);
   assert.match(failure(['validate', '--pack', 'tests/fixtures/packs/example-state']), /--pack must be a shipped id or an absolute pack directory/);
   assert.match(failure(['list', '--install']), /Unknown option --install/);
+});
+
+test('resolve prefers a matter forum and names the shipped forum pack set aside', t => {
+  const path = matter(t, { rules: 'local.md' });
+  const rules = join(dirname(path), 'local.md');
+  writeFileSync(rules, 'Fictional matter rules.\n');
+  const pack = copyMatterPack(path, ARBITRATION, 'matter-forum');
+  editJson(pack, 'pack.json', data => { data.forums[0].court_match = [COURT]; });
+
+  const result = resolveMatter(path);
+  assert.deepEqual(result.matter_records, [{ path: rules, exists: true }]);
+  assert.equal(result.forum.pack, 'matter-forum');
+  assert.equal(result.forum.file, join(pack, 'forum', 'example-panel.json'));
+  assert.equal(result.forum.own_pack, true);
+  assert.equal(result.forum.pack_directory, pack);
+  assert.deepEqual(result.forum.set_aside, ['example-state']);
+  assert.equal(result.governing_law[0].own_pack, false);
+  assert.deepEqual(result.stale.filter(prompt => prompt.own_pack), success(['stale', '--pack', pack])
+    .map(prompt => ({ ...prompt, own_pack: true, pack_directory: pack })));
+  assert.ok(result.stale.every(prompt => prompt.file !== join(STATE, FORUM)));
+});
+
+test('resolve prefers matter law and names the shipped law pack set aside for each claim', t => {
+  const exception = LAW + ', except where Other State law requires';
+  const path = matter(t, { laws: [LAW, exception] });
+  const pack = copyMatterPack(path, STATE, 'matter-law');
+  editJson(pack, 'pack.json', data => { data.forums = []; });
+
+  const result = resolveMatter(path);
+  assert.equal(result.forum.own_pack, false);
+  assert.equal(result.forum.set_aside, undefined);
+  for (const law of result.governing_law) {
+    assert.equal(law.pack, 'matter-law');
+    assert.equal(law.own_pack, true);
+    assert.equal(law.pack_directory, pack);
+    assert.deepEqual(law.files, [join(pack, CONTRACT), join(pack, CONSUMER)]);
+    assert.deepEqual(law.set_aside, ['example-state']);
+  }
+  assert.equal(result.governing_law[0].held, undefined);
+  assert.equal(result.governing_law[1].held, true);
+  assert.equal(result.governing_law[1].exception, exception);
+  const ownPrompts = result.stale.filter(prompt => prompt.own_pack);
+  assert.deepEqual(ownPrompts, success(['stale', '--pack', pack])
+    .map(prompt => ({ ...prompt, own_pack: true, pack_directory: pack })));
+});
+
+test('resolve searches eligible law names in the matter before using a whole shipped match', t => {
+  const law = LAW + ', Special Rules';
+  const path = matter(t, { laws: [law] });
+  const pack = copyMatterPack(path, STATE, 'matter-law');
+  const shipped = temporary(t);
+  const state = copyPack(t, STATE, shipped);
+  editJson(state, 'pack.json', data => { data.law_match = [law]; });
+
+  const [result] = resolveMatter(path, shipped).governing_law;
+  assert.equal(result.pack_directory, pack);
+  assert.equal(result.exception, law);
+  assert.equal(result.held, true);
+  assert.deepEqual(result.set_aside, ['example-state']);
+});
+
+test('resolve lists a bad matter excerpt and falls through to shipped packs', t => {
+  const path = matter(t);
+  const pack = copyMatterPack(path, STATE, 'matter-state');
+  writeFileSync(join(pack, CONTRACT_EXCERPT), 'https://other-example.invalid/1\n2025-01-01\nFictional excerpt.\n');
+
+  const result = resolveMatter(path);
+  const { failures } = JSON.parse(failure(['validate', '--pack', pack]));
+  assert.match(failures[0].reason, /first line must equal source\.url/);
+  assert.deepEqual(result.invalid_packs, [{ pack: 'matter-state', own_pack: true, pack_directory: pack, failures }]);
+  assert.equal(result.forum.pack, 'example-state');
+  assert.equal(result.forum.own_pack, false);
+  assert.equal(result.forum.set_aside, undefined);
+  assert.equal(result.governing_law[0].own_pack, false);
+  assert.equal(result.governing_law[0].set_aside, undefined);
+});
+
+test('resolve names an escaping referenced file and continues with a valid matter pack', t => {
+  const path = matter(t);
+  const invalid = copyMatterPack(path, STATE, 'unsafe-state');
+  const excerpt = join(invalid, CONTRACT_EXCERPT);
+  rmSync(excerpt);
+  symlinkSync(join(STATE, CONTRACT_EXCERPT), excerpt);
+  const valid = copyMatterPack(path);
+
+  const result = resolveMatter(path);
+  const { failures } = JSON.parse(failure(['validate', '--pack', invalid]));
+  assert.match(failures[0].reason, /"excerpts\/contract\.txt" resolves outside its allowed pack directory/);
+  assert.deepEqual(result.invalid_packs, [{ pack: 'unsafe-state', own_pack: true, pack_directory: invalid, failures }]);
+  assert.equal(result.forum.pack_directory, valid);
+  assert.equal(result.governing_law[0].pack_directory, valid);
+});
+
+test('matter commands refuse an escaping jurisdictions entry by name', t => {
+  const path = matter(t);
+  const root = join(dirname(path), 'jurisdictions');
+  mkdirSync(root);
+  symlinkSync(copyPack(t), join(root, 'outside-pack'), 'dir');
+
+  for (const command of ['resolve', 'validate', 'stale']) {
+    assert.match(failure([command, '--matter', path], PACKS), /Matter pack directory "outside-pack" resolves outside the matter folder/);
+  }
+});
+
+test('matter commands refuse an escaping jurisdictions directory by name', t => {
+  const path = matter(t);
+  symlinkSync(temporary(t), join(dirname(path), 'jurisdictions'), 'dir');
+
+  for (const command of ['resolve', 'validate', 'stale']) {
+    assert.match(failure([command, '--matter', path], PACKS), /Matter jurisdictions directory resolves outside the matter folder/);
+  }
+});
+
+test('validate and stale select all matter packs with the same findings as individual packs', t => {
+  const path = matter(t);
+  const packs = [copyMatterPack(path, ARBITRATION), copyMatterPack(path)];
+  editJson(packs[1], CONTRACT, data => { data.statements[0].state = '[verify]'; });
+  rmSync(join(packs[1], CONTRACT_EXCERPT));
+  const individual = packs.map(pack => success(['validate', '--pack', pack]));
+  const age = ['--today', '2026-01-01', '--days', '0'];
+
+  assert.deepEqual(success(['validate', '--matter', path], PACKS), {
+    ok: true, packs: individual.flatMap(result => result.packs), failures: [], gaps: individual.flatMap(result => result.gaps),
+  });
+  assert.deepEqual(success(['stale', '--matter', path, ...age], PACKS),
+    packs.flatMap(pack => success(['stale', '--pack', pack, ...age])));
+});
+
+test('validate and stale report the same structural failure under --matter and --pack', t => {
+  const path = matter(t);
+  const pack = copyMatterPack(path);
+  editJson(pack, CONTRACT, data => { delete data.statements[0].last_read; });
+
+  for (const command of ['validate', 'stale']) {
+    const result = failure([command, '--matter', path], PACKS);
+    assert.equal(result, failure([command, '--pack', pack]));
+    assert.match(result, /last_read is required/);
+  }
+});
+
+test('validate and stale reject --matter combined with --pack', t => {
+  const path = matter(t);
+  for (const command of ['validate', 'stale']) {
+    const stderr = failure([command, '--matter', path, '--pack', STATE], PACKS);
+    assert.match(stderr, /--matter and --pack cannot be used together/);
+  }
+});
+
+test('a matter without jurisdictions keeps shipped resolution and has no packs of its own', t => {
+  const path = matter(t);
+  const result = resolveMatter(path);
+  assert.equal(result.forum.file, join(STATE, FORUM));
+  assert.equal(result.forum.own_pack, false);
+  assert.deepEqual(result.governing_law[0].files, [join(STATE, CONTRACT), join(STATE, CONSUMER)]);
+  assert.equal(result.governing_law[0].own_pack, false);
+  assert.equal(result.invalid_packs, undefined);
+  assert.equal(result.forum.set_aside, undefined);
+  assert.equal(result.governing_law[0].set_aside, undefined);
+  assert.deepEqual(success(['validate', '--matter', path], PACKS), { ok: true, packs: [], failures: [], gaps: [] });
+  assert.deepEqual(success(['stale', '--matter', path], PACKS), []);
 });

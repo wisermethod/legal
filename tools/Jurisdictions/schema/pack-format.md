@@ -9,6 +9,8 @@ packs/<id>/forum/<forum-id>.json
 packs/<id>/excerpts/<name>.txt
 ```
 
+A matter's own packs live at `<matter folder>/jurisdictions/<pack-id>/` and use the same paths within each pack. The matter folder holds the `AGENTS.md` passed to `--matter`. Use `validate --matter <absolute-AGENTS.md>` or `stale --matter <absolute-AGENTS.md>` to check all packs there, or `--pack <absolute-directory>` to check one. Use one selection flag at a time.
+
 ## Manifest
 
 | Key | Value |
@@ -24,9 +26,11 @@ Each forum's `id` is unique in its pack and uses the pack ID syntax. Its `name` 
 
 ## Matching
 
-Use nonblank JavaScript regular expression strings without delimiter slashes or flags. Each pattern is wrapped as `^(?:<pattern>)$` and matched case-insensitively. From a trimmed court name, the resolver strips the final comma-separated part if that part contains a digit, to remove the case or reference number. Earlier comma-separated parts stay in the name. Multiple matching forums are an error.
+`resolve` returns the matter's records first, then looks for matches in the matter's own packs, then in the shipped packs. Its matter pack matches and age prompts carry `own_pack: true` and the absolute `pack_directory`. Shipped results carry `own_pack: false`. A matter pack match lists any displaced shipped pack IDs in `set_aside`.
 
-For each claim the resolver first tries the whole law name. It also recognizes a leading law name followed by a comma, semicolon, `except`, `unless` or `subject to`. It tries the longest eligible name first. When a leading name matches, the entire cell is returned as the exception and the result is held for review. If more than one pack matches the same law name, resolution fails and names the packs.
+Use nonblank JavaScript regular expression strings without delimiter slashes or flags. Each pattern is wrapped as `^(?:<pattern>)$` and matched case-insensitively. From a trimmed court name, the resolver strips the final comma-separated part if that part contains a digit, to remove the case or reference number. Earlier comma-separated parts stay in the name. Multiple matching forums are an error among the matter packs, or among the shipped packs if no matter pack matches.
+
+The resolver searches eligible law names in the matter packs before considering a shipped match. For each claim the resolver first tries the whole law name. It also recognizes a leading law name followed by a comma, semicolon, `except`, `unless` or `subject to`. It tries the longest eligible name first. When a leading name matches, the entire cell is returned as the exception and the result is held for review. If more than one pack in the first group to yield a match covers the selected law name, resolution fails and names the packs.
 
 ## Half files
 
