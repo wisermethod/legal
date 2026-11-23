@@ -164,6 +164,27 @@ test('validate refuses a mismatched source URL in a Verified excerpt', t => {
   validationFailure(pack, CONTRACT, 'contract-notice', /first line must equal source\.url/);
 });
 
+test('validate accepts a Verified statement sourced by title and section with no url', t => {
+  const pack = copyPack(t);
+  editJson(pack, CONTRACT, data => delete data.statements[0].source.url);
+  writeFileSync(join(pack, CONTRACT_EXCERPT), 'Example State Fictional Code § 1\n2025-01-01\nFictional excerpt.\n');
+  const result = success(['validate', '--pack', pack]);
+  assert.equal(result.ok, true, JSON.stringify(result.failures));
+});
+
+test('validate refuses a title-and-section excerpt whose first line is not the citation', t => {
+  const pack = copyPack(t);
+  editJson(pack, CONTRACT, data => delete data.statements[0].source.url);
+  writeFileSync(join(pack, CONTRACT_EXCERPT), 'Example State Fictional Code § 2\n2025-01-01\nFictional excerpt.\n');
+  validationFailure(pack, CONTRACT, 'contract-notice', /source\.citation where the source has no url/);
+});
+
+test('validate still refuses a url that is given but malformed', t => {
+  const pack = copyPack(t);
+  editJson(pack, CONTRACT, data => { data.statements[0].source.url = 'not a url'; });
+  validationFailure(pack, CONTRACT, 'contract-notice', /source\.url, when given, must be an absolute/);
+});
+
 test('validate refuses a mismatched date in a Verified excerpt', t => {
   const pack = copyPack(t);
   writeFileSync(join(pack, CONTRACT_EXCERPT), 'https://example-state.invalid/code/1\n2025-01-02\nFictional excerpt.\n');

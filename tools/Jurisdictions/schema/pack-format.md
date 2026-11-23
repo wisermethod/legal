@@ -42,11 +42,11 @@ Both halves require a `statements` array. A forum also requires `filing_profile`
 |---|---|
 | `id` | Nonblank statement identifier, unique across all halves of the pack. |
 | `text` | Nonblank statement of a sourced rule. Leave application to the facts of a matter to the person. |
-| `source` | Object with a nonblank `citation` and an absolute HTTP or HTTPS `url` without embedded credentials. |
+| `source` | Object with a nonblank `citation`, the publication's title and section, and, where the source has one, an absolute HTTP or HTTPS `url` without embedded credentials. |
 | `state` | `Verified` or `[verify]`. |
 | `last_read` | Real calendar date in `YYYY-MM-DD` form. |
 | `excerpt` | Pack-relative path `excerpts/<name>.txt`. Use a single filename under `excerpts/`. |
 
-A `Verified` statement requires a nonempty saved official excerpt. The first line must equal `source.url` and the second must equal `last_read`. Save the quoted official text below those lines. A `[verify]` statement still requires the excerpt path. Its file may be absent, and validation reports the statement as a gap.
+A `Verified` statement requires a nonempty saved official excerpt. The first line must equal `source.url`, or `source.citation` where the source has no `url`, and the second must equal `last_read`. Save the quoted official text below those lines. A `[verify]` statement still requires the excerpt path. Its file may be absent, and validation reports the statement as a gap.
 
 Validation checks local structure, references and excerpt headers. Use the cited authority to establish the rule and the accuracy of the saved excerpt. The age check counts whole calendar days and prompts for rereading when the age is strictly greater than the configured limit.

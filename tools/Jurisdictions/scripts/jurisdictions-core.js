@@ -207,8 +207,9 @@ function checkExcerpt(statement, directory, read, issue) {
     issue('Verified excerpt file must exist and be non-empty.');
     return;
   }
-  const [url, date] = lines(entry.text);
-  if (url !== statement.source?.url) issue('Verified excerpt first line must equal source.url.');
+  const [first, date] = lines(entry.text);
+  const header = statement.source?.url ?? statement.source?.citation;
+  if (first !== header) issue('Verified excerpt first line must equal source.url, or source.citation where the source has no url.');
   if (date !== statement.last_read) issue('Verified excerpt second line must equal last_read.');
 }
 
@@ -243,7 +244,7 @@ function halves(entries, read, failures, gaps) {
       if (!nonblank(statement.text)) problem('text is required and must be nonblank.');
       const sourceValid = object(statement.source, ['citation', 'url'], 'source', problem);
       if (sourceValid && !nonblank(statement.source.citation)) problem('source.citation is required and must be nonblank.');
-      if (sourceValid && !sourceUrl(statement.source.url)) problem('source.url must be an absolute HTTP(S) URL without credentials.');
+      if (sourceValid && statement.source.url !== undefined && !sourceUrl(statement.source.url)) problem('source.url, when given, must be an absolute HTTP(S) URL without credentials.');
       if (!['Verified', '[verify]'].includes(statement.state)) problem('state must be Verified or [verify].');
       if (dayNumber(statement.last_read) === null) problem('last_read is required and must be a calendar date in YYYY-MM-DD form.');
       const hasExcerptPath = excerptPath(statement.excerpt);
