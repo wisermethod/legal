@@ -3,10 +3,10 @@ name: Litigation Counsel
 type: expert
 category: litigation-procedure
 description: Sequence the shared litigation skills for the matter's posture and judge their results against the record, applicable practice-area guidance and filing gates
-version: 0.3.8
+version: 0.3.9
 gaps:
   - Arbitration rule sets other than the shipped JAMS employment rules still need governing sources from the matter record.
-  - Federal courts and courts outside Colorado have no jurisdiction profile.
+  - Courts without a compatible Colorado district or supported Southern District of New York profile need the unprofiled requirements check.
 ---
 
 # Litigation Counsel

@@ -3,9 +3,9 @@ name: Produce Court Filing
 type: skill
 category: procedure
 description: Produce a filing or forum submission from sourced inputs, then check the exact artifact for human preview and approval
-version: 0.7.3
+version: 0.7.4
 gaps:
-  - Mechanical jurisdiction-profile validation covers the shipped Colorado district layout and compatible custom profiles.
+  - Mechanical jurisdiction-profile validation covers Colorado district papers, supported Southern District of New York civil papers and compatible custom profiles.
   - Prescribed forms outside the supported types need the forum’s own form and requirements gate. Court Filing cannot validate those artifacts.
   - Court Filing measures profile geometry and printed content. Current forum acceptance, signature and service still need verification.
 ---
@@ -44,7 +44,7 @@ For an archive comparison alone use the historical lane below. For any request t
 
    For an accepted profile, continue with the following selections. Select the `document_types` entry, packet and applicable length treatment from the profile and controlling record. Use the profile’s `validation.limits` for working preset figures. If checked authority corrects a generally applicable figure, copy the profile into the build directory. Update only the affected ceiling and its verification record and use the same absolute profile path for compose and validate. Apply the same court match to this ceiling-only copy.
 
-   Keep the paper’s real title as typed in `caption.json`. Court Filing prints it in capitals in the caption box and as typed in the certificate of service. Choose `caption.document_type` with the person from the paper’s purpose and the controlling record. Court Filing `classify` can suggest types from the wording. Choose `other-paper` for a Colorado district paper with no specific type. It uses the general motion page preset and requires the filer signature and certificate. If an advisory suggests that the title names a second paper, check the intended paper or papers with the person at preview. If the record calls for separate papers, build each according to its actual scope and title.
+   Keep the paper’s real title as typed in `caption.json`. Court Filing prints it in capitals in the selected caption layout and as typed in the certificate of service when one applies. Choose `caption.document_type` with the person from the paper’s purpose and the controlling record. Court Filing `classify` can suggest types from the wording. Choose `other-paper` for a Colorado district paper with no specific type. It uses the general motion page preset and requires the filer signature and certificate. If an advisory suggests that the title names a second paper, check the intended paper or papers with the person at preview. If the record calls for separate papers, build each according to its actual scope and title.
 
    If the tool holds on the type guard, show the exact title, declared type, matching types and differences in ceilings or filing blocks. Choose the corrected type when the person identifies it, or obtain fresh affirmative confirmation for this build. Record the exact title, type, date and source in the build record, then set `caption.type_confirmed` to `{ "title": "<exact title>", "document_type": "<exact type>" }`. Start each new build without any earlier confirmation. Remove the confirmation when the title or type changes and ask again if the guard applies.
 

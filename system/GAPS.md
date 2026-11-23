@@ -7,7 +7,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 ### [Litigation Counsel](../experts/Litigation%20Counsel/EXPERT.md)
 
 - Arbitration rule sets other than the shipped JAMS employment rules still need governing sources from the matter record.
-- Federal courts and courts outside Colorado have no jurisdiction profile.
+- Courts without a compatible Colorado district or supported Southern District of New York profile need the unprofiled requirements check.
 
 ### [Cease and Desist](../experts/Cease%20and%20Desist/EXPERT.md)
 
@@ -65,7 +65,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Produce Court Filing](../skills/Produce%20Court%20Filing/SKILL.md)
 
-- Mechanical jurisdiction-profile validation covers the shipped Colorado district layout and compatible custom profiles.
+- Mechanical jurisdiction-profile validation covers Colorado district papers, supported Southern District of New York civil papers and compatible custom profiles.
 - Prescribed forms outside the supported types need the forum’s own form and requirements gate. Court Filing cannot validate those artifacts.
 - Court Filing measures profile geometry and printed content. Current forum acceptance, signature and service still need verification.
 
@@ -90,7 +90,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Court Filing](../tools/Court%20Filing/TOOL.md)
 
-- One caption layout ships, for Colorado district courts. A paper for any other court follows the unprofiled route.
+- Caption layouts ship for Colorado district courts and supported civil papers in the Southern District of New York. A paper without a compatible profile follows the unprofiled route.
 
 ### [Jurisdictions](../tools/Jurisdictions/TOOL.md)
 

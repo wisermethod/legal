@@ -3,7 +3,7 @@ name: Jurisdictions
 type: tool
 category: reference
 description: List and validate jurisdiction packs, match courts and governing law by declaration or name, and flag sources due for rereading
-version: 0.2.0
+version: 0.3.0
 runs: local
 gaps:
   - Colorado district court [verify] topics include the scope of civil monetary jurisdiction, geographic venue and transfer, complaint pleading, cover sheet and summons, current docket fee, waiver forms and submission, electronic filing eligibility and mandates, process service interval and methods, proof of service, answer periods and the effect of a pre-answer motion, amendment as of right, the timing of the case management order, settlement evidence, discovery response periods, and declaratory relief procedure.
@@ -26,7 +26,7 @@ gaps:
 
 Apply the legal plugin's [Standing constraint](../../AGENTS.md#standing-constraint). Use a pack for sourced rules. Leave the application of those rules to the matter's facts to the person. The matter's own records take precedence over any pack.
 
-The shipped Colorado pack identifies district court, county court and small claims forums and four areas of state law. Each file holds sourced statements with their state and date read, and `validate` lists every `[verify]` statement as a gap.
+The shipped Colorado pack identifies district court, county court and small claims forums and four areas of state law. The JAMS pack supplies employment arbitration procedure, and the federal pack supplies national district court civil procedure. Those two packs have no governing-law half and suggest no filing profile. Each file holds sourced statements with their state and date read, and `validate` lists every `[verify]` statement as a gap.
 
 A matter's own packs live at `<matter folder>/jurisdictions/<pack-id>/`, in the shipped pack format. The matter folder holds the `AGENTS.md` passed to `--matter`. `resolve` returns the matter's records first, then looks for matches in the matter's packs, then in the shipped packs. A matter pack takes precedence over a shipped match for the forum or governing law.
 
