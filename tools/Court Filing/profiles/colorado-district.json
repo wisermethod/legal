@@ -133,21 +133,6 @@
       "notes": "Working page limits and exclusions are in validation. Confirm the current rule and any applicable court order before filing."
     },
     {
-      "citation": "C.R.C.P. 121 section 1-15(1)(b)",
-      "verification": "working-default",
-      "notes": "Working briefing period. A responsive brief is due 21 days after the motion is filed, or 14 days after it is filed where the motion is filed 42 days or less before the trial date, unless the court allows a lesser or greater time. Confirm the current rule and any applicable court order before relying on a date."
-    },
-    {
-      "citation": "C.R.C.P. 121 section 1-15(1)(c)",
-      "verification": "working-default",
-      "notes": "Working briefing period. A reply brief is due 7 days after the responsive brief is filed, or 14 days after it is filed for a motion under C.R.C.P. 56, unless the court allows a greater or lesser time. Confirm the current rule and any applicable court order before relying on a date."
-    },
-    {
-      "citation": "C.R.C.P. 121 section 1-15(8)",
-      "verification": "working-default",
-      "notes": "Confirm the requirement for good-faith conferral with opposing counsel before filing most motions. State conferral in the body when required."
-    },
-    {
       "citation": null,
       "verification": "working-default",
       "notes": "The renderer leaves the signature date and the certificate day and month blank for manual completion immediately before filing via Colorado CCEF. The certificate preprints the caption year if supplied or the current calendar year."
@@ -155,57 +140,18 @@
   ],
   "filing_packets": {
     "new_case_complaint": {
-      "description": "Colorado district court civil new case initiation (CV, claims over $25,000)",
+      "description": "Court Filing packet for composing an initial complaint.",
       "required_at_filing": [
         {
           "item": "Complaint",
           "method": "Court Filing",
-          "notes": "Caption, numbered factual allegations, counts with elements, jury demand, prayer for relief; leave Case No blank for the court and include the certificate of service",
-          "citation": "C.R.C.P. 8",
-          "verification": "working-default"
-        },
-        {
-          "item": "JDF 601 District Court Civil Case Cover Sheet",
-          "method": "Official fillable PDF (coloradojudicial.gov)",
-          "notes": "Required with initial pleading per C.R.C.P. 16.1; do not recreate",
-          "citation": "C.R.C.P. 16.1",
-          "verification": "working-default"
-        },
-        {
-          "item": "JDF 600 District Court Civil Summons",
-          "method": "Official fillable PDF (coloradojudicial.gov)",
-          "notes": "Do not recreate",
+          "notes": "Court Filing composes the complaint from the body Markdown and caption data.",
           "citation": null,
-          "verification": "working-default"
-        },
-        {
-          "item": "Filing fee or fee-waiver motion plus financial affidavit",
-          "method": "CCEF payment or waiver filing",
-          "notes": "Confirm current filing fee [verify]; confirm fee-waiver form number [verify]",
-          "citation": null,
-          "verification": "verify"
-        }
-      ],
-      "post_filing_steps": [
-        {
-          "step": "Service of process",
-          "notes": "Serve defendant using approved method; file return or proof of service; the working service interval is within 63 days after filing. Confirm against the current rule before filing.",
-          "citation": "C.R.C.P. 4",
-          "verification": "working-default"
-        },
-        {
-          "step": "Seed answer deadline in DEADLINES.md",
-          "notes": "21 days after in-state service; 35 days after out-of-state service; confirm against the current rule before filing",
-          "citation": "C.R.C.P. 12",
           "verification": "working-default"
         }
       ],
-      "notes": [
-        "Use official fillable forms from coloradojudicial.gov self-help forms; recreating court forms risks rejection.",
-        "District court civil (CV) applies to claims over $25,000. Confirm against the current rule before filing.",
-        "Current filing fee amount [verify].",
-        "Fee-waiver motion and financial affidavit form number [verify]."
-      ]
+      "post_filing_steps": [],
+      "notes": []
     },
     "motion_response_with_declaration": {
       "description": "Motion-response packet containing a separately captioned declaration.",

@@ -14,11 +14,10 @@ Use YYYY-MM-DD and include time and time zone if the source sets them. Write the
 
 ## Working response periods
 
-Use these working periods when planning and seeding the deadline record. Check the current court rules, service circumstances, case-specific orders and calculation before confirming a deadline or filing.
+Take the working response periods from the forum pack file named in the forum finding. Write them here as rows with each statement's source and state.
 
-Keep only the row for the matter's forum, declared or, where the matter has no forum declaration, identified from its parties record. A Colorado state district court keeps the `Colorado state` row in full. A Colorado county court keeps it only as Open a Matter trims it for a county court. Keep no rows where the forum has no matching row.
+Keep an existing row only for a forum whose file gives no working response periods. Keep the `Federal court in Colorado` row only for the federal district court for Colorado.
 
 | Court | Answer to complaint | Motion response | Discovery response |
 |---|---|---|---|
-| Colorado state | 21 days from service, or 35 days for out-of-state service in the Colorado district civil initiation procedure | 21 days after the motion is filed, or 14 days where it is filed 42 days or less before the trial date (C.R.C.P. 121 section 1-15(1)(b)); check orders and local rules | 30 days `[verify]` |
 | Federal court in Colorado | 21 days from actual service as a working period. If service was waived, verify the longer period and its trigger before calculating. | 21 days, check local rules | 30 days |
