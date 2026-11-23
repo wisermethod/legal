@@ -1,6 +1,6 @@
 {
   "name": "wiser-court-filing",
-  "version": "0.9.0",
+  "version": "0.11.0",
   "private": true,
   "description": "Compose a court filing and check a rendered PDF against a jurisdiction profile",
   "type": "module",

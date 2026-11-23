@@ -1,149 +1,8 @@
 import { titleScope } from './title-core.js';
+import { getLayout } from './layout-index-core.js';
+import { bool, choice, citation, documentType, id, list, object, PAGE_SIZES, positive, required, shape, text } from './schema-fields-core.js';
 
-export const PAGE_SIZES = Object.freeze({
-  Letter: [612, 792],
-  Legal: [612, 1008],
-  A4: [595.28, 841.89],
-});
-
-export const SIDES = Object.freeze(['top', 'right', 'bottom', 'left']);
-
-function required(value, at, predicate, expectation) {
-  if (!predicate(value)) throw new Error(at + ' must be ' + expectation + '.');
-}
-
-const isText = value => typeof value === 'string' && value.trim() !== '' && !/[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/u.test(value);
-const text = (value, at) => required(value, at, isText, 'non-blank single-line text');
-const bool = (value, at) => required(value, at, x => typeof x === 'boolean', 'a boolean');
-const positive = (value, at) => required(value, at, x => Number.isSafeInteger(x) && x > 0, 'a positive integer');
-const id = (value, at) => required(value, at, x => typeof x === 'string' && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(x), 'a lowercase hyphenated identifier');
-const citation = (value, at) => {
-  if (value !== null) text(value, at);
-};
-
-function choice(...choices) {
-  return (value, at) => required(value, at, x => choices.includes(x), 'one of ' + choices.join(', '));
-}
-
-function number(min, max) {
-  return (value, at) => required(value, at, x => Number.isFinite(x) && x >= min && x <= max, 'a number from ' + min + ' through ' + max);
-}
-
-function object(value, at) {
-  required(value, at, x => x !== null && typeof x === 'object' && !Array.isArray(x), 'an object');
-}
-
-function shape(fields, optional = {}) {
-  return (value, at) => {
-    object(value, at);
-    for (const key of Object.keys(value)) {
-      if (!Object.hasOwn(fields, key) && !Object.hasOwn(optional, key)) {
-        throw new Error(at + '.' + key + ' is not a recognized field.');
-      }
-    }
-    for (const [key, validate] of Object.entries(fields)) {
-      const field = at + '.' + key;
-      if (!Object.hasOwn(value, key)) throw new Error(field + ' is required.');
-      validate(value[key], field);
-    }
-    for (const [key, validate] of Object.entries(optional)) {
-      if (Object.hasOwn(value, key)) validate(value[key], at + '.' + key);
-    }
-  };
-}
-
-function list(item, minimum = 0) {
-  return (value, at) => {
-    required(value, at, x => Array.isArray(x) && x.length >= minimum,
-      minimum ? 'a non-empty array' : 'an array');
-    value.forEach((entry, index) => item(entry, at + '[' + index + ']'));
-  };
-}
-
-const email = (value, at) => required(value, at, x => typeof x === 'string' && /^[^\s@;()<>,]+@[^\s@;()<>,]+$/u.test(x), 'an email address');
-const isYear = value => Number.isInteger(value) && value >= 1000 && value <= 9999;
-const party = shape({ role: text, name: text });
-const signer = shape({ name: text }, { role: text, lines: list(text) });
-const recipient = shape({ name: text, emails: list(email) });
-const service = shape({ recipients: list(recipient, 1) }, {
-  method: text, served_by: text, firm: text, firm_lines: list(text), firm_note: text,
-});
-const blankable = (value, at) => { if (value !== '') text(value, at); };
-const alignment = choice('left', 'center', 'right');
-const padding = (value, at) => {
-  if (!Array.isArray(value)) return number(0, 12)(value, at);
-  required(value, at, x => x.length === 4, 'four numbers for top, right, bottom and left');
-  list(number(0, 12))(value, at);
-};
-const nullable = check => (value, at) => { if (value !== null) check(value, at); };
-const tableStyle = shape({}, {
-  column_widths_percent: list(nullable(number(1, 100)), 1),
-  column_alignment: list(nullable(alignment), 1),
-  header_alignment: (value, at) => Array.isArray(value) ? list(nullable(alignment), 1)(value, at) : alignment(value, at),
-  nowrap_columns: list(positive),
-  cell_padding_pt: padding,
-  body_cell_padding_pt: padding,
-  font_size_pt: number(8, 16),
-  vertical_alignment: choice('top', 'middle', 'bottom', 'baseline'),
-});
-const tablePresentation = shape({}, {
-  default: tableStyle,
-  smaller_font_authority: shape({ source: text, minimum_font_size_pt: number(8, 16) }),
-  tables: (value, at) => {
-    object(value, at);
-    for (const [key, style] of Object.entries(value)) {
-      required(key, at + ' index', x => /^[1-9]\d*$/.test(x) && Number.isSafeInteger(Number(x)), 'a one-based table number');
-      tableStyle(style, at + '.' + key);
-    }
-  },
-});
-const confirmation = shape({ title: text, document_type: id });
-const captionShape = shape({
-  court: text,
-  parties: list(party, 1),
-  case_number: blankable,
-  division: blankable,
-  title: text,
-  document_type: id,
-  court_address: text,
-}, {
-  signer, caption_counsel: bool, counsel_label: text, service, filing_packet: text,
-  type_confirmed: (value, at) => {
-    if (typeof value === 'boolean') {
-      throw new Error(at + ' no longer accepts a boolean. Remove it and obtain fresh confirmation, then set { "title": "<exact title>", "document_type": "<exact type>" }.');
-    }
-    confirmation(value, at);
-  },
-  table_presentation: tablePresentation,
-  certificate_year: (value, at) => required(value, at, isYear, 'a four-digit year'),
-});
-
-export function counselLabel(caption) {
-  const role = caption.signer.role?.trim() ?? '';
-  const side = /^(?:(pro se) )?(plaintiff|defendant|petitioner|respondent)$/i.exec(role);
-  let inferred;
-  if (side) {
-    const party = side[2][0].toUpperCase() + side[2].slice(1).toLowerCase();
-    inferred = (side[1] ? 'Pro Se ' : '') + party + ':';
-  } else {
-    const counsel = /^(?:attorney|counsel) for (.+)$/i.exec(role);
-    if (counsel && caption.parties.some(party => party.name.toLowerCase() === counsel[1].toLowerCase())) {
-      inferred = 'Counsel for ' + counsel[1] + ':';
-    }
-  }
-  if (inferred) {
-    if (caption.counsel_label && caption.counsel_label.trim() !== inferred) {
-      throw new Error('caption.counsel_label conflicts with the signer role. Use ' + inferred + ' or omit counsel_label.');
-    }
-    return inferred;
-  }
-  if (caption.counsel_label) return caption.counsel_label;
-  throw new Error('caption.counsel_label is required when the signer role does not identify one side or a named party.');
-}
-
-export function documentType(profile, caption) {
-  return Object.hasOwn(profile.document_types, caption.document_type) ? profile.document_types[caption.document_type] : null;
-}
+export { documentType, PAGE_SIZES, SIDES } from './schema-fields-core.js';
 
 function matchesTitle(treatment, title) {
   if (treatment.exact_title !== undefined) return title === treatment.exact_title;
@@ -169,7 +28,8 @@ function lengthEntries(profile, treatment) {
   return (treatment.length_presets ?? []).map(id => ({ id, ...profile.validation.limits[id] }));
 }
 
-function morePermissive(profile, declared, matching) {
+function morePermissive(profile, schema, declared, matching) {
+  if (schema.requiredTreatmentFlags?.some(flag => matching[flag] && !declared[flag])) return true;
   if (matching.judicial_closing || matching.filer_signature && !declared.filer_signature ||
       matching.certificate && !declared.certificate) return true;
   const caps = ceilings(lengthEntries(profile, declared));
@@ -179,6 +39,7 @@ function morePermissive(profile, declared, matching) {
 }
 
 export function titleChecks(profile, caption) {
+  const { schema } = getLayout(profile.renderer_profile);
   const { title, document_type: type } = caption;
   const treatment = documentType(profile, caption);
   const checks = [];
@@ -191,20 +52,21 @@ export function titleChecks(profile, caption) {
   }
   const general = profile.fallback_document_type;
   const matching = Object.entries(profile.document_types).filter(([id, entry]) => id !== type && matchesTitle(entry, title));
-  const looser = matching.filter(([, entry]) => morePermissive(profile, treatment, entry)).map(([id]) => id);
+  const looser = matching.filter(([, entry]) => morePermissive(profile, schema, treatment, entry)).map(([id]) => id);
   const offPattern = type !== general && !matchesTitle(treatment, title);
   const baseline = general && profile.document_types[general];
-  const looserOffPattern = offPattern && (baseline ? morePermissive(profile, treatment, baseline) :
+  const looserOffPattern = offPattern && (baseline ? morePermissive(profile, schema, treatment, baseline) :
     !treatment.filer_signature || !treatment.certificate || !treatment.length_presets?.length);
   if (looser.length || looserOffPattern) {
     const reason = looser.length ?
       'The declared type ' + type + ' has different or looser treatment than matching type(s) ' + looser.join(', ') + '.' :
       'The title is outside the usual wording for ' + type + ', which has looser filing treatment.';
-    const confirmed = caption.type_confirmed?.title === title && caption.type_confirmed?.document_type === type;
+    const stricterTypeMessage = looser.length && schema.stricterTypeMessage;
+    const confirmed = !stricterTypeMessage && caption.type_confirmed?.title === title && caption.type_confirmed?.document_type === type;
     checks.push({
       label: 'Document type confirmation', status: confirmed ? 'advisory' : 'fail',
       detail: reason + (confirmed ? ' The person confirmed this exact title and type.' :
-        ' Correct the declared type or obtain the person’s fresh confirmation and set caption.type_confirmed to the exact title and document_type.'),
+        stricterTypeMessage || ' Correct the declared type or obtain the person’s fresh confirmation and set caption.type_confirmed to the exact title and document_type.'),
     });
   } else if (type === general && matching.length) {
     advisory('General document type declared', 'The title also matches ' + matching.map(([id]) => id).join(', ') + '.');
@@ -215,7 +77,8 @@ export function titleChecks(profile, caption) {
 }
 
 export function validateCaption(value, profile, at = 'caption', replay = false) {
-  captionShape(value, at);
+  const { schema } = getLayout(profile.renderer_profile);
+  schema.caption(value, at);
   const confirmed = value.type_confirmed;
   if (confirmed && (confirmed.title !== value.title || confirmed.document_type !== value.document_type)) {
     throw new Error(at + '.type_confirmed must match the exact title and document_type. Remove it and obtain fresh confirmation if needed.');
@@ -232,55 +95,9 @@ export function validateCaption(value, profile, at = 'caption', replay = false) 
   }
   const treatment = documentType(profile, value);
   if (!treatment) throw new Error(at + '.document_type is not listed for this profile. Run profiles.');
-  if ((value.filing_packet ?? null) !== treatment.filing_packet) {
-    throw new Error(at + '.filing_packet must match the profile document type: ' + (treatment.filing_packet ?? 'omit it') + '.');
-  }
-  if ((value.case_number === '') !== treatment.blank_case_number) {
-    throw new Error(at + '.case_number must be ' + (treatment.blank_case_number ? 'blank' : 'populated') + ' for this document type.');
-  }
-  if (value.division === '' && !treatment.allow_blank_division) throw new Error(at + '.division must be populated for this document type.');
-  if (treatment.filer_signature) {
-    if (!value.signer) throw new Error(at + '.signer is required.');
-    if (value.caption_counsel !== false) counselLabel(value);
-  } else if (value.signer || value.caption_counsel === true || value.counsel_label) {
-    throw new Error(at + ' must omit filer and counsel blocks for this document type.');
-  }
-  if (Boolean(value.service) !== treatment.certificate) {
-    throw new Error(at + '.service must be ' + (treatment.certificate ? 'supplied' : 'omitted') + ' for this document type.');
-  }
-  if (!treatment.certificate) return value;
-  if (value.service.method === undefined || value.service.method.toLowerCase().trim() === 'email') {
-    value.service.recipients.forEach((entry, index) =>
-      list(email, 1)(entry.emails, at + '.service.recipients[' + index + '].emails'));
-  }
+  schema.validateCaptionTreatment(value, treatment, at);
   return value;
 }
-
-const fontName = (value, at) =>
-  required(value, at, x => isText(x) && /^[a-z0-9][a-z0-9 ._-]*$/i.test(x), 'a plain font family or PostScript name');
-const footer = shape({
-  format: (value, at) => required(value, at, x => isText(x) && x.length <= 160 &&
-    (x.match(/\{page\}/g) || []).length === 1 && (x.match(/\{pages\}/g) || []).length === 1 &&
-    !/[{}<>]/u.test(x.replace('{page}', '').replace('{pages}', '')),
-  'plain text of at most 160 characters containing {page} and {pages} exactly once'),
-  font: choice('Times New Roman'),
-  size_pt: number(1, 72),
-  position: choice('left', 'center', 'right'),
-});
-
-const layout = shape({
-  page_size: choice(...Object.keys(PAGE_SIZES)),
-  margins_inches: shape(Object.fromEntries(SIDES.map(side => [side, number(0.1, 10)]))),
-  body_font: fontName,
-  body_font_size_pt: number(1, 72),
-  body_line_height: number(1, 5),
-  footer,
-  caption_style: text,
-  pdf_font_names: list(fontName, 1),
-}, {
-  certificate_year: (value, at) => required(value, at,
-    x => x === null || isYear(x), 'a four-digit year or null'),
-});
 
 const evidence = choice('working-default', 'recorded-in-source', 'verify');
 const spacingKinds = ['table', 'list', 'heading'];
@@ -313,12 +130,13 @@ const packets = (value, at) => {
   }
 };
 
-const documentTypes = (value, at) => {
+const documentTypes = extraFields => (value, at) => {
   object(value, at);
   const entry = shape({
     filer_signature: bool, certificate: bool, judicial_closing: bool, blank_case_number: bool,
     allow_blank_division: bool, filing_packet: (packet, field) => { if (packet !== null) text(packet, field); },
     length_presets: (value, at) => { if (value !== null) list(id)(value, at); },
+    ...extraFields,
   }, { exact_title: text, title_pattern: text, double_spacing: list(choice(...spacingKinds), 1),
     length_mode: choice('alternatives', 'all') });
   for (const [key, treatment] of Object.entries(value)) {
@@ -351,23 +169,26 @@ const courtMatch = list((pattern, at) => {
   }
 }, 1);
 
-const profileShape = shape({
+const profileShape = schema => shape({
   jurisdiction_id: id,
   display_name: text,
-  renderer_profile: choice('colorado-two-column-boxed'),
-  layout,
+  renderer_profile: getLayout,
+  layout: schema.layout,
   caption_defaults: object,
   validation,
   rules: list(shape({ citation, verification: evidence, notes: text })),
   filing_packets: packets,
-  document_types: documentTypes,
+  document_types: documentTypes(schema.documentTypeFields),
 }, {
+  availability: choice('explicit-path'),
   court_match: courtMatch,
   fallback_document_type: id,
 });
 
 export function validateProfile(value) {
-  profileShape(value, 'profile');
+  object(value, 'profile');
+  const { schema } = getLayout(value.renderer_profile);
+  profileShape(schema)(value, 'profile');
   for (const [key, treatment] of Object.entries(value.document_types)) {
     if (key === value.fallback_document_type) {
       if (treatment.exact_title || treatment.title_pattern) {
@@ -393,14 +214,11 @@ export function validateProfile(value) {
       throw new Error('profile.document_types.' + key + '.length_mode requires one page and one word preset.');
     }
   }
+  schema.validateProfileTreatment?.(value, lengthEntries);
   if (value.fallback_document_type) {
     const fallback = documentType(value, { document_type: value.fallback_document_type });
     const limits = fallback?.length_presets?.map(preset => value.validation.limits[preset]) ?? [];
-    if (!fallback?.certificate || fallback.filing_packet || !limits.some(limit => limit.unit === 'pages') ||
-        limits.length > 2 || new Set(limits.map(limit => limit.unit)).size !== limits.length ||
-        limits.some(limit => limit.verification === 'verify')) {
-      throw new Error('profile.fallback_document_type must name a paper type with filer signature, certificate, an applicable page preset and at most one applicable word preset.');
-    }
+    schema.validateFallback(fallback, limits);
   }
   validateCaption(value.caption_defaults, value, 'profile.caption_defaults');
   const { page_size, margins_inches: margins, footer } = value.layout;

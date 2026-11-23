@@ -29,11 +29,6 @@ export const normalize = text => text.replace(/\s+/gu, ' ').trim();
 const ligatures = { ﬀ: 'ff', ﬁ: 'fi', ﬂ: 'fl', ﬃ: 'ffi', ﬄ: 'ffl' };
 export const canonicalBody = text => text.normalize('NFC').replace(/[ﬀﬁﬂﬃﬄ]/gu, glyph => ligatures[glyph]).replace(/\s/gu, '');
 
-export function judicialClosing(printed, ruled = false) {
-  const ending = /(?:^|\s)BY *THE *COURT *:\s*(_{3,})? *([\p{L} .,'’-]{0,100}JUDGE\.?)$/iu.exec(normalize(printed));
-  return Boolean(ending && (ruled ? ending[1] === undefined : ending[1]));
-}
-
 export function blockBindings(html, tag) {
   const pattern = new RegExp('<' + tag + '>([\\s\\S]*?)</' + tag + '>', 'g');
   return Array.from(html.matchAll(pattern), match => ({
@@ -77,7 +72,7 @@ export function printedBodyText(html, includeListNumbers = true) {
   return Array.from(printedParts(html, includeListNumbers), part => part.text).join('');
 }
 
-export function spacingBindings(html, lineHeight) {
+export function spacingBindings(html, lineHeightFor) {
   const stack = [];
   const bindings = [];
   let offset = 0;
@@ -92,7 +87,7 @@ export function spacingBindings(html, lineHeight) {
         const insideList = stack.some(block => block.kind === 'list');
         const kind = list || (name === 'p' && insideList) ? 'list' :
           name === 'p' ? null : name.startsWith('h') ? 'heading' : 'table';
-        const block = { kind, lineHeight: name === 'h2' ? 1.4 : kind === 'list' || insideList ? lineHeight : 1 };
+        const block = { kind, lineHeight: lineHeightFor(name, kind, insideList) };
         stack.push(block);
       }
     }

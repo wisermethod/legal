@@ -1,6 +1,8 @@
+import { validateCourtMatch } from './compose-core.js';
 import { filingTextChecks } from './filing-text-core.js';
 import { documentType, resolveLimits, titleChecks, validateCaption, validateProfile } from './schema-core.js';
-import { footerCandidates, isExpectedPage, measureInk, readFonts, readPageInfo, readTextLines, readTypography, tableTypography, imagesAbsent, paragraphSpacing, bodySpacing, captionRuling, judicialRuling, filingInk, markPositions } from './pdf-evidence-core.js';
+import { footerCandidates, isExpectedPage, measureInk, readFonts, readPageInfo, readTextLines, readTypography, tableTypography, imagesAbsent, paragraphSpacing, bodySpacing, filingInk, markPositions } from './pdf-evidence-core.js';
+import { getLayout } from './layout-index-core.js';
 
 export const PASS = 'ALL CHECKS PASSED';
 export const REPLAY_PASS = 'REPLAY CHECKS PASSED - NOT FOR FILING';
@@ -9,16 +11,16 @@ export const MAX_PDF_PAGES = 200;
 
 const decoder = new TextDecoder();
 const resultOf = yes => yes ? 'pass' : 'fail';
-
 function pdfLayoutChecks(forEvidence, profile, info, pdf, inspect, positioned, bodyLines, prepared, repeated) {
   const { layout } = profile;
+  const { captionEvidence: caption, judicialEvidence } = getLayout(profile.renderer_profile);
   const unchecked = why => {
     const add = forEvidence(['page-info']);
     add('Profile type size', 'not_checked', why);
     add('Body paragraph spacing', 'not_checked', why);
     add('No embedded page images', 'not_checked', why);
-    add('Boxed caption ruling', 'not_checked', why);
-    if (prepared.ruledClosing) add('Visible judicial signature ruling', 'not_checked', why);
+    for (const [label] of caption.checks) add(label, 'not_checked', why);
+    if (prepared.ruledClosing) add(judicialEvidence.label, 'not_checked', why);
     add('Page size', 'not_checked', why);
     add('Embedded profile fonts', 'not_checked', why);
     add('Page-number footer', 'not_checked', why);
@@ -63,8 +65,8 @@ function pdfLayoutChecks(forEvidence, profile, info, pdf, inspect, positioned, b
     const add = forEvidence(['positioned-text']);
     const reason = info.active ? 'Interactive PDF fields or JavaScript make the printed appearance uncertain.' :
       wrongPages.length ? 'Expected page geometry is unavailable or does not match.' : 'Positioned PDF text is unavailable.';
-    add('Boxed caption ruling', 'not_checked', reason);
-    if (prepared.ruledClosing) add('Visible judicial signature ruling', 'not_checked', reason);
+    for (const [label] of caption.checks) add(label, 'not_checked', reason);
+    if (prepared.ruledClosing) add(judicialEvidence.label, 'not_checked', reason);
     add('Page-number footer', 'not_checked', reason);
     add('Visible margin geometry', 'not_checked', reason);
     add('Visible filing ink', 'not_checked', reason);
@@ -82,14 +84,15 @@ function pdfLayoutChecks(forEvidence, profile, info, pdf, inspect, positioned, b
     const ink = bytes && measureInk(bytes, layout, footers[index]);
     if (!ink) unreadable.push(page);
     else if (ink.outside) badMargins.push(page);
-    const box = index === 0 ? captionRuling(bytes, layout, positioned[0]) : null;
-    if (index === 0) measured(['raster'], 'Boxed caption ruling', box === null ? null : Boolean(box),
-      'Visible outer box, column divider and title separator on the first page.', page);
+    const ruling = index === 0 ? caption.inspect(bytes, layout, positioned[0]) : {};
+    if (index === 0) caption.checks.forEach(([label, detail], i) =>
+      measured(['raster'], label, ruling.results[i], detail, page));
     const ruled = prepared.ruledClosing && index === info.count - 1;
-    const judicialRule = ruled ? judicialRuling(bytes, layout, positioned[index]) : null;
-    if (ruled) measured(['raster'], 'Visible judicial signature ruling', judicialRule === null ? null : Boolean(judicialRule),
-      'Visible blank rule between the court heading and judge designation.', page);
-    if (marks && filingInk(bytes, layout, positioned[index], box, judicialRule, marks[index]) === false) badInk.push(page);
+    const judicialRule = ruled ? judicialEvidence.inspect(bytes, layout, positioned[index]) : null;
+    if (ruled) measured(['raster'], judicialEvidence.label, judicialRule === null ? null : Boolean(judicialRule),
+      judicialEvidence.detail, page);
+    const rulingRegions = [...(ruling.rules ?? []), ...(judicialRule ? [judicialRule] : [])];
+    if (marks && filingInk(bytes, layout, positioned[index], marks[index], rulingRegions) === false) badInk.push(page);
     if (!footers[index] || ink?.footerVisible === false) badFooters.push(page);
   }
   const status = bad => bad.length ? 'fail' : unreadable.length ? 'not_checked' : 'pass';
@@ -99,7 +102,8 @@ function pdfLayoutChecks(forEvidence, profile, info, pdf, inspect, positioned, b
   ].filter(Boolean).join(' ') || success;
   const add = forEvidence(['raster']);
   add('Page-number footer', status(badFooters), detail(badFooters, 'Expected visible footer missing or misplaced on page(s) ',
-    'Each page has one visible ' + layout.footer.position + ' footer with its page number and total.'));
+    'Each page has one visible ' + layout.footer.position + ' footer with its page number' +
+      (layout.footer.format.includes('{pages}') ? ' and total.' : '.')));
   add('Visible filing ink', marks ? status(badInk) : 'not_checked', marks ?
     detail(badInk, 'Invisible text, missing marks or unexpected visible ink on page(s) ',
       'Positioned words have ink, and ink is confined to the expected text, marks, caption ruling and signature areas.') :
@@ -114,6 +118,7 @@ export function validate({
 }, inspect) {
   validateProfile(profile);
   validateCaption(caption, profile, 'caption', replay);
+  validateCourtMatch(caption.court, profile);
   let limits = resolveLimits(profile, caption, limitOptions);
   const { bodySha256, bodyWords } = prepared;
   const title = titleChecks(profile, caption);
@@ -154,10 +159,9 @@ export function validate({
   if (limits.choice === 'no-length-limit') {
     add('No length preset for profile document type', 'pass', 'This type has no length preset in the profile.');
   }
-  const certificateYear = caption.certificate_year ?? validationDate.getFullYear();
   const textEvidence = forEvidence(['page-info', 'text', 'positioned-text']);
   const { pdfBodyWords, bodyLines, repeated, spacingBound } = filingTextChecks({
-    caption, profile, extracted, info, prepared, add: textEvidence, positioned, certificateYear, replay,
+    caption, profile, extracted, info, prepared, add: textEvidence, positioned, validationDate, replay,
   });
   if (alternatives) {
     const pageCount = info?.count ?? null;
@@ -194,8 +198,9 @@ export function validate({
         'Composition uses the higher of the printed-text count and the Markdown token count.');
   }
   const spacingScope = documentType(profile, caption).double_spacing ?? [];
+  const spacingLayout = getLayout(profile.renderer_profile).spacing(profile.layout);
   const spacing = spacingBound && positioned && !info.active ?
-    bodySpacing(positioned, bodyLines, repeated, prepared.bodyHtml, profile.layout) : null;
+    bodySpacing(positioned, bodyLines, repeated, prepared.bodyHtml, profile.layout, spacingLayout) : null;
   const failedSpacing = spacingScope.filter(kind => spacing?.[kind] > 0);
   const spacingStatus = !spacing ? (spacingScope.length ? 'not_checked' : 'advisory') :
     failedSpacing.length ? 'fail' : spacing.underDoubleLines ? 'advisory' : 'pass';

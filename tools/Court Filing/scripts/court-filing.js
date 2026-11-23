@@ -8,6 +8,7 @@ import { homedir } from 'node:os';
 import { basename, dirname, extname, isAbsolute, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { compose, parseFilingMarkdown, prepareBody, REPLAY_PREFIX, validateCourtMatch } from './compose-core.js';
+import { getLayout } from './layout-index-core.js';
 import { RASTER_DPI } from './pdf-evidence-core.js';
 import { documentType, resolveLimits, suggestTypes, validateCaption, validateProfile } from './schema-core.js';
 import { comparePdfs } from './compare-core.js';
@@ -151,11 +152,12 @@ function usage() {
     '  node scripts/court-filing.js check [--install]',
     '  ' + HELP + ' (or --help, also after a command)',
     '',
+    'Profiles marked explicit-path require an absolute JSON path. See TOOL.md for profile selection.',
     '--body is required. Validation parses the original Markdown independently and checks it against the PDF.',
-    'Omit length flags to use the declared type\'s profile treatment. The shipped Colorado length presets are page limits. --limit selects a listed preset.',
+    'Omit length flags to use the declared type\'s profile treatment. --limit selects a listed preset.',
     '--max-pages and --max-words set the litigant\'s own tighter targets. In a custom profile with alternatives, an exceeded target is an advisory if the other unit passes.',
     '--order-max-pages and --order-max-words set mandatory ceilings. Supply --order-source with the order or rule, its date and record location.',
-    'A word-only order keeps the shipped page limit in force. For a custom type with alternatives, an order replaces the pair. A ceiling above the profile is flagged for preview.',
+    'A word-only order keeps an applicable page limit in force. For a custom type with alternatives, an order replaces the pair. A ceiling above the profile is flagged for preview.',
     '--no-length-limit is an optional equivalent for a type whose length_presets is null.',
     '--replay marks composition metadata and requires a PDF filename starting with "Not for filing - " in validation.',
     'classify suggests types. The caller declares the type. compare reports historical differences and writes nothing.',
@@ -258,13 +260,21 @@ function json(path, label) {
   return data;
 }
 
+function shippedProfile(name) {
+  const profile = validateProfile(json(join(PROFILES, name), '--profile'));
+  if (profile.jurisdiction_id + '.json' !== name) throw new Error('Shipped profile filename and jurisdiction_id differ: ' + name + '.');
+  return profile;
+}
+
 function loadProfile(selection) {
   if (isAbsolute(selection)) return validateProfile(json(screened('--profile', selection, '.json'), '--profile'));
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(selection)) throw new Error('--profile must be a shipped identifier or an absolute JSON path.');
   const name = selection + '.json';
   if (!readdirSync(PROFILES).includes(name)) throw new Error('Unknown jurisdiction profile ' + selection + '. Run profiles.');
-  const profile = validateProfile(json(join(PROFILES, name), '--profile'));
-  if (profile.jurisdiction_id !== selection) throw new Error('Shipped profile filename and jurisdiction_id differ: ' + name + '.');
+  const profile = shippedProfile(name);
+  if (profile.availability === 'explicit-path') {
+    throw new Error('Profile ' + selection + ' requires an absolute JSON path. See TOOL.md.');
+  }
   return profile;
 }
 
@@ -428,8 +438,8 @@ async function main(args) {
   const explicitInstall = flags.get('--install') === true;
   let result;
   if (command === 'profiles') {
-    const ids = readdirSync(PROFILES).filter(name => name.endsWith('.json')).sort().map(name => name.slice(0, -5));
-    result = { profiles: ids.map(loadProfile) };
+    const names = readdirSync(PROFILES).filter(name => name.endsWith('.json')).sort();
+    result = { profiles: names.map(shippedProfile).filter(profile => profile.availability !== 'explicit-path') };
   } else if (command === 'classify') {
     const profile = loadProfile(flags.get('--profile'));
     result = { profile: profile.jurisdiction_id, suggestions: suggestTypes(profile, flags.get('--title')) };
@@ -493,6 +503,7 @@ async function main(args) {
         preset: flags.get('--limit'), pages: numeric('--max-pages'), words: numeric('--max-words'), noLimit: flags.has('--no-length-limit'),
         orderPages: numeric('--order-max-pages'), orderWords: numeric('--order-max-words'), orderSource: flags.get('--order-source'),
       };
+      validateCourtMatch(caption.court, profile);
       resolveLimits(profile, caption, limitOptions);
       const bodySha256 = flags.get('--body-sha256');
       if (!/^[a-f0-9]{64}$/.test(bodySha256)) throw new Error('--body-sha256 must be the lowercase SHA-256 returned by compose.');
@@ -500,7 +511,8 @@ async function main(args) {
         throw new Error('--body does not match --body-sha256. Pass the original Markdown or compose and render again.');
       }
       const parse = await markdownParser(explicitInstall);
-      const prepared = prepareBody(body, documentType(profile, caption), parse, digest, caption.table_presentation);
+      const prepared = prepareBody(body, documentType(profile, caption), parse, digest, caption.table_presentation,
+        getLayout(profile.renderer_profile));
       const pdf = readPdf(pdfPath, '--pdf');
       const unavailable = [];
       const dependencies = popplerVersions(PROGRAMS, unavailable);

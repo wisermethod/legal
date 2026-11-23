@@ -1,220 +1,22 @@
-import { blockBindings, bodyMarks, judicialClosing, markdownWordCount, printedBodyText, tableHeaderBindings, wordCount } from './body-text-core.js';
-import { compileCourtPattern, counselLabel, documentType, SIDES, titleChecks, validateCaption, validateProfile } from './schema-core.js';
+import { blockBindings, bodyMarks, markdownWordCount, printedBodyText, tableHeaderBindings, wordCount } from './body-text-core.js';
+import { cssInches, REPLAY_PREFIX } from './composition-core.js';
+import { defaultLayout, getLayout } from './layout-index-core.js';
+import { SIDES } from './schema-fields-core.js';
+import { compileCourtPattern, documentType, titleChecks, validateCaption, validateProfile } from './schema-core.js';
 
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-
-function lines(arr) {
-  return (arr || []).map(l => `<div>${escapeHtml(l)}</div>`).join('');
-}
-
-export function formatPartyName(name, role) {
-  const upper = String(name || '').toUpperCase();
-  const suffix = role.trim().toLowerCase() === 'plaintiff' ? ';' : '.';
-  return `${upper}${suffix}`;
-}
-
-export function captionTitle(title) {
-  // Chromium applies Unicode default uppercase for the document's English language.
-  // Validation uses String.prototype.toUpperCase() for the same printed text.
-  return { css: 'text-transform: uppercase;', printed: title.toUpperCase() };
-}
-
-function counselInCaption(c) {
-  const s = c.signer;
-  if (!s || c.caption_counsel === false) return '';
-  const label = counselLabel(c);
-  return `
-    <div class="counsel-block">
-      <div class="counsel-label">${escapeHtml(label)}</div>
-      <div class="counsel-name">${escapeHtml(s.name)}</div>
-      ${lines(s.lines)}
-    </div>`;
-}
-
-export function captionParties(parties) {
-  const separator = parties.findIndex(party => /^defendants?\b/i.test(party.role.trim()));
-  return { ordered: parties, separator: separator > 0 ? separator : -1 };
-}
-
-/**
- * Colorado district court caption (C.R.C.P. 10 style): two-column header, counsel block under parties on the left,
- * COURT USE ONLY in the upper right, case metadata below, document title in a
- * full-width row at the bottom of the caption box.
- */
-function captionTable(c) {
-  const partyBlocks = [];
-  const { ordered, separator } = captionParties(c.parties);
-  for (const [index, p] of ordered.entries()) {
-    if (index === separator) partyBlocks.push('<div class="vs">v.</div>');
-    partyBlocks.push(
-      `<div class="party"><span class="role">${escapeHtml(p.role)}:</span> ${escapeHtml(formatPartyName(p.name, p.role))}</div>`
-    );
-  }
-  const parties = partyBlocks.join('');
-  return `
-  <table class="caption">
-    <tr class="caption-main">
-      <td class="cap-left">
-        <div class="court-name">${escapeHtml(c.court)}</div>
-        <div class="court-addr">${escapeHtml(c.court_address || '')}</div>
-        <div class="parties">${parties}</div>
-        ${counselInCaption(c)}
-      </td>
-      <td class="cap-right">
-        <div class="cap-right-top">
-          <div class="court-use">&#9650; COURT USE ONLY &#9650;</div>
-        </div>
-        <div class="cap-right-bottom">
-          <div><strong>Case No:</strong> ${escapeHtml(c.case_number)}</div>
-          <div><strong>Division:</strong> ${escapeHtml(c.division)}</div>
-        </div>
-      </td>
-    </tr>
-    <tr class="caption-title-row">
-      <td colspan="2" class="doc-title">${escapeHtml(c.title)}</td>
-    </tr>
-  </table>`;
-}
-
-const layoutCourtRules = {
-  'colorado-two-column-boxed': {
-    pattern: /, Colorado$/i,
-    requirement: 'requires a court name ending in ", Colorado".',
-  },
-};
+export { REPLAY_PREFIX } from './composition-core.js';
 
 export function validateCourtMatch(court, profile) {
   const { renderer_profile: layout, jurisdiction_id: id, court_match: patterns } = profile;
   const name = court.trim();
   const refusal = detail => new Error('Caption court ' + JSON.stringify(court) + ' is outside profile "' + id + '". ' +
     detail + ' A paper for that court needs a profile for that court or the unprofiled route in the Produce Court Filing skill.');
-  const rule = Object.hasOwn(layoutCourtRules, layout) ? layoutCourtRules[layout] : null;
-  if (!rule) throw refusal('The ' + layout + ' layout has no court rule, so no court can be checked against it.');
-  if (!rule.pattern.test(name)) throw refusal('The ' + layout + ' layout ' + rule.requirement);
+  const { courtRule: rule } = getLayout(layout, () =>
+    refusal('The ' + layout + ' layout has no court rule, so no court can be checked against it.'));
+  if (!rule.matches(name)) throw refusal('The ' + layout + ' layout ' + rule.requirement);
   if (patterns && !patterns.some(pattern => compileCourtPattern(pattern).test(name))) {
     throw refusal('The court name does not match the profile’s court_match rule.');
   }
-}
-
-function signatureBlock(s) {
-  if (!s) return '';
-  return `
-  <div class="closing">
-    <p>Respectfully submitted,</p>
-    <p>Date: ____________________</p>
-    <div class="sig-line">_____________________________</div>
-    <div class="sig-name">${escapeHtml(s.name)}, ${escapeHtml(s.role || '')}</div>
-    ${lines(s.lines)}
-  </div>`;
-}
-
-function certificateOfService(svc, title, year, signer) {
-  if (!svc) return '';
-  const recips = (svc.recipients || []).map(r =>
-    `<div class="recipient">${escapeHtml(r.name)} (${(r.emails || []).map(escapeHtml).join('; ')})</div>`
-  ).join('');
-  const firm = svc.firm ? `<div>${escapeHtml(svc.firm)}</div>` : '';
-  const firmLines = lines(svc.firm_lines);
-  const firmNote = svc.firm_note ? `<div class="firm-note"><em>${escapeHtml(svc.firm_note)}</em></div>` : '';
-  return `
-  <div class="cert">
-    <h2 class="cert-title">CERTIFICATE OF SERVICE</h2>
-    <p>I certify that on this ____ day of __________, ${year}, a true and correct copy of the foregoing
-    ${escapeHtml(title)} was served by ${escapeHtml(svc.method || 'email')} to:</p>
-    <div class="service-list">
-      ${recips}
-      ${firm}${firmLines}${firmNote}
-    </div>
-    <div class="sig-line">_____________________________</div>
-    <div class="sig-name">${escapeHtml(svc.served_by ?? signer.name)}</div>
-  </div>`;
-}
-
-function courtCss(layout, titleCss, replay) {
-  const margin = SIDES.map(side => cssInches(layout.margins_inches[side])).join(" ");
-  return `
-  @page { size: ${layout.page_size.toLowerCase()}; margin: ${margin}; }
-  html, body { margin: 0; padding: 0; }
-  body { font-family: '${layout.body_font}', Times, serif; font-size: ${layout.body_font_size_pt}pt; color: #000; }
-
-  table.caption { width: 100%; border-collapse: collapse; border: 1.5pt solid #000; margin-bottom: 18pt; table-layout: fixed; }
-  table.caption { break-inside: avoid; }
-  table.caption td { vertical-align: top; }
-  td.cap-left { width: 62%; border-right: 1.5pt solid #000; padding: 8pt 10pt; }
-  td.cap-right { width: 38%; padding: 0; }
-  .cap-right-top { min-height: 96pt; display: flex; align-items: flex-end; justify-content: center; padding: 8pt 10pt; border-bottom: 1.5pt solid #000; }
-  .cap-right-bottom { padding: 8pt 10pt; }
-  .cap-right-bottom div { margin: 2pt 0; }
-  .court-name { font-weight: bold; text-transform: uppercase; }
-  .court-addr { margin-bottom: 10pt; }
-  .party { margin: 2pt 0; }
-  .party .role { font-weight: bold; }
-  .vs { margin: 6pt 0; }
-  .court-use { text-align: center; font-weight: bold; width: 100%; }
-  .counsel-block { margin-top: 10pt; padding-top: 8pt; border-top: 1pt solid #000; }
-  .counsel-label { font-weight: bold; margin-bottom: 2pt; }
-  .counsel-name { margin-bottom: 2pt; }
-  tr.caption-title-row td.doc-title { border-top: 1.5pt solid #000; text-align: center; font-weight: bold; white-space: pre-wrap; ${titleCss} line-height: 1.3; padding: 8pt 12pt; }
-
-  .body p { line-height: ${layout.body_line_height}; margin: 0 0 6pt 0; text-align: left; }
-${replay ? '' : `  .body h1, .body h2, .body h3, .body h4, .body h5, .body h6 { break-after: avoid; }
-`}  .body h1, .body h4, .body h5, .body h6 { font-size: ${layout.body_font_size_pt}pt; }
-  .body code { font-family: inherit; }
-  .body h2 { font-size: ${layout.body_font_size_pt}pt; font-weight: bold; line-height: 1.4; margin: 14pt 0 6pt 0; }
-  .body h3 { font-size: ${layout.body_font_size_pt}pt; font-weight: bold; font-style: italic; margin: 10pt 0 4pt 0; }
-  .body ol, .body ul { line-height: ${layout.body_line_height}; margin: 0 0 6pt 0; padding-left: 36pt; }
-  .body em { font-style: italic; }
-  .body strong { font-weight: bold; }
-  /* Ordinary pipe tables use Chromium's print defaults. */
-  .body table { border-collapse: separate; border-spacing: 2px; }
-  .body table thead { display: table-header-group; vertical-align: middle; }
-  .body table tbody { vertical-align: middle; }
-  .body table tr, .body table th, .body table td { vertical-align: inherit; }
-  .body table th, .body table td { padding: 1px; }
-  .body table th:not([align]) { text-align: center; }
-
-  .closing { margin-top: 18pt; line-height: 1.4; break-inside: avoid; }
-  .closing p { margin: 12pt 0; }
-  .sig-line { margin-top: 18pt; }
-  .sig-name { font-weight: bold; }
-
-  .cert { margin-top: 24pt; line-height: 1.4; break-inside: avoid; }
-  .cert-title { text-align: center; font-weight: bold; font-size: ${layout.body_font_size_pt}pt; margin: 12pt 0; }
-  .cert p { line-height: 1.5; }
-  .service-list { margin: 8pt 0 18pt 24pt; }
-  .recipient { margin: 2pt 0; }
-  .firm-note { margin-top: 2pt; }
-`;
-}
-
-export const REPLAY_LABEL = 'Not for filing';
-export const REPLAY_PREFIX = REPLAY_LABEL + ' - ';
-export const REPLAY_TITLE_SUFFIX = ' | ' + REPLAY_LABEL;
-
-export function compositionTitle(bodySha256, certificateYear = null, replay = false) {
-  return 'Court Filing ' + bodySha256 + (certificateYear === null ? '' : ' | Certificate year ' + certificateYear) +
-    (replay ? REPLAY_TITLE_SUFFIX : '');
-}
-
-function buildHtml(caption, layout, prepared, certificateYear, replay) {
-  const { bodyHtml, tableStyles, bodySha256 } = prepared;
-  const presentation = styleTables(bodyHtml, tableStyles);
-  return `<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><title>${compositionTitle(bodySha256, certificateYear, replay)}</title><style>${courtCss(layout, captionTitle(caption.title).css, replay)}${presentation.css}</style></head>
-<body>
-  ${captionTable(caption)}
-  <div class="body">${presentation.html}</div>
-  ${signatureBlock(caption.signer)}
-  ${caption.service ? certificateOfService(caption.service, caption.title, certificateYear, caption.signer) : ''}
-</body></html>`;
-}
-
-function cssInches(value) {
-  return value + 'in';
 }
 
 function resolveTableStyles(headers, presentation) {
@@ -277,7 +79,7 @@ function styleTables(bodyHtml, styles) {
   return { html, css: rules.join('\n') };
 }
 
-export function prepareBody(body, treatment, parseMarkdown, digest, presentation) {
+export function prepareBody(body, treatment, parseMarkdown, digest, presentation, renderer = defaultLayout) {
   if (typeof body !== 'string' || body.trim() === '') {
     throw new Error('Body markdown must contain filing text.');
   }
@@ -289,12 +91,7 @@ export function prepareBody(body, treatment, parseMarkdown, digest, presentation
   }
   const bodyHtml = parseMarkdown(body);
   const bodyText = printedBodyText(bodyHtml);
-  const ruledClosing = treatment.judicial_closing &&
-    /<p>BY THE COURT *:<\/p>\s*<hr>\s*(?:<p>[\p{L} .,'’-]{1,70}<\/p>\s*)?<p>[\p{L} .,'’-]{0,30}JUDGE\.?<\/p>\s*$/iu.test(bodyHtml) &&
-    /BY THE COURT *:\s*\n\s*_{3,} *\r?\n/iu.test(body);
-  if (treatment.judicial_closing && !judicialClosing(bodyText, ruledClosing)) {
-    throw new Error('Proposed-order Markdown must end with BY THE COURT, a blank signature line and a judge designation.');
-  }
+  const ruledClosing = treatment.judicial_closing && renderer.prepareJudicialClosing(body, bodyHtml, bodyText);
   const printedWords = wordCount(bodyText);
   if (!printedWords) throw new Error('Body Markdown must produce readable filing text. Add the filing text and compose again.');
   const bodyWords = Math.max(printedWords, markdownWordCount(body));
@@ -315,15 +112,18 @@ export function compose({ caption, body, profile, replay = false }, parseMarkdow
   const refusal = checks.find(check => check.status === 'fail');
   if (refusal) throw new Error(refusal.detail);
   const layout = profile.layout;
-  const certificateYear = caption.service ? caption.certificate_year ?? new Date().getFullYear() : null;
-  const prepared = prepareBody(body, documentType(profile, caption), parseMarkdown, digest, caption.table_presentation);
+  const treatment = documentType(profile, caption);
+  const renderer = getLayout(profile.renderer_profile);
+  const prepared = prepareBody(body, treatment, parseMarkdown, digest, caption.table_presentation, renderer);
+  const presentation = styleTables(prepared.bodyHtml, prepared.tableStyles);
+  const html = renderer.compose({ caption, layout, prepared, treatment, presentation, replay });
   return {
     documentType: caption.document_type,
     checks,
     advisories: checks.filter(check => check.status === 'advisory'),
     bodySha256: prepared.bodySha256,
     bodyWords: prepared.bodyWords,
-    html: buildHtml(caption, layout, prepared, certificateYear, replay),
+    html,
     pdfFilenamePrefix: replay ? REPLAY_PREFIX : null,
     pdf: {
       paperSize: layout.page_size,
