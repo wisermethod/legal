@@ -78,13 +78,13 @@
   "filing_packets": {},
   "document_types": {
     "reply-memorandum": {
-      "title_pattern": ".*\\b(?:reply (?:memorandum|brief|in support of)|(?:brief|memorandum(?: of law)?) in reply)\\b.*",
+      "title_pattern": ".*\\b(?:reply (?:memorandum|brief|in (?:further )?support of|to)|(?:brief|memorandum(?: of law)?) in reply)\\b.*",
       "filer_signature": true, "certificate": true, "judicial_closing": false,
       "blank_case_number": false, "allow_blank_division": true, "filing_packet": null,
       "length_presets": ["reply-words"], "word_count_certificate": true, "double_spacing": ["table", "list"]
     },
     "memorandum-of-law": {
-      "title_pattern": "(?!.*\\b(?:reply (?:memorandum|brief|in support of)|(?:brief|memorandum(?: of law)?) in reply)\\b).*\\b(?:memorandum of law|(?:brief|memorandum) in (?:support|opposition|response))\\b.*",
+      "title_pattern": "(?!.*\\b(?:reply (?:memorandum|brief|in (?:further )?support of|to)|(?:brief|memorandum(?: of law)?) in reply)\\b).*\\b(?:memorandum of law|(?:brief|memorandum) in (?:(?:further )?support|opposition|response))\\b.*",
       "filer_signature": true, "certificate": true, "judicial_closing": false,
       "blank_case_number": false, "allow_blank_division": true, "filing_packet": null,
       "length_presets": ["memorandum-words"], "word_count_certificate": true, "double_spacing": ["table", "list"]

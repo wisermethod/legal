@@ -3,7 +3,7 @@ name: Court Filing
 type: tool
 category: documents
 description: Compose and check profiled court filings from Markdown and caption data, using profile-defined document types and filing blocks
-version: 0.11.1
+version: 0.11.2
 runs: local
 gaps:
   - "Caption layouts ship for Colorado district courts and supported civil papers in the Southern District of New York. A paper without a compatible profile follows the unprofiled route."
@@ -185,7 +185,7 @@ The command writes no files. It returns `label`, `note`, `reference` and `rebuil
 
 ## Profile schema
 
-`profiles` is the inventory. To add a court using a supported layout, make a profile JSON file under `profiles/` with the same filename stem as `jurisdiction_id`. A caller can also use an absolute profile path. A different caption design requires a supported renderer profile. Use the issuing court’s prescribed separate process or form for a proposed order when it requires one. `colorado-district` is selectable by ID. The S.D.N.Y. profile is selectable by absolute path.
+`profiles` inventories profiles selectable by ID; it omits profiles marked `explicit-path`. Also inspect the shipped [S.D.N.Y. profile](profiles/federal-district-sdny.json) when checking which courts have a format. Compare its `court_match` with the court name without a case number, then use its verified absolute JSON path for a match. To add a court using a supported layout, make a profile JSON file under `profiles/` with the same filename stem as `jurisdiction_id`. A caller can also use an absolute profile path. A different caption design requires a supported renderer profile. Use the issuing court’s prescribed separate process or form for a proposed order when it requires one. `colorado-district` is selectable by ID. The S.D.N.Y. profile is selectable by absolute path.
 
 | Field | Type and use |
 |---|---|

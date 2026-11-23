@@ -74,28 +74,32 @@ pdfTest('the printed compliance certificate counts the full body including front
   assert.match(printed, /I certify that this brief complies with the applicable word-count limit under Local Civil Rule 7\.1\(c\) and that its body contains 26 words, including any index, table of contents or table of authorities in the body\./u);
 });
 
-pdfTest('9,000-word support and opposition briefs retain the cap and certificate', t => {
+pdfTest('9,000-word support, opposition and reply briefs retain their caps and certificates', t => {
   const directory = temp(t);
   const profile = join(directory, 'sdny.json');
   writeFileSync(profile, JSON.stringify(load()));
-  const memorandum = 'memorandum-of-law';
-  const titles = ["Brief in Support of Defendant's Motion to Dismiss", 'Memorandum in Opposition to the Motion'];
-  for (const [index, title] of titles.entries()) {
+  const cases = [
+    ["Brief in Support of Defendant's Motion to Dismiss", 'memorandum-of-law', 'memorandum-words', 8750],
+    ['Memorandum in Opposition to the Motion', 'memorandum-of-law', 'memorandum-words', 8750],
+    ["Defendant's Reply in Further Support of Its Motion to Dismiss", 'reply-memorandum', 'reply-words', 3500],
+    ["Reply to Plaintiff's Opposition", 'reply-memorandum', 'reply-words', 3500],
+  ];
+  for (const [index, [title, type, preset, maximum]] of cases.entries()) {
     const name = 'brief-' + index;
-    const caption = fictionalCaption({ title, document_type: memorandum, service: { method: 'electronic-filing' } });
+    const caption = fictionalCaption({ title, document_type: type, service: { method: 'electronic-filing' } });
     const filed = build(directory, name, caption, longBrief, profile);
     const pdf = filed.renderPdf('over-limit');
     const checked = filed.check(pdf, 1);
     assert.equal(checked.bodyWords, 9000);
     assert.equal(checked.pdfBodyWords, 9000);
-    assert.equal(checked.limits.preset, 'memorandum-words');
+    assert.equal(checked.limits.preset, preset);
     assertChecks(checked, ['Word-count certificate present', 'Printed PDF body matches composition'], 'pass');
-    assertChecks(checked, ['Within word limit (8750)'], 'fail');
+    assertChecks(checked, ['Within word limit (' + maximum + ')'], 'fail');
 
     const classify = invokeCli(['classify', '--profile', profile, '--title', title], directory);
     assert.equal(classify.status, 0, classify.stderr);
-    assert.equal(JSON.parse(classify.stdout).suggestions[0], memorandum);
-    for (const document_type of ['other-paper', 'notice-of-motion']) {
+    assert.equal(JSON.parse(classify.stdout).suggestions[0], type);
+    for (const document_type of ['other-paper', 'notice-of-motion', 'memorandum-of-law'].filter(value => value !== type)) {
       const stem = join(directory, name + '-' + document_type);
       for (const confirmed of [false, true]) {
         const candidate = { ...caption, document_type };
@@ -104,7 +108,7 @@ pdfTest('9,000-word support and opposition briefs retain the cap and certificate
         const result = invokeCli(['compose', '--profile', profile, '--caption', stem + '.json',
           '--body', join(directory, name + '.md'), '--out', stem + '.html'], directory);
         assert.equal(result.status, 1, result.stdout);
-        assert.match(result.stderr, /matching type\(s\) memorandum-of-law.*matching federal type/u);
+        assert.match(result.stderr, new RegExp('matching type\\(s\\) ' + type + '.*matching federal type', 'u'));
         assert.equal(existsSync(stem + '.html'), false);
       }
     }
@@ -128,10 +132,13 @@ test('support and response title variants resolve to the memorandum while replie
   for (const title of [
     'Brief in Opposition to the Motion', 'Memorandum in Support of the Motion',
     'Brief in Response to the Motion', 'Memorandum in Response to the Motion',
+    'Memorandum of Law in Further Support of the Motion',
+    'Memorandum in Further Support of the Motion',
   ]) {
     assert.deepEqual(suggestTypes(profile, title), ['memorandum-of-law', 'other-paper'], title);
   }
-  for (const title of ['Reply Brief in Support of the Motion', 'Brief in Reply on the Motion', 'Memorandum in Reply']) {
+  for (const title of ['Reply Brief in Support of the Motion', 'Brief in Reply on the Motion', 'Memorandum in Reply',
+    "Defendant's Reply in Further Support of Its Motion to Dismiss", "Reply to Plaintiff's Opposition"]) {
     assert.deepEqual(suggestTypes(profile, title), ['reply-memorandum', 'other-paper'], title);
   }
 });
