@@ -3,9 +3,9 @@ name: Settlement Negotiation
 type: skill
 category: litigation-phase
 description: A settlement preparation packet with sourced scenario assumptions, negotiation options, and a terms and dismissal review
-version: 0.3.5
+version: 0.3.6
 gaps:
-  - verified settlement valuation, Rule 408, confidentiality, enforcement, dismissal, and tax guidance
+  - verified settlement valuation, the forum's settlement evidence rule, confidentiality, enforcement, dismissal, and tax guidance
 ---
 
 # Settlement Negotiation
@@ -55,7 +55,7 @@ Check the offer, response, conference, payment, performance, and dismissal dates
 ### Which negotiation work is needed?
 
 - **Timing and valuation.** Compare negotiating now with the relevant upcoming stages and existing deadlines. Lay out best realistic recovery, downside including loss, and possible ranges using stated assumptions, evidence, and costs to continue litigating. State how each amount was derived and where it is uncertain. Use only the range or threshold the person actually chooses as their authority.
-- **Channel and communications.** Compare direct negotiation with opposing counsel, mediation and a forum-facilitated settlement conference. Verify any mediation or conference requirements, timing, confidentiality and attendance. For an initial demand, offer or counteroffer, take authorized proposed terms, purpose, expiry and intended recipient from the person. Save the written record of what was discussed or proposed and when. Before applying a without-prejudice or Rule 408 label, verify the applicable rule, scope, exceptions and relevant orders. For Colorado, check the applicability, scope and exceptions of C.R.E. 408 against governing authority. If the basis for a legal legend is unavailable, omit it from an otherwise permitted review draft and record the open question. If a legend or assurance is required for the requested document, hold that document. A legend alone establishes neither confidentiality, privilege nor inadmissibility.
+- **Channel and communications.** Compare direct negotiation with opposing counsel, mediation and a forum-facilitated settlement conference. Verify any mediation or conference requirements, timing, confidentiality and attendance. For an initial demand, offer or counteroffer, take authorized proposed terms, purpose, expiry and intended recipient from the person. Save the written record of what was discussed or proposed and when. For a court, use the settlement evidence statement from the forum file named in the preflight finding under [Forum procedure](../AGENTS.md#forum-procedure). Use its rule label in the working packet with its state. Before applying a legal label to an outward document, verify the applicable rule, scope, exceptions and relevant orders. If the court's forum file or statement is missing, name the court's own settlement evidence rule as the source to obtain and leave the working rule label unset. If the basis for a legal legend is unavailable, omit it from an otherwise permitted review draft and record the open question. If a legend or assurance is required for the requested document, hold that document. A legend alone establishes neither confidentiality, privilege nor inadmissibility.
 - **Terms and closeout.** Read the current draft line by line. List agreed, proposed, disputed and missing terms. Check parties and authority, scope of release and what is given up, amounts, payment structure, timing and security, confidentiality trade-offs, performance, remedies or enforcement on nonpayment, and any stipulated dismissal, withdrawal, agreed award or other applicable closure. Check when that step is due and what condition triggers it under the agreement, order and applicable rule. Record tax questions for an appropriate tax professional. Preserve the underlying case deadlines and hold conclusions on disputed or unverified obligations.
 - **Stage unclear.** Ask whether the person is preparing, considering an offer or documenting closure, and preserve the live deadline alerts.
 
@@ -81,5 +81,5 @@ For the exact outward draft, use the legal root’s [Outward draft handoff](../.
 
 - The matter packet names the stage, options, valuation sources and limits, risks, and any consultation trigger. Private scenario assumptions stay out of outbound drafts unless specifically authorized.
 - Offer, litigation, performance and dismissal dates carry verified sources or `[verify]` holds and reach the deadlines record or a precise entry for the person.
-- An offer or terms review accounts for Rule 408 or analogous authority, documented communications, release, payment, confidentiality, enforcement, dismissal and tax questions where applicable.
+- An offer or terms review accounts for the forum's settlement evidence authority or the gap, documented communications, release, payment, confidentiality, enforcement, dismissal and tax questions where applicable.
 - Any draft is saved and shown with its intended audience and attachments. A filing-ready label requires verified sources, caption and service details, and validated production with human review.

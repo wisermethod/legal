@@ -6,7 +6,14 @@ description: List and validate jurisdiction packs, match courts and governing la
 version: 0.2.0
 runs: local
 gaps:
-  - The shipped Colorado pack has no sourced statements yet.
+  - Colorado district court [verify] topics include the scope of civil monetary jurisdiction, geographic venue and transfer, complaint pleading, cover sheet and summons, current docket fee, waiver forms and submission, electronic filing eligibility and mandates, process service interval and methods, proof of service, answer periods and the effect of a pre-answer motion, amendment as of right, case management and trial timing, additional conferral exceptions and consequences of noncompliance, settlement evidence, discovery response periods, and declaratory relief procedure.
+  - Colorado county court [verify] topics include local complaint filing and electronic filing, the service interval and proof requirements, current docket fees, discovery scope, and when an appeal is heard de novo.
+  - Colorado small claims [verify] topics include the official complaint form, filing and service, current docket fees, hearing wait, discovery availability, and scope of appeal.
+  - The Colorado pack still needs official text for the unresolved parts of the Colorado Rules of Civil Procedure, including Rules 4, 8, 12, 15, 16.1, 26 through 37, 57 and 98, Rule 121 sections 1-15 and 1-26, and the 300 and 500 series, plus Colorado Rule of Evidence 408. The saved excerpts cover only the provisions they print. Current forms, local rules, division practice standards and applicable case orders are separate sources to obtain.
+  - Colorado contract law [verify] topics include general reliance damages outside the sales code and whether Colorado adopted Hadley v. Baxendale by name.
+  - Colorado employment law [verify] topics include owner liability and retaliation remedies under the 2025 wage amendments, the wage-claim administrative cap effective in 2026, the implied good-faith covenant in at-will employment, prevention of a compensation condition, individual arbitration and class or collective waivers, and mitigation of fixed severance.
+  - The applicable 2025 and 2026 changes to Colorado court rules and fee statutes still need confirmation against official text. The enacted 2025 wage changes and the operative 2026 cap and its effective date remain unconfirmed.
+  - Colorado consumer and personal injury statements have no [verify] entries in the pack. Issues outside their sourced statements still require authority.
 ---
 
 # Jurisdictions

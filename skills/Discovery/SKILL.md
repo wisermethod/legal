@@ -3,7 +3,7 @@ name: Discovery
 type: skill
 category: litigation-phase
 description: A prioritized discovery plan, request or response draft, or dispute packet tied to the matter record
-version: 0.3.5
+version: 0.3.6
 gaps:
   - verified discovery limits, deadlines, objections, privilege rules, and supplementation requirements
   - detailed discovery sequencing, dispute, production, and preservation guidance
@@ -51,7 +51,7 @@ Use the preflight forum finding and the declared parties record. Check the appli
 
 For drafting or research, cross-check the designated claims, arguments, case-law, statutes and discovery records for existing elements, positions, sources and evidence needs. Check the glossary designated by the owning root when available for defined terms. Surface new reusable findings and proposed discovery items with a source, reason and target record. Add them and any newly researched guidance to the authorized record only after the person confirms. Carry the entry preflight disposition into the packet and recheck it for newly identified triggers. Apply each hold to the affected decision or handoff.
 
-For information exchange in a non-court forum, start from the operative order or protocol. Identify the exchange it authorizes, deadlines, methods and required approvals. Keep the evidence inventory, custodians and item-to-issue mapping moving while permission or a disputed rule is checked. For Colorado state discovery, start by checking C.R.C.P. 26 to 37. Resolve scope, proportionality, timing, sequence, numerical limits, service and local or order-specific requirements from the governing sources. Where the applicable authority or order is missing, keep the affected deadline, limit, objection or remedy `[verify]` and hold the dependent step. Take numerical defaults from the applicable rule or order.
+For information exchange in a non-court forum, start from the operative order or protocol. Identify the exchange it authorizes, deadlines, methods and required approvals. Keep the evidence inventory, custodians and item-to-issue mapping moving while permission or a disputed rule is checked. For court discovery, use the timing and sequence, response period and discovery availability or scope statements in the forum file named by the preflight finding under [Forum procedure](../AGENTS.md#forum-procedure). When the file or a needed statement is missing, name the court's own discovery rules on that topic as the source to obtain. Resolve scope, proportionality, timing, sequence, numerical limits, service and local or order-specific requirements from the governing sources. Where the applicable authority or order is missing, keep the affected deadline, limit, objection or remedy `[verify]` and hold the dependent step. Take numerical defaults from the applicable rule or order.
 
 ### What must be preserved before employment discovery planning?
 
