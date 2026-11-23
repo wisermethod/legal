@@ -35,7 +35,7 @@ For a result a skill will deliver to the person, apply [Owner review](../experts
 | `Chronology/SKILL.md` | Build a sourced litigation timeline that connects events to pleaded issues and reconciles filing dates with tracked deadlines | Litigation Counsel |
 | `Claim Chart/SKILL.md` | Map the verified elements of a claim or defense to sourced facts and evidence and show support gaps for the current litigation stage | Litigation Counsel |
 | `Draft Motion/SKILL.md` | Draft a motion body and a sourced caption packet that clear citation and factual checks before court filing production | Litigation Counsel |
-| `Maintain Matter File/SKILL.md` | Answer read-only deadline questions, reconcile posture and keep events, deadlines, source references and designated matter records in sync | Litigation Counsel |
+| `Maintain Matter File/SKILL.md` | Answer read-only deadline questions, reconcile posture, keep events, deadlines, source references and designated matter records in sync, and plan and verify approved matter file cleanup | Litigation Counsel |
 | `Open a Matter/SKILL.md` | Set up a matter's project record and prepare a new Colorado district civil case packet through filing, service and deadline seeding | Litigation Counsel |
 | `Produce Court Filing/SKILL.md` | Produce a filing or forum submission from sourced inputs, then check the exact artifact for human preview and approval | Litigation Counsel |
 | `Take Over a Matter/SKILL.md` | Map an existing case folder into the matter contract and verify an approved copy or staged-folder adoption against the original inventory | Litigation Counsel |

@@ -11,7 +11,7 @@ This folder is the matter project. Read the owning user root's instructions firs
 Follow this order on every matter request, including on resume:
 
 1. Read the standing do-nots. [Name the governing instruction files and what they bind, or state that there are no additional matter-specific do-nots.]
-2. Run Maintain Matter File’s **Deadline review** on the designated deadline record and applicable dated primary evidence. Give its startup alert before answering the request, with any evidence limits that affect the alert.
+2. Run Maintain Matter File’s **Deadline review** on the designated deadline record and applicable dated primary evidence. Give its startup alert before answering the request, with any evidence limits that affect the alert. Filter working response periods to the forum declared below, as Litigation Counsel's preflight does.
 3. Read the authoritative history and current handoff for posture. [Name the actual paths and which files summarize the record.] Use the operative orders, rules and authentic notices to resolve procedural facts.
 4. Load the remaining intake, ownership, source or task references as needed. [Name each binding reference and its role. State the designated glossary path or that no glossary is designated.]
 
@@ -62,5 +62,7 @@ A `pending` value holds only the work that needs that field.
 | `correspondence/` and `correspondence/correspondence-index.md` | Court, opposing-party and other matter communications |
 
 Replace defaults with the paths this matter actually uses. Give every retained matter-level file a row with its role, including local rules, handoffs, archives or retained legacy copies. Link indexed directories to their authoritative index. Account for each retained file in an individual row here or in the index that owns it.
+
+Point to every open owner-decision list kept in a hidden build folder from the visible filings index or the history's current handoff.
 
 Keep original records intact and link to them. Record an unknown or disputed fact with its status and source. Apply Maintain Matter File to confirmed filings, orders, correspondence and new deadlines.
