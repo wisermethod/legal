@@ -8,7 +8,7 @@ Standalone deadline questions, including “What is due?” and “What is overd
 
 ## Forum procedure
 
-When the preflight forum finding names a forum pack file, read it after the matter's own records as a source for that forum's procedure. For each rule used from the person's own pack, say that it came from the person's own pack and give its source and date read.
+When the preflight forum finding names a forum pack file, read it after the matter's own records as a source for that forum's procedure. Keep each pack statement's state (`Verified` or `[verify]`) wherever it is used. Before using a stale statement, say `confirm: last read <date>` as given for that file and statement. For each rule used from the person's own pack, say that it came from the person's own pack and give its source and date read.
 
 ## Evidence labels
 

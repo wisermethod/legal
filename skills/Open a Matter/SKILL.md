@@ -34,7 +34,7 @@ Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message w
 
 ### What can proceed on this entry?
 
-Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Counsel/EXPERT.md#how-does-a-skill-request-and-apply-preflight) before dependent work. For an existing matter's pack-only request, use [the own rules set step](#how-does-a-matter-keep-its-own-rules-set) and return its findings. If the person wants a pack for a new matter, use that step after steps 1 and 2 with the current preflight finding for the declaration just written. Then choose the filing route in step 3.
+Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Counsel/EXPERT.md#how-does-a-skill-request-and-apply-preflight) before dependent work. For an existing matter's pack-only request, use [the own rules set step](#how-does-a-matter-keep-its-own-rules-set) and return its findings. If the person wants a pack for a new matter, use that step after steps 1 and 2, when the declaration is on disk. Then choose the filing route in step 3.
 
 ### What does this matter need to open?
 
@@ -60,11 +60,19 @@ Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Coun
 
 ### How does a matter keep its own rules set?
 
-Does the person want a pack for a court, forum or law named in the matter declaration? If yes, use the current Jurisdictions `resolve` result in Litigation Counsel's preflight. Start a pack only for that name when the result shows no coverage. If a pack already covers it, use the finding. If the declaration or lookup is missing or unresolved, report the gap before writing.
+Does the person want a pack for a court, forum or law? If yes, run `node scripts/jurisdictions.js resolve --matter <absolute-AGENTS.md>` from the Jurisdictions tool directory on the matter's declaration as it now stands on disk, before writing anything for the pack. If the file is absent, report that gap and end the pack step.
 
-Ask the [own pack questions](own-pack-questions.md) as written. Use only what the person supplies and state nothing from the session's memory. Write the pack in the matter at `jurisdictions/<pack-id>/` following the [Jurisdictions pack format](../../tools/Jurisdictions/schema/pack-format.md). Save each passage in an excerpt with its source URL or the official publication's title and section on the first line and the date read on the second. Mark a statement `Verified` only when the person supplied an official source and the saved passage supports the statement. Mark every other statement `[verify]`. Record the title and section in the statement's `source.citation`, and its link in `source.url` when the person gave one.
+What does the result say about the requested court, forum or claim's law?
 
-After writing the pack, add a `jurisdictions/` row to the matter's `AGENTS.md` file map identifying it as the home of the matter's own rules packs. From the Jurisdictions tool directory, run `node scripts/jurisdictions.js validate --pack <absolute-pack-directory>` and report its findings. When validation passes, use `stale --pack <absolute-pack-directory>` from the same tool for the closing age prompts.
+- If the declaration or lookup is missing, pending or unresolved, including a held law row, report the gap and write nothing. If an invalid pack names the court, forum or law, report its failures and the pack correction hold from Litigation Counsel's finding and write nothing.
+- If a pack already covers it, return that finding and stop the pack step.
+- Start a pack only when the applicable row has `status: "none"` with reason `no pack covers this court` or `no pack covers this law`.
+
+Ask the [own pack questions](own-pack-questions.md) as written. Use only what the person supplies and state nothing from the session's memory. If the person asks the session to supply, complete or fetch rule text, write nothing for that rule and ask again for the exact words and the source.
+
+Did the person supply and confirm any exact passage and its source? If none, end the pack step without a write. If at least one qualifies, write the pack in the matter at `jurisdictions/<pack-id>/` following the [Jurisdictions pack format](../../tools/Jurisdictions/schema/pack-format.md). Set `court_match` or `law_match` to the corresponding declared string with regular expression metacharacters escaped. Put court and forum procedure in the forum half. Put a governing-law rule in `law/<area>.json` for the claim's area in Litigation Counsel's lens table, and create that law file only when the person supplied at least one rule for it. Use a confirmed Court Filing profile ID for `filing_profile` when the declaration supplies one and `null` otherwise. In `obtain`, list only sources the person identifies as still missing. Save each passage in an excerpt with `source.url` on the first line when present, otherwise `source.citation`. Put the date read on the second line in `YYYY-MM-DD` form. Mark a statement `Verified` only when the person supplied an official source and the saved passage supports the statement. Mark every other statement `[verify]`. Record the title and section in the statement's `source.citation`, and its link in `source.url` when the person gave one.
+
+After writing the pack, add a `jurisdictions/` row to the matter's `## Matter record` table in `AGENTS.md` identifying it as the home of the matter's own rules packs. From the Jurisdictions tool directory, run `node scripts/jurisdictions.js validate --pack <dir>` with the pack directory's absolute path. On exit 1, read the JSON from stderr and report each failure. When validation passes, report any gaps and run `node scripts/jurisdictions.js stale --pack <dir>` from the same directory. Use the returned `prompts` array for the closing age prompts.
 
 ### What can the initial complaint certificate state?
 

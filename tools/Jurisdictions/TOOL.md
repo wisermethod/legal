@@ -34,14 +34,16 @@ Run from the tool directory with Node. All commands run locally and need no pack
 | Invocation | Result |
 |---|---|
 | `node scripts/jurisdictions.js help` or `--help` | Print usage. Each command also accepts `help` or `--help` by itself. |
-| `node scripts/jurisdictions.js list` | List the shipped packs and their coverage. An empty array is the expected result when none ships. |
+| `node scripts/jurisdictions.js list` | List the shipped packs and their coverage. When none ships, the result is `{"packs":[]}`. |
 | `node scripts/jurisdictions.js validate [--pack <id-or-absolute-directory> \| --matter <absolute-AGENTS.md>]` | Check every selected pack and its referenced files. Omit both selection flags to check every shipped pack. |
-| `node scripts/jurisdictions.js resolve --matter <absolute-AGENTS.md>` | Resolve matter records, forum and governing law. Return age prompts for the half files selected in the result. |
+| `node scripts/jurisdictions.js resolve --matter <absolute-AGENTS.md>` | Resolve matter records, forum and governing law. Return age prompts and `[verify]` gaps for the selected half files. |
 | `node scripts/jurisdictions.js stale [--pack <id-or-absolute-directory> \| --matter <absolute-AGENTS.md>] [--today YYYY-MM-DD] [--days N]` | List sources last read more than `N` days ago. Defaults are every shipped pack, the local calendar date and 180 days. |
 
 ## Output
 
-Successful commands print one JSON value. `list` returns an array of packs with `id`, `name`, `kind`, a `law` array of practice areas, and a `forums` array with each forum's `id`, `name` and `tier`. `validate` returns `ok`, `packs` (the IDs checked), `failures` and `gaps`. Each finding names `pack`, `file` relative to the pack, statement `id` (null for a finding outside a named statement) and `reason`.
+Successful work commands print one JSON object. `list` returns `packs`, an array of objects with `id`, `name`, `kind`, a `law` array of practice areas, and a `forums` array with each forum's `id`, `name` and `tier`. `validate` returns `ok`, `packs` (the IDs checked), `failures` and `gaps`. Each validation finding names `pack`, `file` relative to the pack, statement `id` (null for a finding outside a named statement) and `reason`.
+
+`resolve` and `stale` check excerpts by the same rules as `validate`. A missing, empty or wrong-header `Verified` excerpt makes its half file unusable. A `[verify]` gap leaves the exit code unchanged.
 
 ### Resolve result
 
@@ -50,15 +52,18 @@ Successful commands print one JSON value. `list` returns an array of packs with 
 | `declaration` | Field names from the declaration table, each with `value` and `source_and_date`, or the string `"missing"`. When missing, use the parties record to establish the forum. |
 | `matter_records` | The declared rules location as `{path, exists}`, or an empty array. Use the matter records first. An entry with `exists: false` identifies the path the matter names and still needs to supply. |
 | `forum` | `pack`, `id`, `name`, absolute `file`, `tier`, `filing_profile` and `obtain`, or `{status: "none", reason}`. Use `obtain` to identify sources the matter needs to supply. |
-| `governing_law` | One result per claim-table row with `claim`, `law_named`, `clause_and_document` and `source_and_date`. A match adds `pack` and absolute `files`. An unmatched row adds `status: "none"` and `reason`. With `held: true`, keep the `exception` text and leave its effect for the person's decision. |
+| `governing_law` | One result per claim-table row with `claim`, `law_named`, `clause_and_document` and `source_and_date`. A match adds `pack` and absolute `files`. An unmatched row adds `status: "none"` and `reason`. With `held: true`, keep the `matched_law` and `exception` text and leave its effect for the person's decision. |
 | `stale` | Age prompts for returned half files, reported once per statement even when multiple claims match the same pack. |
-| `invalid_packs` | Present when a matter pack fails validation. Each entry gives its `pack` ID, `own_pack: true`, absolute `pack_directory` and `failures`. Resolution continues with the valid matter packs and shipped packs. |
+| `gaps` | `[verify]` findings for returned half files, once per statement, with `pack`, absolute `file`, statement `id` and `reason`. |
+| `invalid_packs` | Validation failures for skipped matter or shipped packs. Each entry gives `pack`, `own_pack` and `failures`. Matter entries also give the absolute `pack_directory`. When the manifest's usable patterns match the declaration, `matches` gives a `forum` boolean and a `governing_law` array of zero-based claim row indexes. |
 
-Forum and law matches and their age prompts carry `own_pack: true` and the absolute `pack_directory` for a matter pack. Shipped results carry `own_pack: false`. When a matter match takes precedence, that forum or law result includes `set_aside`, an array of shipped pack IDs.
+Resolution continues with valid matches. If a needed shipped half fails validation and no valid match is available for that court or law, resolution exits 1 with the half's failures. Two valid overlapping matches in the group used to resolve a court or law still fail.
+
+Forum and law matches and their age prompts and gaps carry `own_pack: true` and the absolute `pack_directory` for a matter pack. Shipped results carry `own_pack: false`. When a matter match takes precedence, that forum or law result includes `set_aside`, an array of shipped pack IDs.
 
 ### Age prompts
 
-`stale` returns an array of prompts with `pack`, absolute `file`, statement `id` and `message` in the form `confirm: last read <date>`. Re-read the source when a prompt appears. Age alone leaves the exit code at 0.
+`stale` returns an object with a `prompts` array. Each prompt has `pack`, absolute `file`, statement `id` and `message` in the form `confirm: last read <date>`. Re-read the source when a prompt appears. Age alone leaves the exit code at 0.
 
 ## What it writes
 

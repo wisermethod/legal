@@ -32,6 +32,8 @@
 >
 > Yes · No, let me give the full passage
 
+*On confirmation, record the supplied URL on the excerpt's first line when present, otherwise the citation. Record the date read on the second line in `YYYY-MM-DD` form.*
+
 ## After the last rule
 
 > Your pack for <court, forum or state> has <n> rules: <n> from official sources, and <n> marked to confirm because they came from somewhere else. I'll flag any rule you read more than 180 days ago so you can check it again.

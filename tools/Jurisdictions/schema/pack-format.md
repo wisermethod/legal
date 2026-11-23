@@ -28,13 +28,13 @@ Each forum's `id` is unique in its pack and uses the pack ID syntax. Its `name` 
 
 `resolve` returns the matter's records first, then looks for matches in the matter's own packs, then in the shipped packs. Its matter pack matches and age prompts carry `own_pack: true` and the absolute `pack_directory`. Shipped results carry `own_pack: false`. A matter pack match lists any displaced shipped pack IDs in `set_aside`.
 
-Use nonblank JavaScript regular expression strings without delimiter slashes or flags. Each pattern is wrapped as `^(?:<pattern>)$` and matched case-insensitively. From a trimmed court name, the resolver strips the final comma-separated part if that part contains a digit, to remove the case or reference number. Earlier comma-separated parts stay in the name. Multiple matching forums are an error among the matter packs, or among the shipped packs if no matter pack matches.
+Use nonblank JavaScript regular expression strings without delimiter slashes or flags. Each pattern is wrapped as `^(?:<pattern>)$` and matched case-insensitively. The compiler refuses nested quantifiers and repeated alternation groups. From a trimmed court name, the resolver strips a trailing labeled case or reference token or a docket-number token. Numbered courts and divisions stay in the name. The full declaration value can also match a literal court pattern that includes the reference. Multiple matching forums are an error among the matter packs, or among the shipped packs if no matter pack matches.
 
 The resolver searches eligible law names in the matter packs before considering a shipped match. For each claim the resolver first tries the whole law name. It also recognizes a leading law name followed by a comma, semicolon, `except`, `unless` or `subject to`. It tries the longest eligible name first. When a leading name matches, the entire cell is returned as the exception and the result is held for review. If more than one pack in the first group to yield a match covers the selected law name, resolution fails and names the packs.
 
 ## Half files
 
-Both halves require a `statements` array. A forum also requires `filing_profile`, a Court Filing profile ID or `null`, and `obtain`, an array of nonblank source names the matter must supply, such as local rules or a judge's practice standards. The tool reports the profile ID as recorded in the pack.
+Both halves require a `statements` array. A forum also requires `filing_profile`, a Court Filing profile ID-shaped string or `null`, and `obtain`, an array of nonblank source names the matter must supply, such as local rules or a judge's practice standards. The tool reports the profile ID as recorded in the pack. The matter's declared `Filing profile` governs. The pack's `filing_profile` is only a suggestion.
 
 ## Statements
 
@@ -45,7 +45,7 @@ Both halves require a `statements` array. A forum also requires `filing_profile`
 | `source` | Object with a nonblank `citation`, the publication's title and section, and, where the source has one, an absolute HTTP or HTTPS `url` without embedded credentials. |
 | `state` | `Verified` or `[verify]`. |
 | `last_read` | Real calendar date in `YYYY-MM-DD` form. |
-| `excerpt` | Pack-relative path `excerpts/<name>.txt`. Use a single filename under `excerpts/`. |
+| `excerpt` | Pack-relative path `excerpts/<name>.txt`, unique across all halves of the pack. Use a single filename under `excerpts/`. |
 
 A `Verified` statement requires a nonempty saved official excerpt. The first line must equal `source.url`, or `source.citation` where the source has no `url`, and the second must equal `last_read`. Save the quoted official text below those lines. A `[verify]` statement still requires the excerpt path. Its file may be absent, and validation reports the statement as a gap.
 

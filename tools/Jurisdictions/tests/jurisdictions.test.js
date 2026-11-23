@@ -28,7 +28,7 @@ function run(args, packsDirectory) {
       'process.exitCode = require(script).main(args, { packsDirectory });',
     '--', CLI, packsDirectory, ...args,
   ];
-  const result = spawnSync(process.execPath, invocation, { encoding: 'utf8' });
+  const result = spawnSync(process.execPath, invocation, { encoding: 'utf8', timeout: 5000 });
   if (result.error) throw result.error;
   return result;
 }
@@ -120,17 +120,17 @@ function validationFailure(pack, file, id, reason) {
   return result;
 }
 
-test('list on the shipped tree returns an empty array', () => {
-  assert.deepEqual(success(['list']), []);
+test('list on the shipped tree returns an object with no packs', () => {
+  assert.deepEqual(success(['list']), { packs: [] });
 });
 
 test('list describes each fictional pack and forum tier', () => {
-  assert.deepEqual(success(['list'], PACKS), [
+  assert.deepEqual(success(['list'], PACKS), { packs: [
     { id: 'example-arbitration', name: 'Example Arbitration Association', kind: 'arbitration-forum', law: [],
       forums: [{ id: 'example-panel', name: 'Example Arbitration Association Panel', tier: 'arbitration forum' }] },
     { id: 'example-state', name: 'Example State', kind: 'state', law: ['contract', 'consumer'],
       forums: [{ id: 'example-trial', name: 'Example Trial Court', tier: 'general-jurisdiction trial court' }] },
-  ]);
+  ] });
 });
 
 test('validate accepts a good pack by absolute directory', () => {
@@ -262,7 +262,7 @@ test('resolve returns both halves, matter records first and prompts only for ret
       pack: 'example-state', files, own_pack: false },
   ]);
   const selected = new Set([result.forum.file, ...files]);
-  const expected = success(['stale'], PACKS).filter(entry => selected.has(entry.file))
+  const expected = success(['stale'], PACKS).prompts.filter(entry => selected.has(entry.file))
     .map(entry => ({ ...entry, own_pack: false }));
   const byId = (a, b) => a.id.localeCompare(b.id);
   assert.deepEqual(result.stale.sort(byId), expected.sort(byId));
@@ -316,9 +316,9 @@ test('resolve returns none when a claim states no law', t => {
 
 test('resolve reports when the shipped catalog covers neither the court nor the law', t => {
   const result = resolveMatter(matter(t, { court: COURT, laws: [LAW] }), join(temporary(t), 'absent'));
-  assert.deepEqual(result.forum, { status: 'none', reason: 'no shipped pack covers this court' });
+  assert.deepEqual(result.forum, { status: 'none', reason: 'no pack covers this court' });
   assert.equal(result.governing_law[0].status, 'none');
-  assert.equal(result.governing_law[0].reason, 'no shipped pack');
+  assert.equal(result.governing_law[0].reason, 'no pack covers this law');
 });
 
 test('resolve preserves a governing-law exception and holds the match', t => {
@@ -333,7 +333,7 @@ test('resolve preserves a governing-law exception and holds the match', t => {
 test('resolve uses whole matches and does not take a name from the middle of a cell', t => {
   const result = resolveMatter(matter(t, { court: COURT + ' Annex', laws: ['Other State except where Example State law requires'] }));
   assert.equal(result.forum.status, 'none');
-  assert.equal(result.governing_law[0].reason, 'no shipped pack');
+  assert.equal(result.governing_law[0].reason, 'no pack covers this law');
 });
 
 test('resolve reports a missing rules path inside the matter', t => {
@@ -364,17 +364,17 @@ test('resolve refuses two matching forums and names both', t => {
 });
 
 test('stale lists a statement 181 days old and excludes one 180 days old', () => {
-  assert.deepEqual(success(['stale', '--pack', STATE, '--today', '2025-07-01']), [{
+  assert.deepEqual(success(['stale', '--pack', STATE, '--today', '2025-07-01']), { prompts: [{
     pack: 'example-state', file: join(STATE, CONTRACT), id: 'contract-notice', message: 'confirm: last read 2025-01-01',
-  }]);
-  assert.deepEqual(success(['stale', '--pack', STATE, '--today', '2025-06-30']), []);
-  assert.deepEqual(success(['stale', '--pack', STATE, '--today', '2025-07-01', '--days', '181']), []);
+  }] });
+  assert.deepEqual(success(['stale', '--pack', STATE, '--today', '2025-06-30']), { prompts: [] });
+  assert.deepEqual(success(['stale', '--pack', STATE, '--today', '2025-07-01', '--days', '181']), { prompts: [] });
 });
 
 test('stale refuses an invalid date or day count and accepts a zero-day limit', () => {
   assert.match(failure(['stale', '--today', '2025-02-29']), /--today must be a calendar date/);
   assert.match(failure(['stale', '--days', '-1']), /--days must be a nonnegative safe integer/);
-  assert.equal(success(['stale', '--pack', STATE, '--today', '2025-01-02', '--days', '0']).length, 1);
+  assert.equal(success(['stale', '--pack', STATE, '--today', '2025-01-02', '--days', '0']).prompts.length, 1);
 });
 
 test('help works without packs and the command rejects unknown flags and relative paths', () => {
@@ -401,7 +401,7 @@ test('resolve prefers a matter forum and names the shipped forum pack set aside'
   assert.equal(result.forum.pack_directory, pack);
   assert.deepEqual(result.forum.set_aside, ['example-state']);
   assert.equal(result.governing_law[0].own_pack, false);
-  assert.deepEqual(result.stale.filter(prompt => prompt.own_pack), success(['stale', '--pack', pack])
+  assert.deepEqual(result.stale.filter(prompt => prompt.own_pack), success(['stale', '--pack', pack]).prompts
     .map(prompt => ({ ...prompt, own_pack: true, pack_directory: pack })));
   assert.ok(result.stale.every(prompt => prompt.file !== join(STATE, FORUM)));
 });
@@ -424,9 +424,10 @@ test('resolve prefers matter law and names the shipped law pack set aside for ea
   }
   assert.equal(result.governing_law[0].held, undefined);
   assert.equal(result.governing_law[1].held, true);
+  assert.equal(result.governing_law[1].matched_law, LAW);
   assert.equal(result.governing_law[1].exception, exception);
   const ownPrompts = result.stale.filter(prompt => prompt.own_pack);
-  assert.deepEqual(ownPrompts, success(['stale', '--pack', pack])
+  assert.deepEqual(ownPrompts, success(['stale', '--pack', pack]).prompts
     .map(prompt => ({ ...prompt, own_pack: true, pack_directory: pack })));
 });
 
@@ -453,7 +454,9 @@ test('resolve lists a bad matter excerpt and falls through to shipped packs', t 
   const result = resolveMatter(path);
   const { failures } = JSON.parse(failure(['validate', '--pack', pack]));
   assert.match(failures[0].reason, /first line must equal source\.url/);
-  assert.deepEqual(result.invalid_packs, [{ pack: 'matter-state', own_pack: true, pack_directory: pack, failures }]);
+  assert.deepEqual(result.invalid_packs, [{
+    pack: 'matter-state', own_pack: true, pack_directory: pack, failures, matches: { forum: true, governing_law: [0] },
+  }]);
   assert.equal(result.forum.pack, 'example-state');
   assert.equal(result.forum.own_pack, false);
   assert.equal(result.forum.set_aside, undefined);
@@ -472,7 +475,9 @@ test('resolve names an escaping referenced file and continues with a valid matte
   const result = resolveMatter(path);
   const { failures } = JSON.parse(failure(['validate', '--pack', invalid]));
   assert.match(failures[0].reason, /"excerpts\/contract\.txt" resolves outside its allowed pack directory/);
-  assert.deepEqual(result.invalid_packs, [{ pack: 'unsafe-state', own_pack: true, pack_directory: invalid, failures }]);
+  assert.deepEqual(result.invalid_packs, [{
+    pack: 'unsafe-state', own_pack: true, pack_directory: invalid, failures, matches: { forum: true, governing_law: [0] },
+  }]);
   assert.equal(result.forum.pack_directory, valid);
   assert.equal(result.governing_law[0].pack_directory, valid);
 });
@@ -509,7 +514,7 @@ test('validate and stale select all matter packs with the same findings as indiv
     ok: true, packs: individual.flatMap(result => result.packs), failures: [], gaps: individual.flatMap(result => result.gaps),
   });
   assert.deepEqual(success(['stale', '--matter', path, ...age], PACKS),
-    packs.flatMap(pack => success(['stale', '--pack', pack, ...age])));
+    { prompts: packs.flatMap(pack => success(['stale', '--pack', pack, ...age]).prompts) });
 });
 
 test('validate and stale report the same structural failure under --matter and --pack', t => {
@@ -543,5 +548,165 @@ test('a matter without jurisdictions keeps shipped resolution and has no packs o
   assert.equal(result.forum.set_aside, undefined);
   assert.equal(result.governing_law[0].set_aside, undefined);
   assert.deepEqual(success(['validate', '--matter', path], PACKS), { ok: true, packs: [], failures: [], gaps: [] });
-  assert.deepEqual(success(['stale', '--matter', path], PACKS), []);
+  assert.deepEqual(success(['stale', '--matter', path], PACKS), { prompts: [] });
+});
+
+test('resolve keeps numbered court names when stripping a trailing docket reference', t => {
+  const pack = copyPack(t);
+  const root = dirname(pack);
+  const circuit = 'United States Court of Appeals, 9th Circuit';
+  const district = 'Example Trial Court, 17th Judicial Circuit, Division 12';
+  editJson(pack, 'pack.json', data => { data.forums[0].court_match = [circuit, district]; });
+  for (const court of [
+    circuit, circuit + ', Case No. 23-1234', circuit + ' Docket 23-1234',
+    circuit + ' Civil Action No. 23-1234', circuit + ', No. 23-1234',
+    circuit + ' Index No. 123456/2025', district, district + ', 1:25-cv-01234',
+  ]) {
+    assert.equal(resolveMatter(matter(t, { court }), root).forum.file, join(pack, FORUM), court);
+  }
+  editJson(pack, 'pack.json', data => { data.forums[0].court_match = ['Superior Court']; });
+  assert.equal(resolveMatter(matter(t, { court: 'Superior Court, Department 12' }), root).forum.status, 'none');
+});
+
+test('resolve strips a marked case number in the last court-name part', t => {
+  const court = COURT + ' Case No. 2025-EX-12';
+  assert.equal(resolveMatter(matter(t, { court })).forum.file, join(STATE, FORUM));
+});
+
+test('resolve accepts a literal own-pack court pattern including the declared reference', t => {
+  const court = 'Example Trial Court (Civil), Case No. 2025-EX-12';
+  const path = matter(t, { court });
+  const pack = copyMatterPack(path);
+  editJson(pack, 'pack.json', data => {
+    data.forums[0].court_match = ['Example Trial Court \\(Civil\\), Case No\\. 2025-EX-12'];
+  });
+  assert.equal(resolveMatter(path).forum.file, join(pack, FORUM));
+});
+
+for (const [defect, replacement, reason] of [
+  ['missing', null, /Verified excerpt file must exist/],
+  ['empty', ' \n', /non-empty/],
+  ['wrong source', 'https://other-example.invalid/1\n2025-01-01\nFictional excerpt.\n', /first line must equal/],
+  ['wrong date', 'https://example-state.invalid/code/1\n2025-01-02\nFictional excerpt.\n', /second line must equal/],
+]) {
+  for (const command of ['resolve', 'stale']) {
+    test('shipped ' + command + ' rejects a Verified excerpt with this defect: ' + defect, t => {
+      const pack = copyPack(t);
+      const excerpt = join(pack, CONTRACT_EXCERPT);
+      if (replacement === null) rmSync(excerpt);
+      else writeFileSync(excerpt, replacement);
+      const result = validationFailure(pack, CONTRACT, 'contract-notice', reason);
+      const selection = command === 'resolve' ? ['--matter', matter(t)] : ['--pack', 'example-state'];
+      assert.deepEqual(JSON.parse(failure([command, ...selection], dirname(pack))).failures, result.failures);
+    });
+  }
+}
+
+test('validate and resolve refuse nested quantifiers and repeated alternatives', t => {
+  const pack = copyPack(t);
+  const path = matter(t, { court: 'a'.repeat(30), laws: ['a'.repeat(30)] });
+  editJson(pack, 'pack.json', data => {
+    data.forums[0].court_match = ['(a+)+b', '(a*)*', '(a|a)+', '(?:([a?])+){2}'];
+    data.law_match = ['(a+)+b'];
+  });
+  const { failures } = validationFailure(pack, 'pack.json', null, /nested quantifiers/);
+  assert.equal(failures.length, 5);
+  assert.ok(failures.some(item => /repeated alternation/.test(item.reason)));
+  const result = resolveMatter(path, dirname(pack));
+  assert.deepEqual(result.invalid_packs, [{ pack: 'example-state', own_pack: false, failures }]);
+  assert.equal(result.forum.status, 'none');
+  assert.equal(result.governing_law[0].status, 'none');
+});
+
+test('resolve accepts an optional arbitration panel suffix and a long nonmatch', t => {
+  assert.equal(resolveMatter(matter(t, { court: 'Example Arbitration Association Panel' })).forum.pack, 'example-arbitration');
+  assert.equal(resolveMatter(matter(t, { court: 'Example Arbitration Association ' + 'a'.repeat(10000) })).forum.status, 'none');
+});
+
+for (const [kind, inserted] of [
+  ['a second header', '| Claim or agreement | Law named | Clause and document | Source and date |\n'],
+  ['a row after a blank line', '\n'],
+]) {
+  test('resolve refuses ' + kind + ' in the claim table and names its line', t => {
+    let lineNumber;
+    const path = matter(t, { laws: [LAW, 'State of Example'], alter: text => {
+      const malformed = replaceRequired(text, '\n| Agreement 2', '\n' + inserted + '| Agreement 2');
+      lineNumber = malformed.slice(0, malformed.indexOf(inserted + '| Agreement 2')).split('\n').length;
+      if (kind === 'a row after a blank line') lineNumber++;
+      return malformed;
+    } });
+    assert.match(failure(['resolve', '--matter', path], PACKS), new RegExp('Governing law by claim.*line ' + lineNumber + '\\b'));
+  });
+}
+
+test('resolve reports an unmatched broken shipped manifest and keeps a valid matter and shipped match', t => {
+  const root = temporary(t);
+  const state = copyPack(t, STATE, root);
+  const broken = copyPack(t, ARBITRATION, root);
+  writeFileSync(join(broken, 'pack.json'), '{\n');
+  const path = matter(t);
+  const own = copyMatterPack(path, ARBITRATION, 'matter-forum');
+  editJson(own, 'pack.json', data => { data.forums[0].court_match = [COURT]; });
+  const result = resolveMatter(path, root);
+  assert.equal(result.forum.pack_directory, own);
+  assert.equal(result.forum.set_aside[0], 'example-state');
+  assert.equal(result.governing_law[0].files[0], join(state, CONTRACT));
+  assert.deepEqual(result.invalid_packs, [{
+    pack: 'example-arbitration', own_pack: false,
+    failures: [{ pack: 'example-arbitration', file: 'pack.json', id: null, reason: 'File contains invalid JSON.' }],
+  }]);
+});
+
+test('resolve skips a shipped pack with a bad unused half without blocking a valid shipped match', t => {
+  const root = temporary(t);
+  const state = copyPack(t, STATE, root);
+  const broken = copyPack(t, ARBITRATION, root);
+  rmSync(join(broken, 'excerpts', 'panel.txt'));
+  const result = resolveMatter(matter(t), root);
+  assert.equal(result.forum.file, join(state, FORUM));
+  assert.equal(result.invalid_packs[0].pack, 'example-arbitration');
+  assert.match(result.invalid_packs[0].failures[0].reason, /Verified excerpt file must exist/);
+});
+
+test('validate refuses a duplicate excerpt path across halves', t => {
+  const pack = copyPack(t);
+  editJson(pack, FORUM, data => {
+    const original = JSON.parse(readFileSync(join(pack, CONTRACT), 'utf8')).statements[0];
+    data.statements[0] = { ...original, id: data.statements[0].id };
+  });
+  validationFailure(pack, FORUM, 'trial-docket-label', /Duplicate excerpt path/);
+});
+
+test('resolve reports gaps once per returned file and stale accepts gaps', t => {
+  const root = temporary(t);
+  const pack = copyPack(t, STATE, root);
+  const other = copyPack(t, ARBITRATION, root);
+  editJson(pack, CONTRACT, data => { data.statements[0].state = '[verify]'; });
+  rmSync(join(pack, CONTRACT_EXCERPT));
+  editJson(other, 'forum/example-panel.json', data => { data.statements[0].state = '[verify]'; });
+  const path = matter(t, { laws: [LAW, LAW] });
+  assert.deepEqual(resolveMatter(path, root).gaps, [{
+    pack: 'example-state', file: join(pack, CONTRACT), id: 'contract-notice',
+    reason: 'Statement is marked [verify].', own_pack: false,
+  }]);
+  assert.ok(success(['stale'], root).prompts.some(item => item.id === 'contract-notice'));
+
+  const own = copyMatterPack(path, STATE, 'matter-law');
+  editJson(own, CONTRACT, data => { data.statements[0].state = '[verify]'; });
+  assert.deepEqual(resolveMatter(path, root).gaps, [{
+    pack: 'matter-law', file: join(own, CONTRACT), id: 'contract-notice',
+    reason: 'Statement is marked [verify].', own_pack: true, pack_directory: own,
+  }]);
+});
+
+test('forum profiles accept a profile id or null and document the declaration as controlling', t => {
+  const pack = copyPack(t);
+  assert.equal(success(['validate', '--pack', pack]).ok, true);
+  editJson(pack, FORUM, data => { data.filing_profile = null; });
+  assert.equal(success(['validate', '--pack', pack]).ok, true);
+  editJson(pack, FORUM, data => { data.filing_profile = 'none: papers follow the court’s own rules'; });
+  validationFailure(pack, FORUM, null, /filing_profile must be a profile id or null/);
+  const format = readFileSync(join(__dirname, '..', 'schema', 'pack-format.md'), 'utf8');
+  assert.match(format, /declared .Filing profile. governs/);
+  assert.match(format, /pack.s .filing_profile. is only a suggestion/);
 });

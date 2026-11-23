@@ -149,7 +149,13 @@ function shippedPacks(directory, selection) {
     return [packDirectory(candidate, root)];
   }
   if (!info(root, 'Shipped packs directory')) return [];
-  return packNames(root).map(name => packDirectory(join(root, name), root));
+  return packNames(root).map(id => {
+    try {
+      return packDirectory(join(root, id), root);
+    } catch (error) {
+      return { id, ownPack: false, failure: error.message };
+    }
+  });
 }
 
 function matterPath(candidate) {
