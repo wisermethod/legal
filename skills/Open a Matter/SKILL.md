@@ -3,7 +3,7 @@ name: Open a Matter
 type: skill
 category: procedure
 description: Set up a matter's project record and prepare a new Colorado district civil case packet through filing, service and deadline seeding
-version: 0.4.10
+version: 0.4.11
 gaps:
   - The Colorado initiation procedure does not cover county court, small claims, federal court or other states.
   - The current filing fee and fee-waiver form number are [verify]. Confirm both against the court before relying on them.
@@ -34,7 +34,7 @@ Give the [Handoff label](../../AGENTS.md#handoff-label) in the handoff message w
 
 ### What can proceed on this entry?
 
-Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Counsel/EXPERT.md#how-does-a-skill-request-and-apply-preflight) before dependent work.
+Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Counsel/EXPERT.md#how-does-a-skill-request-and-apply-preflight) before dependent work. For an existing matter's pack-only request, use [the own rules set step](#how-does-a-matter-keep-its-own-rules-set) and return its findings. If the person wants a pack for a new matter, use that step after steps 1 and 2 with the current preflight finding for the declaration just written. Then choose the filing route in step 3.
 
 ### What does this matter need to open?
 
@@ -57,6 +57,14 @@ Follow [Litigation Counsel's preflight contract](../../experts/Litigation%20Coun
 5. **Prepare official forms and fees.** For an initiation packet, confirm current applicability and requirements with the Colorado Judicial Branch's authoritative materials, including current copies supplied by the litigant. Use its official fillable PDFs for JDF 601 District Court Civil Case Cover Sheet, associated with the initial pleading under C.R.C.P. 16.1 when applicable, and JDF 600 District Court Civil Summons. Fill every required field on the provided PDFs after the forum and form requirements are confirmed. Confirm the fee amount and, for a waiver, the current motion and financial affidavit forms `[verify]`. Which route did the litigant choose? If paying, include the fee as verified. If seeking waiver, include the verified motion and affidavit. If undecided, ask which route they want and hold completion of the packet. If any required fee, form or information remains unresolved or inaccessible, return the held packet checklist naming its source, what's missing and what to provide or verify. Use the court's original forms for the cover sheet and summons.
 6. **Filing and service.** Before filing, verify the working 63-day interval for service after filing, the permitted method and proof under C.R.C.P. 4 and any order, and the applicable C.R.C.P. 12 answer period and computation basis below. If any is unresolved, hold filing. Show the validated complaint, official forms, payment or waiver materials, exact destination and attachments together. Apply Produce Court Filing’s exact-artifact preview and release steps to the entire packet, including the official forms’ sourced requirements gate. Record explicit approval against the hashes of the files shown. Recheck the hashes before any transmission. The litigant uses Colorado Courts E-Filing (CCEF) for an approved packet where applicable. On filing confirmation or receipt, route the confirmed filing to Maintain Matter File. On acceptance, update the parties record, caption and other affected case records with the assigned number. Have the litigant arrange service and file the return or proof after service. Apply Produce Court Filing's applicable gates before any filing or service transmission. Use [Returning the work](../AGENTS.md#returning-the-work) for the filing-draft handoff. Ask the litigant for the filing confirmation and, separately, for the proof after service.
 7. **Seed deadlines.** After actual service, pass the proof to Maintain Matter File’s **Service confirmed** operation for location, date and method. Check the facts against the verified C.R.C.P. 12 calculation basis. The working Colorado district civil defaults are 21 days after in-state service and 35 days after out-of-state service. Use the applicable trigger, exceptions, time computation and any order. If service facts or calculation inputs remain uncertain, keep that deadline pending. Record case management, discovery and other deadlines as they arise. Route any confirmed proof filing to Maintain Matter File for history, index and deadline updates. If filing or service is still pending, list which dates are untriggered or awaiting confirmation.
+
+### How does a matter keep its own rules set?
+
+Does the person want a pack for a court, forum or law named in the matter declaration? If yes, use the current Jurisdictions `resolve` result in Litigation Counsel's preflight. Start a pack only for that name when the result shows no coverage. If a pack already covers it, use the finding. If the declaration or lookup is missing or unresolved, report the gap before writing.
+
+Ask the [own pack questions](own-pack-questions.md) as written. Use only what the person supplies and state nothing from the session's memory. Write the pack in the matter at `jurisdictions/<pack-id>/` following the [Jurisdictions pack format](../../tools/Jurisdictions/schema/pack-format.md). Save each passage in an excerpt with its source URL or the official publication's title and section on the first line and the date read on the second. Mark a statement `Verified` only when the person supplied an official source and the saved passage supports the statement. Mark every other statement `[verify]`. If the pack format requires a URL and the source has none in the record, retain the saved passage, report the missing locator and ask for it before adding the statement. Keep any title and section in the citation and use the supplied URL in the excerpt the pack references when the format requires it.
+
+After writing the pack, add a `jurisdictions/` row to the matter's `AGENTS.md` file map identifying it as the home of the matter's own rules packs. From the Jurisdictions tool directory, run `node scripts/jurisdictions.js validate --pack <absolute-pack-directory>` and report its findings. When validation passes, use `stale --pack <absolute-pack-directory>` from the same tool for the closing age prompts.
 
 ### What can the initial complaint certificate state?
 

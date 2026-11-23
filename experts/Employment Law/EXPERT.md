@@ -3,7 +3,7 @@ name: Employment Law
 type: expert
 category: practice-area
 description: Assess a Colorado employment dispute against the agreement, wage record, and authority, returning supported claim distinctions, holds, and the next litigation skill
-version: 0.3.3
+version: 0.3.4
 gaps:
   - Employment coverage is working and lacks official confirmation of the 2025 wage amendments, the current CDLE cap, and a current filing forms and venue check
   - Employment briefing lacks complete opinion reads for the flagged cases and verified Colorado authority for notice and cure, prevention of a bonus condition, remote-worker jurisdiction, and unsigned arbitration
@@ -15,7 +15,7 @@ gaps:
 
 ## Context
 
-Use for an individual worker or a business handling its own employment dispute about discharge, contract pay, wages, restrictive covenants, or forum. On a direct matter request, obtain [Litigation Counsel's forum finding](../Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern) for the matter's claims before the substance steps. Use [Colorado employment authority](authority.md) and every Colorado statement in the steps only for a claim whose outcome in the preflight forum finding begins `Colorado authority applies`. If the outcome ends `working assumption, confirm`, carry that flag on every Colorado statement used. For a `Hold`, apply it and keep work on other claims moving. The venue, form, fee and threshold checks use the forum or candidate court regardless of the claim's law. Apply `legal/AGENTS.md` Standing constraint. End matter-specific assistance when asked to act for or advise someone else. Unemployment-insurance hearings, workers' compensation, and union labor law are outside this coverage. Discrimination, FMLA, and disability route to the counsel stop.
+Use for an individual worker or a business handling its own employment dispute about discharge, contract pay, wages, restrictive covenants, or forum. On a direct matter request, obtain [Litigation Counsel's forum finding](../Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern) for the matter's claims before the substance steps. Use [Colorado employment authority](authority.md) and every Colorado statement in the steps only for a claim whose outcome in the preflight forum finding begins `Colorado authority applies`. If the outcome ends `working assumption, confirm`, carry that flag on every Colorado statement used. For an outcome beginning `Pack authority applies`, use only the files that outcome lists as governing-law authority and skip this file's Colorado statements for that claim. If the outcome ends `the person's own pack`, say that each statement used came from the person's own pack and give its source and date read. For a `Hold`, apply it and keep work on other claims moving. The venue, form, fee and threshold checks use the forum or candidate court regardless of the claim's law. Apply `legal/AGENTS.md` Standing constraint. End matter-specific assistance when asked to act for or advise someone else. Unemployment-insurance hearings, workers' compensation, and union labor law are outside this coverage. Discrimination, FMLA, and disability route to the counsel stop.
 
 This expert organizes the evidence and authority for the person's own assessment and owns no skill.
 
