@@ -65,6 +65,7 @@ for (const court of [
   'JAMS, Employment Arbitration',
   'JAMS, Case No. 2025-EX-12',
   'JAMS Employment Arbitration, Reference 17',
+  'JAMS employment arbitration, Example Resolution Center, seated in Sample County, Example State, reference EX-123',
 ]) {
   test('lookup matches ' + court + ' as a forum without supplying law', () => {
     const result = success(['lookup', '--court', court]);

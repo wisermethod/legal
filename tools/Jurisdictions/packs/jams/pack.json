@@ -11,7 +11,8 @@
       "court_match": [
         "JAMS",
         "JAMS(?:\\s+|\\s*[-,]\\s*)Employment(?:\\s+Arbitration)?(?:\\s+Rules(?:\\s+and\\s+Procedures)?|\\s+Forum)?",
-        "JAMS\\s*\\(Employment(?:\\s+Arbitration)?(?:\\s+Rules(?:\\s+and\\s+Procedures)?|\\s+Forum)?\\)"
+        "JAMS\\s*\\(Employment(?:\\s+Arbitration)?(?:\\s+Rules(?:\\s+and\\s+Procedures)?|\\s+Forum)?\\)",
+        "JAMS\\s+Employment\\s+Arbitration,\\s+[A-Za-z .'-]{1,80} Resolution Center,\\s+seated in\\s+[A-Za-z .'-]{1,80}(?:,\\s+[A-Za-z .'-]{1,80})?"
       ],
       "file": "forum/employment.json"
     }
