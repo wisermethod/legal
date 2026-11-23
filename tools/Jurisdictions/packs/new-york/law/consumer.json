@@ -1,0 +1,147 @@
+{
+  "statements": [
+    {
+      "id": "consumer-section-349-prohibition",
+      "text": "Section 349 prohibits unfair, deceptive or abusive acts or practices in business, trade or commerce or in furnishing a service in New York. It applies whether or not another state law also governs the practice and preserves authority under other state laws to act or inquire.",
+      "source": {
+        "citation": "N.Y. General Business Law § 349 (a), (g)",
+        "url": "https://www.nysenate.gov/legislation/laws/GBS/349"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-consumer-section-349-prohibition.txt"
+    },
+    {
+      "id": "consumer-section-349-unfairness",
+      "text": "For § 349, an act or practice is unfair when it causes or is likely to cause substantial injury that is not reasonably avoidable and is not outweighed by countervailing benefits to consumers or competition. The statute uses substantial injury in the sense of the Federal Trade Commission Act.",
+      "source": {
+        "citation": "N.Y. General Business Law § 349 (a)(1)",
+        "url": "https://www.nysenate.gov/legislation/laws/GBS/349"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-consumer-section-349-unfairness.txt"
+    },
+    {
+      "id": "consumer-section-349-abusiveness",
+      "text": "For § 349, an act or practice is abusive if it materially interferes with understanding a product or service term or condition, or takes unreasonable advantage of a person's lack of understanding of material risks, costs or conditions, inability to protect their interests in selecting or using a product or service, or reasonable reliance on the actor to act in their interests.",
+      "source": {
+        "citation": "N.Y. General Business Law § 349 (a)(2)",
+        "url": "https://www.nysenate.gov/legislation/laws/GBS/349"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-consumer-section-349-abusiveness.txt"
+    },
+    {
+      "id": "consumer-section-349-public-enforcement",
+      "text": "On evidence satisfactory to the attorney general of actual or impending unfair, deceptive or abusive conduct, the attorney general may act in the name and on behalf of the people of New York to enjoin it and obtain restitution of money or property obtained directly or indirectly through it. The statute reaches persons doing business or providing services in New York even from outside the state and persons in New York doing so outside it. Before commencing the action or proceeding, the attorney general must give the person notice by certified mail and an opportunity to show in writing within ten calendar days after receipt why it should not be brought. The exception applies when the attorney general seeks preliminary relief and finds that giving notice and that opportunity is contrary to the public interest.",
+      "source": {
+        "citation": "N.Y. General Business Law § 349 (b)–(c)",
+        "url": "https://www.nysenate.gov/legislation/laws/GBS/349"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-consumer-section-349-public-enforcement.txt"
+    },
+    {
+      "id": "consumer-section-349-federal-compliance-defense",
+      "text": "In a § 349 action or proceeding, a complete defense exists when the act or practice is subject to, or in interstate commerce would be subject to, and complies with the rules, regulations and statutes administered by the FTC or another official federal agency, as interpreted by that agency or the federal courts.",
+      "source": {
+        "citation": "N.Y. General Business Law § 349 (d)",
+        "url": "https://www.nysenate.gov/legislation/laws/GBS/349"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-consumer-section-349-federal-compliance-defense.txt"
+    },
+    {
+      "id": "consumer-section-349-media-exclusion",
+      "text": "Section 349 excludes a television or radio broadcasting station or a publisher or printer of a newspaper, magazine or other form of printed advertising that broadcasts, publishes or prints the advertisement.",
+      "source": {
+        "citation": "N.Y. General Business Law § 349 (e)",
+        "url": "https://www.nysenate.gov/legislation/laws/GBS/349"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-consumer-section-349-media-exclusion.txt"
+    },
+    {
+      "id": "consumer-section-349-private-deception",
+      "text": "A person injured by reason of an unlawful deceptive act or practice may sue in their own name for an injunction, the greater of actual damages or $50, or both.",
+      "source": {
+        "citation": "N.Y. General Business Law § 349 (h)",
+        "url": "https://www.nysenate.gov/legislation/laws/GBS/349"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-consumer-section-349-private-deception.txt"
+    },
+    {
+      "id": "consumer-section-349-enhancement-and-fees",
+      "text": "In a private § 349 action, if the court finds that the defendant willfully or knowingly violated § 349, it may increase the damages award to an amount no greater than the lesser of three times actual damages and $1,000. The cap governs the increased award. The underlying recovery is the greater of actual damages or $50. The court may award reasonable attorney's fees to a prevailing plaintiff.",
+      "source": {
+        "citation": "N.Y. General Business Law § 349 (h)",
+        "url": "https://www.nysenate.gov/legislation/laws/GBS/349"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-consumer-section-349-enhancement-and-fees.txt"
+    },
+    {
+      "id": "consumer-false-advertising",
+      "text": "False advertising in the conduct of business, trade or commerce or in furnishing a service in New York is unlawful.",
+      "source": {
+        "citation": "N.Y. General Business Law § 350",
+        "url": "https://www.nysenate.gov/legislation/laws/GBS/350"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-consumer-false-advertising.txt"
+    },
+    {
+      "id": "consumer-false-advertising-private-remedies",
+      "text": "A person injured by a violation of General Business Law § 350 or § 350-a may sue in their own name for an injunction, the greater of actual damages or $500, or both. For a discretionary increase, § 350-e(3) requires the court to find that the defendant willfully or knowingly violated \"this section,\" referring to § 350-e. The increased award may not exceed the lesser of three times actual damages and $10,000. The cap governs the increased award. The underlying recovery remains the greater of actual damages or $500. The court may award reasonable attorney's fees to a prevailing plaintiff.",
+      "source": {
+        "citation": "N.Y. General Business Law § 350-e (3)",
+        "url": "https://www.nysenate.gov/legislation/laws/GBS/350-E"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-consumer-false-advertising-private-remedies.txt"
+    },
+    {
+      "id": "consumer-statutory-liability-limitations",
+      "text": "An action to recover on a liability, penalty or forfeiture that a statute creates or imposes has a three-year limitations period under CPLR § 214(2), except as provided in CPLR §§ 213 and 215.",
+      "source": {
+        "citation": "N.Y. Civil Practice Law and Rules § 214 (2)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/214"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-consumer-statutory-liability-limitations.txt"
+    },
+    {
+      "id": "consumer-fraud-limitations",
+      "text": "An action based on fraud has the greater of six years from accrual or two years from when the plaintiff or the person under whom the plaintiff claims discovered the fraud or could have discovered it with reasonable diligence.",
+      "source": {
+        "citation": "N.Y. Civil Practice Law and Rules § 213 (8)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/213"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-consumer-fraud-limitations.txt"
+    },
+    {
+      "id": "consumer-debt-interest",
+      "text": "In an action arising out of consumer debt with a natural person as defendant, the rate is two percent per year on a judgment or accrued claim for judgments entered on or after the effective date of the 2021 amendment. For an earlier judgment unpaid in whole or in part on that date, § 5004(a)(ii) applies that rate to interest upon judgment under § 5003 from entry on the unpaid portion. Consumer debt is an actual or alleged obligation of a natural person to pay money arising from a transaction whose subject is money, property, insurance or services primarily for personal, family or household purposes, whether or not reduced to judgment. This includes consumer credit transactions as defined in CPLR § 105(f). Subdivision (c) leaves rights and remedies as to amounts paid or judgments satisfied before that subdivision's own effective date unaffected and creates no new rights or remedies as to them. For amounts paid before that date and lawfully applied to interest or fees accrued before that date, subdivision (c) does not require the judgment creditor or sheriff to refund the payments or apply them to any part of the judgment other than fees or interest upon judgment under § 5003.",
+      "source": {
+        "citation": "N.Y. Civil Practice Law and Rules § 5004 (a)–(c)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/5004"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-consumer-debt-interest.txt"
+    }
+  ]
+}

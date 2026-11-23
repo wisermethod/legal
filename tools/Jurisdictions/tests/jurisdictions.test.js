@@ -145,7 +145,7 @@ function validationFailure(pack, file, id, reason) {
   return result;
 }
 
-test('list on the shipped tree returns an object with no packs', () => {
+test('list on the shipped tree describes each shipped pack and forum tier', () => {
   assert.deepEqual(success(['list']), { packs: [
     { id: 'colorado', name: 'Colorado', kind: 'state', law: COLORADO_AREAS, forums: [
       { id: 'district-court', name: 'Colorado district court', tier: 'general-jurisdiction trial court' },
@@ -156,6 +156,8 @@ test('list on the shipped tree returns an object with no packs', () => {
       forums: [{ id: 'district-court', name: 'United States district court', tier: 'federal district court' }] },
     { id: 'jams', name: 'JAMS', kind: 'arbitration-forum', law: [],
       forums: [{ id: 'employment', name: 'JAMS employment arbitration', tier: 'arbitration forum' }] },
+    { id: 'new-york', name: 'New York', kind: 'state', law: ['contract', 'employment', 'consumer'],
+      forums: [{ id: 'supreme-court', name: 'Supreme Court of the State of New York', tier: 'New York state civil general-jurisdiction trial court' }] },
   ] });
 });
 
@@ -176,7 +178,7 @@ test('validate accepts a good pack by absolute directory', () => {
 });
 
 test('validate selects all shipped packs by default or one by id', () => {
-  assert.deepEqual(success(['validate']).packs, ['colorado', 'federal', 'jams']);
+  assert.deepEqual(success(['validate']).packs, ['colorado', 'federal', 'jams', 'new-york']);
   assert.deepEqual(success(['validate'], PACKS).packs, ['example-arbitration', 'example-state']);
   assert.deepEqual(success(['validate', '--pack', 'example-arbitration'], PACKS).packs, ['example-arbitration']);
 });
@@ -227,7 +229,7 @@ for (const [court, id] of [
 }
 
 test('lookup reports uncovered courts and requires a whole court-name match', () => {
-  for (const court of ['Supreme Court of the State of New York, County of New York', COLORADO_COURT + ' Annex']) {
+  for (const court of ['Supreme Court of Example State', COLORADO_COURT + ' Annex']) {
     assert.deepEqual(success(['lookup', '--court', court]), {
       forum: { status: 'none', reason: 'no pack covers this court' }, stale: [], gaps: [], invalid_packs: [],
     });
@@ -258,7 +260,7 @@ test('lookup holds the leading Colorado law match and returns the whole exceptio
 });
 
 test('lookup reports uncovered law and does not match names in the middle', () => {
-  for (const law of ['New York', 'New York except where Colorado applies']) {
+  for (const law of ['Example State', 'Example State except where Colorado applies']) {
     assert.deepEqual(success(['lookup', '--law', law]), {
       governing_law: [{
         claim: null, law_named: law, clause_and_document: null, source_and_date: null,

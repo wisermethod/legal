@@ -1,0 +1,6 @@
+https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court
+2026-11-23
+
+## Section 202.5 Papers filed in court
+
+(2) Unless otherwise directed by the court, each electronically-submitted memorandum of law, affidavit and affirmation, exceeding 4500 words, which was prepared with the use of a computer software program, shall include bookmarks providing a listing of the document's contents and facilitating easy navigation by the reader within the document.

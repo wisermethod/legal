@@ -1,0 +1,84 @@
+https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court
+2026-11-23
+
+## Section 202.7 Calendaring of motions; uniform notice of motion form; affirmation of good faith
+(a) There shall be compliance with the procedures prescribed in the CPLR for the bringing of motions.
+In addition, except as provided in subdivision (d) of this section, no motion shall be filed with the court unless there have been served and filed with the motion papers (1) a notice of motion, and (2) with respect to a motion relating to disclosure or to a bill of particulars, an affirmation that counsel has conferred with counsel for the opposing party in a good faith effort to resolve the issues raised by the motion.
+(b) The notice of motion shall read substantially as follows:
+
+__________________ COURT OF THE STATE OF NEW YORK
+
+COUNTY OF_______________________
+
+____________________________________ x
+
+A.B.,
+
+Notice of Motion
+
+Plaintiff,
+
+Index No.
+
+-against-
+
+_____________________
+
+C.D.,
+
+Name of Assigned Judge
+
+Defendant
+
+_____________________
+
+Oral argument is requested
+(check box if applicable)
+
+____________________________________ x
+Upon the affidavit of_____, sworn to on _____, 19 _____, and upon (list supporting papers if any), the . . . will move this court (in Room _____) at the ___________ Courthouse, ___________ New York, on the _____day of ___________, 20 _____ , at _____ (a.m.) (p.m.) for an order (briefly indicate relief requested).
+
+The above-entitled action is for (briefly state nature of action, e.g., personal injury, medical malpractice, divorce, etc.).
+This is a motion for or related to interim maintenance or child support. (check box if applicable)
+
+An affirmation that a good faith effort has been made to resolve the issues raised in this motion is annexed hereto.
+
+(required only where the motion relates to disclosure or to a bill of particulars)
+
+Pursuant to CPLR 2214(b), answering affidavits, if any, are required to be served upon the undersigned at least seven days before the return date of this motion.(check box if applicable)
+
+Dated:
+
+(print name)
+_______________________
+
+
+
+Attorney^{1} (or attorney in charge of case if law firm) for moving party.
+
+Address:
+
+Telephone number:
+
+(print name)
+
+TO: ______________________________
+
+Attorney^{1} for (other party)
+Address:
+Telephone number:
+
+(print name)
+
+_______________________________
+Attorney^{1} for (other party)
+
+Address:
+Telephone number:
+(c) The affirmation of the good faith effort to resolve the issues raised by the motion shall indicate the time, place and nature of the consultation and the issues discussed and any resolutions, or shall indicate good cause why no such conferral with counsel for opposing parties was held.
+(d) An order to show cause or an application for ex parte relief need not contain the notice of motion set forth in this section, but shall contain the affirmation of good faith set forth in this section if such affirmation otherwise is required by this section.
+(e) Ex parte motions submitted to a judge outside of the county where the underlying action is venued or will be venued shall be referred to the appropriate court in the county of venue unless the judge determines that the urgency of the motion requires immediate determination.
+(f) Any application for temporary injunctive relief, including but not limited to a motion for a stay or a temporary restraining order, shall contain, in addition to the other information required by this section, an affirmation demonstrating there will be significant prejudice to the party seeking the restraining order by giving of notice.
+In the absence of a showing of significant prejudice, the affirmation must demonstrate that a good faith effort has been made to notify the party against whom the temporary restraining order is sought of the time, date and place that the application will be made in a manner sufficient to permit the party an opportunity to appear in response to the application.
+This subdivision shall not be applicable to orders to show cause or motions in special proceedings brought under Article 7 of the Real Property Actions and Proceedings Law, nor to orders to show cause or motions requesting an order of protection under section 240 of the Domestic Relations Law, unless otherwise ordered by the court.
+^{1}If any party is appearing pro se, the name, address and telephone number of such party shall be stated.

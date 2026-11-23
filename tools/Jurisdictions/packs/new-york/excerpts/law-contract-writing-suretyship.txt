@@ -1,0 +1,167 @@
+https://www.nysenate.gov/legislation/laws/GOB/5-701
+2026-11-23
+
+§ 5-701. Agreements required to be in writing. a. Every agreement,
+promise or undertaking is void, unless it or some note or memorandum
+thereof be in writing, and subscribed by the party to be charged
+therewith, or by his lawful agent, if such agreement, promise or
+undertaking:
+
+1. By its terms is not to be performed within one year from the making
+thereof or the performance of which is not to be completed before the
+end of a lifetime;
+
+2. Is a special promise to answer for the debt, default or miscarriage
+of another person;
+
+3. Is made in consideration of marriage, except mutual promises to
+marry;
+
+5. Is a subsequent or new promise to pay a debt discharged in
+bankruptcy;
+
+6. Notwithstanding section 2-201 of the uniform commercial code, if
+the goods be sold at public auction, and the auctioneer at the time of
+the sale, enters in a sale book, a memorandum specifying the nature and
+price of the property sold, the terms of the sale, the name of the
+purchaser, and the name of the person on whose account the sale was
+made, such memorandum is equivalent in effect to a note of the contract
+or sale, subscribed by the party to be charged therewith;
+
+9. Is a contract to assign or an assignment, with or without
+consideration to the promisor, of a life or health or accident insurance
+policy, or a promise, with or without consideration to the promisor, to
+name a beneficiary of any such policy. This provision shall not apply to
+a policy of industrial life or health or accident insurance.
+
+10. Is a contract to pay compensation for services rendered in
+negotiating a loan, or in negotiating the purchase, sale, exchange,
+renting or leasing of any real estate or interest therein, or of a
+business opportunity, business, its good will, inventory, fixtures or an
+interest therein, including a majority of the voting stock interest in a
+corporation and including the creating of a partnership interest.
+"Negotiating" includes procuring an introduction to a party to the
+transaction or assisting in the negotiation or consummation of the
+transaction. This provision shall apply to a contract implied in fact or
+in law to pay reasonable compensation but shall not apply to a contract
+to pay compensation to an auctioneer, an attorney at law, or a duly
+licensed real estate broker or real estate salesman.
+
+b. Notwithstanding paragraph one of subdivision a of this section:
+
+1. An agreement, promise, undertaking or contract, which is valid in
+other respects and is otherwise enforceable, is not void for lack of a
+note, memorandum or other writing and is enforceable by way of action or
+defense provided that such agreement, promise, undertaking or contract
+is a qualified financial contract as defined in paragraph two of this
+subdivision and (a) there is, as provided in paragraph three of this
+subdivision, sufficient evidence to indicate that a contract has been
+made, or (b) the parties thereto, by means of a prior or subsequent
+written contract, have agreed to be bound by the terms of such qualified
+financial contract from the time they reach agreement (by telephone, by
+exchange of electronic messages, or otherwise) on those terms.
+
+2. For purposes of this subdivision, a "qualified financial contract"
+means an agreement as to which each party thereto is other than a
+natural person and which is:
+
+(a) for the purchase and sale of foreign exchange, foreign currency,
+bullion, coin or precious metals on a forward, spot, next-day value or
+other basis;
+
+(b) a contract (other than a contract for the purchase and sale of a
+commodity for future delivery on, or subject to the rules of, a contract
+market or board of trade) for the purchase, sale or transfer of any
+commodity or any similar good, article, service, right, or interest
+which is presently or in the future becomes the subject of dealing in
+the forward contract trade, or any product or byproduct thereof, with a
+maturity date more than two days after the date the contract is entered
+into;
+
+(c) for the purchase and sale of currency, or interbank deposits
+denominated in United States dollars;
+
+(d) for a currency option, currency swap or cross-currency rate swap;
+
+(e) for a commodity swap or a commodity option (other than an option
+contract traded on, or subject to the rules of a contract market or
+board of trade);
+
+(f) for a rate swap, basis swap, forward rate transaction, or an
+interest rate option;
+
+(g) for a security-index swap or option or a security (or securities)
+price swap or option;
+
+(h) an agreement which involves any other similar transaction relating
+to a price or index (including, without limitation, any transaction or
+agreement involving any combination of the foregoing, any cap, floor,
+collar or similar transaction with respect to a rate, commodity price,
+commodity index, security (or securities) price, security-index or other
+price index);
+
+(i) for the assignment, sale, trade, participation or exchange of
+indebtedness or claims relating thereto arising in the course of the
+claimant's business or profession (including but not limited to
+commercial and/or bank loans, choses in action arising under or in
+connection with loan agreements and private notes, and including forward
+sales), but only to the extent that such indebtedness or obligation was
+not incurred by a natural person primarily for personal, family or
+household purposes; or
+
+(j) an option with respect to any of the foregoing.
+
+3. There is sufficient evidence that a contract has been made if:
+
+(a) There is evidence of electronic communication (including, without
+limitation, the recording of a telephone call or the tangible written
+text produced by computer retrieval), admissible in evidence under the
+laws of this state, sufficient to indicate that in such communication a
+contract was made between the parties;
+
+(b) A confirmation in writing sufficient to indicate that a contract
+has been made between the parties and sufficient against the sender is
+received by the party against whom enforcement is sought no later than
+the fifth business day after such contract is made (or such other period
+of time as the parties may agree in writing) and the sender does not
+receive, on or before the third business day after such receipt (or such
+other period of time as the parties may agree in writing), written
+objection to a material term of the confirmation; for purposes of this
+subparagraph, a confirmation or an objection thereto is received at the
+time there has been actual receipt by an individual responsible for the
+transaction or, if earlier, at the time there has been constructive
+receipt which is the time actual receipt by such an individual would
+have occurred if the receiving party, as an organization, has exercised
+reasonable diligence; and a "business day" for the purposes of this
+subparagraph is a day on which both parties are open and transacting
+business of the kind involved in that qualified financial contract which
+is the subject of the confirmation;
+
+(c) The party against whom enforcement is sought admits in its
+pleading, testimony or otherwise in court that a contract was made; or
+
+(d) There is a note, memorandum or other writing sufficient to
+indicate that a contract has been made, signed by the party against whom
+enforcement is sought or by its authorized agent or broker.
+
+For purposes of this paragraph evidence of an electronic communication
+indicating the making therein of a contract or a confirmation,
+admission, note, memorandum or writing is not insufficient because it
+omits or incorrectly states one or more material terms agreed upon, so
+long as such evidence provides a reasonable basis for concluding that a
+contract was made.
+
+4. For purposes of this subdivision, the tangible written text
+produced by telex, telefacsimile, computer retrieval or other process by
+which electronic signals are transmitted by telephone or otherwise shall
+constitute a writing and any symbol executed or adopted by a party with
+the present intention to authenticate a writing shall constitute a
+signing. The confirmation and notice of objection referred to in
+subparagraph (b) of paragraph three of this subdivision may be
+communicated by means of telex, telefacsimile, computer or other similar
+process by which electronic signals are transmitted by telephone or
+otherwise, provided that a party claiming to have communicated in such a
+manner shall, unless the parties have otherwise agreed in writing, have
+the burden of establishing actual or constructive receipt by the other
+party as set forth in subparagraph (b) of paragraph three of this
+subdivision.

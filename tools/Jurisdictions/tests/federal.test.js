@@ -86,7 +86,7 @@ test('district matching rejects other court systems, ambiguous labels and unknow
   for (const [name, pack] of [
     [COLORADO_STATE, 'colorado'],
     ['JAMS Employment Arbitration', 'jams'],
-    ['Supreme Court of the State of New York, County of New York', undefined],
+    ['Supreme Court of the State of New York, County of New York', 'new-york'],
     ['Superior Court of the District of Columbia', undefined],
     ['United States Court of Appeals for the District of Columbia Circuit', undefined],
     ['U.S. Court of Appeals, 10th Cir.', undefined],

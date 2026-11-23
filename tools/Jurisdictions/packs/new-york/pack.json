@@ -1,0 +1,39 @@
+{
+  "id": "new-york",
+  "name": "New York",
+  "kind": "state",
+  "law_match": [
+    "New York(?: State)?(?: law)?",
+    "(?:the )?laws? of (?:(?:the )?State of )?New York",
+    "(?:the )?State of New York",
+    "the laws of New York State",
+    "State of New York law"
+  ],
+  "law": [
+    {
+      "area": "contract",
+      "file": "law/contract.json"
+    },
+    {
+      "area": "employment",
+      "file": "law/employment.json"
+    },
+    {
+      "area": "consumer",
+      "file": "law/consumer.json"
+    }
+  ],
+  "forums": [
+    {
+      "id": "supreme-court",
+      "name": "Supreme Court of the State of New York",
+      "tier": "New York state civil general-jurisdiction trial court",
+      "court_match": [
+        "Supreme Court of the State of New York[ \\t]*,[ \\t]*(?:County of (?:Albany|Allegany|Bronx|Broome|Cattaraugus|Cayuga|Chautauqua|Chemung|Chenango|Clinton|Columbia|Cortland|Delaware|Dutchess|Erie|Essex|Franklin|Fulton|Genesee|Greene|Hamilton|Herkimer|Jefferson|Kings|Lewis|Livingston|Madison|Monroe|Montgomery|Nassau|New York|Niagara|Oneida|Onondaga|Ontario|Orange|Orleans|Oswego|Otsego|Putnam|Queens|Rensselaer|Richmond|Rockland|Saratoga|Schenectady|Schoharie|Schuyler|Seneca|St[.]? Lawrence|Steuben|Suffolk|Sullivan|Tioga|Tompkins|Ulster|Warren|Washington|Wayne|Westchester|Wyoming|Yates)|(?:Albany|Allegany|Bronx|Broome|Cattaraugus|Cayuga|Chautauqua|Chemung|Chenango|Clinton|Columbia|Cortland|Delaware|Dutchess|Erie|Essex|Franklin|Fulton|Genesee|Greene|Hamilton|Herkimer|Jefferson|Kings|Lewis|Livingston|Madison|Monroe|Montgomery|Nassau|New York|Niagara|Oneida|Onondaga|Ontario|Orange|Orleans|Oswego|Otsego|Putnam|Queens|Rensselaer|Richmond|Rockland|Saratoga|Schenectady|Schoharie|Schuyler|Seneca|St[.]? Lawrence|Steuben|Suffolk|Sullivan|Tioga|Tompkins|Ulster|Warren|Washington|Wayne|Westchester|Wyoming|Yates) County)",
+        "Supreme Court[ \\t]*,[ \\t]*(?:County of (?:Albany|Allegany|Bronx|Broome|Cattaraugus|Cayuga|Chautauqua|Chemung|Chenango|Clinton|Columbia|Cortland|Delaware|Dutchess|Erie|Essex|Franklin|Fulton|Genesee|Greene|Hamilton|Herkimer|Jefferson|Kings|Lewis|Livingston|Madison|Monroe|Montgomery|Nassau|New York|Niagara|Oneida|Onondaga|Ontario|Orange|Orleans|Oswego|Otsego|Putnam|Queens|Rensselaer|Richmond|Rockland|Saratoga|Schenectady|Schoharie|Schuyler|Seneca|St[.]? Lawrence|Steuben|Suffolk|Sullivan|Tioga|Tompkins|Ulster|Warren|Washington|Wayne|Westchester|Wyoming|Yates)|(?:Albany|Allegany|Bronx|Broome|Cattaraugus|Cayuga|Chautauqua|Chemung|Chenango|Clinton|Columbia|Cortland|Delaware|Dutchess|Erie|Essex|Franklin|Fulton|Genesee|Greene|Hamilton|Herkimer|Jefferson|Kings|Lewis|Livingston|Madison|Monroe|Montgomery|Nassau|New York|Niagara|Oneida|Onondaga|Ontario|Orange|Orleans|Oswego|Otsego|Putnam|Queens|Rensselaer|Richmond|Rockland|Saratoga|Schenectady|Schoharie|Schuyler|Seneca|St[.]? Lawrence|Steuben|Suffolk|Sullivan|Tioga|Tompkins|Ulster|Warren|Washington|Wayne|Westchester|Wyoming|Yates) County)[ \\t]*,[ \\t]*(?:State of )?New York",
+        "New York State Supreme Court[ \\t]*,[ \\t]*(?:County of (?:Albany|Allegany|Bronx|Broome|Cattaraugus|Cayuga|Chautauqua|Chemung|Chenango|Clinton|Columbia|Cortland|Delaware|Dutchess|Erie|Essex|Franklin|Fulton|Genesee|Greene|Hamilton|Herkimer|Jefferson|Kings|Lewis|Livingston|Madison|Monroe|Montgomery|Nassau|New York|Niagara|Oneida|Onondaga|Ontario|Orange|Orleans|Oswego|Otsego|Putnam|Queens|Rensselaer|Richmond|Rockland|Saratoga|Schenectady|Schoharie|Schuyler|Seneca|St[.]? Lawrence|Steuben|Suffolk|Sullivan|Tioga|Tompkins|Ulster|Warren|Washington|Wayne|Westchester|Wyoming|Yates)|(?:Albany|Allegany|Bronx|Broome|Cattaraugus|Cayuga|Chautauqua|Chemung|Chenango|Clinton|Columbia|Cortland|Delaware|Dutchess|Erie|Essex|Franklin|Fulton|Genesee|Greene|Hamilton|Herkimer|Jefferson|Kings|Lewis|Livingston|Madison|Monroe|Montgomery|Nassau|New York|Niagara|Oneida|Onondaga|Ontario|Orange|Orleans|Oswego|Otsego|Putnam|Queens|Rensselaer|Richmond|Rockland|Saratoga|Schenectady|Schoharie|Schuyler|Seneca|St[.]? Lawrence|Steuben|Suffolk|Sullivan|Tioga|Tompkins|Ulster|Warren|Washington|Wayne|Westchester|Wyoming|Yates) County)"
+      ],
+      "file": "forum/supreme-court.json"
+    }
+  ]
+}

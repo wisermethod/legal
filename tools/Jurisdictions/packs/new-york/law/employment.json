@@ -1,0 +1,521 @@
+{
+  "statements": [
+    {
+      "id": "employment-at-will-default",
+      "text": "Absent a violation of a constitutional requirement, statute or contract, an employer ordinarily may terminate at-will employment at any time. The Court of Appeals declined to extend the narrow common-law exception it had recognized for a law firm associate to the investment adviser compliance officer in Sullivan.",
+      "source": {
+        "citation": "Sullivan v Harnisch, 19 NY3d 259, 262–265 (majority opinion, part II) (N.Y. Ct. App. 2012)",
+        "url": "https://www.nycourts.gov/reporter/3dseries/2012/2012_03574.htm"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-at-will-default.txt"
+    },
+    {
+      "id": "employment-article-6-coverage",
+      "text": "Article 6 defines wages as earnings for labor or services regardless of the pay basis, including § 198-c benefits or wage supplements except for §§ 191 and 192. Its definition of employer excludes governmental agencies. Its definition of employee generally reaches people employed for hire but excludes minor-league baseball players under contract and paid under a collective bargaining agreement specifying wages, hours and working conditions, except for §§ 193, 196-b, 198 and 198-b.",
+      "source": {
+        "citation": "N.Y. Labor Law § 190 (1)–(3)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/190"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-article-6-coverage.txt"
+    },
+    {
+      "id": "employment-pay-frequency-classifications",
+      "text": "For Article 6, a manual worker is a mechanic, workingman or laborer, subject to the minor-league baseball exclusion in § 190(4). A railroad worker works for a listed surface railroad or sleeping car business and is not employed in an executive capacity. A commission salesperson principally sells and earns at least part of their pay on commission, with supervisory, managerial, executive and administrative principal activities excluded. The clerical and other worker category covers employees outside those groups, except bona fide executives, administrators or professionals earning more than $1,300 per week.",
+      "source": {
+        "citation": "N.Y. Labor Law § 190 (4)–(7)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/190"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-pay-frequency-classifications.txt"
+    },
+    {
+      "id": "employment-manual-worker-pay",
+      "text": "A manual worker must be paid weekly and within seven calendar days after the week in which wages are earned. A nonprofit as defined by Article 6 or an employer with the commissioner's authorization pays under the agreed terms at least semimonthly. Authorization requires an average of at least 1,000 employees in New York over the three years before application, or averages of at least 1,000 in New York over the preceding year and 3,000 outside New York over the preceding three years. It also requires satisfactory proof of continuing ability to meet payroll and the consent of any labor organization representing the manual workers. In deciding whether the employer can continue to meet payroll, the commissioner must consider its New York payroll history or, if none is available, other financial information the commissioner requests. The commissioner must also consider proof of workers' compensation and disability coverage, proof of no outstanding Department of Taxation and Finance or Department of Labor warrants for failure to remit state personal income tax withholdings or unemployment insurance contributions, and proof of a computerized payroll recordkeeping system showing at least hours worked, rate of pay, gross wages, deductions and date of pay for each employee. After notice and an opportunity to be heard, the commissioner may rescind authorization if those factors show the employer is no longer able to meet payroll as authorized.",
+      "source": {
+        "citation": "N.Y. Labor Law § 191 (1)(a)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/191"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-manual-worker-pay.txt"
+    },
+    {
+      "id": "employment-railroad-worker-pay",
+      "text": "A railroad worker must be paid by Thursday for the seven-day period ending Tuesday of the preceding week. Upon written request and delivery of an address, a railroad corporation must mail the requesting employee's wage checks by first-class U.S. mail, except for commuter railroads under the Metropolitan Transportation Authority's jurisdiction.",
+      "source": {
+        "citation": "N.Y. Labor Law § 191 (1)(b)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/191"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-railroad-worker-pay.txt"
+    },
+    {
+      "id": "employment-commission-pay",
+      "text": "A commission salesperson must receive wages, salary, draws, commissions and other earnings or payable amounts under the agreed terms at least monthly and by the last day of the month following the month earned. Where the monthly or more frequent payments of wages, salary, draws or commissions are substantial, additional compensation may be paid less frequently by the date set in the employment agreement or compensation plan. A written request entitles the salesperson to a statement of earnings paid or due and unpaid.",
+      "source": {
+        "citation": "N.Y. Labor Law § 191 (1)(c)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/191"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-commission-pay.txt"
+    },
+    {
+      "id": "employment-commission-terms",
+      "text": "The employment terms of a commission salesperson must be in writing, signed by both parties and kept by the employer at least three years for the commissioner's review. They must describe calculation of pay, reconciliation frequency for a recoverable draw and payment details on termination by either party. Failure to produce the signed terms at the commissioner's request creates a presumption favoring the terms presented by the salesperson.",
+      "source": {
+        "citation": "N.Y. Labor Law § 191 (1)(c)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/191"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-commission-terms.txt"
+    },
+    {
+      "id": "employment-clerical-pay",
+      "text": "Clerical and other workers must be paid under the agreed terms at least semimonthly on regular paydays designated in advance. An employer may not require an employee to accept pay intervals other than those provided by § 191 as a condition of employment.",
+      "source": {
+        "citation": "N.Y. Labor Law § 191 (1)(d), (2)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/191"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-clerical-pay.txt"
+    },
+    {
+      "id": "employment-final-pay",
+      "text": "Upon termination, wages are due by the regular payday for the pay period in which employment ended, as established under § 191. The employer must mail the wages if the employee requests it.",
+      "source": {
+        "citation": "N.Y. Labor Law § 191 (3)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/191"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-final-pay.txt"
+    },
+    {
+      "id": "employment-wage-deduction-authorization",
+      "text": "Under the version in effect through November 5, 2028, no employer may deduct from an employee's wages except for deductions made in accordance with law or government agency rule or regulation, authorized employee-benefit payments under § 193(1)(b), or recovery of employer clerical-error overpayments or salary or wage advances under § 193(1)(c) or (d) in compliance with the commissioner's regulations. Employee-benefit deductions are limited to insurance premiums and prepaid legal plans, pension or health and welfare benefits, contributions to bona fide charities, purchases at events sponsored by a bona fide charity affiliated with the employer where at least 20 percent of event profits go to a bona fide charity, U.S. bonds, labor organization dues or assessments, discounted parking or mass-transit items, fitness center, health club or gym dues, on-site cafeteria or vending purchases, purchases at employer-operated gift shops when the employer is a hospital, college or university, on-site pharmacy purchases, tuition, room, board or fees for preschool through postsecondary education (including nursery school), day care and before- or after-school care, at-or-below-market housing from nonprofit hospitals or their affiliates, and similar payments for the employee's benefit. These deductions require the employee's express, voluntary written authorization after written disclosure of all terms and conditions of the payment or benefits and the manner of deduction. Employee authorization may also be provided under a collective bargaining agreement. The employer must keep the authorization on its premises during employment and for six years afterward and notify the employee of substantial changes as soon as practicable and before implementation, in every case before any increased deduction. The statute treats deductions under employer-sponsored pretax contribution plans approved by the IRS or other local taxing authority as made under § 193(1)(a). Charity-event, cafeteria, vending, gift-shop and pharmacy purchases, and purchases the commissioner determines are similar, are subject to the employer's aggregate cap each pay period and any cap the employee sets in $10 increments up to the employer's limit. Employees must be able to access a printable accounting of individual purchases and the running total for the next applicable pay period at work without charge. Authorization may be revoked in writing at any time except for deductions authorized or required by a current collective bargaining agreement. Revoked deductions must cease as soon as practicable and within the earlier of four pay periods or eight weeks.",
+      "source": {
+        "citation": "N.Y. Labor Law § 193 (1)(a)–(b), (2), (3)(b)–(c), versions effective until November 6, 2028",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/193"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-wage-deduction-authorization.txt"
+    },
+    {
+      "id": "employment-payroll-recovery-deductions",
+      "text": "Under the version in effect through November 5, 2028, employers may deduct to recover wage overpayments due to their mathematical or other clerical error or to recover salary or wage advances they made to employees. Each type of recovery must comply with the commissioner's regulations on repayment and notice, including procedures to dispute the amount or seek delayed recovery.",
+      "source": {
+        "citation": "N.Y. Labor Law § 193 (1)(c)–(d), version effective until November 6, 2028",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/193"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-payroll-recovery-deductions.txt"
+    },
+    {
+      "id": "employment-wage-charges-and-nonpayment",
+      "text": "Under the version in effect through November 5, 2028, a charge against wages or a required separate payment must be permitted as a deduction or permitted or required by a current collective bargaining agreement. Other applicable laws on deductions remain in force. Section 193(5) provides no exception to liability for unauthorized failure to pay wages, benefits or wage supplements.",
+      "source": {
+        "citation": "N.Y. Labor Law § 193 (3)(a), (4), versions effective until November 6, 2028, and (5)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/193"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-wage-charges-and-nonpayment.txt"
+    },
+    {
+      "id": "employment-wage-deduction-transition",
+      "text": "The version marked effective November 6, 2028 permits deductions under law or agency rule or regulation, or employee-benefit deductions expressly authorized in writing and kept on file on the employer's premises, limited to the listed and similar payments. It bars a charge against wages or a required separate payment unless eligible as a deduction under subdivision (1), and preserves other applicable laws on deductions, including the law on assignment of earnings.",
+      "source": {
+        "citation": "N.Y. Labor Law § 193 (1)–(3), versions effective November 6, 2028",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/193"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-wage-deduction-transition.txt"
+    },
+    {
+      "id": "employment-equal-pay",
+      "text": "Section 194 bars paying a protected-class employee less than an employee outside the same protected class or classes in the same establishment for equal or substantially similar work, assessed by skill, effort, responsibility and similar working conditions. Same establishment means workplaces of the same employer in the same geographic region, no larger than a county, considering population, economic activity or municipalities. Differentials may be based on seniority, merit, production quantity or quality, or a bona fide nonprotected factor independent of a protected-class pay differential and job-related and consistent with business necessity. For this rule, business necessity means a factor that bears a manifest relationship to the employment in question. The last defense fails if the employee shows a disparate impact, an alternative practice serving the same business purpose without the differential, and the employer's refusal to adopt it.",
+      "source": {
+        "citation": "N.Y. Labor Law § 194 (1)–(3)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/194"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-equal-pay.txt"
+    },
+    {
+      "id": "employment-wage-discussions",
+      "text": "Employers may not prohibit wage inquiries, discussions or disclosures. They may set reasonable workplace and workday time, place and manner limits consistent with the commissioner's standards and other state and federal laws in a written policy given to all employees. These limits may require an employee's prior permission before discussing or disclosing that employee's wages. Violation of such limits is an affirmative defense if the violation caused the adverse action. Protection excludes disclosure by an employee with access to others' wages as part of essential job functions to people without such access, except for disclosures responding to a complaint or charge or furthering an investigation, proceeding, hearing or action under the Labor Law, including an investigation conducted by the employer. The law does not compel employees to disclose wages.",
+      "source": {
+        "citation": "N.Y. Labor Law § 194 (4)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/194"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-wage-discussions.txt"
+    },
+    {
+      "id": "employment-hiring-pay-notice",
+      "text": "At hiring, an employer must give written notice of rates and pay basis, applicable allowances and benefits or supplements, regular payday and employer identity and contacts. For each claimed prevailing wage supplement or provided home care aide benefit, the notice must give the hourly rate claimed, the type of supplement or benefit, the provider's name and address, and any agreement requiring or providing it, with information on how the employee can obtain copies or summaries of the agreement. Covered overtime workers' notices must include regular and overtime rates. Notice and signed, dated acknowledgment are in English and the employee's stated primary language, with English alone sufficient when the commissioner provides no template for that language. The employer retains the acknowledgment for six years. The commissioner may waive or alter requirements for qualifying temporary help firms.",
+      "source": {
+        "citation": "N.Y. Labor Law § 195 (1)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/195"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-hiring-pay-notice.txt"
+    },
+    {
+      "id": "employment-pay-notice-changes",
+      "text": "An employer must give written notice at least seven calendar days before changes to the information required in the hiring notice, unless the changes are reflected in the wage statement required by § 195(3).",
+      "source": {
+        "citation": "N.Y. Labor Law § 195 (2)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/195"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-pay-notice-changes.txt"
+    },
+    {
+      "id": "employment-wage-statements",
+      "text": "At each wage payment the employer must furnish a statement with the dates worked, employee and employer details, rates and basis, gross and net wages, deductions and applicable allowances, home care aide benefits and prevailing wage supplements. The statute specifies added or accompanying information for those supplements or benefits and additional rates and hours for overtime-eligible employees, rates and counts for piecework, and additional details for railroad employees. Upon request the employer must explain in writing how wages were computed.",
+      "source": {
+        "citation": "N.Y. Labor Law § 195 (3), (3-a)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/195"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-wage-statements.txt"
+    },
+    {
+      "id": "employment-payroll-records",
+      "text": "Employers must maintain contemporaneous, true and accurate payroll records for each week worked and preserve them for at least six years. The statute specifies pay and time details, deductions, allowances, sick leave and applicable supplements or benefits, and additional information for overtime-eligible and piece-rate employees.",
+      "source": {
+        "citation": "N.Y. Labor Law § 195 (4)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/195"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-payroll-records.txt"
+    },
+    {
+      "id": "employment-termination-notice",
+      "text": "An employer must notify a terminated employee in writing of the exact termination and associated benefits cancellation dates within five working days after termination. Failure to notify of accident or health insurance cancellation subjects the employer to the additional penalty under § 217.",
+      "source": {
+        "citation": "N.Y. Labor Law § 195 (6)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/195"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-termination-notice.txt"
+    },
+    {
+      "id": "employment-underpayment-court-remedies",
+      "text": "In a court action on a wage claim by the employee or commissioner in which the employee prevails, the court must allow full underpayment, all reasonable attorney's fees and prejudgment interest as required by the CPLR. Unless the employer proves a good-faith basis for believing the underpayment was lawful, the court must allow 100 percent of wages found due as liquidated damages, with up to 300 percent permitted for willful § 194 violations. Section 198(1-a) has a different damages rule for qualifying late manual-worker payments.",
+      "source": {
+        "citation": "N.Y. Labor Law § 198 (1-a)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/198"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-underpayment-court-remedies.txt"
+    },
+    {
+      "id": "employment-underpayment-commissioner-remedies",
+      "text": "The labor commissioner may institute legal or administrative action to collect Article 6 underpayment on an employee's behalf. In that action the commissioner must assess the full underpayment. The commissioner must also assess liquidated damages unless the employer proves a good-faith basis for believing the underpayment was lawful. The commissioner's liquidated award can be up to 100 percent of wages found due or up to 300 percent for a willful § 194 violation. Section 198(1-a) has a different damages rule for qualifying late manual-worker payments.",
+      "source": {
+        "citation": "N.Y. Labor Law § 198 (1-a)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/198"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-underpayment-commissioner-remedies.txt"
+    },
+    {
+      "id": "employment-manual-pay-delay-first-violation",
+      "text": "For an employer's first violation of § 191(1)(a) when wages were paid on a regular payday at least semimonthly, ordinary liquidated damages do not apply under § 198(1-a). Damages are at most 100 percent of lost interest found due for the delay. Lost interest is calculated for each day payment was late using a daily interest rate based on the annual rate then in effect as prescribed by the superintendent of financial services under Banking Law § 14-a.",
+      "source": {
+        "citation": "N.Y. Labor Law § 198 (1-a)(i)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/198"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-manual-pay-delay-first-violation.txt"
+    },
+    {
+      "id": "employment-manual-pay-delay-repeat-violation",
+      "text": "For late manual-worker pay on a regular payday at least semimonthly, § 198(1-a)(ii) provides 100 percent liquidated damages on wages found due in violation of § 191(1)(a) for conduct after its effective date when the employer was also subject after that date to at least one prior finding and final order for such a violation involving employees performing the same work. No administrative or judicial review may be pending and the time to start review must have expired. A single final order or determination counts once regardless of the number of employees or the period covered.",
+      "source": {
+        "citation": "N.Y. Labor Law § 198 (1-a)(ii)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/198"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-manual-pay-delay-repeat-violation.txt"
+    },
+    {
+      "id": "employment-hiring-notice-remedies",
+      "text": "An employee who receives no required § 195(1) notice within ten business days of starting may recover $50 per workday of violation up to $5,000, plus costs and reasonable attorney's fees, and the court may grant other relief. The commissioner may act on the employee's behalf and assess the same daily amount and cap. Complete and timely payment of all wages due under Article 6, 19 or 19-A, or a reasonable good-faith belief that the notice was not required, is an affirmative defense to recovery for a § 195(1)(a) violation.",
+      "source": {
+        "citation": "N.Y. Labor Law § 198 (1-b)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/198"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-hiring-notice-remedies.txt"
+    },
+    {
+      "id": "employment-statement-remedies",
+      "text": "An employee who was not provided a required § 195(3) statement is entitled in a civil action to $250 per workday of violation up to $5,000, plus costs and reasonable attorney's fees, subject to the statutory defenses. The court may grant other relief and the commissioner may act on the employee's behalf and assess the same daily amount and cap. Section 198(1-d) gives two alternative affirmative defenses. One is complete and timely payment to that employee of all wages due under Article 6, 19 or 19-A. The other is that the employer reasonably believed in good faith that it was not required to provide the employee with statements \"pursuant to\" § 195(1)(e). The provision it cites gives the commissioner discretion to waive or alter the hiring-notice requirements of § 195(1)(a) for temporary help firms as defined in § 916. The application of that hiring-notice cross-reference to wage-statement damages remains unresolved by the cited provisions.",
+      "source": {
+        "citation": "N.Y. Labor Law § 198 (1-d)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/198"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-statement-remedies.txt"
+    },
+    {
+      "id": "employment-article-6-limitations",
+      "text": "Notwithstanding any other provision of law, an action on a liability imposed by Article 6 must be brought within six years. The period is tolled from the earlier of an employee's complaint to the commissioner or the start of the commissioner's investigation until an order to comply is final or, absent an order, until notice to the complainant that the investigation concluded. The investigation neither bars nor is required for a civil action. Section 198(3) provides for recovery of full wages, benefits, wage supplements and liquidated damages accrued during the six years before suit.",
+      "source": {
+        "citation": "N.Y. Labor Law § 198 (3)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/198"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-article-6-limitations.txt"
+    },
+    {
+      "id": "employment-labor-law-retaliation",
+      "text": "Section 215 bars discharge, threats, penalties and other retaliation by employers, their agents and other persons for a reasonable, good-faith Labor Law or commissioner-order complaint to an employer, designated official or other person, or because the actor believes the employee reported a Labor Law or commissioner-order violation. The law also protects instituting or preparing to institute covered proceedings, providing information to the commissioner, the commissioner's authorized representative or the attorney general, testifying or preparing to testify in a covered investigation or proceeding, exercising Labor Law rights, and using legally protected absence, and bars retaliation for an adverse commissioner determination involving the employee. A complaint need not name the law. Retaliation includes contacting or threatening to contact U.S. immigration authorities or otherwise reporting or threatening to report to a federal, state or local agency the suspected citizenship or immigration status of the employee or of the employee's family or household member as defined in Social Services Law § 459-a(2). It also includes points or time-bank deductions that expose the employee to discipline. The section excludes employees of the state and its municipal subdivisions or departments.",
+      "source": {
+        "citation": "N.Y. Labor Law § 215 (1)(a), (c)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/215"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-labor-law-retaliation.txt"
+    },
+    {
+      "id": "employment-labor-law-retaliation-civil-remedies",
+      "text": "An employee may sue for § 215 retaliation within two years after the violation regardless of dates of employment. The period is tolled from the earlier of a complaint to the commissioner or the start of an investigation until the order to comply is final or, absent an order, notice that the investigation ended. Investigation is neither a prerequisite nor a bar. The court must award each aggrieved employee liquidated damages of up to $20,000 and may order other appropriate relief, including injunctions, costs and reasonable attorney's fees, and where the violator is the employer, rehiring or reinstatement with seniority or front pay, lost compensation and damages. Section 215(2)(b) requires notice to be served on the attorney general at or before commencement.",
+      "source": {
+        "citation": "N.Y. Labor Law § 215 (2)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/215"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-labor-law-retaliation-civil-remedies.txt"
+    },
+    {
+      "id": "employment-whistleblower-protected-activity",
+      "text": "An employer may not retaliate because an employee discloses or threatens to disclose to a supervisor or public body an activity, policy or practice of the employer that the employee reasonably believes violates law, rule or regulation or presents a substantial and specific public health or safety danger. Protection also covers informing or testifying before an investigating public body, or objecting to or refusing to participate in such a practice. The protection applies regardless of job duties and covers former employees and natural-person independent contractors working in furtherance of the employer's enterprise who are not themselves employers.",
+      "source": {
+        "citation": "N.Y. Labor Law § 740 (1)–(2)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/740"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-whistleblower-protected-activity.txt"
+    },
+    {
+      "id": "employment-whistleblower-public-disclosure",
+      "text": "For § 740(2)(a) protection for disclosure to a public body, the employee ordinarily must make a good-faith effort to notify a supervisor and give the employer a reasonable opportunity to correct the matter. Notice is excused for imminent serious danger to public health or safety, reasonable belief of evidence destruction or concealment, reasonably expected endangerment of a minor, reasonable belief of physical harm from reporting, or reasonable belief that the supervisor already knows and will not correct the matter.",
+      "source": {
+        "citation": "N.Y. Labor Law § 740 (3)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/740"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-whistleblower-public-disclosure.txt"
+    },
+    {
+      "id": "employment-whistleblower-civil-remedies",
+      "text": "A § 740 retaliation action may be brought within two years of the alleged retaliatory action. Grounds independent of the exercise of protected rights are a defense. The court may order an injunction, reinstatement or front pay, restored benefits and seniority, lost remuneration, reasonable costs and attorney's fees, a civil penalty up to $10,000, and punitive damages for a willful, malicious or wanton violation. The court may award the employer fees and costs for an action without basis in law or fact. The section preserves rights and remedies under other law, regulation, collective bargaining agreements and employment contracts.",
+      "source": {
+        "citation": "N.Y. Labor Law § 740 (4)(a), (4)(c), (5)–(7)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/740"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-whistleblower-civil-remedies.txt"
+    },
+    {
+      "id": "employment-off-duty-activities",
+      "text": "Section 201-d protects qualifying lawful political activity, recreational activity and use of consumable products, including state-lawful cannabis, outside work hours and off premises without employer property, as well as specified union membership and exercise of labor rights. The political-activity protection has statutory exclusions. Other statutory limits include material conflicts of interest related to the employer's trade secrets, proprietary information or other proprietary or business interests, specified public ethics and collective bargaining restrictions, and individual professional-service contracts for unique services. The statute preserves certain employer actions based on specified beliefs. Health, disability or life insurance may vary in type or price of coverage according to employees' recreational activities or use of consumable products if differences in premiums charged to employees reflect differences in cost to the employer and employees receive a statement of the carriers' differential rates. These distinctions may not be used to expand, limit or curtail any party's rights or liabilities in a civil action.",
+      "source": {
+        "citation": "N.Y. Labor Law § 201-d (1)(a)–(c), (2)(a)–(d), (3)–(6)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/201-D"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-off-duty-activities.txt"
+    },
+    {
+      "id": "employment-cannabis-impairment-and-exceptions",
+      "text": "Section 201-d permits cannabis-related employer action required by a state or federal mandate, or based on specific articulable symptoms while working that reduce job performance or interfere with required workplace safety. Subdivision (4-a)(iii) also provides an exception for employer actions that would require an act in violation of federal law or cause the loss of a federal contract or federal funding.",
+      "source": {
+        "citation": "N.Y. Labor Law § 201-d (4-a)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/201-D"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-cannabis-impairment-and-exceptions.txt"
+    },
+    {
+      "id": "employment-political-religious-communications",
+      "text": "Section 201-d protects refusal to attend employer-sponsored meetings or receive communications primarily conveying the employer's religious or political views. Political matters include the decision to join or support a labor organization. Employers may communicate legally required information only to the extent of the legal requirement. Other exceptions include job-necessary communications, higher-education coursework, academic programs and symposia, voluntary casual conversations, and requirements limited to managers and supervisors. For religious organizations exempt under 42 USC 2000e-1(a), the speech exception covers religious matters communicated to employees whose work is connected with the organization's activities.",
+      "source": {
+        "citation": "N.Y. Labor Law § 201-d (1)(d)–(e), (2)(e), (8)–(9)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/201-D"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-political-religious-communications.txt"
+    },
+    {
+      "id": "employment-protected-activities-remedies",
+      "text": "An individual aggrieved by an alleged § 201-d violation may sue for equitable relief and damages. The attorney general may seek to enjoin or restrain the alleged violation in the name of the people of the state. In that proceeding the court may impose a $300 civil penalty for the first violation and $500 for each later violation.",
+      "source": {
+        "citation": "N.Y. Labor Law § 201-d (7)",
+        "url": "https://www.nysenate.gov/legislation/laws/LAB/201-D"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-protected-activities-remedies.txt"
+    },
+    {
+      "id": "employment-human-rights-coverage",
+      "text": "The New York State Human Rights Law defines employer to include all employers within the state, including the state and local political subdivisions as employers of the officials and employees specified in § 292(5). An individual employed by a parent, spouse or child is excluded from the definition of employee. For § 297 relief, private employer excludes the state and its local subdivisions and any state or local department, agency, board or commission.",
+      "source": {
+        "citation": "N.Y. Executive Law § 292 (5)–(6), (38)",
+        "url": "https://www.nysenate.gov/legislation/laws/EXC/292"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-human-rights-coverage.txt"
+    },
+    {
+      "id": "employment-discrimination",
+      "text": "Section 296(1)(a) bars employers and licensing agencies from refusing to hire or employ, barring or discharging, or discriminating in pay or employment terms because of age, race, creed, color, national origin, citizenship or immigration status, sexual orientation, gender identity or expression, military status, sex, disability, predisposing genetic characteristics, familial or marital status, or domestic violence victim status. Separate paragraphs govern employment agencies, labor organizations and discriminatory hiring notices or inquiries. Section 296(3-a) prohibits an employer or licensing agency from making hiring, employment, licensing, termination, promotion, compensation or other employment decisions because of the age of an individual who is 18 or older. It also prohibits age-based limitations, specifications or discrimination affecting individuals 18 or older or an intent to impose them in prospective employment notices, applications or inquiries by employers, licensing agencies or employment agencies, and prohibits those actors from discharging or otherwise discriminating against a person for opposing practices forbidden by Article 15 or for filing a complaint, testifying or assisting in an Article 15 proceeding. Notwithstanding other law, age-based termination or retirement is barred except where age is a bona fide occupational qualification reasonably necessary to normal operation of the particular business, the differentiation is based on reasonable factors other than age, or § 296(3-a)(e) or (f) or Retirement and Social Security Law Article 14-A provides otherwise. Paragraph (e) permits compulsory retirement at age 65 or older for an employee in a bona fide executive or high policymaking position for the two years immediately before retirement who is entitled to an immediate, nonforfeitable annual retirement benefit of at least $44,000 in aggregate from the employer's pension, profit-sharing, savings or deferred compensation plans. For paragraph (e) only, employer excludes the state, counties, cities, towns, villages and other political subdivisions or civil divisions of the state, school districts and other governmental entities operating a public school, college or university, public improvement or special districts, public authorities, commissions or public benefit corporations, and other public corporations, agencies, instrumentalities or units of government exercising governmental power under state law. When the benefit is in a form other than a straight life annuity without ancillary benefits or the employees make plan or rollover contributions, the benefit must be adjusted under Division rules adopted after an opportunity for public hearing to the equivalent of such an annuity under a plan without employee or rollover contributions. Paragraph (f) permits compulsory retirement at age 70 or older for an employee serving under an unlimited-tenure contract or similar arrangement at a nonpublic institution of higher education. A qualifying institution admits as regular students only people with a secondary-school diploma or recognized equivalent, is lawfully authorized to provide education beyond secondary school, and awards a bachelor's degree or offers a program of at least two years acceptable for full credit toward one. Article 14-A controls in a conflict. The statute preserves termination for physical inability to perform duties even with reasonable accommodations, retirement policies or systems that are not a subterfuge to evade the law, variation of insurance coverage by employee age, and State Liquor Authority licensee restrictions concerning people under 21. Section 296(11) permits religious or denominational institutions or organizations and charitable or educational organizations operated, supervised or controlled by or in connection with a religious organization to limit employment to or give preference to people of the same religion or denomination, or to take action calculated to promote the religious principles for which the institution or organization is established or maintained.",
+      "source": {
+        "citation": "N.Y. Executive Law § 296 (1)(a)–(d), (1)(f), (3-a), (11)",
+        "url": "https://www.nysenate.gov/legislation/laws/EXC/296"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-discrimination.txt"
+    },
+    {
+      "id": "employment-harassment",
+      "text": "Section 296(1)(h) prohibits an employer, licensing agency, employment agency or labor organization from harassment based on listed protected status or protected opposition or participation. Harassment that imposes inferior terms, conditions or privileges of employment because of a protected category is actionable without a severe-or-pervasive showing. Failure to complain to the covered entity is not determinative and a comparator is unnecessary. A defense is that the conduct amounts only to petty slights or trivial inconveniences as assessed by a reasonable victim with the same protected characteristics.",
+      "source": {
+        "citation": "N.Y. Executive Law § 296 (1)(h)",
+        "url": "https://www.nysenate.gov/legislation/laws/EXC/296"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-harassment.txt"
+    },
+    {
+      "id": "employment-disability-pregnancy-accommodation",
+      "text": "Employers, licensing agencies, employment agencies and labor organizations must provide reasonable accommodation for known disabilities or pregnancy-related conditions of employees, prospective employees or members in connection with a job or training, unless the entity demonstrates undue hardship. Relevant factors include size and resources, type of operation, and nature and cost of the accommodation. The employee must cooperate in furnishing information needed to verify the condition or consider the accommodation and has a right to medical confidentiality.",
+      "source": {
+        "citation": "N.Y. Executive Law § 296 (3)(a)–(d)",
+        "url": "https://www.nysenate.gov/legislation/laws/EXC/296"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-disability-pregnancy-accommodation.txt"
+    },
+    {
+      "id": "employment-disparate-impact",
+      "text": "In a state Human Rights Law employment case, the complainant may establish a discriminatory effect by showing a practice causes or predictably will cause disparate impact on a protected group without proving intent. The respondent then must prove with evidence that the practice is job related for the position and consistent with business necessity. The complainant can still prevail by proving a less discriminatory practice could serve that necessity. A legally sufficient justification under this subdivision is unavailable as a defense to intentional discrimination.",
+      "source": {
+        "citation": "N.Y. Executive Law § 296 (5-b)",
+        "url": "https://www.nysenate.gov/legislation/laws/EXC/296"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-disparate-impact.txt"
+    },
+    {
+      "id": "employment-human-rights-retaliation",
+      "text": "A person engaged in an activity covered by § 296 may not retaliate or discriminate because someone opposed a forbidden practice, filed a complaint, testified or assisted in an Article 15 proceeding, or requested a reasonable accommodation under that article. Retaliation may include disclosure of an employee's personnel files for those reasons except where applicable law permits the disclosure in the course of commencing or responding to a complaint in a judicial or administrative proceeding.",
+      "source": {
+        "citation": "N.Y. Executive Law § 296 (7)",
+        "url": "https://www.nysenate.gov/legislation/laws/EXC/296"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-human-rights-retaliation.txt"
+    },
+    {
+      "id": "employment-human-rights-division-limitations",
+      "text": "Under the current text of § 297(5), a complaint filed with the Division of Human Rights under this section must be filed within three years after the alleged unlawful discriminatory practice.",
+      "source": {
+        "citation": "N.Y. Executive Law § 297 (5)",
+        "url": "https://www.nysenate.gov/legislation/laws/EXC/297"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-human-rights-division-limitations.txt"
+    },
+    {
+      "id": "employment-human-rights-election",
+      "text": "A complaint filed with the Division of Human Rights or a local commission on human rights, or filed with the superintendent under § 296-a, generally bars a court action under § 297(9). Division dismissal for administrative convenience, untimeliness or annulment of election preserves court rights as if the Division complaint had not been filed. Before a hearing, a complainant may request annulment, which the Division may grant, subject to the court limitations period in effect at the original filing. A complaint filed by the Equal Employment Opportunity Commission to comply with the requirements of 42 USC 2000e-5(c), 42 USC 12117(a) and 29 USC 633(b) does not constitute a complaint under § 297(9). A court action or a pending administrative action under other state law based on the same discriminatory act precludes a Division complaint for that grievance.",
+      "source": {
+        "citation": "N.Y. Executive Law § 297 (9)",
+        "url": "https://www.nysenate.gov/legislation/laws/EXC/297"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-human-rights-election.txt"
+    },
+    {
+      "id": "employment-human-rights-court-relief",
+      "text": "Subject to § 297(9)'s election rule, a person aggrieved by unlawful employment discrimination may sue for damages and other appropriate remedies, including the civil fines and penalties described in § 297(4). Punitive damages in employment cases are available in cases related to private employers.",
+      "source": {
+        "citation": "N.Y. Executive Law § 297 (9)",
+        "url": "https://www.nysenate.gov/legislation/laws/EXC/297"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-human-rights-court-relief.txt"
+    },
+    {
+      "id": "employment-human-rights-division-relief",
+      "text": "If the commissioner finds an unlawful discriminatory practice after a Division hearing, the commissioner must issue a findings-based order. In an employment case the order can include cease-and-desist and affirmative relief, with or without back pay, compensatory damages, punitive damages in private-employer cases, and civil fines payable to the state up to $50,000 or up to $100,000 for willful, wanton or malicious acts. Division civil penalties are additional to other awards. An employer with fewer than 50 employees may pay those penalties in installments under implementing regulations, with interest and a maximum term of three years.",
+      "source": {
+        "citation": "N.Y. Executive Law § 297 (4)(c), (4)(e)",
+        "url": "https://www.nysenate.gov/legislation/laws/EXC/297"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-human-rights-division-relief.txt"
+    },
+    {
+      "id": "employment-human-rights-fees",
+      "text": "The commissioner or court may award reasonable attorney's fees and expert fees to prevailing or substantially prevailing parties in proceedings at law under §§ 297 or 298. A prevailing respondent or defendant must move for fees and demonstrate frivolousness under the statute's written findings standard. The Division commissioner can award fees only in a final order after a public hearing, and a respondent in an employment case is liable for fees only if found liable for an unlawful discriminatory practice. The Division can receive or owe fees only when it is a party in its capacity as employer.",
+      "source": {
+        "citation": "N.Y. Executive Law § 297 (10)",
+        "url": "https://www.nysenate.gov/legislation/laws/EXC/297"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-employment-human-rights-fees.txt"
+    }
+  ]
+}

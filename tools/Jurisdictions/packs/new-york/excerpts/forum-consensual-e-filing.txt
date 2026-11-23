@@ -1,0 +1,47 @@
+https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court
+2026-11-23
+
+## Section 202.5-b Electronic Filing in Supreme Court; Consensual Program
+
+(a) Application.
+
+(1) On consent, documents may be filed and served by electronic means in Supreme Court in such civil actions and in such counties as shall be authorized by order of the Chief Administrator of the Courts and only to the extent and in the manner provided in this section.
+
+(2) Definitions. For purposes of this section:
+(i) “electronic means” shall mean any method of transmission of information between computers or other machines, other than facsimile machines, designed for the purpose of sending and receiving such transmissions, and which allows the recipient to reproduce the information transmitted in a tangible medium of expression;
+(ii) “NYSCEF” shall mean the New York State Courts Electronic Filing System and the “NYSCEF site” shall mean the New York State Courts Electronic Filing System website located at 【0†www.nycourts.gov/efile】;
+
+(iii) “e-filing”, “electronic filing” and “electronically filing” shall mean the filing and service of documents in a civil action by electronic means through the NYSCEF site;
+(iv) an “authorized e-filing user” shall mean a person who has registered to use e-filing pursuant to subdivision (c) of this section;
+
+(v) an “action” shall include a special proceeding and an “e-filed action” shall mean an action in which documents are electronically filed and served in accordance with this section;
+
+(vi) “hard copy” shall mean information set forth in paper form;
+(vii) “working copy” shall mean a hard copy that is an exact copy of a document that has been electronically filed in accordance with this section;
+
+(viii) “party” or “parties” shall mean the party or parties to an action or counsel thereto;
+
+(ix) “unrepresented litigant” shall mean a party to an action who is not represented by counsel;
+
+(x) “expedited processing” shall mean the expedited registration of a person as an authorized e-filing user; and
+(xi) “Resource Center” shall mean the NYSCEF Resource Center, the e-filing help center available at 646-386-3033 or 【1†[email protected]】 and through the NYSCEF site.
+
+(b) E-filing in Actions in Supreme Court. Except as otherwise provided in section 202.5-bb of these rules, the following shall apply to all actions in Supreme Court:
+(1) Commencing an action by electronic means. A party may commence any action in the Supreme Court in any county (provided that e-filing has been authorized in that county and in the class of actions to which that action belongs pursuant to paragraph (1) of subdivision (a) of this section) by electronically filing the initiating documents with the County Clerk through the NYSCEF site.
+When so authorized, a petition to commence a proceeding for review of a small claims assessment pursuant to Real Property Tax Law § 730 may be e-filed, including as follows: the petition, in the form prescribed by the Chief Administrator in accordance with such section, shall be completed and signed in hard copy as provided in that section and shall be e-filed by transmission to the NYSCEF site, in conformity with procedures established by the site, of a text file containing all of the information set forth in the completed and executed hard copy petition (exclusive of the signature(s)).
+Upon receipt of such transmission, the site shall generate and record the completed petition in proper form in portable document format.
+(2) E-filing in an action after commencement.
+(i) Consent of the parties required. After commencement of an action wherein e-filing is authorized, documents may be electronically filed and served, but only by, and electronic service shall be made only upon, a party or parties who have consented thereto.
+A party's failure to consent to participation in electronic filing and service shall not bar any other party to the action from filing documents electronically with the County Clerk and the court or serving documents upon any other party who has consented to participation. A party who has not consented to participation shall file documents with the court and the County Clerk, and serve and be served with documents, in hard copy.
+When an e-filing party serves a document in hard copy on a non-participating party, the document served shall bear full signatures of all signatories and proof of such service shall be filed electronically.
+(ii) Consent to e-filing; how obtained. Notwithstanding the following, no party shall be compelled, directly or indirectly, to participate in e-filing pursuant to this section. A consent to e-filing in an action shall state that the party providing it agrees to the use of e-filing in the action and to be bound by the filing and service provisions in this section.
+A party who has commenced an action electronically shall serve upon the other parties together with the initiating documents a notice of e-filing in a form approved by the Chief Administrator. Such notice shall provide sufficient information in plain language concerning e-filing.
+Except for an unrepresented litigant, a party served with such a notice shall promptly record his or her consent electronically in the manner provided at the NYSCEF site or file with the court and serve on all parties of record a declination of consent.An unrepresented litigant is exempt from having to file and serve documents electronically in accordance with this section and need not respond to the notice described herein; except that he or she may file a consent to participate in e-filing provided the clerk shall first have explained his or her options for e-filing in plain language, including the option for expedited processing, and inquired whether he or she wishes to participate.
+Where an unrepresented litigant opts to file a consent hereunder, it shall be documented in the case file in a manner prescribed by the Chief Administrator. Provided, however, that where an unrepresented litigant chooses to participate in e-filing in accordance with these rules, he or she may at any time opt out of such participation by presenting the clerk of the court with a form so declaring. The filing of a consent to e-filing hereunder shall not constitute an appearance in the action under CPLR 320.
+(iii) Documents previously filed with the court; termination or modification of e-filing procedures. When an action becomes subject to e-filing, the court may direct that documents previously filed in the action in hard copy be filed electronically by the parties. The court may at any time order discontinuation of e-filing in such action or modification of e-filing procedures therein in order to prevent prejudice and promote substantial justice.
+(iv)  Conversion of pending actions. Where procedurally permitted, upon court direction, an application by a party to the court, or a stipulation among the parties, a pending action may be converted to electronic form. Such direction, application, or stipulation must be served on all parties to the action and filed with proof of service. The County Clerk may require the parties to furnish previously filed hard copy documents in electronic form.
+
+(f) Service of Documents.
+(1) Service of initiating documents in an action. Initiating documents may be served in hard copy pursuant to Article 3 of the CPLR, or, in tax certiorari cases, pursuant to the Real Property Tax Law, and shall bear full signatures as required thereby, or by electronic means if the party served agrees to accept such service.
+In the case of a proceeding to review a small claims assessment where the petition has been e-filed by the submission of a text file as provided in subdivision (b)(1) of this section, a hard copy of the petition, fully completed and signed as set forth in that subdivision, shall be mailed, and shall be served upon the assessing unit or tax commission, as provided in Section 730 of the Real Property Tax Law, unless otherwise stipulated.
+A party served by electronic means shall, within 24 hours of service, provide the serving party or attorney with an electronic confirmation that the service has been effected.

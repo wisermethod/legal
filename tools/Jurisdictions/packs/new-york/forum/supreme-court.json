@@ -1,0 +1,656 @@
+{
+  "filing_profile": null,
+  "obtain": [
+    "The named county’s Supreme Court and assigned part’s operative local rules, motion submission and argument procedures, and the assigned judge’s individual practices, standing orders, scheduling orders and case-specific orders. The matter’s Rules home supplies these records.",
+    "Where assigned to the Commercial Division, the applicable rules in 22 NYCRR 202.70, including Rule 17 for length and certification, and the assigned justice’s Commercial Division rules and orders. For a specialized track, obtain its particular rules, forms and orders, including any applicable consumer-credit, foreclosure, matrimonial, special-proceeding or temporary-injunctive rules.",
+    "The relevant Chief Administrator orders for the county and case class, current NYSCEF technical and registration instructions, consent and exemption forms, paper submission and service procedures, and any authorized EDDS procedure or NYSCEF technical-failure notice.",
+    "The county clerk’s current filing instructions, forms and fee schedule, and applicable waiver authority and instructions, including CPLR 1101 and 1102 where relevant and the current CPLR 8018 index-number fee provisions. Obtain CPLR 2102 for filing requirements. Obtain the applicable notice, proof-of-service, motion, RJI and default forms and the current signing and redaction requirements under 22 NYCRR 130-1.1-a and 202.5.",
+    "N.Y. Constitution article VI, § 7 and any claim-specific statutes establishing or limiting Supreme Court subject-matter jurisdiction. Obtain applicable personal-jurisdiction authority under CPLR 301 and 302, controlling constitutional authority and any claim-specific jurisdictional rules.",
+    "For the chosen service route, obtain the applicable CPLR article 3 sections beyond those summarized here, including §§ 303, 306-a, 307, 310, 312, 314–318 as relevant, and any applicable order, Business Corporation Law or Not-for-Profit Corporation Law §§ 306–307, LLC Law article 3, Domestic Relations Law § 232(a), international service treaty or other recipient-specific statute. Confirm the method’s completion, proof and filing triggers, including the relationship between § 306-b and any later proof-of-service step.",
+    "For claim-specific venue exceptions or a change of venue, obtain the applicable CPLR article 5 provisions, including §§ 501 and 504–508 as applicable and § 511 for the procedure and time to seek a change, and any governing statute or order. For a special proceeding obtain CPLR article 4 and the applicable enabling statute and timetable.",
+    "For pleading and disclosure details beyond this record obtain applicable CPLR 3013–3016, 3101 and other article 31 provisions, the disclosure calendar and order, and any applicable 22 NYCRR 202.12 or 202.20-series rule.",
+    "For motion, summary judgment or default procedures beyond the stated rules, obtain any applicable CPLR 3212, 3213, 3215 and 3216 provisions, 22 NYCRR 202.6, 202.8-e, 202.8-f, 202.21 and 202.27 through 202.27-b, including applicable consumer-credit default affidavits and any court-ordered briefing or fact statement.",
+    "For disputed or method-specific timing, obtain current controlling New York decisions on CPLR 2103, 2214 and 2215 and General Construction Law §§ 20 and 25-a, the applicable public-holiday authority, and the actual return date, service records, court orders and filing confirmations.",
+    "For a court outside this civil trial forum or a New York City local-law issue, obtain the authority for that court or substantive issue separately."
+  ],
+  "statements": [
+    {
+      "id": "forum-part-202-scope",
+      "text": "Part 202 applies to civil actions and proceedings in Supreme Court and County Court. The court may waive a Part 202 rule other than §§ 202.2 and 202.3 for good cause shown and in the interests of justice, unless a statute or Chief Judge rule prohibits waiver. Local rules must be consistent with law and Part 202 and comply with 22 NYCRR Part 9. Part 202 is construed consistently with the CPLR, which governs matters Part 202 leaves uncovered.",
+      "source": {
+        "citation": "22 NYCRR § 202.1 (a)–(d)",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-part-202-scope.txt"
+    },
+    {
+      "id": "forum-commercial-division",
+      "text": "Part 202 applies in the Commercial Division unless its rules specifically provide to the contrary. Commercial Division Rules 7 through 15 supersede § 202.12, and Rules 16 through 24 supersede § 202.8. Rules governing a Commercial Division submission, including its separate Rule 17 on length, are a distinct source to obtain.",
+      "source": {
+        "citation": "22 NYCRR § 202.70 (g), opening applicability paragraph and Rule 17",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-commercial-division.txt"
+    },
+    {
+      "id": "forum-commencement",
+      "text": "A civil action commences by filing a summons and complaint or summons with notice under CPLR 2102. A special proceeding ordinarily commences by filing a petition under that rule. If the court finds circumstances prevent immediate filing, the signing of an order requiring filing at a specified time and date no more than five days later commences the action. Filing is delivery to the clerk in the county where the case is brought or the clerk’s designee and requires any applicable § 8018 fee. Fax or electronic filing is available where and as authorized by rule. On paper filing the clerk date-stamps and files the papers, maintains a record of the filing date and promptly returns a date-stamped copy and index number. For fax the clerk need return only a date-stamped first page and the index number. On e-filing the applicable rules govern the fee payment and the clerk promptly notifies the filer of the index number and the date and time of filing. The filer’s fax or computer confirmation together with an affidavit of filing is prima facie evidence of transmission consistent with the date, time and place recorded.",
+      "source": {
+        "citation": "New York CPLR 304 (a)–(f)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/304"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-commencement.txt"
+    },
+    {
+      "id": "forum-summons",
+      "text": "A summons states the venue basis and, if based on the plaintiff’s residence, the plaintiff’s address. It bears the assigned index number and filing date. A third-party summons also states its filing date. In an action arising from a consumer credit transaction, the summons prominently says “consumer credit transaction” at the top and, if a purchaser, borrower or debtor is a defendant, identifies the defendant’s county of residence if in the state and the transaction county if in the state. If the complaint is not served with the summons, a notice in or attached to the summons states the nature of the action, relief sought and, except in medical malpractice, the sum for which default judgment may be taken. For a new party joined by order, unanimous stipulation or as of right under § 1003, other than on that party’s own motion, a supplemental summons specifying the pleading to answer is filed and served on that party. The court may allow amendment of a summons or proof of its service at any time on just terms if no substantial right of a party against whom it issued is prejudiced.",
+      "source": {
+        "citation": "New York CPLR 305 (a)–(c)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/305"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-summons.txt"
+    },
+    {
+      "id": "forum-service-period",
+      "text": "Service of a summons and complaint, summons with notice, or petition with notice of petition or order to show cause is due within 120 days after commencement. Except for Election Law proceedings, if the applicable limitations period is four months or less, service is due no later than 15 days after that period expires. If a defendant is not served within the applicable time, on motion the court must dismiss without prejudice as to that defendant or extend the service time for good cause shown or in the interest of justice.",
+      "source": {
+        "citation": "New York CPLR 306-b",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/306-B"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-service-period.txt"
+    },
+    {
+      "id": "forum-natural-person-direct-agent-or-directed",
+      "text": "A summons may be served on a natural person by delivery to that person within the state, or by delivery within the state to an agent designated under CPLR 318. The agent method in matrimonial actions may be made pursuant to an order under Domestic Relations Law § 232(a). If service under CPLR 308(1), (2) and (4) is impracticable, the court may direct a method on motion without notice.",
+      "source": {
+        "citation": "New York CPLR 308 (1), (3), (5)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/308"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-natural-person-direct-agent-or-directed.txt"
+    },
+    {
+      "id": "forum-natural-person-delivery-and-mailing",
+      "text": "Under CPLR 308(2), delivery within New York to a person of suitable age and discretion at the intended recipient’s actual place of business, dwelling or usual abode is paired with mailing to the recipient’s last known residence or first-class mailing to the recipient’s actual place of business. Business mailing uses an envelope marked “personal and confidential” with no exterior indication of an attorney or action against the recipient. The acts must occur within 20 days of each other. Proof identifying the person who received delivery and stating its date, time and place is filed with the clerk of the court designated in the summons within 20 days after the later act. Service is complete 10 days after filing proof. In matrimonial actions this method may be used pursuant to an order under Domestic Relations Law § 232(a). Actual place of business includes a location the defendant has held out as a place of business through regular solicitation or advertising.",
+      "source": {
+        "citation": "New York CPLR 308 (2), (6)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/308"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-natural-person-delivery-and-mailing.txt"
+    },
+    {
+      "id": "forum-natural-person-affixing-and-mailing",
+      "text": "If service under CPLR 308(1) and (2) cannot be made with due diligence, the summons may be affixed to the door of the recipient’s actual place of business, dwelling or usual abode within New York and mailed to the recipient’s last known residence or by first-class mail to the recipient’s actual place of business. Business mailing uses an envelope marked “personal and confidential” with no exterior indication of an attorney or action against the recipient. The acts must occur within 20 days of each other. Proof is filed with the clerk of the court designated in the summons within 20 days after the later act. Service is complete 10 days after filing proof. In matrimonial actions this method may be used pursuant to an order under Domestic Relations Law § 232(a). Actual place of business includes a location the defendant has held out as a place of business through regular solicitation or advertising.",
+      "source": {
+        "citation": "New York CPLR 308 (4), (6)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/308"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-natural-person-affixing-and-mailing.txt"
+    },
+    {
+      "id": "forum-corporate-service",
+      "text": "Personal service on a domestic or foreign corporation may be made by delivering the summons to an officer, director, managing or general agent, cashier or assistant cashier, or another agent authorized by appointment or law. Business corporations and not-for-profit corporations also have the routes provided by §§ 306 and 307 of their respective corporation laws. If service on a domestic or foreign corporation within the 120 days allowed by CPLR 306-b is impracticable under CPLR 311(a)(1) or any other law, the court may on motion without notice direct another manner and form of proof.",
+      "source": {
+        "citation": "New York CPLR 311 (a)(1), (b)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/311"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-corporate-service.txt"
+    },
+    {
+      "id": "forum-governmental-subdivision-service",
+      "text": "Personal service on New York City is by delivering the summons to its corporation counsel or a recipient designated in writing filed with the New York County clerk. For another city the recipients are the mayor, comptroller, treasurer, counsel or clerk, or an officer doing the corresponding work if the city lacks those officers. For a county the recipients are the board of supervisors’ chair or clerk, county clerk, attorney or treasurer. For a town the recipients are the supervisor or clerk. For a village the recipients are the mayor, clerk or any trustee. A school district is served through a school officer as defined in the Education Law. A park, sewage or other district is served through its clerk, a trustee or a board member.",
+      "source": {
+        "citation": "New York CPLR 311 (a)(2)–(8)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/311"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-governmental-subdivision-service.txt"
+    },
+    {
+      "id": "forum-llc-service",
+      "text": "A domestic or foreign limited liability company may be served by personally delivering a copy to a member in this state if member-managed, to a manager in this state if manager-managed, to another agent authorized by appointment, or to another recipient the LLC designates, in the manner provided by law for serving the summons as if that person were a defendant. LLC Law article 3 also provides for service. If the CPLR 311-a(a) methods are impracticable, the court may direct a method on motion without notice.",
+      "source": {
+        "citation": "New York CPLR 311-a (a)–(b)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/311-A"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-llc-service.txt"
+    },
+    {
+      "id": "forum-acknowledged-mail-service",
+      "text": "As an alternative to the methods in CPLR §§ 307, 308, 310, 311 and 312, the plaintiff or any other person may send the process papers consisting of a summons and complaint, summons and notice, or notice of petition and petition by prepaid first-class mail along with two copies of the statutory statement and acknowledgement and a prepaid return envelope addressed to the sender. The defendant, authorized employee, defendant’s attorney or the attorney’s employee must mail or deliver one completed copy within 30 days of receipt. Service is complete when the signed acknowledgement is mailed or delivered to the sender. The acknowledgement is affirmed under penalties of perjury and constitutes proof of service. If a duly executed acknowledgement is not returned, any later service by another permitted method must disclose the earlier attempt on the summons, notice of petition or accompanying paper. If the signed acknowledgement was not returned within 30 days of receipt, the court on § 8402 notice taxes the reasonable expense of alternative service as a disbursement to the serving party and directs immediate judgment for that amount.",
+      "source": {
+        "citation": "New York CPLR 312-a (a), (b)(1), (c)–(f)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/312-A"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-acknowledged-mail-service.txt"
+    },
+    {
+      "id": "forum-acknowledged-mail-answer",
+      "text": "When a complaint or petition is served with the summons or notice of petition by CPLR 312-a mail service, the defendant has 20 days after the signed acknowledgement is mailed or delivered to the sender to serve an answer.",
+      "source": {
+        "citation": "New York CPLR 312-a (b)(1)–(2)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/312-A"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-acknowledged-mail-answer.txt"
+    },
+    {
+      "id": "forum-out-of-state-service",
+      "text": "A person domiciled in New York or subject to jurisdiction under CPLR 301 or 302, or that person’s executor or administrator, may be served outside the state in the same manner as in the state. The server may be a New York resident authorized to serve in New York, a person authorized by the law of the place of service, or a duly qualified attorney, solicitor, barrister or equivalent there.",
+      "source": {
+        "citation": "New York CPLR 313",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/313"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-out-of-state-service.txt"
+    },
+    {
+      "id": "forum-proof-of-process-service",
+      "text": "Proof of process service identifies the papers, recipient, date, time, address or other place, and method, and states facts showing an authorized person and manner. Delivery of a summons to an individual under the article requires a description of the recipient. CPLR 308(4) proof also states the dates, addresses and times of attempted service under paragraphs (1), (2) or (3). A sheriff or other authorized public officer uses a certificate, another server uses an affidavit, and CPLR 312-a permits the signed acknowledgement. A writing admitting service by the person to be served is adequate proof.",
+      "source": {
+        "citation": "New York CPLR 306 (a)–(e)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/306"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-proof-of-process-service.txt"
+    },
+    {
+      "id": "forum-appearance",
+      "text": "A defendant appears by serving an answer or notice of appearance or making a motion that extends the answer time. Appearance is due within 20 days after service of the summons, or within 30 days after service is complete if made on an authorized state official or under CPLR 303, 308(2)–(5), 313, 314 or 315. CPLR 3012(b) may extend the time if the complaint was not served with the summons. Appearance ordinarily has the effect of personal service unless an objection under CPLR 3211(a)(8) is asserted as provided by that rule. Where jurisdiction is not based on personal service, appearance is not equivalent to personal service in a CPLR 314(3) case based solely on a levy on in-state property under an order of attachment. In another CPLR 314 case, that effect is withheld if a CPLR 3211(a)(8) or (9) objection is asserted as prescribed, unless the defendant proceeds with the defense and the objection is not ultimately sustained. Appearance during publication completes service by publication.",
+      "source": {
+        "citation": "New York CPLR 320 (a)–(d)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/320"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-appearance.txt"
+    },
+    {
+      "id": "forum-answer-reply-and-pleading-service",
+      "text": "The complaint may accompany the summons and must do so in actions arising from consumer credit transactions. An answer or reply generally must be served within 20 days after service of the pleading to which it responds. If the summons and complaint were served together via an authorized state official or under CPLR 303, 308(2)–(5), 313, 314 or 315, the answer is due within 30 days after service is complete. Serve a subsequent pleading asserting new or additional claims for relief on a party who has not appeared in the manner for a summons. In other cases pleadings use the ordinary method for serving papers. On a party’s application and a showing of reasonable excuse for delay or default, the court may extend time to appear or plead or compel acceptance of a late pleading on just terms.",
+      "source": {
+        "citation": "New York CPLR 3012 (a), (c)–(d)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/3012"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-answer-reply-and-pleading-service.txt"
+    },
+    {
+      "id": "forum-demand-for-complaint",
+      "text": "If the summons was served without the complaint, the defendant may serve a written demand within the CPLR 320(a) appearance period. The complaint must be served within 20 days after service of the demand, and the demand extends the appearance period until 20 days after service of the complaint. Without a demand, the complaint must be served within 20 days after service of the notice of appearance. The court may dismiss on motion for failure to serve it as required. A demand or motion under CPLR 3012(b) does not itself constitute an appearance.",
+      "source": {
+        "citation": "New York CPLR 3012 (b)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/3012"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-demand-for-complaint.txt"
+    },
+    {
+      "id": "forum-service-of-papers",
+      "text": "Absent a contrary law or court order, papers may be served by a nonparty at least 18 years old, and in a pending action a represented party is ordinarily served through counsel. CPLR 2103(b) specifies personal delivery, mail, delivery to the person in charge at an open attorney office or in a conspicuous place if nobody is in charge, and deposit in a closed office’s letter drop or box in a sealed wrapper addressed to counsel. If office service cannot be made, leave the paper with a person of suitable age and discretion at counsel’s residence within New York. The rule also permits designated fax completed by receipt signal and mailing a copy, overnight delivery, and electronic transmission as authorized by court rule, ordinarily on written consent unless the rule provides otherwise. A party without counsel or whose counsel cannot be served is served under the methods in CPLR 2103(b)(1), (2), (4), (5) or (6). If no prescribed method is available, filing may effect service. Each other party that has appeared is also served unless a court order, CPLR 3012 or CPLR 3215(f) provides otherwise. One copy suffices for counsel representing multiple parties. On demand by a party, the plaintiff supplies that party the list of appearances and names and addresses of counsel.",
+      "source": {
+        "citation": "New York CPLR 2103 (a)–(f)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/2103"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-service-of-papers.txt"
+    },
+    {
+      "id": "forum-service-of-papers-time",
+      "text": "CPLR 2103 mail service is complete on mailing. For a period prescribed by law and measured from service of the paper, add five days for mailing made in New York and six for mailing made outside the state within the geographic boundaries of the United States. Overnight service under the rule is complete on timely deposit in a properly addressed wrapper with the delivery service for overnight delivery. For a period prescribed by law and measured from service of the paper, that method adds one business day.",
+      "source": {
+        "citation": "New York CPLR 2103 (b)(2), (6), (f)(1)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/2103"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-service-of-papers-time.txt"
+    },
+    {
+      "id": "forum-answer-content-and-defenses",
+      "text": "A responding party denies statements known or believed untrue and identifies statements for which it lacks knowledge or information sufficient to form a belief, which has the effect of a denial. Other statements are deemed admitted unless no responsive pleading is permitted, in which case they are deemed denied or avoided. A party pleads matters likely to surprise the adverse party if omitted or to raise factual issues not apparent on the face of an earlier pleading. The listed affirmative defenses are illustrative.",
+      "source": {
+        "citation": "New York CPLR 3018 (a)–(b)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/3018"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-answer-content-and-defenses.txt"
+    },
+    {
+      "id": "forum-pleading-verification",
+      "text": "A verification affirms under penalties of perjury under CPLR 2106 that the pleading is true to the deponent’s knowledge or, for matters alleged on information and belief, that the deponent believes it true. Unless law specifies otherwise, subsequent pleadings after a verified pleading must also be verified, except the answer of an infant and matters on which the party would be privileged not to testify. An answer’s counterclaim, cross-claim or third-party claim may be verified separately if the complaint is unverified. Subdivision (b) specifies answers that must be verified in the specified fraud or creditor cases and in actions against a corporation for nonpayment of a promissory note or other evidence of debt for the absolute payment of money on demand or at a particular time. A defense unrelated to the merits must be verified. Subdivision (d) specifies who may verify for a party, including joint parties, corporations, public parties, and certain agents and attorneys.",
+      "source": {
+        "citation": "New York CPLR 3020 (a)–(d)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/3020"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-pleading-verification.txt"
+    },
+    {
+      "id": "forum-pleading-amendment",
+      "text": "A party may amend a pleading once without leave within 20 days after its service, before the time to respond expires, or within 20 days after service of a responsive pleading. Amendment or supplementation is available at any time by court leave or unanimous stipulation. Leave is to be freely given on just terms, and a motion must include the proposed pleading clearly showing the changes. The court may permit amendment to conform to evidence before or after judgment. Unless a law or court order provides otherwise, a required answer or reply to an amended or supplemental pleading must be served within 20 days after service of that pleading.",
+      "source": {
+        "citation": "New York CPLR 3025 (a)–(d)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/3025"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-pleading-amendment.txt"
+    },
+    {
+      "id": "forum-dismissal-motion-preservation",
+      "text": "A party may move under CPLR 3211(a) before the responsive pleading must be served, with only one such motion permitted. Grounds (1), (3), (4), (5) and (6) are waived unless raised by motion or in the responsive pleading. Grounds (2), (7) and (10) may also be raised later by motion or a permitted pleading. Grounds (8) and (9) are waived if omitted from a CPLR 3211(a) motion or, absent such a motion, from the responsive pleading. For a consumer defendant in an action to collect consumer credit debt, an amended responsive pleading can preserve (8) or (9). A pleaded objection to improper service of process is waived unless the objecting party moves on it within 60 days after serving the pleading or the court grants an undue-hardship extension. That 60-day waiver rule excludes proceedings to collect consumer credit debt with a consumer defendant and RPAPL § 711(1) or (2) proceedings. Opposition to a motion based on improper service must include the proof of service whether previously filed or not.",
+      "source": {
+        "citation": "New York CPLR 3211 (e)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/3211"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-dismissal-motion-preservation.txt"
+    },
+    {
+      "id": "forum-dismissal-motion-pleading-extension",
+      "text": "Serving notice of a motion under CPLR 3211(a) or (b) before service of the pleading responsive to the cause of action or defense sought to be dismissed extends the time to serve that pleading until 10 days after service of notice of entry of the order.",
+      "source": {
+        "citation": "New York CPLR 3211 (f)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/3211"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-dismissal-motion-pleading-extension.txt"
+    },
+    {
+      "id": "forum-motion-notice-and-papers",
+      "text": "The notice of motion states the time and place of hearing, supporting papers, relief demanded and grounds. It may demand alternative or multiple types of relief. Each party supplies the court all papers it served. The movant also supplies other necessary papers the court does not have. In an e-filed action, unless court rules provide otherwise, the filing party may cite previously e-filed papers by docket number in place of including copies. An adverse party possessing such necessary papers produces them at the hearing on notice served with the motion papers. Only papers properly served under the rule are read unless the court directs otherwise for good cause.",
+      "source": {
+        "citation": "New York CPLR 2214 (a), (c)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/2214"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-motion-notice-and-papers.txt"
+    },
+    {
+      "id": "forum-motion-service-schedule",
+      "text": "Notice of motion and supporting affidavits are served at least eight days before the noticed hearing, and answering affidavits at least two days before it. If a notice of motion served at least 16 days before the noticed hearing demands the longer schedule, answering affidavits and any notice of cross-motion with supporting papers, if any, are served at least seven days before the hearing. On that schedule any reply or responding affidavits are served at least one day before the hearing.",
+      "source": {
+        "citation": "New York CPLR 2214 (b)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/2214"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-motion-service-schedule.txt"
+    },
+    {
+      "id": "forum-cross-motion-service-schedule",
+      "text": "A party may serve notice of cross-motion, with or without supporting papers, on the moving party at least three days before the noticed hearing or at least seven days before it if the CPLR 2214(b) demand is properly made. For mail under CPLR 2103(b)(2), it is served three days earlier than the applicable CPLR 2215 interval, and for overnight delivery under CPLR 2103(b)(6), one day earlier. Relief may be alternative or of several types and need not respond to the relief sought by the movant.",
+      "source": {
+        "citation": "New York CPLR 2215",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/2215"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-cross-motion-service-schedule.txt"
+    },
+    {
+      "id": "forum-statutory-order-to-show-cause",
+      "text": "The court may in a proper case grant an order to show cause for service in lieu of a notice of motion at the time and in the manner stated in the order. For an order against a state body or officers, in addition to service on the defendant or respondent body or officers, the order is delivered to an assistant attorney general at an Attorney General office in the county of designated venue or, if there is none, at the office nearest that county.",
+      "source": {
+        "citation": "New York CPLR 2214 (d)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/2214"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-statutory-order-to-show-cause.txt"
+    },
+    {
+      "id": "forum-summary-judgment-timing",
+      "text": "Any party may move for summary judgment after issue is joined. The court may set a cutoff no earlier than 30 days after filing the note of issue. If the court sets none, the motion must be made no later than 120 days after filing the note of issue, except with leave on good cause shown.",
+      "source": {
+        "citation": "New York CPLR 3212 (a)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/3212"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-summary-judgment-timing.txt"
+    },
+    {
+      "id": "forum-consumer-debt-summary-judgment-notice",
+      "text": "When serving a notice of motion seeking any summary judgment against an unrepresented consumer defendant in an action by a plaintiff to collect consumer credit debt, the plaintiff submits to the clerk a stamped, unsealed envelope addressed to the defendant and the specified English and Spanish notice in clear type of at least 12 points. The clerk promptly mails it and records the mailing date. Judgment based on failure to oppose requires compliance and at least 14 days from the clerk’s mailing, or 19 days if the plaintiff’s notice demands the longer schedule under CPLR 2214(b).",
+      "source": {
+        "citation": "New York CPLR 3212 (j)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/3212"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-consumer-debt-summary-judgment-notice.txt"
+    },
+    {
+      "id": "forum-default-application-and-abandonment",
+      "text": "A plaintiff may seek default judgment when a defendant fails to appear, fails to plead or fails to proceed at a trial reached and called, or when the court orders dismissal for other neglect to proceed. For a sum certain or calculable as such, the plaintiff may apply to the clerk within one year after default. Upon requisite proof, the clerk enters the amount demanded in the complaint or CPLR 305(b) notice plus costs and interest, and severs as to any defendants against whom judgment is entered if fewer than all. The plaintiff applies to the court where the clerk cannot enter judgment. A defendant may apply to the clerk within one year of a plaintiff’s default if the plaintiff failed to proceed at a trial reached and called or the court ordered dismissal for other neglect. The clerk enters judgment for costs on requisite proof. In proceedings before the court, it may make an assessment, take an account or proof, or direct a reference. The judgment cannot exceed or differ in type from the demand. If the defaulting party gives reasonable notice it will appear at the inquest, damages evidence may be presented by oral testimony or, after reasonable notice, written sworn statements, with witnesses available for cross-examination. If a plaintiff takes no proceedings for entry within one year after default, the court must dismiss the complaint as abandoned without costs on its own initiative or on motion unless sufficient cause is shown. A defendant’s motion under subdivision (c) is not an appearance. If another defendant has answered, a timely application within one year after the relevant default can result in a discretionary ex parte order deferring default proceedings to trial or other disposition as to the answering defendant, with service as the court directs.",
+      "source": {
+        "citation": "New York CPLR 3215 (a)–(e)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/3215"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-default-application-and-abandonment.txt"
+    },
+    {
+      "id": "forum-default-proof",
+      "text": "A default applicant files proof of service of the summons and complaint or a summons and notice served under CPLR 305(b) or 316(a), and affidavit proof of the facts constituting the claim, default and amount due, including the applicability statement for consumer-debt interest where required. The party supplies that affidavit, except that when the State of New York is plaintiff an attorney from the Attorney General’s office with knowledge obtained from state records or otherwise may supply it. A served verified complaint can prove the facts of the claim and the amount due, with an affidavit of default from the party or attorney. The applicable subdivision (g) mailing proof must also be filed. In an action arising out of a consumer credit transaction when the plaintiff is not the original creditor, subdivision (f) also requires an original-creditor affidavit about the debt, default, transfer and amount due at transfer, an affidavit of sale by each subsequent seller or assignor, and an affidavit from a plaintiff’s witness with chain of title. For medical debt when the plaintiff is not a qualifying licensed hospital or authorized health professional, it requires analogous affidavits starting with the hospital or professional. When jurisdiction rests on attachment, the affidavit must state that an order of attachment was levied, describe the property and state its value. A request for clerk entry also requires a plaintiff’s or plaintiff’s attorney’s affidavit of a reasonable inquiry and reason to believe the limitations period has not expired.",
+      "source": {
+        "citation": "New York CPLR 3215 (f), (j)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/3215"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-default-proof.txt"
+    },
+    {
+      "id": "forum-default-application-notice",
+      "text": "Subject to provisions for specific actions, an appearing defendant gets at least five days’ notice of the time and place of a default application to the clerk or court. After more than one year from default an absent defendant is entitled to that notice unless the court orders otherwise. The court may dispense with notice for an appearing defendant who failed to proceed at a trial reached and called. If application must be made to the court, a nonappearing defendant may serve a written demand on the plaintiff before the motion is heard for notice of any reference or jury assessment. This does not constitute an appearance. Once demanded, at least five days’ notice of the time and place of any granted reference or jury assessment is served by the usual paper-service method on the person who signed the demand.",
+      "source": {
+        "citation": "New York CPLR 3215 (g)(1)–(2)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/3215"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-default-application-notice.txt"
+    },
+    {
+      "id": "forum-default-additional-mailing",
+      "text": "For nonappearance default based on nonpayment of a natural person’s contractual obligation, proof by affidavit is required of an additional first-class summons mailing at least 20 days before judgment entry, simultaneously with or after summons service. It is mailed to the defendant’s residence in an envelope marked “personal and confidential” with no exterior indication of an attorney or alleged debt. If returned undeliverable before entry or residence is unknown, use a known place of employment, and if neither is known, the last known residence. This requirement excludes small claims parts, summary possession proceedings and title actions other than residential mortgage foreclosure. For nonappearance default against a domestic or authorized foreign corporation served under Business Corporation Law § 306(b), the additional first-class summons mailing to its last known address is made at least 20 days before entry, simultaneously with or after that service and with notice that service under that provision is being or has been made. This requirement excludes small claims and commercial claims parts, summary possession proceedings and title actions. The person mailing makes the affidavit for filing with the judgment. Nonreceipt does not bar entry when the applicable mailing conditions were met.",
+      "source": {
+        "citation": "New York CPLR 3215 (g)(3)–(4)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/3215"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-default-additional-mailing.txt"
+    },
+    {
+      "id": "forum-consumer-credit-default-notice",
+      "text": "In an action arising from a consumer credit transaction, the plaintiff submits a stamped, unsealed envelope and the specified English and Spanish notice when filing proof of summons and complaint service or later. The envelope goes to the defendant at the service address with the specified identifying details and the clerk’s return address. The clerk promptly mails the notice. Default for failure to answer requires compliance and at least 20 days after the clerk’s mailing. If the mailing is returned undeliverable, such default cannot be entered unless the service address matches the defendant’s address on a New York DMV Certified Abstract of Driving Record. Receipt does not confer jurisdiction without proper service of process.",
+      "source": {
+        "citation": "22 NYCRR § 202.27-b (a)",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-consumer-credit-default-notice.txt"
+    },
+    {
+      "id": "forum-venue",
+      "text": "Unless law prescribes otherwise, trial may be placed in a county where a party resided at commencement or a substantial part of the events or omissions giving rise to the claim occurred. If no party resided in New York at commencement, the plaintiff may designate any county. A party resident in multiple counties counts as resident in each. Specified fiduciaries count as residents of the county of appointment as well as actual residence. A domestic corporation or authorized foreign corporation counts as resident where its principal office is located, and a railroad or other common carrier also where the cause arose. For a president or treasurer suing or sued on behalf of an unincorporated association, a partnership, or an individually owned business, subdivision (d) uses the principal-office and applicable individual residence counties. In money-only actions by an assignee, except an assignee for creditors’ benefit or a holder in due course of a negotiable instrument, the assignee’s residence is the original assignor’s residence when the original assignment was made.",
+      "source": {
+        "citation": "New York CPLR 503 (a)–(e)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/503"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-venue.txt"
+    },
+    {
+      "id": "forum-special-venue-grounds",
+      "text": "In a consumer credit transaction action with a purchaser, borrower or debtor as a defendant, trial is in a defendant’s county of residence if in New York, or where the transaction took place if in New York, or otherwise as under CPLR 503(a). In an action to recover tuition, fees, room and board, educational benefit payments, student loans or similar education charges owed to the State of New York, trial is in a New York defendant’s county of residence when one resides in the state, otherwise as provided in the venue article.",
+      "source": {
+        "citation": "New York CPLR 503 (f)–(g)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/503"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-special-venue-grounds.txt"
+    },
+    {
+      "id": "forum-change-of-venue",
+      "text": "On motion, the court may change the trial county when the designated county is improper, there is reason to believe an impartial trial cannot be had in the proper county, or the change promotes the convenience of material witnesses and the ends of justice.",
+      "source": {
+        "citation": "New York CPLR 510",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/510"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-change-of-venue.txt"
+    },
+    {
+      "id": "forum-day-counting",
+      "text": "A stated period counted in days from a given day uses calendar days and excludes the day from which reckoning begins, including the date of the triggering event. For a two-day period, an intervening Saturday, Sunday or public holiday between the starting day and last day is excluded.",
+      "source": {
+        "citation": "New York General Construction Law § 20",
+        "url": "https://www.nysenate.gov/legislation/laws/GCN/20"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-day-counting.txt"
+    },
+    {
+      "id": "forum-statutory-holiday-extension",
+      "text": "If a statutory period computed from a given day for an act ends on a Saturday, Sunday or public holiday, the act may be done on the next business day, at or before the same hour if an hour is specified. The extension of a period set by contract is governed by General Construction Law § 25.",
+      "source": {
+        "citation": "New York General Construction Law § 25-a (1)",
+        "url": "https://www.nysenate.gov/legislation/laws/GCN/25-A"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-statutory-holiday-extension.txt"
+    },
+    {
+      "id": "forum-form-of-papers",
+      "text": "Served or filed papers must be durable, white and legible in black ink, and ordinarily 8½ × 11 inches. The size exception covers summonses, subpoenas, notices of appearance, notes of issue, orders of protection, temporary orders of protection and exhibits. The printed name appears below each signature. Summons type is at least 12 points, and other printed or typed papers except exhibits use clear type of at least 10 points under this statute. Papers are in English, in ordinary usage where practicable. A foreign-language affidavit or exhibit is accompanied by an English translation and the translator’s affidavit of qualifications and accuracy. The caption begins the paper and identifies the court, venue, action title, nature of the paper and any assigned index number. A summons, complaint or judgment names all parties in the title. Other papers may name the first party on each side and indicate omissions. Endorsement gives counsel’s name, address and phone number or the unrepresented party’s. Electronic papers must be reproducible to satisfy subdivisions (a)–(d). Copies are permitted unless otherwise specifically prescribed, and the court can authorize a copy if a required original is lost or withheld. Absent prejudice to a substantial right the court disregards a form defect and freely grants leave to correct. The recipient waives the objection unless it returns the paper with particular objections within 15 days of receipt.",
+      "source": {
+        "citation": "New York CPLR 2101 (a)–(g)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/2101"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-form-of-papers.txt"
+    },
+    {
+      "id": "forum-part-202-filing-identification-and-format",
+      "text": "The first filer obtains the index number from the county clerk on payment of the proper fee, affixes it to the paper, and promptly communicates it in writing to the other parties. On later papers tendered for filing, the index number appears to the right of the caption on the cover and first page. Both identify the county of venue and briefly describe the paper, with the assigned judge’s name to the right of the caption if assigned. Papers filed with the court annex appropriate proof of service when required. Typewritten papers use at least double line spacing except quotations and appearing attorneys’ names and addresses, and at least one-inch margins. Filed papers other than exhibits or printed forms use one-sided writing unless side-fastened, when both sides may be used. The rule’s additional format clause states “print no smaller than 12-point, or 8 ½ x 11 inch paper, bearing margins no smaller than one inch.” Footnotes are at least 10 points. Securely stapled or bound papers may not be rejected merely for lack of a backer. The clerk for commencement under CPLR 304 is the county clerk, whose posted notice identifies any designee for receipt.",
+      "source": {
+        "citation": "22 NYCRR § 202.5 (a)(1), (c)",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-part-202-filing-identification-and-format.txt"
+    },
+    {
+      "id": "forum-electronic-bookmarks",
+      "text": "Unless the court directs otherwise, an electronically submitted memorandum of law, affidavit or affirmation exceeding 4,500 words and prepared using computer software must include bookmarks listing the contents and facilitating navigation within the document.",
+      "source": {
+        "citation": "22 NYCRR § 202.5 (a)(2)",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-electronic-bookmarks.txt"
+    },
+    {
+      "id": "forum-affirmation",
+      "text": "A statement by any person, wherever made, subscribed and affirmed true under penalties of perjury in substantially the form in CPLR 2106, can be used in a New York action with the same force as an affidavit, certificate, response to notice to admit, answer to interrogatories, pleading verification, bill of particulars or other sworn statement. The rule excludes depositions, oaths of office and oaths required before a specified person other than a notary. It preserves Domestic Relations Law requirements that matrimonial agreements be acknowledged in deed form.",
+      "source": {
+        "citation": "New York CPLR 2106 (a)–(b)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/2106"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-affirmation.txt"
+    },
+    {
+      "id": "forum-consensual-e-filing",
+      "text": "Outside the mandatory program, a party may commence by filing initiating documents with the county clerk through NYSCEF if the Chief Administrator authorized that county and class. The initiating party serves the approved e-filing notice with the initiating papers. Initial service may be in hard copy with the required full signatures under CPLR article 3 or, in tax certiorari, the Real Property Tax Law, or electronically if the recipient agrees to accept it. A recipient served electronically confirms to the server or counsel electronically within 24 hours of service. The rule specifies a separate route for certain small claims assessment petitions. After commencement, consensual electronic filing and service apply only to consenting participants. A represented party served with the notice promptly records consent electronically or files and serves a declination. An unrepresented litigant need not respond and may consent after the clerk explains the options and asks about participation. The consent is documented, does not itself constitute an appearance and may be withdrawn by the prescribed form. A nonparticipant files, serves and is served in hard copy, with full signatures on hard copies served by an e-filer and proof filed electronically. Other parties may continue to e-file and serve consenting parties. The court may modify or discontinue e-filing to prevent prejudice and promote substantial justice.",
+      "source": {
+        "citation": "22 NYCRR § 202.5-b (a), (b), (f)(1)",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-consensual-e-filing.txt"
+    },
+    {
+      "id": "forum-mandatory-e-filing",
+      "text": "Subject to statutory and rule exceptions, mandatory filing and service apply only in the classes and counties named by Chief Administrator order. Commencement is through NYSCEF with the county clerk. Hard-copy commencement is available where permitted or required by statute or court order, or if an attorney’s or party’s affirmation or affidavit states that the limitations period expires that day or the following business day and technical problems with computer equipment or internet connection prevent the attorney, party or filing agent from filing electronically. Such hard copy includes the prescribed notice and the filer files the papers on NYSCEF within three business days. The action is deemed commenced electronically. Initial service is under CPLR article 3 or the Real Property Tax Law, or electronically if the recipient agrees, with the approved notice and electronic confirmation to the server or counsel within 24 hours if served electronically. After commencement the default is electronic filing and service, subject to the rule’s exceptions. Serve a newly added party with hard-copy initiating papers and notice. A proposed intervenor or other nonparty seeking relief applies through NYSCEF, subject to exemption. Hard-copy exceptions under § 202.5-b(d)(1) require the applicable notice and later NYSCEF filing within three business days as required by § 202.5-bb(c)(3). The clerks refuse hard copies when electronic filing is required as provided in § 202.5(d)(1).",
+      "source": {
+        "citation": "22 NYCRR § 202.5-bb (a)–(d)",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-mandatory-e-filing.txt"
+    },
+    {
+      "id": "forum-mandatory-e-filing-exemptions",
+      "text": "Unrepresented litigants and unrepresented proposed intervenors and other nonparties seeking relief are exempt from mandatory e-filing and electronic service. They may request participation after the clerk’s plain-language explanation. Their request is documented, and they may opt out by presenting the prescribed form. Counsel and small claims assessment filing agents may claim exemption on the prescribed form filed with both clerks by certifying specified equipment or skill limitations in good faith. The rule imputes relevant employee knowledge to counsel and permits a judicial good-cause exemption for counsel. Exempt counsel and assessment filing agents file and serve hard copy with the prescribed notice and may be required to supply an extra unbound copy. Other participants continue to e-file and e-serve, but when serving an exempt person use hard copy bearing full signatures and e-file the proof.",
+      "source": {
+        "citation": "22 NYCRR § 202.5-bb (e)",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-mandatory-e-filing-exemptions.txt"
+    },
+    {
+      "id": "forum-electronic-filing-and-interlocutory-service",
+      "text": "In an e-filed action, papers required to be filed by an e-filing party are filed and served electronically subject to the rule’s exceptions, and e-filed documents follow the NYSCEF technical requirements. A document other than an order or judgment is filed when NYSCEF records transmission, including of an eligible text-file petition. If a fee is due on filing, the required payment information also must be recorded, or payment must be presented to the county clerk where permitted if that information was not transmitted. Exceptions for hard-copy filing include statutory or court-ordered requirements, applications that may by statute be presented without notice, or the filing attorney’s or unrepresented litigant’s affirmation or affidavit of a deadline expiring that day or the following business day and of equipment or internet problems preventing e-filing and service. The hard-copy route in § 202.5-b(d)(1)(iii) requires the prescribed notice and NYSCEF filing within three business days. The affixed hard-copy notice states the reason and is not required of a nonparticipating unrepresented litigant under § 202.5-b(d)(1)(iv). For interlocutory papers in an e-filed action, an e-filer’s submission triggers NYSCEF notification to registered service addresses. Subject to § 202.5-b(h)(2), transmission of the notice constitutes service on participating parties at the identified addresses unless the filer learns it did not reach the recipient’s address. The site records proof. Participants monitor their registered address, promptly report changes to the Resource Center and obtain notified documents through NYSCEF. Other CPLR methods remain available under this provision if proof is e-filed.",
+      "source": {
+        "citation": "22 NYCRR § 202.5-b (d)(1)–(3), (f)(2)",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-electronic-filing-and-interlocutory-service.txt"
+    },
+    {
+      "id": "forum-electronic-notice-of-entry",
+      "text": "In e-filed actions, a NYSCEF notification that an order or judgment has been entered does not itself constitute a party’s service of notice of entry. A party serves a copy of the order or judgment and written notice of entry by filing them in NYSCEF and causing transmission of its notification, or by hard-copy service under CPLR 2103(b)(1)–(6). If hard-copy service is later documented by e-filing those papers with proof, the resulting NYSCEF notification is not additional service of notice of entry.",
+      "source": {
+        "citation": "22 NYCRR § 202.5-b (h)",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-electronic-notice-of-entry.txt"
+    },
+    {
+      "id": "forum-uniform-notice-and-conferral",
+      "text": "Part 202 requires compliance with the CPLR and service and filing of substantially the prescribed notice with the motion papers. A motion relating to disclosure or a bill of particulars adds an affirmation of counsel’s good-faith effort to confer with opposing counsel. The affirmation states the consultation’s time, place and nature, issues and any resolutions, or good cause for no conference. For an order to show cause or ex parte application the motion notice is unnecessary, but the affirmation remains required if otherwise applicable. The notice form calls for an unrepresented party’s name, address and telephone number when a party appears pro se.",
+      "source": {
+        "citation": "22 NYCRR § 202.7 (a)–(d), note 1",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-uniform-notice-and-conferral.txt"
+    },
+    {
+      "id": "forum-disclosure-motion-conference",
+      "text": "Discovery disputes should be resolved informally to the maximum extent possible. Absent exigent circumstances, before contacting the court about a disclosure dispute counsel must confer in person or by telephone in a good-faith effort. If motion practice is necessary, counsel supplies an affidavit or affirmation giving the conference date, time, participants and length. Unreasonable failure or refusal to participate can relieve the requesting party of the obligation and may be sanctioned under Part 130. If that prevented a conference, the movant’s affidavit or affirmation details efforts and responses. Noncompliance may result in denial without prejudice to renewal once cured or in holding the motion in abeyance pending informal resolution.",
+      "source": {
+        "citation": "22 NYCRR § 202.20-f (a)–(c)",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-disclosure-motion-conference.txt"
+    },
+    {
+      "id": "forum-motion-return-and-filing",
+      "text": "Under the general Part 202 motion procedure, motions are returnable before the assigned judge and papers are filed by the return date. In an unassigned case, make the motion returnable before the court and file the moving papers with the request for judicial intervention and proof of service as required by § 202.6 within five days after service on the other parties. The movant immediately gives the other parties written notice of the index number after filing. Responding papers with the index number and proof of service are submitted by the return date. The case must be assigned by that date. The movant serves all affidavits and briefs on the other parties with the notice. The answering party serves them as required by CPLR 2214. Affidavits state relevant facts and briefs state relevant law. Stipulated adjournments are submitted in writing and take effect unless the court otherwise directs, with prior permission required beyond three adjournments or 60 days in aggregate. A unilateral request goes to the assigned judge in writing on notice by the return date and requires the court’s decision. If a disclosure or bill-of-particulars motion precedes the preliminary conference, the court notifies all parties of a conference date within 45 days of the return date unless it orders otherwise and makes the prescribed stipulation and order available, including a timetable for disclosure within 12 months. If all parties sign and return the form before the return date, the court so orders it and the motion is deemed withdrawn. Otherwise the conference proceeds and the court decides issues left unresolved.",
+      "source": {
+        "citation": "22 NYCRR § 202.8 (a)–(c), (e)–(f)",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-motion-return-and-filing.txt"
+    },
+    {
+      "id": "forum-motion-papers-contents",
+      "text": "Under the general Part 202 motion procedure, the movant states the exact relief in the notice of motion or order to show cause used to bring the motion, and in the concluding section of any memorandum of law. Counsel submits pleadings and other documents required by the CPLR and necessary to decide the motion, including for CPLR 3211 and 3212 motions. Hard or working copies containing exhibits should have tabs and copies must be legible. For a voluminous annexed document with only discrete portions relevant, counsel attaches excerpts and submits the full exhibit separately. Foreign-language documents are translated under CPLR 2101(b). A copy or pertinent portions of an authority not readily available to the court accompany the motion papers if relied on. Proposed orders should accompany motions when appropriate and should not be submitted with dispositive motions.",
+      "source": {
+        "citation": "22 NYCRR § 202.8-a (a)–(b)",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-motion-papers-contents.txt"
+    },
+    {
+      "id": "forum-motion-length",
+      "text": "For motions under CPLR 2214 or 2215, unless the court permits otherwise, computer-prepared attorney affidavits or affirmations and memoranda in chief are limited to 7,000 words each. Reply attorney affidavits or affirmations and memoranda are limited to 4,200 words each. The subdivision (a) word count excludes the caption, table of contents, table of authorities and signature block. For typewritten or handwritten affidavits, affirmations, briefs and memoranda in chief the limit is 20 pages each. For typewritten or handwritten reply affidavits, affirmations and memoranda it is 10 pages each. The covered reply papers must respond or relate to arguments made in the memoranda in chief. The limits exclude evidentiary materials such as lay or expert witness affidavits, affirmations and reports. A court may permit oversized papers on oral or letter application with notice to all parties. Commercial Division motion papers have their own applicable rules under § 202.70.",
+      "source": {
+        "citation": "22 NYCRR § 202.8-b (a)–(b), (d), (f)",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-motion-length.txt"
+    },
+    {
+      "id": "forum-cross-motion-length",
+      "text": "When an opposing party cross-moves, its submitted affidavits, affirmations, briefs or memoranda are limited to 7,000 words each if computer-prepared or 20 pages each if typewritten or handwritten. The principal movant’s reply affidavits, affirmations, briefs or memoranda are limited to 4,200 words if computer-prepared or 10 pages if typewritten or handwritten. The limits exclude evidentiary materials such as lay or expert witness affidavits, affirmations and reports. The court may permit oversized papers on oral or letter application with notice to all parties. Commercial Division motion papers have their own applicable rules under § 202.70.",
+      "source": {
+        "citation": "22 NYCRR § 202.8-b (e)–(f)",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-cross-motion-length.txt"
+    },
+    {
+      "id": "forum-motion-word-count-certification",
+      "text": "For computer-prepared briefs, memoranda, affirmations and affidavits, the rule calls for the counsel who filed the document to attach an end page reporting the word count and certifying compliance. Counsel may rely on the word processor’s count. If permission to exceed the limit is granted, the certification states the count and certifies compliance with any court-set limit. Commercial Division motion papers have their own applicable rules under § 202.70.",
+      "source": {
+        "citation": "22 NYCRR § 202.8-b (c), (f)",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-motion-word-count-certification.txt"
+    },
+    {
+      "id": "forum-reply-and-post-submission-controls",
+      "text": "On an order to show cause, reply papers require advance court permission. Part 202 limits that vehicle to genuine urgency, a necessary stay or statutory mandate. Merits sur-replies including correspondence require express advance permission. Counsel may send a letter citing a relevant post-submission decision without further argument. Materials submitted in violation of the sur-reply rule are not considered and opposing counsel who receives them must not respond in kind.",
+      "source": {
+        "citation": "22 NYCRR §§ 202.8-c and 202.8-d",
+        "url": "https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/forum-reply-and-post-submission-controls.txt"
+    }
+  ]
+}

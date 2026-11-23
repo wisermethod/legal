@@ -1,0 +1,11 @@
+https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court
+2026-11-23
+
+## Section 202.20-f Disclosure Disputes
+
+(a) To the maximum extent possible, discovery disputes should be resolved through informal procedures, such as conferences, as opposed to motion practice.
+(b) Absent exigent circumstances, prior to contacting the court regarding a disclosure dispute, counsel must first consult with one another in a good faith effort to resolve all disputes about disclosure. Such consultation must take place by an in-person or telephonic conference.
+In the event that a discovery dispute cannot be resolved other than through motion practice, each such discovery motion shall be supported by an affidavit or affirmation from counsel attesting to counsel having conducted an in-person or telephonic conference, setting forth the date and time of such conference, persons participating, and the length of time of the conference.
+The unreasonable failure or refusal of counsel to participate in a conference requested by another party may relieve the requesting party of the obligation to comply with this paragraph and may be addressed by the imposition of sanctions pursuant to Part 130.
+If the moving party was unable to conduct a conference due to the unreasonable failure or refusal of an adverse party to participate, then such moving party shall, in an affidavit or affirmation, detail the efforts made by the moving party to obtain such a conference and set forth the responses received.
+(c) The failure of counsel to comply with this rule may result in the denial of a discovery motion, without prejudice to renewal once the provisions of this rule have been complied with, or in such motion being held in abeyance until the informal resolution procedures of the court are conducted.

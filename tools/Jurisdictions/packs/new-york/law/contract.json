@@ -1,0 +1,136 @@
+{
+  "statements": [
+    {
+      "id": "contract-breach-elements",
+      "text": "In distinguishing a written-policy breach claim from a mutual-mistake reformation claim, the Court of Appeals stated that a plaintiff ordinarily pleads breach of contract by alleging a contract, the plaintiff's performance in accordance with it, the defendant's breach of its contractual obligations, and resulting damages.",
+      "source": {
+        "citation": "34-06 73, LLC v Seneca Ins. Co., 39 NY3d 44, 52 (opinion of the Court, part II) (N.Y. Ct. App. 2022)",
+        "url": "https://www.nycourts.gov/reporter/3dseries/2022/2022_06029.htm"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-contract-breach-elements.txt"
+    },
+    {
+      "id": "contract-mutual-mistake-reformation",
+      "text": "To plead reformation for mutual mistake, a plaintiff must allege facts showing the parties reached an oral agreement and, without either party knowing, the signed writing failed to express it. A deliberately prepared and executed writing is strongly presumed to express their intent. The party seeking reformation must show both the mistake and precisely what the parties agreed to.",
+      "source": {
+        "citation": "34-06 73, LLC v Seneca Ins. Co., 39 NY3d 44, 51–52 (opinion of the Court, part II) (N.Y. Ct. App. 2022)",
+        "url": "https://www.nycourts.gov/reporter/3dseries/2022/2022_06029.htm"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-contract-mutual-mistake-reformation.txt"
+    },
+    {
+      "id": "contract-implied-covenant",
+      "text": "New York contracts imply good faith and fair dealing in performance, which protects each party's right to receive the benefits contemplated by the agreement. The covenant furthers the terms of the agreement and reaches only promises that a reasonable person in the promisee's position would understand to be included. It cannot impose an obligation inconsistent with the contract's terms.",
+      "source": {
+        "citation": "Singh v City of New York, 40 NY3d 138, 145–147 (opinion of the Court, part III) (N.Y. Ct. App. 2023)",
+        "url": "https://www.nycourts.gov/reporter/3dseries/2023/2023_02141.htm"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-contract-implied-covenant.txt"
+    },
+    {
+      "id": "contract-limitations",
+      "text": "An action on an express or implied contractual obligation or liability generally has a six-year limitations period. Section 213(2) excepts the actions provided for in CPLR §§ 213-a and 214-i, Uniform Commercial Code article 2 and General Business Law article 36-B.",
+      "source": {
+        "citation": "N.Y. Civil Practice Law and Rules § 213 (2)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/213"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-contract-limitations.txt"
+    },
+    {
+      "id": "contract-writing-one-year",
+      "text": "An agreement that by its terms cannot be performed within one year of making it, or whose performance is not to be completed before the end of a lifetime, is void absent a writing or written memorandum subscribed by the party to be charged or that party's lawful agent. Subdivision (b) permits otherwise valid and enforceable qualified financial contracts despite the lack of such a writing if there is sufficient evidence as specified there or a prior or subsequent written agreement to be bound on reaching agreement on the terms.",
+      "source": {
+        "citation": "N.Y. General Obligations Law § 5-701 (a)(1), (b)",
+        "url": "https://www.nysenate.gov/legislation/laws/GOB/5-701"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-contract-writing-one-year.txt"
+    },
+    {
+      "id": "contract-writing-suretyship",
+      "text": "A special promise to answer for another person's debt, default or miscarriage is void unless the promise or a note or memorandum of it is in writing and subscribed by the party to be charged or that party's lawful agent.",
+      "source": {
+        "citation": "N.Y. General Obligations Law § 5-701 (a)(2)",
+        "url": "https://www.nysenate.gov/legislation/laws/GOB/5-701"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-contract-writing-suretyship.txt"
+    },
+    {
+      "id": "contract-writing-negotiation-fees",
+      "text": "An agreement to pay compensation for services in negotiating a loan or in negotiating the purchase, sale, exchange, renting or leasing of real estate or an interest in it, or of a business opportunity, a business, its goodwill, inventory, fixtures or an interest in them, is void without a writing or memorandum subscribed by the party to be charged or that party's lawful agent. This includes a majority voting-stock interest in a corporation and the creation of a partnership interest. Negotiating includes procuring an introduction to a party to the transaction or assisting in negotiation or consummation. The rule also reaches contracts implied in fact or law for reasonable compensation and exempts agreements to pay an auctioneer, attorney at law, or duly licensed real estate broker or salesperson.",
+      "source": {
+        "citation": "N.Y. General Obligations Law § 5-701 (a)(10)",
+        "url": "https://www.nysenate.gov/legislation/laws/GOB/5-701"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-contract-writing-negotiation-fees.txt"
+    },
+    {
+      "id": "contract-writing-real-property",
+      "text": "A contract to sell real property or an interest in it, or to lease real property for more than one year, is void unless the contract or a note or memorandum expressing the consideration is in writing and subscribed by the party to be charged or that party's lawful agent authorized in writing. The statute preserves equity courts' power to compel specific performance in cases of part performance.",
+      "source": {
+        "citation": "N.Y. General Obligations Law § 5-703 (2), (4)",
+        "url": "https://www.nysenate.gov/legislation/laws/GOB/5-703"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-contract-writing-real-property.txt"
+    },
+    {
+      "id": "contract-choice-of-law",
+      "text": "Parties to a covered agreement relating to a transaction of at least $250,000 in aggregate may choose New York law for all or part of their rights and duties even without a reasonable relationship to the state. This provision excludes labor or personal services agreements, agreements relating to transactions for personal, family or household services, and agreements to the extent Uniform Commercial Code § 1-301(c) provides otherwise. It does not limit or deny enforcement of choice-of-law provisions in other agreements.",
+      "source": {
+        "citation": "N.Y. General Obligations Law § 5-1401 (1)–(2)",
+        "url": "https://www.nysenate.gov/legislation/laws/GOB/5-1401"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-contract-choice-of-law.txt"
+    },
+    {
+      "id": "contract-prejudgment-interest",
+      "text": "Interest to verdict, report or decision shall be recovered on a sum awarded for breach of contract performance. In an equitable action, the award of interest and its rate and starting date are in the court's discretion.",
+      "source": {
+        "citation": "N.Y. Civil Practice Law and Rules § 5001 (a)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/5001"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-contract-prejudgment-interest.txt"
+    },
+    {
+      "id": "contract-interest-accrual",
+      "text": "Interest runs from the earliest ascertainable date the cause of action existed, except that damages incurred later bear interest from the date incurred. For damages incurred at various times, interest is computed separately from each item's date or on all damages from a single reasonable intermediate date.",
+      "source": {
+        "citation": "N.Y. Civil Practice Law and Rules § 5001 (b)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/5001"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-contract-interest-accrual.txt"
+    },
+    {
+      "id": "contract-interest-rate",
+      "text": "The statutory interest rate is generally nine percent per year unless another statute provides otherwise. Section 5004(a) provides a separate two percent rule for consumer-debt actions in which a natural person is a defendant, subject to its judgment and effective-date terms.",
+      "source": {
+        "citation": "N.Y. Civil Practice Law and Rules § 5004 (a)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/5004"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/law-contract-interest-rate.txt"
+    }
+  ]
+}

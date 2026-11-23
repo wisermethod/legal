@@ -1,0 +1,11 @@
+https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court
+2026-11-23
+
+## Section 202.5-b Electronic Filing in Supreme Court; Consensual Program
+
+(h) Entry of Orders and Judgments and Notice of Entry.
+(1) Entry; date of entry. In an action subject to e-filing, the County Clerk or his or her designee shall file orders and judgments of the court electronically and enter them.  The County Clerk may affix a filing stamp to orders or judgments by stamping the original hard copy document before filing it electronically or by affixing a stamp to the document after it has been electronically filed. The filing stamp shall be proof of the fact of entry and the date and time thereof.
+The date of entry shall be the date shown on the stamp, except that if the County Clerk receives an order or judgment and places a filing stamp and date thereon reflecting that the date of receipt is the date of filing but does not e-file the document until a later day, the Clerk shall record at the NYSCEF site as the date of entry the date shown on the filing stamp.
+(2) Notification; service of notice of entry by parties. Upon entry of an order or judgment, the NYSCEF site shall transmit to the e-mail service addresses a notification of receipt of such entry, which shall not constitute service of notice of entry by any party. A party shall serve notice of entry of an order or judgment on another party by serving a copy of the order or judgment and written notice of its entry.
+A party may serve such documents electronically by filing them with the NYSCEF site and thus causing transmission by the site of notification of receipt of the documents, which shall constitute service thereof by the filer. In the alternative, a party may serve a copy of the order or judgment and written notice of its entry in hard copy by any method set forth in CPLR 2103 (b) (1) to (6).
+If service is made in hard copy by any such method and a copy of the order or judgment and notice of its entry and proof of such hard copy service are thereafter filed with the NYSCEF site, transmission by NYSCEF of notification of receipt of those documents shall not constitute additional service of the notice of entry on the parties to whom the notification is sent.

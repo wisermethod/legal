@@ -1,0 +1,8 @@
+https://www.nycourts.gov/rules/part-202-uniform-civil-rules-supreme-court-and-county-court
+2026-11-23
+
+## Section 202.8-a Motion in General
+(a) Form of Motion Papers.  The movant shall specify in the notice of motion, order to show cause, and in a concluding section of a memorandum of law, the exact relief sought.  Regardless of whether the papers are filed electronically or in hard copy or as working copies, counsel must submit as part of the motion papers copies of all pleadings and other documents as required by the CPLR and as necessary for an informed decision on the motion (especially on motions pursuant to CPLR 3211 and 3212).  Counsel should use tabs on hard or working copies when submitting papers containing exhibits.  Copies must be legible.  If a document to be annexed to an affidavit or affirmation is voluminous and only discrete portions are relevant to the motion, counsel shall attach excerpts and submit the full exhibit separately.  Documents in a foreign language shall be translated as required by CPLR 2101(b).  Whenever reliance is placed upon a decision or other authority not readily available to the court, a copy of the case or of pertinent portions of the authority shall be submitted with the motion papers.
+(b) Proposed orders.  When appropriate, proposed orders should be submitted with motions, e.g., motions to be relieved, pro hac vice admissions, open commissions, etc.  No proposed order should be submitted with motion papers on a dispositive motion.
+
+(c) Adjournment of Motions.  Unless the court orders otherwise, no motion may be adjourned on consent more than three times or for a cumulative total of more than 60 days.
