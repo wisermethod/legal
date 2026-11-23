@@ -4,9 +4,11 @@ Each question fills one field of the declaration under `## Forum and posture` in
 
 **Rules every question follows:**
 
-- "Not sure" or "not yet" is always an answer. The field is recorded as pending, record setup goes on, and only the work that needs that field holds.
+- "Not sure" or "not yet" is always an answer. Use the recording values below, continue record setup, and hold only the work that needs that field.
 - The session never chooses the court or the law for the person. Where a contract names a law or a forum, the session records what the clause says, quoted with where it was found, and leaves the reading of it to the person. This is the constitution's [Standing constraint](../../AGENTS.md#standing-constraint).
 - Each answer is recorded with its source (the person, or a named document) and the date.
+
+Set the summary `Governing law` to `see Governing law by claim` when any claim row is recorded and to `pending` when there are no rows. In each row, set `Law named` to the law as written or to `not stated` when the source names none.
 
 ## The five questions
 
@@ -14,19 +16,21 @@ Each question fills one field of the declaration under `## Forum and posture` in
 
 > Where is this dispute being decided, or where do you plan to bring it? Give the court's full name, with the state and the county or federal district, or the name of the arbitration organization or other body handling it. If it already has a case or reference number, include that too.
 
+*Record the court's or forum's name and any case or reference number in `Court or forum`. For “not sure” or “not yet,” record `pending`. If the person names a court or forum and is unsure of a part, record `pending` in `Court or forum` and put their exact words and the part still missing in that row's `Source and date`.*
+
 **2. What kind of forum** (field: forum type)
 
 > Is that a court, an arbitration, a government agency, or something else?
 >
 > Court · Arbitration · Government agency · Something else · Not sure
 
-*Asked only when the first answer leaves it open. "District Court, Denver County, Colorado" answers it. "JAMS" answers it as arbitration.*
+*Asked only when the first answer leaves it open. If question 1 supplied a court name such as "District Court, Denver County, Colorado", skip question 2 and record `court` in `Forum type`. If it supplied an arbitration organization such as "JAMS", skip question 2 and record `arbitration`. Record Court as `court`, Arbitration as `arbitration`, Government agency as `government agency`, Something else as `other`, and Not sure as `pending` in `Forum type`.*
 
 **3. Which law decides the claims** (field: governing law, claim by claim)
 
 > Which state's or country's law decides your claims? If you have a written agreement, look for a clause that says which law "governs" it, and tell me what it says. If there is more than one agreement, or more than one claim, tell me each one and the law it names. If nothing says, or you're not sure, say that.
 
-*Recorded one line per claim or agreement, as "<claim or agreement>: <law named>, from <clause and document>", or "not stated". A law named with an exception, such as "Florida, except where Colorado law requires", is recorded as written.*
+*Under `Governing law by claim`, record one row per claim or agreement with a source answer, filling `Law named`, `Clause and document`, and `Source and date`. If the person is unsure or says nothing names a law without identifying a source that names none, leave that claim or agreement without a row. Record `not stated` in a row only when the person says the source names none. A law named with an exception, such as "Florida, except where Colorado law requires", is recorded as written.*
 
 **4. Where the rules are** (field: rules home)
 
@@ -47,5 +51,7 @@ When it does not:
 > The plugin has no paper format for this court, so each paper will follow that court's own rules, which you'll need to have on hand. Is that what you expected?
 >
 > Yes · I thought it had one
+
+*Use the shipped-format branch when a shipped profile covers the named court under [Court Filing's court check](../../tools/Court%20Filing/TOOL.md#profile-schema), comparing the court name without its case number. On that branch, Yes records the profile id, such as `colorado-district`. “No, it's a different court” sets both `Court or forum` and `Filing profile` to `pending` before returning to question 1. When no format ships, both Yes and “I thought it had one” record `none: papers follow the court's own rules`. When the court or format is unresolved, record `pending`.*
 
 *For a non-court forum, question 5 is not asked. The field records "not a court: submissions follow the forum's own rules".*
