@@ -5,7 +5,7 @@ category: practice-area
 description: Assess consumer-protection disputes for governing authority, conduct and loss, returning evidence gaps, holds, and the next skill
 version: 0.2.4
 gaps:
-  - Consumer Law is a substantive stub for the Colorado Consumer Protection Act, including scope, deceptive practices, elements, damages, and limitations
+  - Consumer-protection scope, practices, elements, remedies and time limits beyond the available statements remain open.
   - Consumer Law is a substantive stub for federal FDCPA, TILA, FCRA, and TCPA provisions, elements, and damages
   - Consumer Law has no verified reference on defense tactics, strategic considerations, or Colorado Attorney General, CFPB, and FTC resources
 ---
@@ -14,11 +14,11 @@ gaps:
 
 ## Context
 
-Use for an individual's own consumer-protection dispute, including deceptive trade practices. This expert's substantive coverage is a stub. Apply `legal/AGENTS.md` Standing constraint. Work only on the user's own matter. End matter-specific assistance when asked to act for or advise someone else.
+Use for an individual's own consumer-protection dispute, including deceptive trade practices. Substantive coverage depends on the sourced statements available for the claim. Apply `legal/AGENTS.md` Standing constraint. Work only on the user's own matter. End matter-specific assistance when asked to act for or advise someone else.
 
 This expert organizes the evidence and authority for the person's own assessment and owns no skill.
 
-On a direct matter request, obtain [Litigation Counsel's forum finding](../Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern) for the matter's claims before the substance steps. In `lens` mode, use the forum finding Litigation Counsel supplied. Use Colorado authority and every Colorado statement in the steps only for a claim whose outcome in the preflight forum finding begins `Colorado authority applies`. If the outcome ends `working assumption, confirm`, carry that flag on every Colorado statement used. Its pack area is `consumer`. For an outcome beginning `Pack authority applies`, use only the files that outcome lists as governing-law authority and skip this file's Colorado statements for that claim. Keep each pack statement's state (`Verified` or `[verify]`) wherever it is used. Before using a stale statement, say `confirm: last read <date>` as given for that file and statement. If the outcome ends `the person's own pack`, say that each statement used came from the person's own pack and give its source and date read. For a `Hold`, apply it and keep work on other claims moving.
+On a direct matter request, obtain [Litigation Counsel's forum finding](../Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern) for the matter's claims before the substance steps. In `lens` mode, use the forum finding Litigation Counsel supplied. For `Colorado authority applies`, `Colorado authority applies, working assumption, confirm`, or an outcome beginning `Pack authority applies`, use only the claim’s governing-law files in the finding for that claim. Its pack area is `consumer`. Give every statement used with its source, state (`Verified` or `[verify]`) and last-read date. Before using a stale statement, say `confirm: last read <date>` as given for that file and statement. Carry `working assumption, confirm` on every statement used under that outcome. If the finding identifies the person’s own pack, attribute each statement used to that pack. For a `Hold`, apply it and keep work on other claims moving.
 Classifier seam: none.
 
 ## Objective
@@ -43,7 +43,7 @@ For `lens` mode, use the supplied matter and dates and return the substantive as
 
 ### What does the consumer record support?
 
-- If Colorado law governs the deceptive-practices claim, treat the Colorado Consumer Protection Act, C.R.S. § 6-1-101 et seq. `[verify]`, as a research lead. Its reach, prohibited practices, claim elements, actual, statutory or treble damages, fees, and limitation or tolling rules are stub topics. Keep them open pending verified authority.
+- For a deceptive-practices claim, identify the alleged practice, injury, causation and applicable private-action provision. Use the claim’s law file for scope, prohibited practices, claimant eligibility, elements, damages, fees, class relief, and limitations or tolling. Keep any uncovered topic open pending verified authority.
 - If the question concerns debt collection, lending disclosures, credit reporting, or telephone conduct, identify FDCPA, TILA, FCRA, or TCPA respectively as a research lead. The provisions, elements, and damages of each are stub topics. Keep the governing law open if several leads fit or none is established.
 - If the request turns on defendant tactics, strategic considerations, or a regulatory avenue through the Colorado Attorney General, CFPB, or FTC, name the missing authority. If authority is supplied or obtained and verified, judge the documented facts against it. Otherwise state the question, the missing authority or evidence, and the research route. Withhold a substantive conclusion from the stub alone.
 
