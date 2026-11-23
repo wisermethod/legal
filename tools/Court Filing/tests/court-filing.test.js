@@ -274,7 +274,8 @@ test('CLI lists the full profile and publishes to a new path only', t => {
   assert.match(run(args).stderr, /already exists/);
   const listed = JSON.parse(run(['profiles']).stdout).profiles;
   assert.deepEqual(listed, [profile()]);
-  assert.equal(listed[0].filing_packets.new_case_complaint.required_at_filing[3].verification, 'verify');
+  const packet = listed[0].filing_packets.new_case_complaint;
+  assert.deepEqual(packet.required_at_filing.map(({ item }) => item), ['Complaint']);
   assert.equal(listed[0].validation.limits['general-motion-pages'].citation, 'C.R.C.P. 121 section 1-15(1)(a)');
 });
 

@@ -1,5 +1,168 @@
 {
-  "statements": [],
+  "statements": [
+    {
+      "id": "small-claims-civil-jurisdiction",
+      "text": "Small claims court shares original jurisdiction with county and district courts over covered civil claims for debt, damages or the value of personal property up to $7,500, excluding interest and costs, with civil penalties included where provided by law.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-6-403(1)(a)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/small-claims-civil-jurisdiction.txt"
+    },
+    {
+      "id": "small-claims-forms-from-clerk",
+      "text": "The clerk of the small claims court makes all necessary small claims forms available.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-6-404",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/small-claims-forms-from-clerk.txt"
+    },
+    {
+      "id": "small-claims-prescribed-complaint-form",
+      "text": "A small claims action begins on a prescribed complaint form. The C.R.C.P. 500 series governs filing and service of that form.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rules 500 series"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/small-claims-prescribed-complaint-form.txt"
+    },
+    {
+      "id": "small-claims-plaintiff-docket-fees-2024",
+      "text": "The 2024 statute sets the small claims plaintiff's docket fee at $31 for a money judgment of $500 or less and $55 for a money judgment above $500 through $7,500.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-32-101(1)(c)(IV)(A) and (C)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/small-claims-plaintiff-docket-fees-2024.txt"
+    },
+    {
+      "id": "small-claims-current-docket-fees",
+      "text": "C.R.S. § 13-32-101(1)(c)(IV) governs the current small claims docket fees.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-32-101(1)(c)(IV)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/small-claims-current-docket-fees.txt"
+    },
+    {
+      "id": "small-claims-hearing-schedule",
+      "text": "The small claims court holds hearings at times set by the judge or magistrate or ordered by the supreme court.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-6-406",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/small-claims-hearing-schedule.txt"
+    },
+    {
+      "id": "small-claims-hearing-wait",
+      "text": "The estimated wait for a small claims hearing is 30 to 60 days (C.R.S. § 13-6-406 governs hearing scheduling).",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-6-406",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/small-claims-hearing-wait.txt"
+    },
+    {
+      "id": "small-claims-trial-procedure",
+      "text": "The judge or magistrate conducts the small claims trial to do justice between the parties. Formal procedural and pleading requirements and technical evidence rules do not bind the trial, except as provided by supreme court rules for small claims.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-6-409",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/small-claims-trial-procedure.txt"
+    },
+    {
+      "id": "small-claims-attorney-appearances",
+      "text": "Individuals generally represent themselves in small claims. Attorney participation is restricted, with statutory exceptions and exceptions permitted by supreme court rule. If an attorney appears as allowed under subsection (2) or (3), the other parties may be represented by counsel.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-6-407(2)(a) and (4)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/small-claims-attorney-appearances.txt"
+    },
+    {
+      "id": "small-claims-discovery-availability",
+      "text": "Discovery in small claims court is limited or unavailable under the C.R.C.P. 500 series.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rules 500 series"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/small-claims-discovery-availability.txt"
+    },
+    {
+      "id": "small-claims-jury-trial",
+      "text": "There is no right to jury trial in small claims court.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-6-414",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/small-claims-jury-trial.txt"
+    },
+    {
+      "id": "small-claims-appeal",
+      "text": "Either party may appeal under the county court rules. On appeal, the laws and rules for county court appeals govern, including the right to counsel.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-6-410",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/small-claims-appeal.txt"
+    },
+    {
+      "id": "small-claims-appeal-scope",
+      "text": "The C.R.C.P. 300 series governs the scope of small claims appeals, including whether review is limited to procedural errors.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rules 300 series"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/small-claims-appeal-scope.txt"
+    },
+    {
+      "id": "small-claims-injunctions-and-specific-performance",
+      "text": "Small claims jurisdiction includes qualifying contract actions for specific performance, disaffirmance, avoidance or rescission up to $7,500. Injunctive relief falls outside small claims jurisdiction except for the matters specified in subsection (2)(h).",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-6-403(1)(b)(IV) and (2)(h)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/small-claims-injunctions-and-specific-performance.txt"
+    },
+    {
+      "id": "small-claims-over-limit-counterclaims",
+      "text": "A counterclaim above the small claims court's jurisdiction is removed to the county or district court of appropriate jurisdiction under supreme court rules.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-6-408",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/small-claims-over-limit-counterclaims.txt"
+    }
+  ],
   "filing_profile": null,
   "obtain": [
     "the court's local rules or practice standards",

@@ -1,5 +1,102 @@
 {
-  "statements": [],
+  "statements": [
+    {
+      "id": "county-concurrent-civil-jurisdiction",
+      "text": "County and district courts share original jurisdiction in covered civil actions where the debt, damages or value of claimed personal property is $25,000 or less.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-6-104(1)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/county-concurrent-civil-jurisdiction.txt"
+    },
+    {
+      "id": "county-docket-fees-2024",
+      "text": "The 2024 statute sets the county civil plaintiff's docket fee in covered money-judgment actions at $85 for less than $1,000, $105 for $1,000 to less than $15,000, and $135 for $15,000 through $25,000, subject to the statutory exceptions.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-32-101(1)(c)(III.5)(A), (C) and (E)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/county-docket-fees-2024.txt"
+    },
+    {
+      "id": "county-local-complaint-filing",
+      "text": "A county civil complaint is filed with the clerk in the county of venue. Local filing arrangements govern electronic filing availability under C.R.C.P. 121 § 1-26.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 121, § 1-26",
+        "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/county-local-complaint-filing.txt"
+    },
+    {
+      "id": "county-pleading-service-interval",
+      "text": "Service of process in county civil court is due within 63 days after the complaint is filed. The C.R.C.P. 300 series governs the deadlines for service and proof of service.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rules 300 series"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/county-pleading-service-interval.txt"
+    },
+    {
+      "id": "county-lien-and-possession-jurisdiction",
+      "text": "County and district courts share original jurisdiction over specified lien foreclosures and forcible entry, forcible detainer and unlawful detainer proceedings, subject to statutory exceptions for title or boundary disputes and section 13-40-109. The county court's combined judgment for rent and covered damages cannot exceed $25,000 excluding costs and attorney fees. County court lacks jurisdiction if monthly rental value exceeds $25,000.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-6-104(2)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/county-lien-and-possession-jurisdiction.txt"
+    },
+    {
+      "id": "county-current-docket-fees",
+      "text": "C.R.S. § 13-32-101(1)(c)(III.5) governs the current county civil docket fees.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-32-101(1)(c)(III.5)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/county-current-docket-fees.txt"
+    },
+    {
+      "id": "county-discovery-scope",
+      "text": "County civil actions permit the full range of discovery under the C.R.C.P. 300 series.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rules 300 series"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/county-discovery-scope.txt"
+    },
+    {
+      "id": "county-civil-appeal",
+      "text": "A civil appeal from county court goes to district court. The statute provides for briefing after the record is filed and distinguishes trials de novo and modified judgments from other dispositions.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-6-311(1), (3) to (5)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/county-civil-appeal.txt"
+    },
+    {
+      "id": "county-de-novo-appeal-conditions",
+      "text": "The C.R.C.P. 300 series governs when a county civil appeal proceeds by trial de novo in district court.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rules 300 series"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/county-de-novo-appeal-conditions.txt"
+    }
+  ],
   "filing_profile": null,
   "obtain": [
     "the court's local rules or practice standards",

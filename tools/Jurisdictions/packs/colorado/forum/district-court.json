@@ -1,5 +1,353 @@
 {
-  "statements": [],
+  "statements": [
+    {
+      "id": "district-concurrent-civil-jurisdiction",
+      "text": "County and district courts share original jurisdiction in covered civil actions where the debt, damages or value of claimed personal property is $25,000 or less.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-6-104(1)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-concurrent-civil-jurisdiction.txt"
+    },
+    {
+      "id": "district-complaint-pleading-rule",
+      "text": "C.R.C.P. 8 governs the pleading requirements for a district court civil complaint.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 8"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-complaint-pleading-rule.txt"
+    },
+    {
+      "id": "district-jdf-601-cover-sheet",
+      "text": "JDF 601 is the fillable District Court Civil Case Cover Sheet that accompanies an initial pleading when C.R.C.P. 16.1 requires it.",
+      "source": {
+        "citation": "JDF 601 District Court Civil Case Cover Sheet"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-jdf-601-cover-sheet.txt"
+    },
+    {
+      "id": "district-jdf-600-summons",
+      "text": "JDF 600 is the official fillable District Court Civil Summons for initial service of process.",
+      "source": {
+        "citation": "JDF 600 District Court Civil Summons"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-jdf-600-summons.txt"
+    },
+    {
+      "id": "district-current-docket-fee",
+      "text": "C.R.S. § 13-32-101(1)(d) governs the current district civil docket fee.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-32-101(1)(d)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-current-docket-fee.txt"
+    },
+    {
+      "id": "district-fee-waiver-forms",
+      "text": "A district court filing fee waiver is requested by motion with a supporting financial affidavit on the Colorado Judicial Branch's fee-waiver forms.",
+      "source": {
+        "citation": "Colorado Judicial Branch, district civil fee-waiver motion and financial affidavit"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-fee-waiver-forms.txt"
+    },
+    {
+      "id": "district-service-of-process-deadline",
+      "text": "Service of process is to be made within 63 days after the complaint is filed (C.R.C.P. 4).",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 4"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-service-of-process-deadline.txt"
+    },
+    {
+      "id": "district-proof-of-service",
+      "text": "The return or other proof of service is filed with the court after service of process (C.R.C.P. 4).",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 4"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-proof-of-service.txt"
+    },
+    {
+      "id": "district-electronic-filing-channel",
+      "text": "Colorado Courts E-Filing is a filing channel for eligible self-represented litigants and filings accepted under C.R.C.P. 121 § 1-26.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 121, § 1-26",
+        "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-electronic-filing-channel.txt"
+    },
+    {
+      "id": "district-complaint-answer-periods",
+      "text": "A district civil answer is due 21 days after in-state service or 35 days after out-of-state service (C.R.C.P. 12).",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 12"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-complaint-answer-periods.txt"
+    },
+    {
+      "id": "district-general-civil-monetary-jurisdiction",
+      "text": "Colorado district court civil jurisdiction has no general monetary ceiling.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-6-104(1)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-general-civil-monetary-jurisdiction.txt"
+    },
+    {
+      "id": "district-geographic-venue",
+      "text": "C.R.C.P. 98 governs the county of venue in a Colorado civil action. Potential grounds include where a defendant resides, works or does business and where a claim arose, such as where a contract was made or a tort occurred. The venue inquiry can include an entity's principal place of business or registered agent, the location of a home office, and the rules for multiple defendants or particular claims.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 98"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-geographic-venue.txt"
+    },
+    {
+      "id": "district-amendment-as-of-right",
+      "text": "A pleading may be amended once as of right before a responsive pleading is served. If no responsive pleading is required, the amendment period is 21 days after service of the pleading (C.R.C.P. 15).",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 15"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-amendment-as-of-right.txt"
+    },
+    {
+      "id": "district-answer-after-pre-answer-motion",
+      "text": "A pre-answer motion under C.R.C.P. 12 extends the time to answer until the court decides the motion.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 12"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-answer-after-pre-answer-motion.txt"
+    },
+    {
+      "id": "district-party-and-court-caption",
+      "text": "The case caption identifies the court and its mailing address and the parties on the left. The case number, division number and courtroom number appear on the right.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 10(d)(2)(III)",
+        "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-party-and-court-caption.txt"
+    },
+    {
+      "id": "district-docket-fee-2024",
+      "text": "The 2024 statute sets the district civil docket fee at $235 for each plaintiff, petitioner, third-party plaintiff or party filing a crossclaim or counterclaim within the scope of subsection (1).",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-32-101(1)(d)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-docket-fee-2024.txt"
+    },
+    {
+      "id": "district-electronic-filing-mandate",
+      "text": "Electronic filing is required in most Colorado judicial districts (C.R.C.P. 121 § 1-26).",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 121, § 1-26",
+        "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-electronic-filing-mandate.txt"
+    },
+    {
+      "id": "district-case-management-order-after-answer",
+      "text": "In district civil cases, the case management order typically follows the answer.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 26(d)",
+        "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-case-management-order-after-answer.txt"
+    },
+    {
+      "id": "district-permitted-process-service",
+      "text": "C.R.C.P. 4 provides for personal service by a process server or sheriff and service on an entity's registered agent. Certified mail with a signed return receipt is available where authorized. Publication is a last resort and requires court approval.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 4"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-permitted-process-service.txt"
+    },
+    {
+      "id": "district-motion-response-period",
+      "text": "A responsive brief is due 21 days after the motion is filed, or 14 days after filing if the motion is filed 42 days or less before the trial date, unless the court allows a greater or lesser time.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 121, § 1-15(1)(b)",
+        "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-motion-response-period.txt"
+    },
+    {
+      "id": "district-motion-reply-period",
+      "text": "A reply brief is due 7 days after the responsive brief is filed, or 14 days after that filing for a Rule 56 motion, unless the court allows a greater or lesser time.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 121, § 1-15(1)(c)",
+        "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-motion-reply-period.txt"
+    },
+    {
+      "id": "district-motion-conferral-and-certification",
+      "text": "Before filing a motion, moving counsel and self-represented parties must confer with opposing counsel and self-represented parties unless a governing statute or rule permits filing without notice. The duties of and to confer with self-represented parties have exceptions for incarcerated persons and where conferral conflicts with a court order or statute. The motion opens with a good-faith conferral certification, states whether the requested relief is agreed or unopposed, and gives the reason and efforts if no conference occurred.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 121, § 1-15(8)",
+        "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-motion-conferral-and-certification.txt"
+    },
+    {
+      "id": "district-other-motion-conferral-exceptions",
+      "text": "Possible exceptions to prefiling conferral include motions for default judgment, ex parte motions such as emergency temporary restraining orders, and circumstances involving futility or danger (C.R.C.P. 121 § 1-15(8)).",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 121, § 1-15(8)",
+        "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-other-motion-conferral-exceptions.txt"
+    },
+    {
+      "id": "district-conferral-noncompliance-consequences",
+      "text": "Possible consequences of failing to comply with the duty to confer under C.R.C.P. 121 § 1-15(8) include summary denial, striking of future filings, admonishment and sanctions for repeated noncompliance.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 121, § 1-15(8)",
+        "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-conferral-noncompliance-consequences.txt"
+    },
+    {
+      "id": "district-trial-scheduling-estimate",
+      "text": "The estimated time to trial in Colorado district court is 18 to 24 months.",
+      "source": {
+        "citation": "Colorado district court trial-setting authorities"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-trial-scheduling-estimate.txt"
+    },
+    {
+      "id": "district-transfer-of-venue",
+      "text": "C.R.C.P. 98 governs transfer of a Colorado civil action for improper county or for the convenience of parties or witnesses.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 98"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-transfer-of-venue.txt"
+    },
+    {
+      "id": "district-settlement-evidence",
+      "text": "C.R.E. 408 governs the treatment of settlement communications as evidence.",
+      "source": {
+        "citation": "Colorado Rules of Evidence, Rule 408"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-settlement-evidence.txt"
+    },
+    {
+      "id": "district-discovery-timing-and-sequence",
+      "text": "Discovery before service of the case management order is barred unless the rules, a court order or party agreement authorizes it. Discovery conducted before issuance of the order is subject to Rule 26(b)(2). Discovery methods have no required sequence and one party's discovery does not delay another's unless the parties stipulate or the court orders otherwise.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 26(d)",
+        "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-discovery-timing-and-sequence.txt"
+    },
+    {
+      "id": "district-discovery-response-working-period",
+      "text": "The discovery response period is 30 days (C.R.C.P. 26 to 37).",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rules 26 to 37"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-discovery-response-working-period.txt"
+    },
+    {
+      "id": "district-packet-cost-waiver",
+      "text": "A judge may allow a person unable to pay costs and expenses to commence, prosecute or defend a civil action or special proceeding without paying costs. If the person succeeds, the judgment includes the costs otherwise due, payable to the court first from money paid into court.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-16-103(1)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-packet-cost-waiver.txt"
+    },
+    {
+      "id": "district-packet-payment-or-waiver-filing",
+      "text": "Colorado Courts E-Filing accepts district civil docket-fee payments and fee-waiver submissions (C.R.C.P. 121 § 1-26).",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 121, § 1-26",
+        "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-packet-payment-or-waiver-filing.txt"
+    },
+    {
+      "id": "district-declarations-of-rights",
+      "text": "Courts of record may declare rights, status and other legal relations within their respective jurisdictions whether further relief is available or claimed. A declaration may be affirmative or negative and has the force and effect of a final judgment or decree.",
+      "source": {
+        "citation": "Colorado Revised Statutes 2024, § 13-51-105",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
+      },
+      "state": "Verified",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-declarations-of-rights.txt"
+    },
+    {
+      "id": "district-declaratory-relief-procedure",
+      "text": "C.R.C.P. 57 governs the procedure and form for seeking declaratory relief.",
+      "source": {
+        "citation": "Colorado Rules of Civil Procedure, Rule 57"
+      },
+      "state": "[verify]",
+      "last_read": "2026-11-23",
+      "excerpt": "excerpts/district-declaratory-relief-procedure.txt"
+    }
+  ],
   "filing_profile": "colorado-district",
   "obtain": [
     "the judicial district's local rules",

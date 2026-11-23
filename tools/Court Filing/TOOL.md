@@ -3,7 +3,7 @@ name: Court Filing
 type: tool
 category: documents
 description: Compose and check profiled court filings from Markdown and caption data, using profile-defined document types and filing blocks
-version: 0.10.0
+version: 0.10.1
 runs: local
 gaps:
   - "Current Colorado fees and fee-waiver form numbers need verification."
