@@ -6,7 +6,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Litigation Counsel](../experts/Litigation%20Counsel/EXPERT.md)
 
-- No arbitration rules reference is shipped. Use the governing materials in the matter record.
+- Arbitration rule sets other than the shipped JAMS employment rules still need governing sources from the matter record.
 - Federal courts and courts outside Colorado have no jurisdiction profile.
 
 ### [Cease and Desist](../experts/Cease%20and%20Desist/EXPERT.md)
