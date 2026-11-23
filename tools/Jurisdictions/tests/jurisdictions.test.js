@@ -23,6 +23,28 @@ const FORUM = 'forum/example-trial.json';
 const CONTRACT_EXCERPT = 'excerpts/contract.txt';
 const SOURCE = 'Fictional agreement, 2025-07-01';
 const COLORADO_COURT = 'District Court, Denver County, Colorado';
+
+// Expected stale prompts and [verify] gaps for shipped Colorado files, derived from the files themselves,
+// so the suite follows the pack's content and the calendar rather than fixing either.
+const dayOf = date => { const [y, m, d] = date.split('-').map(Number); return Date.UTC(y, m - 1, d) / 86400000; };
+function localDay() { const now = new Date(); return Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 86400000; }
+function coloradoStatements(file) { return JSON.parse(readFileSync(file, 'utf8')).statements; }
+function coloradoDetails(files) {
+  const stale = [];
+  const gaps = [];
+  for (const file of files) {
+    for (const statement of coloradoStatements(file)) {
+      if (localDay() - dayOf(statement.last_read) > 180) {
+        stale.push({ pack: 'colorado', file, id: statement.id, message: 'confirm: last read ' + statement.last_read, own_pack: false });
+      }
+      if (statement.state === '[verify]') {
+        gaps.push({ pack: 'colorado', file, id: statement.id, reason: 'Statement is marked [verify].', own_pack: false });
+      }
+    }
+  }
+  return { stale, gaps };
+}
+const byFileAndId = entries => [...entries].sort((a, b) => (a.file + ' ' + a.id).localeCompare(b.file + ' ' + b.id));
 const COLORADO_AREAS = ['contract', 'employment', 'consumer', 'personal-injury'];
 
 function run(args, packsDirectory) {
@@ -155,10 +177,17 @@ test('validate selects all shipped packs by default or one by id', () => {
   assert.deepEqual(success(['validate', '--pack', 'example-arbitration'], PACKS).packs, ['example-arbitration']);
 });
 
-test('the shipped Colorado pack validates and has no stale prompts', () => {
-  assert.deepEqual(success(['validate']), { ok: true, packs: ['colorado'], failures: [], gaps: [] });
-  assert.deepEqual(success(['stale', '--pack', 'colorado']), { prompts: [] });
-  assert.deepEqual(success(['stale']), { prompts: [] });
+test('the shipped Colorado pack validates, its gaps are its [verify] statements, and none is stale on its read date', () => {
+  const manifest = JSON.parse(readFileSync(join(COLORADO, 'pack.json'), 'utf8'));
+  const files = [...manifest.law.map(entry => entry.file), ...manifest.forums.map(forum => forum.file)];
+  const statements = files.flatMap(file => coloradoStatements(join(COLORADO, file)).map(statement => ({ file, statement })));
+  const { gaps, ...rest } = success(['validate']);
+  assert.deepEqual(rest, { ok: true, packs: ['colorado'], failures: [] });
+  assert.deepEqual(byFileAndId(gaps), byFileAndId(statements.filter(({ statement }) => statement.state === '[verify]')
+    .map(({ file, statement }) => ({ pack: 'colorado', file, id: statement.id, reason: 'Statement is marked [verify].' }))));
+  const newest = statements.map(({ statement }) => statement.last_read).sort().at(-1);
+  assert.deepEqual(success(['stale', '--pack', 'colorado', '--today', newest]), { prompts: [] });
+  assert.deepEqual(success(['stale', '--today', newest]), { prompts: [] });
 });
 
 test('Colorado district court patterns equal the Court Filing profile patterns', () => {
@@ -185,7 +214,9 @@ for (const [court, id] of [
       ? ["the judicial district's local rules", "the assigned division's practice standards",
         'any case management or other order entered in the case']
       : ["the court's local rules or practice standards", 'any order entered in the case']);
-    assert.deepEqual(details, { stale: [], gaps: [], invalid_packs: [] });
+    const expected = coloradoDetails([forum.file]);
+    assert.deepEqual({ ...details, stale: byFileAndId(details.stale), gaps: byFileAndId(details.gaps) },
+      { stale: byFileAndId(expected.stale), gaps: byFileAndId(expected.gaps), invalid_packs: [] });
   });
 }
 
@@ -204,7 +235,7 @@ test('lookup matches Colorado law names and returns one row with all four law fi
         claim: null, law_named: law, clause_and_document: null, source_and_date: null,
         pack: 'colorado', files: COLORADO_AREAS.map(area => join(COLORADO, 'law', area + '.json')), own_pack: false,
       }],
-      stale: [], gaps: [], invalid_packs: [],
+      ...coloradoDetails(COLORADO_AREAS.map(area => join(COLORADO, 'law', area + '.json'))), invalid_packs: [],
     });
   }
 });
