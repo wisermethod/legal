@@ -5,7 +5,7 @@ category: practice-area
 description: Assess an individual's injury record for proof of responsibility, causation, and loss, returning coverage gaps, holds, and the next litigation skill
 version: 0.2.4
 gaps:
-  - Personal Injury is a substantive stub for Colorado negligence standards, comparative fault, and compensable damages and caps
+  - General negligence elements, economic-loss standards, certified historical inflation adjustments, later changes and claim-specific damages limits beyond the available statements remain open.
   - Personal Injury is a substantive stub for motor vehicle, premises, and product liability, insurance and UM/UIM, limitations, and defense tactics
 ---
 
@@ -13,7 +13,7 @@ gaps:
 
 ## Context
 
-Use for an individual's own personal injury matter involving negligence, injury causation, damages evidence, or a related insurance issue. This expert's substantive coverage is a stub. Apply `legal/AGENTS.md` Standing constraint. End matter-specific assistance when asked to act for or advise someone else.
+Use for an individual's own personal injury matter involving negligence, injury causation, damages evidence, or a related insurance issue. Substantive coverage depends on the sourced statements available for the claim. Apply `legal/AGENTS.md` Standing constraint. End matter-specific assistance when asked to act for or advise someone else.
 
 This expert organizes the evidence and authority for the person's own assessment and owns no skill.
 
@@ -41,10 +41,10 @@ For `lens` mode, use the supplied matter and dates and return the substantive as
 
 ### Which part of the injury account is in dispute?
 
-On a direct matter request, obtain [Litigation Counsel's forum finding](../Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern) for the matter's claims before the substance steps. Use Colorado authority and every Colorado statement in the steps only for a claim whose outcome in the preflight forum finding begins `Colorado authority applies`. If the outcome ends `working assumption, confirm`, carry that flag on every Colorado statement used. Its pack area is `personal-injury`. For an outcome beginning `Pack authority applies`, use only the files that outcome lists as governing-law authority and skip this file's Colorado statements for that claim. Keep each pack statement's state (`Verified` or `[verify]`) wherever it is used. Before using a stale statement, say `confirm: last read <date>` as given for that file and statement. If the outcome ends `the person's own pack`, say that each statement used came from the person's own pack and give its source and date read. For a `Hold`, apply it and keep work on other claims moving.
+On a direct matter request, obtain [Litigation Counsel's forum finding](../Litigation%20Counsel/EXPERT.md#what-matter-and-deadline-govern) for the matter's claims before the substance steps. For `Colorado authority applies`, `Colorado authority applies, working assumption, confirm`, or an outcome beginning `Pack authority applies`, use only the claim’s governing-law files in the finding for that claim. Its pack area is `personal-injury`. Give every statement used with its source, state (`Verified` or `[verify]`) and last-read date. Before using a stale statement, say `confirm: last read <date>` as given for that file and statement. Carry `working assumption, confirm` on every statement used under that outcome. If the finding identifies the person’s own pack, attribute each statement used to that pack. For a `Hold`, apply it and keep work on other claims moving.
 
-- For responsibility or causal connection, group the material under duty, breach, actual and proximate causation, and injury or damages as research headings. Distinguish testimony, contemporaneous records, and inferred links. Colorado's standards for each heading are stub topics. If competing fault is raised, preserve each account. For a competing-fault issue in a claim governed by Colorado law, mark the Colorado modified comparative-fault lead, C.R.S. § 13-21-111, `[verify]`. Hold any threshold, allocation, or recovery conclusion pending authoritative research.
-- For damages, identify documented medical expenses, lost wages, and claimed pain and suffering. Colorado's standards for compensability, applicable caps, and punitive damages are stub topics. Keep the record of what happened separate from any legal valuation. If a remedial rule or source is missing, return the open question.
+- For responsibility or causal connection, group the material under duty, breach, actual and proximate causation, and injury or damages as research headings. Distinguish testimony, contemporaneous records, and inferred links. If competing fault is raised, preserve each account. Use the claim’s law file for competing fault. If authority for a threshold, allocation, or recovery conclusion is still unverified, hold that conclusion pending authoritative research.
+- For damages, identify documented medical expenses, lost wages, and claimed pain and suffering. Use the claim’s law file for compensable loss, damages caps, physical impairment and exemplary damages. Keep the record of what happened separate from any legal valuation. If a remedial rule or source is missing, return the open question.
 - For a motor vehicle, premises, or product matter, mark the case type and the evidence tied to it, including landowner-duty questions where relevant. When insurance, uninsured or underinsured motorist coverage, limitations, or defense tactics are in issue, name the missing coverage. Stop any coverage conclusion, deadline calculation, or defenses analysis that depends on unverified law or a missing policy or record.
 - If the disputed facts are temporal, name `skills/Chronology/` as the next route. If verified elements and authority are available, name `skills/Claim Chart/` as the next route for an evidence map. For a record gap that discovery could address, name `skills/Discovery/` as the next route. If the request is broader, route by posture.
 
