@@ -35,7 +35,7 @@
     },
     {
       "id": "employment-wages-earned-and-payable",
-      "text": "Under the 2024 statute, payment for labor or services personally performed is wages or compensation once earned, vested and determinable. Wages include bonuses and commissions earned for services under the agreement. An employer that offers paid vacation owes all earned and determinable vacation pay at separation. Severance pay is excluded.",
+      "text": "Under the 2024 statute, payment for labor or services personally performed is wages or compensation once earned, vested and determinable. Wages include bonuses and commissions earned for services under the agreement. An employer that offers paid vacation owes all earned and determinable in accordance with the terms of any agreement vacation pay at separation. Severance pay is excluded.",
       "source": {
         "citation": "Colorado Revised Statutes 2024, § 8-4-101(14)(a)(I) to (III), (b)",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
@@ -46,7 +46,7 @@
     },
     {
       "id": "employment-final-pay-timing",
-      "text": "Earned, vested, determinable and unpaid compensation is due immediately on employer-initiated discharge. If the payroll unit is not scheduled to be operating, the deadline is six hours after its next regular workday starts, or 24 hours if it is off-site. On resignation the next regular payday governs. The separation rule does not accelerate compensation not yet fully earned or eliminate authorized offsets.",
+      "text": "Earned, vested, determinable and unpaid compensation is due immediately on employer-initiated discharge. If the payroll unit is not scheduled to be operating, the deadline is six hours after its next regular workday starts, or 24 hours if it is off-site. On resignation the next regular payday governs. If the employer has made wages or compensation available at the work site or local office and the employee has not received it within sixty days after it was due, the employer shall mail the check to the employee's last-known mailing address. The separation rule does not accelerate compensation not yet fully earned or eliminate authorized offsets.",
       "source": {
         "citation": "Colorado Revised Statutes 2024, § 8-4-109(1) to (2)",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
@@ -57,9 +57,9 @@
     },
     {
       "id": "employment-final-pay-penalty",
-      "text": "An employer that fails to pay all earned, vested and determinable compensation within 14 days after a written demand is sent or a civil action or administrative claim is sent to or served on the employer owes the unpaid amount plus the greater of double the unpaid amount or $1,000. If the employee shows willfulness, the greater of triple the unpaid amount or $3,000 applies. In a dispute, timely full legal tender of wages demanded in good faith prevents a penalty unless the employee recovers more than the tender.",
+      "text": "On or after January 1, 2023, an employer that fails or refuses to pay all earned, vested and determinable wages or compensation in the manner specified in subsection (3)(d) within fourteen days after a written demand is sent or a civil action or administrative claim is sent to or served on the employer owes the unpaid amount plus an automatic penalty. The penalty is the greater of double the unpaid amount or $1,000. If the employee shows that the failure or refusal was willful, the greater of triple the unpaid amount or $3,000 applies. Under subsection (3)(d)(I), the employer shall send or deliver payment by check, draft or voucher in the employee's name to the address in the demand, administrative claim or civil action, or make the payment by authorized direct deposit if the employee has not revoked the authorization. The employer may, but is not required to, make the payment by direct deposit to an account specified by the employee in the demand, administrative claim or court action, even if the employee has not previously authorized direct deposit, or by another method requested by the employee in the demand, administrative claim or court action, if applicable. If the employee has not previously authorized direct deposit and the demand, administrative claim or court action does not state an address, the employer shall make payment to the employee's last-known address or, if applicable and the employer so elects, as otherwise requested by the employee in the demand, administrative claim or court action. In a dispute, timely full legal tender of wages demanded in good faith prevents a penalty unless the employee recovers more than the tender.",
       "source": {
-        "citation": "Colorado Revised Statutes 2024, § 8-4-109(3)(a.5) to (b)",
+        "citation": "Colorado Revised Statutes 2024, § 8-4-109(3)(a.5), (3)(b) and (3)(d)(I)",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
       },
       "state": "Verified",
@@ -189,7 +189,7 @@
       "id": "employment-contract-breach",
       "text": "An employment-contract plaintiff bears the burden by a preponderance of evidence to prove a contract, substantial performance or justification for nonperformance, the defendant's failure to perform, and resulting damages.",
       "source": {
-        "citation": "Western Distributing Co. v. Diodosio, 841 P.2d 1053, 1058 to 1059 (Colo. 1992), Part II",
+        "citation": "Western Distributing Co. v. Diodosio, 841 P.2d 1053 (Colo. 1992), Part II",
         "url": "https://research.coloradojudicial.gov/en/vid/887979759"
       },
       "state": "Verified",
@@ -242,9 +242,9 @@
     },
     {
       "id": "employment-public-policy-discharge",
-      "text": "An at-will employee establishes a prima facie public-policy wrongful-discharge claim by showing the employer directed an unlawful job-related act or forbade a public duty or important job-related right or privilege, the directive would violate a specific public health, safety or welfare statute or undermine a clearly expressed civic or worker policy, the refusal led to discharge, and the employer knew or reasonably could have known the employee refused based on a reasonable belief that the directive was unlawful or violated the protected duty or right.",
+      "text": "An at-will employee establishes a prima facie public-policy wrongful-discharge claim by showing the employer directed an unlawful job-related act or forbade a public duty or important job-related right or privilege, the directive would violate a specific public health, safety or welfare statute or undermine a clearly expressed civic or worker policy, the refusal led to discharge, and the employer was aware, or reasonably should have been aware, that the employee refused based on a reasonable belief that the directive was unlawful or violated the protected duty or right.",
       "source": {
-        "citation": "Martin Marietta Corp. v. Lorenz, 823 P.2d 100, 109 (Colo. 1992), Part II.C",
+        "citation": "Martin Marietta Corp. v. Lorenz, 823 P.2d 100 (Colo. 1992), Part II.C",
         "url": "https://research.coloradojudicial.gov/en/vid/888689735"
       },
       "state": "Verified",
@@ -264,9 +264,9 @@
     },
     {
       "id": "employment-handbook-termination-procedures",
-      "text": "Handbook termination procedures may bind under ordinary contract principles if the employer communicated them as an offer and initial or continued employment supplied acceptance and consideration. Promissory estoppel may enforce them if the employer could reasonably expect an employee to treat them as a commitment, the employee reasonably relied on them to their detriment, and enforcement is the only way to avoid injustice.",
+      "text": "Handbook termination procedures may bind under ordinary contract principles if the employer communicated them as an offer and initial or continued employment supplied acceptance and consideration. Promissory estoppel may enforce them if the employer should reasonably have expected the employee to treat them as a commitment to follow the termination procedures, the employee reasonably relied on them to their detriment, and enforcement is the only way to avoid injustice.",
       "source": {
-        "citation": "Continental Air Lines, Inc. v. Keenan, 731 P.2d 708, 711 to 712 (Colo. 1987), Part III",
+        "citation": "Continental Air Lines, Inc. v. Keenan, 731 P.2d 708 (Colo. 1987), Part III",
         "url": "https://research.coloradojudicial.gov/en/vid/886632486"
       },
       "state": "Verified",
@@ -299,7 +299,7 @@
       "id": "employment-after-acquired-resume-fraud",
       "text": "After-acquired application or résumé fraud is a complete defense to implied-contract and promissory-estoppel claims when the employer proves the fraud was material and a reasonable, objective employer would have declined to hire the employee had it known the truth at the outset.",
       "source": {
-        "citation": "Crawford Rehabilitation Services, Inc. v. Weissman, 938 P.2d 540, 548 to 549 (Colo. 1997), Part III.A",
+        "citation": "Crawford Rehabilitation Services, Inc. v. Weissman, 938 P.2d 540 (Colo. 1997), Part III.A",
         "url": "https://research.coloradojudicial.gov/en/vid/889731443"
       },
       "state": "Verified",
@@ -308,9 +308,9 @@
     },
     {
       "id": "employment-promissory-estoppel",
-      "text": "A promise can bind when the promisor reasonably could expect it to induce action or forbearance, it actually induces that response, and enforcement is the only way to avoid injustice. Relief can be limited as justice requires.",
+      "text": "A promise which the promisor should reasonably expect to induce action or forbearance on the part of the promisee or a third person and which does induce such action or forbearance is binding if injustice can be avoided only by enforcement of the promise. The remedy granted for breach may be limited as justice requires.",
       "source": {
-        "citation": "Kiely v. St. Germain, 670 P.2d 764, 767 to 768 (Colo. 1983), Restatement § 90(1) discussion",
+        "citation": "Kiely v. St. Germain, 670 P.2d 764 (Colo. 1983), Restatement § 90(1) discussion",
         "url": "https://research.coloradojudicial.gov/en/vid/891995774"
       },
       "state": "Verified",
@@ -319,9 +319,9 @@
     },
     {
       "id": "employment-constructive-discharge",
-      "text": "Constructive discharge requires deliberate employer action that makes or allows working conditions to become so intolerable that a reasonable person in the employee's circumstances would have no choice but to resign.",
+      "text": "Constructive discharge requires deliberate employer action that makes or allows working conditions to become so difficult or intolerable that a reasonable person in the employee's circumstances would have no choice but to resign.",
       "source": {
-        "citation": "Montemayor v. Jacor Communications, Inc., 64 P.3d 916, 921 to 922 (Colo. App. 2002), constructive discharge analysis",
+        "citation": "Montemayor v. Jacor Communications, Inc., 64 P.3d 916 (Colo. App. 2002), Part I.B",
         "url": "https://research.coloradojudicial.gov/en/vid/893459871"
       },
       "state": "Verified",
@@ -332,7 +332,7 @@
       "id": "employment-constructive-discharge-resignation-request",
       "text": "A request for resignation alone is insufficient for constructive discharge without harassment, coercion or other employer conduct that makes conditions intolerable.",
       "source": {
-        "citation": "Christie v. San Miguel County School Dist. R-2(J), 759 P.2d 779, 783 (Colo. App. 1988), constructive discharge analysis",
+        "citation": "Christie v. San Miguel County School Dist. R-2(J), 759 P.2d 779 (Colo. App. 1988), Part III",
         "url": "https://research.coloradojudicial.gov/en/vid/886681097"
       },
       "state": "Verified",
@@ -372,7 +372,7 @@
     },
     {
       "id": "employment-noncompete-and-nonsolicit",
-      "text": "Under the 2024 text, a covenant restricting the right to receive compensation for labor is generally void. The trade-secret noncompete exception requires annualized cash compensation at or above the highly compensated threshold both when entered and when enforced. The customer nonsolicitation exception requires at least 60% of that threshold at both times. The threshold is the greater of the division's amount on August 10, 2022 or at execution. Either restraint must be no broader than reasonably necessary to protect the employer's legitimate trade-secret interest.",
+      "text": "Under the 2024 text, a covenant not to compete that restricts the right to receive compensation for performance of labor for any employer is void except as provided in subsections (2)(b) and (3). The trade-secret noncompete exception requires annualized cash compensation at or above the highly compensated threshold both when entered and when enforced. The customer nonsolicitation exception requires at least 60% of that threshold at both times. The threshold is the greater of the division's amount on August 10, 2022 or at execution. Either restraint must be no broader than reasonably necessary to protect the employer's legitimate trade-secret interest.",
       "source": {
         "citation": "Colorado Revised Statutes 2024, § 8-2-113(2)(a) to (d)",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
@@ -383,7 +383,7 @@
     },
     {
       "id": "employment-restrictive-covenant-confidentiality",
-      "text": "The 2024 statute permits a reasonable confidentiality clause relevant to the employer's business that preserves disclosure of general training, knowledge, skills or experience, readily ascertainable public information and legally protected disclosures.",
+      "text": "The 2024 statute permits a reasonable confidentiality provision relevant to the employer's business that does not prohibit disclosure of information that arises from the worker's general training, knowledge, skill or experience, whether gained on the job or otherwise, information readily ascertainable to the public, or information the worker has a right to disclose as legally protected conduct.",
       "source": {
         "citation": "Colorado Revised Statutes 2024, § 8-2-113(3)(b)",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
@@ -394,7 +394,7 @@
     },
     {
       "id": "employment-noncompete-notice",
-      "text": "An otherwise permissible noncompete is void without notice and terms before a prospective worker accepts the offer. For a current worker, notice is due at least 14 days before the earlier effective date of the covenant or the compensation or employment change given for it. Notice must be separate, clear and conspicuous, in the performance-communication language, and signed by the worker. The statute calls for a copy of the agreement, identification of the agreement and its restriction, and directions to the relevant provisions.",
+      "text": "An otherwise permissible noncompete is void without notice and terms before a prospective worker accepts the offer. For a current worker, notice is due at least 14 days before the earlier effective date of the covenant or the compensation or employment change given for it. The notice must be in a separate document from any other covenants, in clear and conspicuous terms in the language in which the worker and employer communicate about the worker's performance, and signed by the worker. The notice is provided with a copy of the agreement, identifies the agreement by name, states that it contains a covenant not to compete that could restrict the worker's options for subsequent employment following separation from the employer, and directs the worker to the specific sections or paragraphs containing the covenant.",
       "source": {
         "citation": "Colorado Revised Statutes 2024, § 8-2-113(4)(a), (b), (d)",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
@@ -416,7 +416,7 @@
     },
     {
       "id": "employment-void-covenant-remedies",
-      "text": "An employer may not enter into, present as an employment term or try to enforce a covenant void under this section. The employer can be liable for actual damages and $5,000 per worker or prospective worker harmed. The attorney general or a harmed worker or prospective worker may seek injunctive relief and penalties. Private recovery can also include reasonable costs and attorney fees. Good faith and reasonable grounds allow the court to reduce or waive the penalty.",
+      "text": "An employer may not enter into, present as an employment term or try to enforce a covenant void under this section. An employer that violates subsection (8)(a) is liable for actual damages and a $5,000 penalty per worker or prospective worker harmed by the conduct. The attorney general or a harmed worker or prospective worker may seek injunctive relief and penalties. The attorney general may recover three times the amount of any recovery or attempted recovery by an employer in violation of subsection (3)(a). Private recovery can also include reasonable costs and attorney fees. Good faith and reasonable grounds allow the court to reduce or waive the penalty.",
       "source": {
         "citation": "Colorado Revised Statutes 2024, § 8-2-113(8)(a) to (c)",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-08.pdf"
@@ -460,7 +460,7 @@
     },
     {
       "id": "employment-federal-arbitration-written-agreements",
-      "text": "A written arbitration provision in a maritime transaction or contract involving commerce, or a written agreement to arbitrate an existing controversy arising from such a transaction or contract, is valid, irrevocable and enforceable subject to grounds at law or in equity for revoking any contract and the exception in chapter 4.",
+      "text": "A written provision in a maritime transaction or a contract evidencing a transaction involving commerce to settle by arbitration a controversy thereafter arising out of the contract, transaction or refusal to perform the whole or any part thereof is valid, irrevocable and enforceable. A written agreement to submit to arbitration an existing controversy arising out of such a contract, transaction or refusal is also valid, irrevocable and enforceable. Both are subject to grounds at law or in equity for the revocation of any contract or as otherwise provided in chapter 4.",
       "source": {
         "citation": "United States Code, 2024 edition, 9 U.S.C. § 2",
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title9/html/USCODE-2024-title9-chap1-sec2.htm"

@@ -13,7 +13,7 @@
     },
     {
       "id": "consumer-private-action-eligibility",
-      "text": "A private action for a listed deceptive trade practice may be brought against a person who engaged in it or caused another to engage in it. Eligible claimants include actual or potential consumers injured by the practice, residential subscribers who receive unlawful telephone solicitation as defined by statute, successors in interest to an actual purchaser, and persons injured by the practice in their business or occupation.",
+      "text": "A private action for a listed deceptive trade practice may be brought against a person who engaged in it or caused another to engage in it. Eligible claimants include actual or potential consumers injured by the practice, residential subscribers who receive unlawful telephone solicitation as defined by statute, successors in interest to an actual consumer who purchased the defendant's goods, services or property, and persons injured by the practice in their business or occupation.",
       "source": {
         "citation": "Colorado Revised Statutes 2024, § 6-1-113(1)",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-06.pdf"
@@ -57,7 +57,7 @@
     },
     {
       "id": "consumer-deceptive-practices-limitations",
-      "text": "The period is three years from the deceptive act, the last in a series of such acts, or actual discovery or when reasonable diligence would have uncovered the act. A one-year extension is available if the plaintiff proves that conduct calculated to induce postponement or forbearance caused the late filing.",
+      "text": "The period is three years from the deceptive act, the last in a series of such acts, or when the consumer discovered or in the exercise of reasonable diligence should have discovered the act. The period may be extended by one year if the plaintiff proves that failure to timely commence the action was caused by the defendant engaging in conduct calculated to induce the plaintiff to refrain from or postpone the commencement of the action.",
       "source": {
         "citation": "Colorado Revised Statutes 2024, § 6-1-115",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-06.pdf"

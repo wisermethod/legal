@@ -2,7 +2,7 @@
   "statements": [
     {
       "id": "small-claims-civil-jurisdiction",
-      "text": "Small claims court shares original jurisdiction with county and district courts over covered civil claims for debt, damages or the value of personal property up to $7,500, excluding interest and costs, with civil penalties included where provided by law.",
+      "text": "Small claims court shares original jurisdiction with county and district courts in civil actions where the debt, damage or value of the personal property claimed by either the plaintiff or the defendant does not exceed $7,500, excluding interest and costs, with civil penalties included where provided by law.",
       "source": {
         "citation": "Colorado Revised Statutes 2024, § 13-6-403(1)(a)",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
@@ -64,17 +64,6 @@
       "state": "Verified",
       "last_read": "2026-11-23",
       "excerpt": "excerpts/small-claims-hearing-schedule.txt"
-    },
-    {
-      "id": "small-claims-hearing-wait",
-      "text": "The estimated wait for a small claims hearing is 30 to 60 days (C.R.S. § 13-6-406 governs hearing scheduling).",
-      "source": {
-        "citation": "Colorado Revised Statutes 2024, § 13-6-406",
-        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
-      },
-      "state": "[verify]",
-      "last_read": "2026-11-23",
-      "excerpt": "excerpts/small-claims-hearing-wait.txt"
     },
     {
       "id": "small-claims-trial-procedure",

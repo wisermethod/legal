@@ -2,7 +2,7 @@
   "statements": [
     {
       "id": "district-concurrent-civil-jurisdiction",
-      "text": "County and district courts share original jurisdiction in covered civil actions where the debt, damages or value of claimed personal property is $25,000 or less.",
+      "text": "County and district courts share original jurisdiction in covered civil actions where the debt, damages or value of claimed personal property is $25,000 or less. The county court also has jurisdiction of counterclaims in those actions when the counterclaim does not exceed $25,000.",
       "source": {
         "citation": "Colorado Revised Statutes 2024, § 13-6-104(1)",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
@@ -105,7 +105,7 @@
     },
     {
       "id": "district-general-civil-monetary-jurisdiction",
-      "text": "Colorado district court civil jurisdiction has no general monetary ceiling.",
+      "text": "Under § 13-6-104(1), the county court has concurrent original jurisdiction with the district court in civil actions in which the debt, damage or value of the personal property claimed does not exceed $25,000. The section states no district court monetary ceiling. Whether such a ceiling exists remains unverified.",
       "source": {
         "citation": "Colorado Revised Statutes 2024, § 13-6-104(1)",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
@@ -211,7 +211,7 @@
     },
     {
       "id": "district-motion-reply-period",
-      "text": "A reply brief is due 7 days after the responsive brief is filed, or 14 days after that filing for a Rule 56 motion, unless the court allows a greater or lesser time.",
+      "text": "The moving party has 7 days after the filing of the responsive brief to file a reply brief, or 14 days after that filing for a Rule 56 motion, unless the court allows a greater or lesser time.",
       "source": {
         "citation": "Colorado Rules of Civil Procedure, Rule 121, § 1-15(1)(c)",
         "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
@@ -222,7 +222,7 @@
     },
     {
       "id": "district-motion-conferral-and-certification",
-      "text": "Before filing a motion, moving counsel and self-represented parties must confer with opposing counsel and self-represented parties unless a governing statute or rule permits filing without notice. The duties of and to confer with self-represented parties have exceptions for incarcerated persons and where conferral conflicts with a court order or statute. The motion opens with a good-faith conferral certification, states whether the requested relief is agreed or unopposed, and gives the reason and efforts if no conference occurred.",
+      "text": "Before filing a motion, moving counsel and self-represented parties must confer with opposing counsel and self-represented parties unless a governing statute or rule permits filing without notice. There are exceptions to the duty for self-represented parties to confer and the duty to confer with them. They are for any incarcerated person and any self-represented party as to whom the requirement is contrary to court order or statute, including a protection or restraining order. The motion opens with a good-faith conferral certification. If no conference has occurred, the motion states why, including all efforts to confer. If the relief sought by the motion has been agreed to by the parties or will not be opposed, the court shall be so advised in the motion.",
       "source": {
         "citation": "Colorado Rules of Civil Procedure, Rule 121, § 1-15(8)",
         "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
@@ -230,38 +230,6 @@
       "state": "Verified",
       "last_read": "2026-11-23",
       "excerpt": "excerpts/district-motion-conferral-and-certification.txt"
-    },
-    {
-      "id": "district-other-motion-conferral-exceptions",
-      "text": "Possible exceptions to prefiling conferral include motions for default judgment, ex parte motions such as emergency temporary restraining orders, and circumstances involving futility or danger (C.R.C.P. 121 § 1-15(8)).",
-      "source": {
-        "citation": "Colorado Rules of Civil Procedure, Rule 121, § 1-15(8)",
-        "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
-      },
-      "state": "[verify]",
-      "last_read": "2026-11-23",
-      "excerpt": "excerpts/district-other-motion-conferral-exceptions.txt"
-    },
-    {
-      "id": "district-conferral-noncompliance-consequences",
-      "text": "Possible consequences of failing to comply with the duty to confer under C.R.C.P. 121 § 1-15(8) include summary denial, striking of future filings, admonishment and sanctions for repeated noncompliance.",
-      "source": {
-        "citation": "Colorado Rules of Civil Procedure, Rule 121, § 1-15(8)",
-        "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
-      },
-      "state": "[verify]",
-      "last_read": "2026-11-23",
-      "excerpt": "excerpts/district-conferral-noncompliance-consequences.txt"
-    },
-    {
-      "id": "district-trial-scheduling-estimate",
-      "text": "The estimated time to trial in Colorado district court is 18 to 24 months.",
-      "source": {
-        "citation": "Colorado district court trial-setting authorities"
-      },
-      "state": "[verify]",
-      "last_read": "2026-11-23",
-      "excerpt": "excerpts/district-trial-scheduling-estimate.txt"
     },
     {
       "id": "district-transfer-of-venue",
@@ -285,7 +253,7 @@
     },
     {
       "id": "district-discovery-timing-and-sequence",
-      "text": "Discovery before service of the case management order is barred unless the rules, a court order or party agreement authorizes it. Discovery conducted before issuance of the order is subject to Rule 26(b)(2). Discovery methods have no required sequence and one party's discovery does not delay another's unless the parties stipulate or the court orders otherwise.",
+      "text": "Discovery before service of the case management order is barred unless the rules, a court order or party agreement authorizes it. Discovery conducted before issuance of the order shall not exceed the limitations established by Rule 26(b)(2). Methods of discovery may be used in any sequence, and one party's discovery shall not delay any other party's discovery, unless the parties stipulate or the court, upon motion, orders otherwise for the convenience of parties and witnesses and in the interests of justice.",
       "source": {
         "citation": "Colorado Rules of Civil Procedure, Rule 26(d)",
         "url": "https://www.coloradojudicial.gov/sites/default/files/2024-01/Rule%20Change%202024%2803%29.pdf"
@@ -306,7 +274,7 @@
     },
     {
       "id": "district-packet-cost-waiver",
-      "text": "A judge may allow a person unable to pay costs and expenses to commence, prosecute or defend a civil action or special proceeding without paying costs. If the person succeeds, the judgment includes the costs otherwise due, payable to the court first from money paid into court.",
+      "text": "A judge may allow a person to commence and prosecute or defend a civil action or special proceeding without paying costs if satisfied that the person is unable to prosecute or defend because the person is poor and unable to pay the costs and expenses. If the person prosecutes or defends successfully, a judgment is entered in the person's favor for the amount of court costs the person would have incurred. That judgment is first satisfied out of any money paid into court, and the costs are paid to the court before the judgment is satisfied of record.",
       "source": {
         "citation": "Colorado Revised Statutes 2024, § 13-16-103(1)",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
@@ -328,7 +296,7 @@
     },
     {
       "id": "district-declarations-of-rights",
-      "text": "Courts of record may declare rights, status and other legal relations within their respective jurisdictions whether further relief is available or claimed. A declaration may be affirmative or negative and has the force and effect of a final judgment or decree.",
+      "text": "Courts of record may declare rights, status and other legal relations within their respective jurisdictions whether or not further relief is or could be claimed. No action or proceeding shall be open to objection on the ground that a declaratory judgment or decree is prayed for. A declaration may be affirmative or negative and has the force and effect of a final judgment or decree.",
       "source": {
         "citation": "Colorado Revised Statutes 2024, § 13-51-105",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"

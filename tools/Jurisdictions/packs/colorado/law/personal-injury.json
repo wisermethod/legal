@@ -13,7 +13,7 @@
     },
     {
       "id": "personal-injury-noneconomic-loss",
-      "text": "Noneconomic loss is the directly injured person's nonpecuniary harm, including pain and suffering, inconvenience, emotional stress and impaired quality of life. Derivative noneconomic loss is nonpecuniary harm or emotional stress to someone other than the directly injured person.",
+      "text": "Noneconomic loss is the directly injured person's nonpecuniary harm, including pain and suffering, inconvenience, emotional stress and impaired quality of life. It includes a damage recovery for nonpecuniary harm for actions brought under § 13-21-201 or § 13-21-202. Derivative noneconomic loss is nonpecuniary harm or emotional stress to someone other than the directly injured person.",
       "source": {
         "citation": "Colorado Revised Statutes 2024, § 13-21-102.5(2)(a) to (b)",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
@@ -24,7 +24,7 @@
     },
     {
       "id": "personal-injury-noneconomic-caps",
-      "text": "For covered actions filed before January 1, 2025, the 2024 statute sets a $250,000 base noneconomic limit, or up to $500,000 on clear and convincing justification, with statutory inflation adjustments. For covered actions filed during 2025 or claims accruing on or after January 1, 2025, the statute sets a $1.5 million limit on direct or derivative noneconomic damages, subject to inflation adjustments starting January 1, 2028 and every two years after. The latter limit excludes health-care tort and wrongful-death claims, which have separate statutory provisions. Derivative noneconomic damages require clear and convincing justification.",
+      "text": "For a covered civil action filed before January 1, 2025, the 2024 printout sets the noneconomic limitations before inflation adjustments. The limit is $250,000 unless the court finds justification by clear and convincing evidence, and $500,000 in that case. The limitations on damages must be adjusted for inflation as of January 1, 1998, January 1, 2008, January 1, 2020, and every two years thereafter until January 1, 2024. For a covered civil action filed during 2025 or claims accruing on or after January 1, 2025, the statute sets a $1.5 million limit on direct or derivative noneconomic damages, subject to inflation adjustments starting January 1, 2028 and every two years after. Both limitations are for a civil action other than a civil action or binding arbitration for damages in tort brought against a health-care professional or a health-care institution. Those damages are governed by § 13-64-302. Under subsection (3)(a)(IV), wrongful death noneconomic damages are governed by § 13-21-203. Derivative noneconomic damages require clear and convincing justification.",
       "source": {
         "citation": "Colorado Revised Statutes 2024, § 13-21-102.5(3)(a) to (c)",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"
@@ -46,7 +46,7 @@
     },
     {
       "id": "personal-injury-exemplary-damages",
-      "text": "When a jury assesses actual damages for harm to a person or property attended by fraud, malice or willful and wanton conduct, it may award exemplary damages up to the actual award. The court has statutory discretion to reduce or disallow the award and may raise it to at most three times actual damages for specified willful and wanton conduct during the case.",
+      "text": "When a jury assesses actual damages for harm to a person or property attended by fraud, malice or willful and wanton conduct, it may award exemplary damages up to the actual award. Subject to subsection (1.5)(b), a claim for exemplary damages may not be included in any initial claim for relief. It may be allowed by amendment to the pleadings only after the exchange of initial disclosures under Rule 26 and the plaintiff establishes prima facie proof of a triable issue. The court may reduce or disallow the award to the extent its deterrent effect has been accomplished, the conduct that resulted in the award has ceased, or the purpose of the damages has otherwise been served. The court may increase the award to at most three times actual damages if it is shown that the defendant continued the behavior or repeated the action in a willful and wanton manner against the plaintiff or another person during the case, or acted in a willful and wanton manner during the case that aggravated the plaintiff's damages when the defendant knew or should have known the action would produce aggravation.",
       "source": {
         "citation": "Colorado Revised Statutes 2024, § 13-21-102(1) to (3)",
         "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-13.pdf"

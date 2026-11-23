@@ -1,5 +1,27 @@
 https://research.coloradojudicial.gov/en/vid/890762798
 2026-11-23
+Plaintiffs sought to establish the defendant bank's liability for breach of an agreement to create and supervise plaintiffs' special account. This agreement, couched in ambiguous terms, appears as Exhibit A:
+
+'May 8, 1959
+
+'Colorado State Bank of Denver
+
+Denver, Colorado
+
+'Gentlemen:
+
+'You are authorized and directed to charge the account of Dorothy A. Taylor, et al. Special with drafts accompanied by supporting papers when such drafts are presented to you with the O.K. of A.M. Gray.
+
+'The papers are to be held by you subject to order of Dorothy A. Taylor.
+
+'This order to continue until cancelled in writing.
+
+'/s/ Dorothy A. Taylor
+
+'/s/ C. Robert Taylor
+
+'/s/ Theodore N. Taylor'
+
 During the presentation of testimony offered by plaintiffs the trial court permitted the introduction of parol evidence to clarify the intention of the parties regarding this instrument. According to the testimony of Dorothy Taylor the phrase 'supporting papers' in the parties' contemplation referred to automobile certificates of title. A title would 'support the draft if it corresponded to the make, year, and number of the vehicle described on the face of the draft. The president of the defendant bank was called for cross-examination by counsel for plaintiffs. He admitted signing the instrument and  charging plaintiffs' account $1.50 for each of Gray's drafts. He stated that the phrase 'supporting papers' referred to therein was meaningless surplusage to the parties' agreement.
 
 The only witnesses called by the plaintiffs were Dorothy Taylor and the bank officer who was cross-examined. When the plaintiffs rested the bank moved for dismissal on two grounds, namely: that there was a failure to establish liability on the part of the bank; and, assuming arguendo that liability had been proven under the evidence, there was no competent evidence establishing  the amount of damage to which plaintiffs were entitled.
