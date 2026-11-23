@@ -11,6 +11,7 @@ const CLI = join(__dirname, '..', 'scripts', 'jurisdictions.js');
 const PACKS = realpathSync(join(__dirname, 'fixtures', 'packs'));
 const STATE = join(PACKS, 'example-state');
 const ARBITRATION = join(PACKS, 'example-arbitration');
+const COLORADO = join(realpathSync(join(__dirname, '..')), 'packs', 'colorado');
 const TEMPLATE = readFileSync(join(__dirname, '..', '..', '..', 'skills', 'Open a Matter',
   'assets', 'matter-template', 'AGENTS.md'), 'utf8');
 
@@ -21,6 +22,8 @@ const CONSUMER = 'law/consumer.json';
 const FORUM = 'forum/example-trial.json';
 const CONTRACT_EXCERPT = 'excerpts/contract.txt';
 const SOURCE = 'Fictional agreement, 2025-07-01';
+const COLORADO_COURT = 'District Court, Denver County, Colorado';
+const COLORADO_AREAS = ['contract', 'employment', 'consumer', 'personal-injury'];
 
 function run(args, packsDirectory) {
   const invocation = packsDirectory === undefined ? [CLI, ...args] : [
@@ -121,7 +124,13 @@ function validationFailure(pack, file, id, reason) {
 }
 
 test('list on the shipped tree returns an object with no packs', () => {
-  assert.deepEqual(success(['list']), { packs: [] });
+  assert.deepEqual(success(['list']), { packs: [
+    { id: 'colorado', name: 'Colorado', kind: 'state', law: COLORADO_AREAS, forums: [
+      { id: 'district-court', name: 'Colorado district court', tier: 'general-jurisdiction trial court' },
+      { id: 'county-court', name: 'Colorado county court', tier: 'limited-jurisdiction trial court' },
+      { id: 'small-claims', name: 'Colorado county court, small claims', tier: 'small claims division of the county court' },
+    ] },
+  ] });
 });
 
 test('list describes each fictional pack and forum tier', () => {
@@ -141,9 +150,184 @@ test('validate accepts a good pack by absolute directory', () => {
 });
 
 test('validate selects all shipped packs by default or one by id', () => {
-  assert.deepEqual(success(['validate']).packs, []);
+  assert.deepEqual(success(['validate']).packs, ['colorado']);
   assert.deepEqual(success(['validate'], PACKS).packs, ['example-arbitration', 'example-state']);
   assert.deepEqual(success(['validate', '--pack', 'example-arbitration'], PACKS).packs, ['example-arbitration']);
+});
+
+test('the shipped Colorado pack validates and has no stale prompts', () => {
+  assert.deepEqual(success(['validate']), { ok: true, packs: ['colorado'], failures: [], gaps: [] });
+  assert.deepEqual(success(['stale', '--pack', 'colorado']), { prompts: [] });
+  assert.deepEqual(success(['stale']), { prompts: [] });
+});
+
+test('Colorado district court patterns equal the Court Filing profile patterns', () => {
+  const manifest = JSON.parse(readFileSync(join(COLORADO, 'pack.json'), 'utf8'));
+  const profile = JSON.parse(readFileSync(join(__dirname, '..', '..', 'Court Filing', 'profiles', 'colorado-district.json'), 'utf8'));
+  assert.deepEqual(manifest.forums.find(forum => forum.id === 'district-court').court_match, profile.court_match);
+});
+
+for (const [court, id] of [
+  [COLORADO_COURT, 'district-court'],
+  ['District Court, City and County of Denver, Colorado', 'district-court'],
+  ['County Court, Arapahoe County, Colorado', 'county-court'],
+  ['Small Claims Division, County Court, Boulder County, Colorado', 'small-claims'],
+  [COLORADO_COURT + ', Case No. 2025CV31234', 'district-court'],
+]) {
+  test('lookup matches ' + court, () => {
+    const { forum, ...details } = success(['lookup', '--court', court]);
+    assert.equal(forum.pack, 'colorado');
+    assert.equal(forum.id, id);
+    assert.equal(forum.file, join(COLORADO, 'forum', id + '.json'));
+    assert.equal(forum.own_pack, false);
+    assert.equal(forum.filing_profile, id === 'district-court' ? 'colorado-district' : null);
+    assert.deepEqual(forum.obtain, id === 'district-court'
+      ? ["the judicial district's local rules", "the assigned division's practice standards",
+        'any case management or other order entered in the case']
+      : ["the court's local rules or practice standards", 'any order entered in the case']);
+    assert.deepEqual(details, { stale: [], gaps: [], invalid_packs: [] });
+  });
+}
+
+test('lookup reports uncovered courts and requires a whole court-name match', () => {
+  for (const court of ['Supreme Court of the State of New York, County of New York', COLORADO_COURT + ' Annex']) {
+    assert.deepEqual(success(['lookup', '--court', court]), {
+      forum: { status: 'none', reason: 'no pack covers this court' }, stale: [], gaps: [], invalid_packs: [],
+    });
+  }
+});
+
+test('lookup matches Colorado law names and returns one row with all four law files', () => {
+  for (const law of ['Colorado', 'Colorado law', 'the law of Colorado', 'the laws of the State of Colorado', 'State of Colorado']) {
+    assert.deepEqual(success(['lookup', '--law', law]), {
+      governing_law: [{
+        claim: null, law_named: law, clause_and_document: null, source_and_date: null,
+        pack: 'colorado', files: COLORADO_AREAS.map(area => join(COLORADO, 'law', area + '.json')), own_pack: false,
+      }],
+      stale: [], gaps: [], invalid_packs: [],
+    });
+  }
+});
+
+test('lookup holds the leading Colorado law match and returns the whole exception', () => {
+  const law = 'Colorado, except as to wages';
+  const { governing_law: [row] } = success(['lookup', '--law', law]);
+  assert.equal(row.law_named, law);
+  assert.equal(row.pack, 'colorado');
+  assert.deepEqual(row.files, COLORADO_AREAS.map(area => join(COLORADO, 'law', area + '.json')));
+  assert.equal(row.held, true);
+  assert.equal(row.matched_law, 'Colorado');
+  assert.equal(row.exception, law);
+});
+
+test('lookup reports uncovered law and does not match names in the middle', () => {
+  for (const law of ['New York', 'New York except where Colorado applies']) {
+    assert.deepEqual(success(['lookup', '--law', law]), {
+      governing_law: [{
+        claim: null, law_named: law, clause_and_document: null, source_and_date: null,
+        status: 'none', reason: 'no pack covers this law',
+      }],
+      stale: [], gaps: [], invalid_packs: [],
+    });
+  }
+});
+
+test('lookup prefers matter packs for both sides without a declaration', t => {
+  const path = join(temporary(t), 'AGENTS.md');
+  writeFileSync(path, '# Example matter\n');
+  const pack = copyMatterPack(path, STATE, 'matter-colorado');
+  editJson(pack, 'pack.json', data => {
+    data.forums[0].court_match = [COLORADO_COURT];
+    data.law_match = ['Colorado'];
+  });
+
+  const { forum, governing_law: [law], invalid_packs } = success([
+    'lookup', '--court', COLORADO_COURT, '--law', 'Colorado', '--matter', path,
+  ]);
+  assert.equal(forum.file, join(pack, FORUM));
+  assert.deepEqual(law.files, [join(pack, CONTRACT), join(pack, CONSUMER)]);
+  for (const result of [forum, law]) {
+    assert.equal(result.pack, 'matter-colorado');
+    assert.equal(result.own_pack, true);
+    assert.equal(result.pack_directory, pack);
+    assert.deepEqual(result.set_aside, ['colorado']);
+  }
+  assert.deepEqual(invalid_packs, []);
+});
+
+test('lookup returns the same age prompts and gaps as resolve for selected files', t => {
+  const path = matter(t);
+  const own = copyMatterPack(path, STATE, 'matter-state');
+  const unused = copyMatterPack(path, ARBITRATION);
+  editJson(own, CONTRACT, data => {
+    data.statements[0].state = '[verify]';
+    data.statements[0].last_read = '2000-01-01';
+  });
+  editJson(unused, 'forum/example-panel.json', data => { data.statements[0].state = '[verify]'; });
+  const resolved = resolveMatter(path);
+  const result = success(['lookup', '--court', COURT, '--law', LAW, '--matter', path], PACKS);
+  assert.deepEqual(result.forum, resolved.forum);
+  assert.deepEqual(result.governing_law, [{
+    ...resolved.governing_law[0], claim: null, clause_and_document: null, source_and_date: null,
+  }]);
+  assert.deepEqual(result.stale, resolved.stale);
+  assert.ok(result.stale.some(prompt => prompt.file === join(own, CONTRACT) && prompt.own_pack && prompt.pack_directory === own));
+  assert.deepEqual(result.gaps, resolved.gaps);
+  assert.deepEqual(result.gaps, [{
+    pack: 'matter-state', file: join(own, CONTRACT), id: 'contract-notice',
+    reason: 'Statement is marked [verify].', own_pack: true, pack_directory: own,
+  }]);
+});
+
+test('lookup keeps a valid match when the other side of a shipped pack is broken', t => {
+  const pack = copyPack(t);
+  const root = dirname(pack);
+  const both = ['lookup', '--court', COURT, '--law', LAW];
+  const excerpt = join(pack, CONTRACT_EXCERPT);
+  rmSync(excerpt);
+  const withForum = success(both, root);
+  assert.equal(withForum.forum.file, join(pack, FORUM));
+  assert.equal(withForum.governing_law[0].reason, 'no pack covers this law');
+  assert.deepEqual(withForum.invalid_packs[0].matches, { forum: false, governing_law: [0] });
+  assert.deepEqual(JSON.parse(failure(['lookup', '--law', LAW], root)).failures, withForum.invalid_packs[0].failures);
+
+  cpSync(join(STATE, CONTRACT_EXCERPT), excerpt);
+  rmSync(join(pack, 'excerpts', 'trial.txt'));
+  const withLaw = success(both, root);
+  assert.equal(withLaw.forum.reason, 'no pack covers this court');
+  assert.deepEqual(withLaw.governing_law[0].files, [join(pack, CONTRACT), join(pack, CONSUMER)]);
+  assert.deepEqual(withLaw.invalid_packs[0].matches, { forum: true, governing_law: [] });
+  assert.deepEqual(JSON.parse(failure(['lookup', '--court', COURT], root)).failures, withLaw.invalid_packs[0].failures);
+});
+
+test('lookup refuses overlapping valid forums or laws with the same errors as resolve', t => {
+  const path = matter(t);
+  const root = temporary(t);
+  copyPack(t, STATE, root);
+  const other = copyPack(t, ARBITRATION, root);
+  editJson(other, 'pack.json', data => { data.forums[0].court_match = [COURT]; });
+  const forumError = failure(['resolve', '--matter', path], root);
+  assert.match(forumError, /Multiple forums matched/);
+  assert.equal(failure(['lookup', '--court', COURT], root), forumError);
+
+  const own = copyMatterPack(path, STATE, 'matter-law');
+  editJson(own, 'pack.json', data => { data.forums = []; });
+  const second = copyMatterPack(path, STATE, 'other-law');
+  editJson(second, 'pack.json', data => { data.forums = []; });
+  const lawError = failure(['resolve', '--matter', path], PACKS);
+  assert.match(lawError, /Multiple governing-law packs matched/);
+  assert.equal(failure(['lookup', '--law', LAW, '--matter', path], PACKS), lawError);
+});
+
+test('lookup help lists all flags and bad usage exits with empty stdout', () => {
+  const help = run(['lookup', '--help']);
+  assert.equal(help.status, 0, help.stderr);
+  assert.match(help.stdout, /lookup \[--court <court name>\] \[--law <law name>\] \[--matter <absolute-AGENTS\.md>\]/);
+  assert.match(failure(['lookup']), /--court or --law is required/);
+  assert.match(failure(['lookup', '--matter', 'AGENTS.md']), /--court or --law is required/);
+  assert.match(failure(['lookup', '--court', COURT, '--court', COURT]), /Duplicate option --court/);
+  assert.match(failure(['lookup', '--law', LAW, '--law', LAW]), /Duplicate option --law/);
+  assert.match(failure(['lookup', '--law', LAW, '--matter', 'AGENTS.md']), /--matter must be an absolute path/);
 });
 
 test('validate refuses a missing Verified excerpt', t => {

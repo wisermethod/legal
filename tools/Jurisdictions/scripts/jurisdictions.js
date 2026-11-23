@@ -3,7 +3,7 @@
 const { lstatSync, readFileSync, readdirSync, realpathSync, statSync } = require('node:fs');
 const { homedir } = require('node:os');
 const { basename, dirname, extname, isAbsolute, join, relative, resolve, sep } = require('node:path');
-const { ageOptions, isId, listPacks, resolveMatter, stalePacks, validatePacks } = require('./jurisdictions-core.js');
+const { ageOptions, isId, listPacks, lookup, resolveMatter, stalePacks, validatePacks } = require('./jurisdictions-core.js');
 
 const PACKS = join(__dirname, '..', 'packs');
 const HELP = 'node scripts/jurisdictions.js help';
@@ -11,6 +11,7 @@ const COMMANDS = {
   list: [],
   validate: ['--pack', '--matter'],
   resolve: ['--matter'],
+  lookup: ['--court', '--law', '--matter'],
   stale: ['--pack', '--matter', '--today', '--days'],
 };
 
@@ -20,7 +21,9 @@ function usage() {
     'node scripts/jurisdictions.js list',
     'node scripts/jurisdictions.js validate [--pack <id-or-absolute-directory> | --matter <absolute-AGENTS.md>]',
     'node scripts/jurisdictions.js resolve --matter <absolute-AGENTS.md>',
+    'node scripts/jurisdictions.js lookup [--court <court name>] [--law <law name>] [--matter <absolute-AGENTS.md>]',
     'node scripts/jurisdictions.js stale [--pack <id-or-absolute-directory> | --matter <absolute-AGENTS.md>] [--today YYYY-MM-DD] [--days N]',
+    'lookup requires --court, --law, or both.',
     'stale defaults to the local calendar date and 180 days. All commands are read-only.',
     '',
   ].join('\n');
@@ -38,6 +41,9 @@ function flags(command, args) {
     values.set(option, value);
   }
   if (command === 'resolve' && !values.has('--matter')) throw new Error('--matter is required. Run ' + HELP + '.');
+  if (command === 'lookup' && !values.has('--court') && !values.has('--law')) {
+    throw new Error('--court or --law is required. Run ' + HELP + '.');
+  }
   if (values.has('--matter') && values.has('--pack')) {
     throw new Error('--matter and --pack cannot be used together. Run ' + HELP + '.');
   }
@@ -221,6 +227,12 @@ function main(args, { packsDirectory = PACKS } = {}) {
         });
         break;
       }
+      case 'lookup':
+        result = lookup({ court: values.get('--court'), law: values.get('--law') }, {
+          matterDirectories: values.has('--matter') ? directories : () => [],
+          shippedDirectories, read: readPackFile, age: ageOptions(localToday()),
+        });
+        break;
       case 'stale': {
         const age = ageOptions(values.get('--today') ?? localToday(), values.get('--days'));
         result = stalePacks(directories(), readPackFile, age);

@@ -573,27 +573,12 @@ function resolvePacks(directories, read, courts, laws) {
   return { packs: [...usable.values()], loaded, gaps, invalid };
 }
 
-function resolveMatter(text, { rulesRecord, matterDirectories, shippedDirectories, read, age }) {
-  const { declaration, claims } = parseDeclaration(text);
-  const matter_records = [];
-  if (declaration !== 'missing') {
-    const rules = plain(declaration['Rules home'].value);
-    if (!['not yet obtained', 'pending'].includes(rules.toLowerCase())) matter_records.push(rulesRecord(rules));
-  }
-  const courts = declaration === 'missing' ? [] : courtNames(declaration['Court or forum'].value);
+function resolveNames(court, claims, { matterDirectories, shippedDirectories, read, age }) {
+  const courts = court === undefined ? [] : courtNames(court);
   const laws = claims.map(claim => lawNames(claim.law_named));
   const matter = resolvePacks(matterDirectories(), read, courts, laws);
-  const invalid_packs = matter.invalid.map(entry => entry.diagnostic);
-  if (declaration === 'missing') {
-    return {
-      declaration, matter_records,
-      forum: none('The forum must come from the parties record.'),
-      governing_law: [], stale: [], gaps: [], ...(invalid_packs.length ? { invalid_packs } : {}),
-    };
-  }
-
   const shipped = resolvePacks(shippedDirectories(), read, courts, laws);
-  invalid_packs.push(...shipped.invalid.map(entry => entry.diagnostic));
+  const invalid_packs = [...matter.invalid, ...shipped.invalid].map(entry => entry.diagnostic);
   const packs = { matter: matter.packs, shipped: shipped.packs };
   const { match: forumMatch, result, ...forumOverrides } = findForum(courts, packs);
   const lawMatches = claims.map((claim, index) => findLaw(claim.law_named, laws[index], packs));
@@ -626,8 +611,36 @@ function resolveMatter(text, { rulesRecord, matterDirectories, shippedDirectorie
     ...(result ?? { pack: pack.id, files: pack.law.map(entry => loaded.get(entry).path),
       ...provenance(pack.directory), ...details }),
   }));
-  return { declaration, matter_records, forum, governing_law,
-    stale: olderThan(loaded, age, { includeProvenance: true }), gaps, ...(invalid_packs.length ? { invalid_packs } : {}) };
+  return { forum, governing_law, stale: olderThan(loaded, age, { includeProvenance: true }), gaps, invalid_packs };
 }
 
-module.exports = { ageOptions, isId, listPacks, resolveMatter, stalePacks, validatePacks };
+function resolveMatter(text, { rulesRecord, ...options }) {
+  const { declaration, claims } = parseDeclaration(text);
+  const matter_records = [];
+  if (declaration === 'missing') {
+    const matter = resolvePacks(options.matterDirectories(), options.read, [], []);
+    const invalid_packs = matter.invalid.map(entry => entry.diagnostic);
+    return {
+      declaration, matter_records,
+      forum: none('The forum must come from the parties record.'),
+      governing_law: [], stale: [], gaps: [], ...(invalid_packs.length ? { invalid_packs } : {}),
+    };
+  }
+
+  const rules = plain(declaration['Rules home'].value);
+  if (!['not yet obtained', 'pending'].includes(rules.toLowerCase())) matter_records.push(rulesRecord(rules));
+  const { invalid_packs, ...selection } = resolveNames(declaration['Court or forum'].value, claims, options);
+  return { declaration, matter_records, ...selection, ...(invalid_packs.length ? { invalid_packs } : {}) };
+}
+
+function lookup({ court, law }, options) {
+  const claims = law === undefined ? [] : [{ claim: null, law_named: law, clause_and_document: null, source_and_date: null }];
+  const { forum, governing_law, ...details } = resolveNames(court, claims, options);
+  return {
+    ...(court === undefined ? {} : { forum }),
+    ...(law === undefined ? {} : { governing_law }),
+    ...details,
+  };
+}
+
+module.exports = { ageOptions, isId, listPacks, lookup, resolveMatter, stalePacks, validatePacks };

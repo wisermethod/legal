@@ -2,11 +2,11 @@
 name: Jurisdictions
 type: tool
 category: reference
-description: List and validate jurisdiction packs, match a matter's declared forum and governing law, and flag sources due for rereading
+description: List and validate jurisdiction packs, match courts and governing law by declaration or name, and flag sources due for rereading
 version: 0.2.0
 runs: local
 gaps:
-  - No jurisdiction pack ships yet.
+  - The shipped Colorado pack has no sourced statements yet.
 ---
 
 # Jurisdictions
@@ -15,7 +15,7 @@ gaps:
 
 Apply the legal plugin's [Standing constraint](../../AGENTS.md#standing-constraint). Use a pack for sourced rules. Leave the application of those rules to the matter's facts to the person. The matter's own records take precedence over any pack.
 
-No jurisdiction pack ships yet. A matter can still resolve its own rules path and see what the pack lookup found.
+The shipped Colorado pack identifies district court, county court and small claims forums and four areas of state law. Its files contain no sourced statements yet.
 
 A matter's own packs live at `<matter folder>/jurisdictions/<pack-id>/`, in the shipped pack format. The matter folder holds the `AGENTS.md` passed to `--matter`. `resolve` returns the matter's records first, then looks for matches in the matter's packs, then in the shipped packs. A matter pack takes precedence over a shipped match for the forum or governing law.
 
@@ -24,6 +24,8 @@ Classifier seam: none.
 ## Inputs
 
 For `resolve`, pass the absolute path to the matter's `AGENTS.md` and use the declaration written there. For `validate` and `stale`, the optional `--pack` takes a shipped ID or an absolute directory. Load the [pack format](schema/pack-format.md) before authoring or correcting a pack. The scripts follow `wiser/system/templates/Script Contract.md`.
+
+For `lookup`, pass `--court`, `--law` or both, once each. With `--matter <absolute-AGENTS.md>`, the file identifies the matter folder and its packs. Without `--matter`, the search covers shipped packs.
 
 Use `validate --matter <absolute-AGENTS.md>` or `stale --matter <absolute-AGENTS.md>` to check every pack in that matter's `jurisdictions/` directory. Choose at most one of `--matter` and `--pack`.
 
@@ -37,13 +39,14 @@ Run from the tool directory with Node. All commands run locally and need no pack
 | `node scripts/jurisdictions.js list` | List the shipped packs and their coverage. When none ships, the result is `{"packs":[]}`. |
 | `node scripts/jurisdictions.js validate [--pack <id-or-absolute-directory> \| --matter <absolute-AGENTS.md>]` | Check every selected pack and its referenced files. Omit both selection flags to check every shipped pack. |
 | `node scripts/jurisdictions.js resolve --matter <absolute-AGENTS.md>` | Resolve matter records, forum and governing law. Return age prompts and `[verify]` gaps for the selected half files. |
+| `node scripts/jurisdictions.js lookup [--court <court name>] [--law <law name>] [--matter <absolute-AGENTS.md>]` | Match explicit names without reading a matter declaration. Return age prompts and `[verify]` gaps for the selected half files. |
 | `node scripts/jurisdictions.js stale [--pack <id-or-absolute-directory> \| --matter <absolute-AGENTS.md>] [--today YYYY-MM-DD] [--days N]` | List sources last read more than `N` days ago. Defaults are every shipped pack, the local calendar date and 180 days. |
 
 ## Output
 
 Successful work commands print one JSON object. `list` returns `packs`, an array of objects with `id`, `name`, `kind`, a `law` array of practice areas, and a `forums` array with each forum's `id`, `name` and `tier`. `validate` returns `ok`, `packs` (the IDs checked), `failures` and `gaps`. Each validation finding names `pack`, `file` relative to the pack, statement `id` (null for a finding outside a named statement) and `reason`.
 
-`resolve` and `stale` check excerpts by the same rules as `validate`. A missing, empty or wrong-header `Verified` excerpt makes its half file unusable. A `[verify]` gap leaves the exit code unchanged.
+`resolve`, `lookup` and `stale` check excerpts by the same rules as `validate`. A missing, empty or wrong-header `Verified` excerpt makes its half file unusable. A `[verify]` gap leaves the exit code unchanged.
 
 ### Resolve result
 
@@ -60,6 +63,17 @@ Successful work commands print one JSON object. `list` returns `packs`, an array
 A half-file failure leaves the valid forum or law matches available, including the other half of the same pack. If a matching shipped half fails validation and no valid forum or governing-law match remains, resolution exits 1 with the matching half's failures. Two valid overlapping matches in the group used to resolve a court or law still fail.
 
 Forum and law matches and their age prompts and gaps carry `own_pack: true` and the absolute `pack_directory` for a matter pack. Shipped results carry `own_pack: false`. When a matter match takes precedence, that forum or law result includes `set_aside`, an array of shipped pack IDs.
+
+### Lookup result
+
+`lookup` uses the same matching, pack precedence, and errors as `resolve`, including the trailing case-reference strip and law exceptions.
+
+| Field | Shape |
+|---|---|
+| `forum` | The same forum result as `resolve`. Present when `--court` is supplied. |
+| `governing_law` | A one-row array with the same law result as `resolve`. `law_named` holds the supplied name. `claim`, `clause_and_document` and `source_and_date` are `null`. Present when `--law` is supplied. |
+| `stale` and `gaps` | Age prompts and `[verify]` findings for returned files, with the same fields as `resolve`. |
+| `invalid_packs` | The same validation diagnostics as `resolve`, or an empty array. Governing-law diagnostics refer to row `0` when the law name matches an invalid half. |
 
 ### Age prompts
 
