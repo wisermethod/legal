@@ -89,7 +89,7 @@ The typed files own these coverage limits and the conditions that hold work. Cou
 
 ### [Verify Citations](../skills/Verify%20Citations/SKILL.md)
 
-- The case-law connector does not provide a dedicated reporter-citation lookup or opinion-text operation. Checks need a full-text source when its returned material is insufficient.
+- The case-law connector does not provide an opinion-text operation. Checks need a full-text source when its returned material is insufficient.
 - State docket coverage through Trellis was planned and is unavailable. Use authoritative public or supplied records where available.
 
 ## Tool
