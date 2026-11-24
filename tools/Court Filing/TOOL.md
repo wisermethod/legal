@@ -3,7 +3,7 @@ name: Court Filing
 type: tool
 category: documents
 description: Compose and check profiled court filings from Markdown and caption data, using profile-defined document types and filing blocks
-version: 0.12.3
+version: 0.12.4
 runs: local
 gaps:
   - "Caption layouts ship for Colorado district courts, supported civil papers in the Southern District of New York, and eligible New York State Supreme Court motion papers. A paper without a compatible profile follows the unprofiled route."
@@ -104,7 +104,7 @@ Use `--profile new-york-supreme-court` or the absolute path to the [New York pro
 
 Use the sourced unprofiled route or the issuing court's prescribed form for other papers and procedures. Examples include the unassigned-motion procedure and its request for judicial intervention under §§ 202.6 and 202.8(b), the notice of hard copy submission under § 202.5-b(d)(1)(iv), matrimonial practice under § 202.16, Commercial Division Rules 6 and 17 under § 202.70, and orders to show cause, ex parte papers and temporary injunctive applications under §§ 202.7(d), (f) and 202.8-d through 202.8-e. Cross-motion memoranda have the treatments below. A notice of cross-motion, a cross-movant's reply, initiating papers, affidavits and affirmations each require their own review. CPLR 2106 governs an affirmation used in lieu of a sworn statement. Section 202.8-b(c) names filing counsel as certifier. Self-represented filer certification treatment falls outside this profile. A self-represented recipient can appear in a supported paper.
 
-CPLR 2101(a), (c), (d) and (g) and 22 NYCRR § 202.5(a) govern the paper, caption, index and judge positioning, and filer contact details. The layout uses Letter, black 12-point Times New Roman, double-spaced body lines, one-inch margins and a centered page count inside the one-inch boundary. It applies the approved dashed caption and right-hand docket column. The notice uses the layout of § 202.7(b). Use the part's procedure for any oral-argument request under § 202.8-f.
+CPLR 2101(a), (c), (d) and (g) and 22 NYCRR § 202.5(a) govern the paper, caption, index and judge positioning, and filer contact details. The layout uses Letter, black 12-point Times New Roman and double-spaced body lines, with top, right and left margins of 1 inch, a bottom margin of 1.375 inches and a centered page count inside the one-inch boundary. It applies the approved dashed caption and right-hand docket column. The notice uses the layout of § 202.7(b). Use the part's procedure for any oral-argument request under § 202.8-f.
 
 ### Length treatment
 
