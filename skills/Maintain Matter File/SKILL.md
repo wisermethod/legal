@@ -3,7 +3,7 @@ name: Maintain Matter File
 type: skill
 category: procedure
 description: Answer read-only deadline questions, reconcile posture, keep events, deadlines, source references and designated matter records in sync, and plan and verify approved matter file cleanup
-version: 0.4.2
+version: 0.4.3
 ---
 
 # Maintain Matter File
