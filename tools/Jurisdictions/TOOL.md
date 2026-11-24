@@ -3,10 +3,10 @@ name: Jurisdictions
 type: tool
 category: reference
 description: List and validate jurisdiction packs, match courts and governing law by declaration or name, and flag sources due for rereading
-version: 0.3.3
+version: 0.3.4
 runs: local
 gaps:
-  - Colorado district court [verify] topics include the scope of civil monetary jurisdiction, geographic venue and transfer, complaint pleading, cover sheet and summons, current docket fee, waiver forms and submission, electronic filing eligibility and mandates, process service interval and methods, proof of service, answer periods and the effect of a pre-answer motion, amendment as of right, the timing of the case management order, settlement evidence, discovery response periods, and declaratory relief procedure.
+  - Colorado district court [verify] topics include the scope of civil monetary jurisdiction, geographic venue and transfer, complaint pleading, cover sheet and summons, current docket fee, waiver forms and submission, electronic filing eligibility and mandates, process service interval and methods, proof of service, answer periods and the effect of a pre-answer motion, amendment as of right, the timing of the case management order, settlement evidence, and declaratory relief procedure.
   - Colorado county court [verify] topics include local complaint filing and electronic filing, the service interval and proof requirements, current docket fees, discovery scope, and when an appeal is heard de novo.
   - Colorado small claims [verify] topics include the official complaint form, filing and service, current docket fees, discovery availability, and scope of appeal.
   - No official source was found for a Colorado district court time-to-trial estimate.

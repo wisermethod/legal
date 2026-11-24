@@ -264,12 +264,13 @@
     },
     {
       "id": "district-discovery-response-working-period",
-      "text": "The discovery response period is 30 days (C.R.C.P. 26 to 37).",
+      "text": "Answers and objections to interrogatories, written responses to requests for production and answers or objections to requests for admission are due within 35 days after service of the interrogatories or request, unless the court directs or allows a shorter or longer time or the parties agree to one in writing under C.R.C.P. 29. A matter in a request for admission is admitted unless a written answer or objection addressed to it is served within that time.",
       "source": {
-        "citation": "Colorado Rules of Civil Procedure, Rules 26 to 37"
+        "citation": "Colorado Rules of Civil Procedure, Rules 33(b)(3), 34(b) and 36(a), in Colorado Revised Statutes 2023, court rules volume",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2023-court-rules.pdf"
       },
-      "state": "[verify]",
-      "last_read": "2026-11-23",
+      "state": "Verified",
+      "last_read": "2026-11-24",
       "excerpt": "excerpts/district-discovery-response-working-period.txt"
     },
     {
