@@ -3,7 +3,7 @@ name: Discovery
 type: skill
 category: litigation-phase
 description: A prioritized discovery plan, request or response draft, or dispute packet tied to the matter record
-version: 0.3.6
+version: 0.3.7
 gaps:
   - verified discovery limits, deadlines, objections, privilege rules, and supplementation requirements
   - detailed discovery sequencing, dispute, production, and preservation guidance
@@ -58,6 +58,8 @@ For information exchange in a non-court forum, start from the operative order or
 If Employment Law applies, identify records and custodians at risk, including personal-device messages. Check governing preservation obligations before choosing or ordering requests. Is preservation settled, is a hold or letter warranted, or are duties or facts unresolved? If settled, record the basis and proceed. If a hold or letter is warranted, prepare it first for the person's review. Record who must act, the evidence that would satisfy the prerequisite and the result of any consent request. Continue request planning only on documented satisfaction of the prerequisite. Transmission needs the separate approval below. If unresolved, identify the missing facts or rules and hold dependent request planning. In each case keep urgent response deadlines visible. If the matter is outside employment, use the general production and preservation checks below. If the lens is uncertain, ask and hold dependent planning.
 
 ### Which discovery task is in front of you?
+
+Record the other side's responses, disclosures and productions through Maintain Matter File's [**Discovery received** operation](../Maintain%20Matter%20File/SKILL.md#which-matter-record-needs-attention), and requests served on the person through its **Service confirmed** operation, before planning a response or a dispute.
 
 - **Plan or add a request.** Link each item to a claim element, defense, disputed fact or evidence gap. Classify it as an interrogatory (written question), document request (production of documents or things), request for admission (narrowing issues), deposition (oral examination), or third-party subpoena. Record what is needed, category, reason, source, identification date and priority. Compare cost, burden, timing and less costly ways to obtain it, and sequence the requests against the verified limits. Show the proposals to the person, then send the items and their confirmation status to Maintain Matter File’s **Discovery queue** operation. Include its read-back or pending entries in the packet.
 - **Respond.** Inventory each item and its service date. For each request, state proposed response, source material, production status and any objection, privilege, log or supplementation issue. Verify what can be asserted, how to assert it, and when to supplement under the controlling sources. Log missing material and hold unsupported objections or claims of privilege. Do not represent a withheld item as produced.

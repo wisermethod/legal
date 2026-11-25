@@ -198,10 +198,13 @@ test('the shipped Colorado pack validates, its gaps are its [verify] statements,
   });
 });
 
-test('Colorado district court patterns equal the Court Filing profile patterns', () => {
-  const manifest = JSON.parse(readFileSync(join(COLORADO, 'pack.json'), 'utf8'));
+test('the Colorado district court filing profile still matches caption forms only', () => {
   const profile = JSON.parse(readFileSync(join(__dirname, '..', '..', 'Court Filing', 'profiles', 'colorado-district.json'), 'utf8'));
-  assert.deepEqual(manifest.forums.find(forum => forum.id === 'district-court').court_match, profile.court_match);
+  const patterns = profile.court_match.map(pattern => new RegExp('^(?:' + pattern + ')$', 'i'));
+  assert.ok(patterns.some(pattern => pattern.test('District Court, Larimer County, Colorado')));
+  assert.ok(patterns.some(pattern => pattern.test('District Court, City and County of Denver, Colorado')));
+  assert.ok(patterns.every(pattern => !pattern.test('Larimer County District Court, Colorado')));
+  assert.ok(patterns.every(pattern => !pattern.test('District Court, Larimer County, State of Colorado')));
 });
 
 for (const [court, id] of [
@@ -227,6 +230,63 @@ for (const [court, id] of [
       { stale: byFileAndId(expected.stale), gaps: byFileAndId(expected.gaps), invalid_packs: [] });
   });
 }
+
+const coloradoCourtForms = {
+  'district-court': [
+    'District Court, Larimer County',
+    'District Court, City and County of Denver',
+    'Larimer County District Court',
+    'City and County of Denver District Court',
+  ],
+  'county-court': [
+    'County Court, Larimer County',
+    'County Court, City and County of Denver',
+    'Larimer County Court',
+    'City and County of Denver County Court',
+  ],
+  'small-claims': [
+    'Small Claims Court, Larimer County',
+    'Small Claims Division, Larimer County',
+    'Small Claims Court, County Court, Larimer County',
+    'Small Claims Division, County Court, Larimer County',
+    'Small Claims Court, City and County of Denver',
+    'Small Claims Division, City and County of Denver',
+    'Small Claims Court, County Court, City and County of Denver',
+    'Small Claims Division, County Court, City and County of Denver',
+    'Larimer County Small Claims Court',
+    'Larimer County Small Claims Division',
+    'Larimer County Court Small Claims Division',
+    'City and County of Denver Small Claims Court',
+    'City and County of Denver Small Claims Division',
+    'City and County of Denver County Court Small Claims Division',
+  ],
+};
+
+for (const [id, forms] of Object.entries(coloradoCourtForms)) {
+  for (const form of forms) {
+    test('lookup matches only ' + id + ' for ' + form, () => {
+      for (const state of ['Colorado', 'State of Colorado']) {
+        for (const reference of ['', ', Case No. 2025CV169']) {
+          const court = form + ', ' + state + reference;
+          // An overlapping match fails the CLI, so success also checks forum exclusivity.
+          const { forum, invalid_packs } = success(['lookup', '--court', court]);
+          assert.deepEqual(invalid_packs, [], court);
+          assert.equal(forum.pack, 'colorado', court);
+          assert.equal(forum.id, id, court);
+        }
+      }
+    });
+  }
+}
+
+test('resolve matches a county-first Colorado court with a case reference in the matter declaration', t => {
+  const court = 'Larimer County District Court, State of Colorado, Case No. 2025CV169';
+  const path = matter(t, { court });
+  const { declaration, forum } = success(['resolve', '--matter', path]);
+  assert.equal(declaration['Court or forum'].value, court);
+  assert.equal(forum.pack, 'colorado');
+  assert.equal(forum.id, 'district-court');
+});
 
 test('lookup reports uncovered courts and requires a whole court-name match', () => {
   for (const court of ['Supreme Court of Example State', COLORADO_COURT + ' Annex']) {

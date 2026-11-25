@@ -61,7 +61,7 @@ Give this label in the handoff message to the person whenever work returns an as
 
 ## Outward draft handoff
 
-Save and show the exact draft, recipient or forum destination, and attachments. Hand it to the person for their action. Any later authorized transmission needs separate explicit approval of that version, destination and attachments. A signature or general prior approval does not cover an unseen draft. For a filing apply Produce Court Filing’s release checks and ask the person to report back after filing. Route confirmed filings, orders, service and correspondence to the applicable operation in Maintain Matter File, keeping drafted and completed events distinct.
+Save and show the exact draft, recipient or forum destination, and attachments. Hand it to the person for their action. Any later authorized transmission needs separate explicit approval of that version, destination and attachments. A signature or general prior approval does not cover an unseen draft. For a filing apply Produce Court Filing’s release checks and ask the person to report back after filing. Route confirmed filings, orders, service, correspondence and discovery received to the applicable operation in Maintain Matter File, keeping drafted and completed events distinct.
 
 ## Layout
 

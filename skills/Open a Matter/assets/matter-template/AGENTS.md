@@ -6,6 +6,15 @@
 
 This folder is the matter project. Read the owning user root's instructions first.
 
+## Where the Legal plugin is
+
+Every procedure this file names (Litigation Counsel, Maintain Matter File, the Jurisdictions tool and the rest) comes from the Legal plugin. Use it on every matter request. Locate it before following the session entry order below; that order still decides what is read and done first.
+
+1. **Find it.** Where this app lists the Legal plugin's skills among its own, use those. Otherwise read it from disk: it is the folder whose `AGENTS.md` front matter reads `root: legal`, among the folders this session has open or where this app keeps its plugins. [When this section was written on YYYY-MM-DD, the plugin was read at `<absolute path to the Legal plugin folder>`. Look there first; another machine may keep it elsewhere.] Start at its `AGENTS.md` and follow the chain to `experts/AGENTS.md`, `skills/AGENTS.md` and `tools/AGENTS.md`. The entry points a matter uses most are `experts/Litigation Counsel/EXPERT.md`, `skills/Maintain Matter File/SKILL.md` and `tools/Jurisdictions/`.
+2. **Do not rely on Wiser's lookup for it.** Wiser's `find_skill` and `load_skill` may not serve the Legal plugin. A lookup that returns no Legal skill or expert says nothing about whether one exists: read the plugin as step 1 says. A base Wiser skill it returns does not replace a Legal procedure.
+3. **Stop if it is missing.** If the Legal plugin is neither listed nor readable on disk, say so before any substantive work, name what could not be loaded, and wait for the owner. Do not do matter work from general knowledge in its place.
+4. **Read-only.** The Legal plugin's folder is read in use, never edited from a matter session. A fault found in it is reported to the owner.
+
 ## Binding matter rules and session entry
 
 Follow this order on every matter request, including on resume:
@@ -25,7 +34,7 @@ Follow this order on every matter request, including on resume:
 | Rules home | not yet obtained | [Source, YYYY-MM-DD] |
 | Filing profile | pending | [Source, YYYY-MM-DD] |
 
-For **Court or forum**, use the court's full name with its state and county or federal district, or the forum's name. Include any case or reference number. Use `court`, `arbitration`, `government agency`, `other` or `pending` for **Forum type**. Set **Governing law** to `see Governing law by claim` when the answers are recorded below, or to `pending` while the answer is unresolved. For **Rules home**, use a path inside the matter or `not yet obtained`. For **Filing profile**, use the confirmed Court Filing profile id or the verified absolute JSON path for a profile marked `explicit-path`, `none: papers follow the court's own rules` for a court without a profile, `not a court: submissions follow the forum's own rules` for a non-court forum, or `pending` if unresolved.
+For **Court or forum**, write the court's name in the form its own captions print it, such as `District Court, Larimer County, Colorado`. For a court a Court Filing profile covers, use the form that profile's `court_match` accepts, with no added `State of` and no reordering, because Court Filing checks the profile against that exact name. Where the person or the parties record words the same court another way, quote that wording in `Source and date`. For another forum, use the forum's name. Include any case or reference number. Use `court`, `arbitration`, `government agency`, `other` or `pending` for **Forum type**. Set **Governing law** to `see Governing law by claim` when the answers are recorded below, or to `pending` while the answer is unresolved. For **Rules home**, use a path inside the matter or `not yet obtained`. For **Filing profile**, use the confirmed Court Filing profile id or the verified absolute JSON path for a profile marked `explicit-path`, `none: papers follow the court's own rules` for a court without a profile, `not a court: submissions follow the forum's own rules` for a non-court forum, or `pending` if unresolved.
 
 ### Governing law by claim
 
@@ -60,6 +69,7 @@ A `pending` value holds only the work that needs that field.
 | `orders/` and `orders/orders-index.md` | Orders, rulings and resulting obligations |
 | `evidence/` | Exhibits and supporting records located by file or exhibit reference |
 | `correspondence/` and `correspondence/correspondence-index.md` | Court, opposing-party and other matter communications |
+| `discovery/` and `discovery/discovery-index.md` | Discovery and disclosures received from other parties, as served, indexed with service evidence |
 
 Replace defaults with the paths this matter actually uses. Give every retained matter-level file a row with its role, including local rules, handoffs, archives or retained legacy copies. Link indexed directories to their authoritative index. Account for each retained file in an individual row here or in the index that owns it.
 

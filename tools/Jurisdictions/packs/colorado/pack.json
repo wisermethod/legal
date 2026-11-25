@@ -15,8 +15,10 @@
       "name": "Colorado district court",
       "tier": "general-jurisdiction trial court",
       "court_match": [
-        "District Court, [^\\s,](?:[^,]*[^\\s,])? County, Colorado",
-        "District Court, City and County of [^\\s,](?:[^,]*[^\\s,])?, Colorado"
+        "District Court, [^\\s,](?:[^,]*[^\\s,])? County, (?:State of )?Colorado",
+        "District Court, City and County of [^\\s,](?:[^,]*[^\\s,])?, (?:State of )?Colorado",
+        "[^\\s,](?:[^,]*[^\\s,])? County District Court, (?:State of )?Colorado",
+        "City and County of [^\\s,](?:[^,]*[^\\s,])? District Court, (?:State of )?Colorado"
       ],
       "file": "forum/district-court.json"
     },
@@ -25,8 +27,10 @@
       "name": "Colorado county court",
       "tier": "limited-jurisdiction trial court",
       "court_match": [
-        "County Court, [^\\s,](?:[^,]*[^\\s,])? County, Colorado",
-        "County Court, City and County of [^\\s,](?:[^,]*[^\\s,])?, Colorado"
+        "County Court, [^\\s,](?:[^,]*[^\\s,])? County, (?:State of )?Colorado",
+        "County Court, City and County of [^\\s,](?:[^,]*[^\\s,])?, (?:State of )?Colorado",
+        "[^\\s,](?:[^,]*[^\\s,])? County Court, (?:State of )?Colorado",
+        "City and County of [^\\s,](?:[^,]*[^\\s,])? County Court, (?:State of )?Colorado"
       ],
       "file": "forum/county-court.json"
     },
@@ -35,8 +39,10 @@
       "name": "Colorado county court, small claims",
       "tier": "small claims division of the county court",
       "court_match": [
-        "Small Claims (?:Court|Division), (?:County Court, )?[^\\s,](?:[^,]*[^\\s,])? County, Colorado",
-        "Small Claims (?:Court|Division), (?:County Court, )?City and County of [^\\s,](?:[^,]*[^\\s,])?, Colorado"
+        "Small Claims (?:Court|Division), (?:County Court, )?[^\\s,](?:[^,]*[^\\s,])? County, (?:State of )?Colorado",
+        "Small Claims (?:Court|Division), (?:County Court, )?City and County of [^\\s,](?:[^,]*[^\\s,])?, (?:State of )?Colorado",
+        "[^\\s,](?:[^,]*[^\\s,])? County (?:Small Claims (?:Court|Division)|Court Small Claims Division), (?:State of )?Colorado",
+        "City and County of [^\\s,](?:[^,]*[^\\s,])? (?:Small Claims (?:Court|Division)|County Court Small Claims Division), (?:State of )?Colorado"
       ],
       "file": "forum/small-claims.json"
     }
