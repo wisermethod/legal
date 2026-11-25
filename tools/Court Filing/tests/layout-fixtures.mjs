@@ -23,7 +23,7 @@ const parse = value => parseFilingMarkdown(mark, value);
 const digest = value => createHash('sha256').update(value).digest('hex');
 export const statuses = receipt => Object.fromEntries(receipt.checks.map(({ label, status }) => [label, status]));
 export const pdfTest = (name, fn) => test(name, t => {
-  assert.ok(render, 'Set COURT_FILING_RENDER to run the real render chain.');
+  assert.ok(render, 'Set COURT_FILING_RENDER to the wiser plugin\'s tools/render/scripts/render.js to run the real render chain.');
   return fn(t);
 });
 
